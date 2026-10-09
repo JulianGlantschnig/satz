@@ -407,7 +407,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       for (const m of measures) {
         svg += line(m.x1, m.y1, m.x2, m.y2, m.dashed ? 'dashed' : '')
         if (m.dashed) continue
-        const t = length(m.length)
+        const t = `${m.arrow ? `${m.arrow} ` : ''}${length(m.length)}`
         const w = t.length * 6.2 + 10
         const cx = m.y1 === m.y2 ? X((m.x1 + m.x2) / 2) : X(m.x1)
         let cy = m.y1 === m.y2 ? Y(m.y1) : Y((m.y1 + m.y2) / 2)
@@ -1028,7 +1028,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         const page = { x: sheet.x, y: 0, w: sheet.width, h: sheet.height }
         const line = g.axis === 'x' ? { ...page, x: at, w: 0 } : { ...page, y: at, h: 0 }
         snapped = free && !off ? guides(line, lines, g.axis === 'x' ? [at] : [], g.axis === 'y' ? [at] : []) : []
-        measures = off ? [] : measure(line, page, others)
+        measures = off ? [] : measure(line, page, others).map((m) => ({ ...m, arrow: g.axis === 'y' ? (m.y1 < at - 0.01 || m.y2 < at - 0.01 ? '↑' : '↓') : m.x1 < at - 0.01 || m.x2 < at - 0.01 ? '←' : '→' }))
         editor.apply({ type: 'setGuides', id: g.id, guides: { ...had, [g.axis]: off ? rest : [...rest, g.axis === 'x' ? at - g.dx : at] } })
         g.index = off ? -1 : rest.length
         editor.set({ guide: off ? null : { id: g.id, axis: g.axis, index: g.index } })

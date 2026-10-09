@@ -7,7 +7,7 @@ export type Lines = { x: Line[]; y: Line[] }
 /** A guide along x = `at` or y = `at`, from `from` to `to` on the other axis. */
 export type Guide = { axis: 'x' | 'y'; at: number; from: number; to: number }
 /** A distance from (x1, y1) to (x2, y2); a dashed one only leads to what is measured. */
-export type Measure = { x1: number; y1: number; x2: number; y2: number; length: number; dashed?: boolean }
+export type Measure = { x1: number; y1: number; x2: number; y2: number; length: number; dashed?: boolean; arrow?: string }
 
 const EPSILON = 1e-6
 

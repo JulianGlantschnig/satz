@@ -103,7 +103,7 @@ test('a guide dragged out of the ruler shows its distances to the layers and the
   await page.mouse.move(x, ruler.y + ruler.height / 2)
   await page.mouse.down()
   await page.mouse.move(x, y, { steps: 4 })
-  await expect(labels(page)).toHaveText(['10 mm', /^\d+ mm$/])
+  await expect(labels(page)).toHaveText(['↑ 10 mm', /^↓ \d+ mm$/])
   await page.mouse.up()
   await expect(labels(page)).toHaveCount(0)
 })
