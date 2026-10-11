@@ -269,6 +269,16 @@ body,
   flex: none;
 }
 
+.ghost-image {
+  position: absolute;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.panel-header .button {
+  margin-left: auto;
+}
+
 .panel-toggle {
   display: flex;
   align-items: center;

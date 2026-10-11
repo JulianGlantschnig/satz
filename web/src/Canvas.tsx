@@ -166,6 +166,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
   const area = useRef<HTMLTextAreaElement>(null)
   const quick = useRef<HTMLDivElement>(null)
   const marks = useRef<SVGSVGElement>(null)
+  const ghost = useRef<HTMLImageElement>(null)
   const [zoom, setZoom] = useState(0)
   const [composing, setComposing] = useState(false)
   const editing = useEditor(editor, (e) => e.editing !== null)
@@ -524,6 +525,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         grids: editor.grids && !editor.preflight,
         guide: guideOf(),
         vector: vector(),
+        crop: crop(),
         ...threadOverlay(),
       }, editor.snapshot.colorMode === 'cmyk', editor.preflight ? editor.inks.on : 15)
       renderer.sweep()
@@ -532,6 +534,12 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       const left = Math.min(...editor.sheets.map((s) => s.x))
       const sel = editor.selection.length ? bounds(editor.selected().map((n) => upright(editor.shown(n)))) : undefined
       const x0 = view.x + left * view.zoom
+      const g = ghost.current!
+      g.hidden = !image || !cursor
+      if (image && cursor) {
+        if (g.getAttribute('src') !== image.url) g.src = image.url
+        Object.assign(g.style, { left: `${view.x + (cursor.x - image.w / 2) * view.zoom}px`, top: `${view.y + (cursor.y - image.h / 2) * view.zoom}px`, width: `${image.w * view.zoom}px`, height: `${image.h * view.zoom}px` })
+      }
       const bar = quick.current!
       bar.hidden =
         !sel || !settings.quickEdit || (alt && !!pointer) || !!ed || !!pen || editor.threading !== null || editor.tool !== 'move' ||
@@ -605,6 +613,21 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       const first = pen?.anchors[0]
       return !!first && pen.anchors.length > 1 && Math.hypot(first.x - p.x + editor.dx(pen.id), first.y - p.y) * view.zoom <= HANDLE
     }
+    /** The whole image of `n` placed in the frame box `b`. */
+    const imageBox = (n: Node, { x, y, w, h }: Box): Box | undefined => {
+      const f = n.fills.find((f) => f.type === 'image')
+      if (!f) return undefined
+      const [a, b, c, d, tx, ty] = f.transform
+      const [x0, y0] = [x + w * (tx + Math.min(0, a) + Math.min(0, c)), y + h * (ty + Math.min(0, b) + Math.min(0, d))]
+      return { x: x0, y: y0, w: w * (Math.abs(a) + Math.abs(c)), h: h * (Math.abs(b) + Math.abs(d)) }
+    }
+    /** The frame being cropped and its whole image. */
+    const crop = () => {
+      const n = editor.cropping ? editor.selected()[0] : undefined
+      const frame = n && editor.shown(n)
+      const image = frame && imageBox(n, frame)
+      return image && { frame, image }
+    }
     /** The knots of the path being edited on the spread, and the one picked. */
     const vector = () => {
       const v = editor.vector
@@ -677,6 +700,11 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       if (editor.vector) redraw()
       const mode = pointer.ctrlKey ? 'deep' : 'click'
       const id = editor.tool === 'move' ? pickAt(toDoc(pointer), mode) : undefined
+      const handle = handleUnder(pointer)
+      canvas.title = handle?.startsWith('radius') ? 'Drag to round the corners'
+        : !editor.cropping ? ''
+        : handle ? 'Drag to crop the frame'
+        : id === editor.cropping ? 'Drag to move the image' : ''
       if (id !== hover || side !== port) {
         hover = id
         port = side
@@ -966,14 +994,11 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         const frames = editor.selected()
         const [turn, own] = turnOf(frames)
         const snaps = snapsNow()
-        const image = (editor.cropping || e.ctrlKey || e.metaKey) && frames.length === 1 && frames[0].fills.find((f) => f.type === 'image')
+        const image = (editor.cropping || e.ctrlKey || e.metaKey) && frames.length === 1 && imageBox(frames[0], placed(frames[0]))
         if (image) {
-          const [a, b, c, d, tx, ty] = image.transform
-          const { x, y, w, h } = placed(frames[0])
-          const [x0, x1] = [x + w * (tx + Math.min(0, a) + Math.min(0, c)), x + w * (tx + Math.max(0, a) + Math.max(0, c))]
-          const [y0, y1] = [y + h * (ty + Math.min(0, b) + Math.min(0, d)), y + h * (ty + Math.max(0, b) + Math.max(0, d))]
-          snaps.lines.x.push({ at: x0, from: y0, to: y1 }, { at: x1, from: y0, to: y1 })
-          snaps.lines.y.push({ at: y0, from: x0, to: x1 }, { at: y1, from: x0, to: x1 })
+          const { x, y, w, h } = image
+          snaps.lines.x.push({ at: x, from: y, to: y + h }, { at: x + w, from: y, to: y + h })
+          snaps.lines.y.push({ at: y, from: x, to: x + w }, { at: y + h, from: x, to: x + w })
         }
         drag = { kind: 'resize', start: p, handle, box: bounds(frames.map((n) => spun(placed(n), -own))), frames, snaps, by: 1, turn, own }
         editor.beginGroup()
@@ -1426,6 +1451,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       <div className="view">
         <canvas ref={ref} className="canvas" aria-label="Page canvas" tabIndex={-1} data-tool="move" />
         <svg ref={marks} className="marks" aria-hidden="true" />
+        <img ref={ghost} className="ghost-image" alt="" hidden />
         {editing && (
           <textarea
             ref={(el) => {

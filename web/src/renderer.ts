@@ -41,6 +41,8 @@ export type Overlay = {
   ports?: readonly { x: number; y: number; state: 'threaded' | 'overset' | 'open' }[]
   /** The knots of the path being edited and the one picked. */
   vector?: { contours: Contour[]; at: At[]; hover?: At }
+  /** The frame being cropped and its whole image, in the frame's unturned space. */
+  crop?: { frame: Box; image: Box }
   /** Show the layout grids and guides of the pages. */
   grids?: boolean
   /** The picked guide: a vertical one at `x` or a horizontal one at `y`. */
@@ -456,7 +458,7 @@ export class Renderer {
     canvas: Canvas,
     view: View,
     dpr: number,
-    { accent: color, selection, hover, marquee, handles, radii, gaps, ends, pen, insert, ports, threads, vector }: Overlay,
+    { accent: color, selection, hover, marquee, handles, radii, gaps, ends, pen, insert, ports, threads, vector, crop }: Overlay,
   ) {
     const { ck, chrome: paint } = this
     const screen = (b: Box) =>
@@ -556,6 +558,24 @@ export class Renderer {
       paint.setStrokeWidth(2)
       canvas.drawLine(...at(insert[0].x, insert[0].y), ...at(insert[1].x, insert[1].y), paint)
       paint.setStrokeWidth(1)
+    }
+    if (crop) {
+      turned(crop.frame, () => {
+        const [l, t, r, b] = screen(crop.frame)
+        const dim = ck.Path.MakeFromCmds([MOVE, -1e5, -1e5, LINE, 1e5, -1e5, LINE, 1e5, 1e5, LINE, -1e5, 1e5, CLOSE, MOVE, l, t, LINE, r, t, LINE, r, b, LINE, l, b, CLOSE])
+        dim?.setFillType(ck.FillType.EvenOdd)
+        paint.setStyle(ck.PaintStyle.Fill)
+        paint.setColor(ck.Color(0, 0, 0, 0.35))
+        if (dim) canvas.drawPath(dim, paint)
+        dim?.delete()
+        paint.setStyle(ck.PaintStyle.Stroke)
+        paint.setColor(accent)
+        const dash = ck.PathEffect.MakeDash([4, 3])
+        paint.setPathEffect(dash)
+        canvas.drawRect(screen(crop.image), paint)
+        paint.setPathEffect(null)
+        dash?.delete()
+      })
     }
     if (handles) {
       turned(handles, () => {

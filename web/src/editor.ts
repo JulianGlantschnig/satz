@@ -67,7 +67,7 @@ export class Editor {
   /** The text frame whose out-port was clicked, to thread into the next one clicked. */
   threading: string | null = null
   /** Images to place, the first at the next click on the canvas. */
-  placing: { hash: string; name: string; w: number; h: number }[] = []
+  placing: { hash: string; name: string; w: number; h: number; url: string }[] = []
   /** The current page or master, shown on the canvas in its spread. */
   pageId: string
   /** The page shown before the current master, to return to. */
@@ -279,12 +279,12 @@ export class Editor {
   }
 
   /** Adds a PNG or JPEG file to the images to place, at 300 ppi or smaller to fit the current page. */
-  loadImage(bytes: Uint8Array, name: string) {
+  loadImage(bytes: Uint8Array<ArrayBuffer>, name: string) {
     const { hash, width, height } = this.change(() => this.engine.addImage(bytes) as { hash: string; width: number; height: number })
     const [w, h] = [width, height].map((px) => (px * 72) / 300)
     const fit = Math.min(1, this.page.width / w, this.page.height / h)
     this.setTool('move')
-    this.set({ placing: [...this.placing, { hash, name, w: w * fit, h: h * fit }] })
+    this.set({ placing: [...this.placing, { hash, name, w: w * fit, h: h * fit, url: URL.createObjectURL(new Blob([bytes])) }] })
   }
 
   private change<T>(f: () => T): T {

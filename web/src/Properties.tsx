@@ -77,6 +77,7 @@ export function Properties({
   const isPage = useEditor(editor, (e) => e.snapshot.pages.includes(e.page))
   const mode = useEditor(editor, (e) => e.snapshot.colorMode)
   const overview = useEditor(editor, (e) => e.overview)
+  const cropping = useEditor(editor, (e) => e.cropping)
   const snapshot = useEditor(editor, (e) => e.snapshot)
   const { fonts, missingFonts } = snapshot
   const locals = useLocalFonts()
@@ -149,7 +150,8 @@ export function Properties({
     >
       <header className="panel-header">
         {one ? <KindIcon node={one} /> : <Icon name={nodes.length ? 'group' : isPage ? 'doc' : 'master'} />}
-        <h2>{one ? (one.kind === 'text' ? 'Text frame' : one.name) : nodes.length ? `${nodes.length} layers` : isPage ? 'Document' : page.name}</h2>
+        <h2>{one && cropping === one.id ? 'Crop' : one ? (one.kind === 'text' ? 'Text frame' : one.name) : nodes.length ? `${nodes.length} layers` : isPage ? 'Document' : page.name}</h2>
+        {one && cropping === one.id && <button type="button" className="button" onClick={() => editor.set({ cropping: null })}>Done</button>}
       </header>
       {box && <AlignBar editor={editor} />}
       {box && (
