@@ -216,7 +216,7 @@ export function Layers({ editor }: { editor: Editor }) {
   return (
     <nav className="panel layers" aria-label="Layers">
       <header className="panel-header">
-        <h2>Layers</h2>
+        <h2>{pages.length > 1 ? 'Layers' : `Layers · ${all.includes(page) ? `Page ${all.indexOf(page) + 1}` : page.name}`}</h2>
       </header>
       <ul
         role="tree"
