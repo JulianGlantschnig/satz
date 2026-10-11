@@ -21,10 +21,11 @@ export function Quick({ editor }: { editor: Editor }) {
   useEditor(editor, (e) => e.selection)
   const cropping = useEditor(editor, (e) => e.cropping)
   const snapshot = useEditor(editor, (e) => e.snapshot)
+  const vector = useEditor(editor, (e) => e.vector)
   const [menu, setMenu] = useState<{ at: DOMRect; paint: Paint; custom?: boolean } | null>(null)
   const [fitAt, setFitAt] = useState<DOMRect | null>(null)
   const nodes = editor.selected()
-  if (nodes.length === 0) return null
+  if (nodes.length === 0 || vector) return null
   const one = nodes.length === 1 ? nodes[0] : undefined
   const set = (props: Props) => editor.batch(() => nodes.forEach((n) => editor.apply({ type: 'set', id: n.id, ...props })))
   const spans = one?.kind === 'text' ? (snapshot.stories[one.story]?.spans ?? []) : []

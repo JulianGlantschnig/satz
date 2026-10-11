@@ -40,7 +40,7 @@ export type Overlay = {
   /** Ports of a text frame in screen space: threaded, holding overset text, or open to thread on. */
   ports?: readonly { x: number; y: number; state: 'threaded' | 'overset' | 'open' }[]
   /** The knots of the path being edited and the one picked. */
-  vector?: { contours: Contour[]; at: At[] }
+  vector?: { contours: Contour[]; at: At[]; hover?: At }
   /** Show the layout grids and guides of the pages. */
   grids?: boolean
   /** The picked guide: a vertical one at `x` or a horizontal one at `y`. */
@@ -537,8 +537,9 @@ export class Renderer {
               canvas.drawCircle(x, y, 3, paint)
             }
           }
-          square(k.x, k.y, 7)
-          if (picked) {
+          const over = vector.hover?.[0] === c && vector.hover[1] === i
+          square(k.x, k.y, over ? 9 : 7)
+          if (picked || over) {
             paint.setStyle(ck.PaintStyle.Fill)
             canvas.drawRect(ck.XYWHRect(Math.floor(k.x - 3.5) + 0.5, Math.floor(k.y - 3.5) + 0.5, 7, 7), paint)
           }

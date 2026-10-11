@@ -206,6 +206,20 @@ test('enter edits the points of a shape, moving, adding and deleting them', asyn
   await expect(page.getByRole('toolbar', { name: 'Tools' })).toBeVisible()
 })
 
+test('path edit hides the quick bar and shows a move cursor over a point', async ({ page }) => {
+  await open(page)
+  const canvas = page.getByLabel('Page canvas')
+  await page.keyboard.press('r')
+  await drag(page, await screen(page, 20, 20), await screen(page, 60, 60))
+  await expect(page.getByRole('toolbar', { name: 'Quick edit' })).toBeVisible()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('toolbar', { name: 'Quick edit' })).toHaveCount(0)
+  await page.mouse.move(...(await screen(page, 60, 20)))
+  await expect(canvas).toHaveCSS('cursor', 'move')
+  await page.mouse.move(...(await screen(page, 40, 40)))
+  await expect(canvas).not.toHaveCSS('cursor', 'move')
+})
+
 test('a marquee in path edit mode picks several points to move and delete together', async ({ page }) => {
   await open(page)
   const props = page.getByRole('complementary', { name: 'Properties' })

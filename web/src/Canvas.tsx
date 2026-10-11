@@ -611,7 +611,18 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       if (!v) return undefined
       const dx = editor.dx(v.id)
       const contours = editor.knots().map((c) => ({ ...c, knots: c.knots.map((k) => ({ ...k, x: k.x + dx, ix: k.ix + dx, ox: k.ox + dx })) }))
-      return { contours, at: v.at }
+      return { contours, at: v.at, hover: pointer && !drag ? knotUnder(toDoc(pointer)) : undefined }
+    }
+    /** The knot of the path being edited under `p`. */
+    const knotUnder = (p: Point) => {
+      const v = editor.vector
+      if (!v) return undefined
+      const q = { x: p.x - editor.dx(v.id), y: p.y }
+      let hit: At | undefined
+      editor.knots().forEach(({ knots }, c) => knots.forEach((k, i) => {
+        if (!hit && Math.hypot(k.x - q.x, k.y - q.y) <= HIT / view.zoom) hit = [c, i]
+      }))
+      return hit
     }
     /** The centres of several selected layers, or of the layers in a selected group or auto layout; one dragged onto another swaps their places. */
     const swaps = () => {
@@ -661,7 +672,9 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         : side ? 'pointer'
         : to ? (editor.engine.canThread(editor.threading!, to) ? 'alias' : 'not-allowed')
         : editor.threading ? 'alias'
-        : editor.vector?.mode === 'add' || editor.vector?.mode === 'fill' ? 'crosshair' : cursorOf(handleUnder(pointer) ?? '', handles().box?.rotation ?? 0)
+        : editor.vector?.mode === 'add' || editor.vector?.mode === 'fill' ? 'crosshair'
+        : editor.vector && knotUnder(toDoc(pointer)) ? 'move' : cursorOf(handleUnder(pointer) ?? '', handles().box?.rotation ?? 0)
+      if (editor.vector) redraw()
       const mode = pointer.ctrlKey ? 'deep' : 'click'
       const id = editor.tool === 'move' ? pickAt(toDoc(pointer), mode) : undefined
       if (id !== hover || side !== port) {
@@ -850,9 +863,8 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
           const k = cs[at[0]]?.knots[at[1]]
           if (k && !under) under = on(k.ix, k.iy, k) ? { at, part: 'in' } : on(k.ox, k.oy, k) ? { at, part: 'out' } : undefined
         }
-        cs.forEach(({ knots }, c) => knots.forEach((k, i) => {
-          if (!under && Math.hypot(k.x - q.x, k.y - q.y) <= r) under = { at: [c, i], part: 'point' }
-        }))
+        const knot = knotUnder(p)
+        if (!under && knot) under = { at: knot, part: 'point' }
         const segment = nearestSegment(cs, q)
         if ((e.ctrlKey || e.metaKey) && under?.part === 'point') {
           const k = cs[under.at[0]].knots[under.at[1]]
