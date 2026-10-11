@@ -91,8 +91,9 @@ export async function shot(page: Page, cat: string, name: string, caption: strin
     const y1 = Math.min(v.height, Math.max(...rs.map((r) => r.y + r.height)) + p)
     clip = { x: x0, y: y0, width: x1 - x0, height: y1 - y0 }
   }
-  mkdirSync(join(OUT, cat), { recursive: true })
-  const file = join(OUT, cat, `${name}.png`)
+  const out = join(OUT, test.info().project.name)
+  mkdirSync(join(out, cat), { recursive: true })
+  const file = join(out, cat, `${name}.png`)
   await page.screenshot({ path: file, clip })
-  appendFileSync(join(OUT, 'manifest.jsonl'), JSON.stringify({ cat, name, caption, file }) + '\n')
+  appendFileSync(join(out, 'manifest.jsonl'), JSON.stringify({ cat, name, caption, file }) + '\n')
 }

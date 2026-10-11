@@ -169,12 +169,12 @@ test('text marks', async ({ page }) => {
 
 test('grids, guides, wrap', async ({ page }) => {
   await start(page)
-  await props(page).getByRole('button', { name: 'Grid presets' }).click()
+  await props(page).getByRole('button', { name: 'Add layout grid' }).click()
   await page.getByRole('menu').getByRole('menuitem', { name: '12 columns' }).click()
   await rest(page)
   await shot(page, K, '40 layout grid', 'Layout grid of 12 columns')
   await page.keyboard.press('Control+z')
-  await props(page).getByRole('button', { name: 'Grid presets' }).click()
+  await props(page).getByRole('button', { name: 'Add layout grid' }).click()
   await page.getByRole('menu').getByRole('menuitem', { name: '5 mm grid' }).click()
   await rest(page)
   await shot(page, K, '41 square grid', 'Square grid of 5 mm', [view()], 0)
