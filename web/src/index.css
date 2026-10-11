@@ -2746,6 +2746,16 @@ kbd {
   text-align: center;
 }
 
+.ov-page[data-drop],
+.ov-master[data-drop] {
+  z-index: 1;
+}
+
+.ov-page[data-dragging],
+.ov-master[data-dragging] {
+  opacity: 0.4;
+}
+
 .ov-page[data-drop='before'] {
   box-shadow: -3px 0 0 var(--accent);
 }

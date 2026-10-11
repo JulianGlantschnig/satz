@@ -302,6 +302,7 @@ export function Overview({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       aria-label={label}
       title={title}
       data-drop={drop?.id === id ? (drop.before ? 'before' : 'after') : undefined}
+      data-dragging={(dragging?.includes(id) && selected.includes(id)) || undefined}
       draggable
       onClick={(e) => click(e, id)}
       onContextMenu={(e) => openMenu(e, id, vertical)}
@@ -441,7 +442,7 @@ export function Overview({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
                 aria-label={facing ? `Spread ${spread.map((id) => ids.indexOf(id) + 1).join('–')}` : undefined}
                 data-current={spread.includes(current) || undefined}
               >
-                <div className="ov-pages" style={facing && k === 0 && spread.length === 1 ? { paddingLeft: width(pages[0]) } : undefined}>
+                <div className="ov-pages" style={facing && k === 0 && spread.length === 1 ? { marginLeft: width(pages[0]) } : undefined}>
                   {spread.map((id) => pageThumb(pages[ids.indexOf(id)]))}
                   {k === rows.length - 1 && joins && add}
                 </div>

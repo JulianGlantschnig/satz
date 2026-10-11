@@ -36,7 +36,7 @@ test('overview', async ({ page }) => {
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
   await page.mouse.down()
   await page.mouse.move(box.x + box.width / 2 + 20, box.y + 10, { steps: 4 })
-  await page.mouse.move(box.x - 10, box.y - box.height / 2, { steps: 6 })
+  await page.mouse.move(box.x - box.width + 20, box.y - box.height / 2, { steps: 6 })
   await shot(page, G, '14 dragging a page', 'Dragging a page: drop indicator')
   await page.keyboard.press('Escape')
   await page.mouse.up()

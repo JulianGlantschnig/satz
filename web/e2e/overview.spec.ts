@@ -231,6 +231,13 @@ test('a band selects pages or masters, shift click adds a range, the selection d
   await expect.poll(() => order('Pages')).toEqual([before[0], before[3], before[1], before[2], before[4]])
   await page.keyboard.press('Control+z')
   await expect.poll(() => order('Pages')).toEqual(before)
+  const five = (await option(page, 5).boundingBox())!
+  await page.mouse.move(five.x + five.width / 2, five.y + five.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(five.x + five.width / 2 + 30, five.y + 20, { steps: 4 })
+  await expect(option(page, 5)).toHaveAttribute('data-dragging', 'true')
+  await page.mouse.up()
+  await expect(option(page, 5)).not.toHaveAttribute('data-dragging')
 
   const masters = await order('Masters')
   const master = (name: string) => region.getByRole('option', { name, exact: true })
