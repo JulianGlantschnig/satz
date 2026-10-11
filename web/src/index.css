@@ -1778,30 +1778,43 @@ textarea {
 .switcher {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
   margin: 0 8px;
+}
+
+.switcher-pages {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--input);
 }
 
 .switcher .spread {
   display: flex;
-  justify-content: flex-end;
-  gap: 2px;
-  min-width: 62px;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  min-width: 76px;
   font-variant-numeric: tabular-nums;
 }
 
 .switcher-total {
-  min-width: 34px;
+  padding: 0 4px;
   color: var(--text-3);
-  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .switcher button {
-  display: grid;
-  place-items: center;
-  min-width: 26px;
-  height: 26px;
-  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 5px;
   border: 0;
   border-radius: 6px;
   background: none;
@@ -1815,8 +1828,7 @@ textarea {
 }
 
 .switcher button:disabled {
-  color: var(--text-3);
-  opacity: 0.5;
+  opacity: 0.35;
   cursor: default;
 }
 
@@ -1824,6 +1836,13 @@ textarea {
   background: var(--selected);
   color: var(--accent);
   font-weight: 600;
+}
+
+.switcher .switcher-add {
+  height: 30px;
+  padding: 0 10px 0 7px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
 
 .switcher-name {
@@ -3268,11 +3287,22 @@ kbd {
   }
 }
 
+@container bar (max-width: 960px) {
+  .switcher-add span {
+    display: none;
+  }
+
+  .switcher .switcher-add {
+    padding: 0 7px;
+  }
+}
+
 @container bar (max-width: 700px) {
   .bar-side > .toggle,
   .bar-side > .sep,
-  .switcher > button,
-  .switcher-total {
+  .switcher-pages > button,
+  .switcher-total,
+  .switcher-add {
     display: none;
   }
 
@@ -3282,6 +3312,11 @@ kbd {
 
   .switcher .spread {
     min-width: 0;
+  }
+
+  .switcher-pages {
+    border: 0;
+    background: none;
   }
 }
 

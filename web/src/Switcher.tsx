@@ -18,25 +18,28 @@ export function Switcher({ editor }: { editor: Editor }) {
   const go = (i: number) => editor.showPage(spreads[i][0])
   return (
     <nav className="switcher" aria-label="Spreads">
-      <button type="button" aria-label="Previous spread" title="Previous spread (PgUp)" disabled={k <= 0} onClick={() => go(k - 1)}>
-        <Icon name="left" />
-      </button>
-      <span className={`spread${snapshot.facingPages ? ' facing' : ''}`}>
-        {spreads[k]?.map((id) => {
-          const n = pages.findIndex((p) => p.id === id) + 1
-          return (
-            <button key={id} type="button" aria-pressed={id === current} aria-label={`Page ${n}`} title={`Page ${n}, its layers`} onClick={() => editor.showPage(id)}>
-              {n}
-            </button>
-          )
-        })}
-      </span>
-      <span className="switcher-total">/ {pages.length}</span>
-      <button type="button" aria-label="Next spread" title="Next spread (PgDn)" disabled={k >= spreads.length - 1} onClick={() => go(k + 1)}>
-        <Icon name="chevron" />
-      </button>
-      <button type="button" aria-label="Add page" title="Add page" onClick={() => editor.showPage(editor.apply({ type: 'addPage', after: pages.at(-1)!.id })[0])}>
+      <div className="switcher-pages">
+        <button type="button" aria-label="Previous spread" title="Previous spread (PgUp)" disabled={k <= 0} onClick={() => go(k - 1)}>
+          <Icon name="left" />
+        </button>
+        <span className="spread">
+          {spreads[k]?.map((id) => {
+            const n = pages.findIndex((p) => p.id === id) + 1
+            return (
+              <button key={id} type="button" aria-pressed={id === current} aria-label={`Page ${n}`} title={`Page ${n}, its layers`} onClick={() => editor.showPage(id)}>
+                {n}
+              </button>
+            )
+          })}
+          <span className="switcher-total">/ {pages.length}</span>
+        </span>
+        <button type="button" aria-label="Next spread" title="Next spread (PgDn)" disabled={k >= spreads.length - 1} onClick={() => go(k + 1)}>
+          <Icon name="chevron" />
+        </button>
+      </div>
+      <button type="button" className="switcher-add" aria-label="Add page" title="Add page (Ctrl Shift P)" onClick={() => editor.showPage(editor.apply({ type: 'addPage', after: pages.at(-1)!.id })[0])}>
         <Icon name="plus" />
+        <span>Page</span>
       </button>
     </nav>
   )
