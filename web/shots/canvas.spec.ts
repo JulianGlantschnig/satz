@@ -235,3 +235,31 @@ test('place image', async ({ page }) => {
   await shot(page, K, '61 placed image', 'Placed image selected', [view()], 0)
   void place
 })
+
+test('transform drags', async ({ page }) => {
+  await start(page)
+  await select(page, 'Sun')
+  const canvas = page.getByLabel('Page canvas')
+  let br: [number, number] = [0, 0]
+  for (let i = 0; i < 150 && !br[0]; i += 2) {
+    await page.mouse.move(SUN[0] + i, SUN[1] + i)
+    if (/resize/.test(await canvas.evaluate((e) => (e as HTMLElement).style.cursor))) br = [SUN[0] + i, SUN[1] + i]
+  }
+  await page.mouse.down()
+  await page.mouse.move(br[0] + 20, br[1] + 15, { steps: 5 })
+  await shot(page, K, '15 resizing', 'Resizing with a corner handle (snap lines, no size label)', [top()], 0)
+  await page.mouse.up()
+  await page.keyboard.press('Control+z')
+  await page.mouse.move(br[0] + 10, br[1] + 10)
+  await page.mouse.down()
+  await page.mouse.move(br[0] - 10, br[1] + 30, { steps: 5 })
+  await shot(page, K, '16 rotating', 'Rotating outside a corner (no angle label)', [top()], 0)
+  await page.mouse.up()
+  await page.keyboard.press('Control+z')
+  await page.keyboard.press('i')
+  await page.mouse.move(...STAR)
+  await shot(page, K, '17 eyedropper', 'Eyedropper over a layer', [top()], 0)
+  await page.mouse.click(...STAR)
+  await rest(page)
+  await shot(page, K, '18 eyedropper applied', 'Eyedropper picked the style of another layer', [top()], 0)
+})

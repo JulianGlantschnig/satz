@@ -6,7 +6,6 @@ import { drawn, png, screen, drag } from '../e2e/util'
 export { expect, png, screen, drag, drawn }
 export const OUT = '/tmp/satz-shots'
 export const test = base.extend({})
-test.use({ deviceScaleFactor: 2 })
 
 type Rect = { x: number; y: number; width: number; height: number }
 type Target = Locator | Rect | 'right' | 'left'

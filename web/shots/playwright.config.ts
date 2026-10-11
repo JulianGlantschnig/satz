@@ -7,6 +7,6 @@ export default defineConfig({
   retries: 0,
   timeout: 60_000,
   reporter: 'list',
-  projects: (['dark', 'light'] as const).map((scheme) => ({ name: scheme, use: { ...base.projects![0].use, colorScheme: scheme } })),
+  projects: (['dark', 'light'] as const).map((scheme) => ({ name: scheme, use: { ...base.projects![0].use, colorScheme: scheme, deviceScaleFactor: 2 } })),
   webServer: { ...base.webServer!, cwd: '..' } as never,
 })
