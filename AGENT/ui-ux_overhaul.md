@@ -38,7 +38,7 @@ first review are in git history.
 - [x] 27. Flip V icon differs in style from Flip H → mirrored pair.
 - [x] 28. Rotation `∠` smaller than the letter labels, `°` sits high → same size and baseline.
 - [x] 29. Empty and cryptic values: `Off` in number fields, `…` in separations, `Mixed — + replaces` → `–` placeholder, `Mixed · + replaces all`.
-- [ ] 30. Text wrap sits between Layout and Layer → after Effects.
+- [x] 30. Text wrap sits between Layout and Layer → after Effects.
 - [ ] 31. Toasts appear bottom centre and bottom right inside the export panel → one place, bottom centre, clear of the page edge.
 
 ## App shell

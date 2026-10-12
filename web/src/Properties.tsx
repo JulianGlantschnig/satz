@@ -404,22 +404,6 @@ export function Properties({
       {one?.kind === 'text' && <TextFrameSection editor={editor} node={one} set={set} />}
       {one?.kind === 'frame' && <AutoLayout editor={editor} node={one} set={set} />}
       {box && (
-        <Section title="Text wrap">
-          <div className="grid">
-            <Select label="Text wrap" value={same((n) => n.wrap)} options={WRAPS} onChange={(wrap) => set({ wrap })} />
-            <Field
-              label="Offset"
-              title="Text wrap offset"
-              unit="length"
-              disabled={nodes.every((n) => n.wrap === 'none')}
-              value={same((n) => (n.wrapOffsetX === n.wrapOffsetY ? n.wrapOffsetX : undefined))}
-              onCommit={(v) => set({ wrapOffsetX: Math.max(0, v), wrapOffsetY: Math.max(0, v) })}
-            />
-          </div>
-          {nodes.some((n) => n.wrap !== 'none' && !textBelow(editor, n)) && <p className="empty">Only text frames below it in the layers wrap around it</p>}
-        </Section>
-      )}
-      {box && (
         <Section title="Layer">
           <div className="grid">
             {bindable(
@@ -515,6 +499,22 @@ export function Properties({
         </PaintList>
       )}
       {box && <EffectList effects={sameList((n) => n.effects)} mode={mode} scope={scope} onChange={(effects) => set({ effects })} />}
+      {box && (
+        <Section title="Text wrap">
+          <div className="grid">
+            <Select label="Text wrap" value={same((n) => n.wrap)} options={WRAPS} onChange={(wrap) => set({ wrap })} />
+            <Field
+              label="Offset"
+              title="Text wrap offset"
+              unit="length"
+              disabled={nodes.every((n) => n.wrap === 'none')}
+              value={same((n) => (n.wrapOffsetX === n.wrapOffsetY ? n.wrapOffsetX : undefined))}
+              onCommit={(v) => set({ wrapOffsetX: Math.max(0, v), wrapOffsetY: Math.max(0, v) })}
+            />
+          </div>
+          {nodes.some((n) => n.wrap !== 'none' && !textBelow(editor, n)) && <p className="empty">Only text frames below it in the layers wrap around it</p>}
+        </Section>
+      )}
     </aside>
   )
 }
