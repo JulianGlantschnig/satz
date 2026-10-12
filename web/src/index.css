@@ -572,6 +572,10 @@ textarea {
   padding: 0 12px;
 }
 
+.section-body:first-child {
+  margin-top: 0;
+}
+
 .section-body:empty {
   display: none;
 }

@@ -543,7 +543,8 @@ function DocumentSection({ editor, say }: { editor: Editor; say: (message: strin
       for (const p of pages.slice(Math.max(1, n)).reverse()) editor.apply({ type: 'deletePage', id: p.id })
     })
   return (
-    <Section title="Document">
+    <section className="section" aria-label="Document">
+      <div className="section-body">
       <div className="grid">
         <Field label="Pages" title="Pages" unit="" int min={1} value={pages.length} onCommit={count} />
         <Select label="Spreads" value={facingPages ? 'facing' : 'single'} options={SPREADS} onChange={(v) => editor.apply({ type: 'setDocument', facingPages: v === 'facing' })} />
@@ -557,7 +558,8 @@ function DocumentSection({ editor, say }: { editor: Editor; say: (message: strin
           onChange={(v) => (v === 'upload' ? pickProfile(editor, say) : v === 'fogra' && editor.setProfile(null))}
         />
       </div>
-    </Section>
+      </div>
+    </section>
   )
 }
 
