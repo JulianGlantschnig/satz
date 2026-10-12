@@ -554,3 +554,15 @@ test('a stroke runs dashed', async ({ page }) => {
   await panel.getByRole('checkbox', { name: 'Overprint stroke' }).check()
   await expect(panel.getByRole('checkbox', { name: 'Overprint stroke' })).toBeChecked()
 })
+
+test('a layer on the pasteboard is drawn', async ({ page }) => {
+  await open(page)
+  await page.getByRole('tree', { name: 'Layers' }).getByRole('button', { name: 'Sun' }).click()
+  const layout = page.getByRole('region', { name: 'Layout' })
+  const value = async (t: string) => Number(await layout.getByTitle(`${t} in mm`).getByRole('textbox').inputValue())
+  const [y, w, h] = [await value('Y'), await value('W'), await value('H')]
+  await layout.getByTitle('X in mm').getByRole('textbox').fill(String(-w / 2 - 8))
+  await page.keyboard.press('Enter')
+  const [sun, board] = await colors(page, [await screen(page, -8, y + h / 2), await screen(page, -8, y - 10)])
+  expect(near(sun, board)).toBe(false)
+})

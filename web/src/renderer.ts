@@ -19,6 +19,8 @@ type Line = [{ x: number; y: number }, { x: number; y: number }]
 export type Overlay = {
   /** The colour of the selection chrome, the theme's accent. */
   accent: string
+  /** Layers beyond the bleed are drawn too. */
+  pasteboard?: boolean
   /** Boxes, or the ends of lines. */
   selection: (Box | Line)[]
   hover?: Box | Line
@@ -221,7 +223,7 @@ export class Renderer {
       paint.setColor(ck.WHITE)
       for (const r of trims) c.drawRect(r, paint)
       c.save()
-      c.clipPath(bleed, ck.ClipOp.Intersect, true)
+      if (!overlay?.pasteboard) c.clipPath(bleed, ck.ClipOp.Intersect, true)
       for (const { id, x } of lists) {
         const ops = decode((plate ? this.engine.plate(id, plate === 2) : this.engine.displayList(id)).slice())
         for (const op of ops) {
@@ -234,8 +236,7 @@ export class Renderer {
         }
         c.save()
         c.translate(x, 0)
-        const local = ck.LTRBRect(bounds[0] - x, bounds[1], bounds[2] - x, bounds[3])
-        this.drawOps(c, ops, ops[0]?.op === 'page' ? 1 : 0, ops.length, local)
+        this.drawOps(c, ops, ops[0]?.op === 'page' ? 1 : 0, ops.length, ck.LTRBRect(-FAR, -FAR, FAR, FAR))
         c.restore()
       }
       c.restore()
