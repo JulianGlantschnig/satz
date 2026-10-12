@@ -53,6 +53,7 @@ export function PaintList({
   ppi,
   images = {},
   onChange,
+  actions,
   children,
 }: {
   editor: Editor
@@ -66,12 +67,13 @@ export function PaintList({
   ppi?: number
   images?: Snapshot['images']
   onChange: (paints: Fill[]) => void
+  actions?: ReactNode
   children?: ReactNode
 }) {
   const what = title.toLowerCase()
   const [dragged, setDragged] = useState<number | null>(null)
   return (
-    <Section title={title} onAdd={() => onChange([...(paints ?? []), added])}>
+    <Section title={title} actions={actions} onAdd={() => onChange([...(paints ?? []), added])}>
       {!paints && <p className="empty">Mixed — + replaces</p>}
       {paints && paints.length > 0 && (
         <ul className="rows">

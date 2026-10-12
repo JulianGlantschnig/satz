@@ -1,5 +1,5 @@
 import { neutral, solid, type ColorMode } from './color'
-import { Check, Field, NameInput, Section, Segmented, Select } from './controls'
+import { Check, Field, NameInput, Section, Segmented, Select, SIDE_NAMES, SidesToggle } from './controls'
 import { useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { ContextMenu } from './ContextMenu'
@@ -45,7 +45,6 @@ const LINE_STYLES = Object.fromEntries(
 ) as Record<LineStyle, ReactNode>
 export const ARROWS = { none: 'None', arrow: 'Arrow' }
 
-const SIDES = ['Top', 'Right', 'Bottom', 'Left']
 const STROKE_ALIGNS = [
   ['inside', 'Inside', 'strokeInside'],
   ['center', 'Center', 'strokeCenter'],
@@ -462,7 +461,20 @@ export function Properties({
         </PaintList>
       )}
       {stroked && (
-        <PaintList editor={editor} title="Stroke" paints={strokes} added={solid(neutral('black', mode))} mode={mode} scope={scope} onChange={(strokes) => set({ strokes })}>
+        <PaintList
+          editor={editor}
+          title="Stroke"
+          actions={
+            sided &&
+            !!strokes?.length && (
+              <SidesToggle
+                what="stroke"
+                pressed={same((n) => !!n.strokeSides?.length)}
+                onClick={() => set({ strokeSides: same((n) => !!n.strokeSides?.length) ? [] : Array(4).fill(one?.strokeWeight ?? 1) })}
+              />
+            )
+          }
+          paints={strokes} added={solid(neutral('black', mode))} mode={mode} scope={scope} onChange={(strokes) => set({ strokes })}>
           {!!strokes?.length && (
             <div className="grid">
               {bindable(
@@ -486,15 +498,8 @@ export function Properties({
                   <Select label="End point" prefix="End" value={same((n) => (n.arrowEnd ? 'arrow' : 'none'))} options={ARROWS} onChange={(v) => set({ arrowEnd: v === 'arrow' })} />
                 </>
               )}
-              {sided && (
-                <Check
-                  label="Each side"
-                  value={same((n) => !!n.strokeSides?.length)}
-                  set={(on) => set({ strokeSides: on ? Array(4).fill(one?.strokeWeight ?? 1) : [] })}
-                />
-              )}
               {sided && one?.strokeSides?.length === 4 &&
-                SIDES.map((side, i) => (
+                SIDE_NAMES.map((side, i) => (
                   <Field
                     key={side}
                     label={side}

@@ -21,7 +21,7 @@ test('color pickers and selects', async ({ page }) => {
   await section(page, 'Stroke').getByRole('button', { name: 'Add stroke' }).click()
   await rest(page)
   await shot(page, C, '07 stroke added', 'Stroke section after adding a stroke', [section(page, 'Stroke')], 8)
-  await section(page, 'Stroke').getByText('Each side').click()
+  await section(page, 'Stroke').getByRole('button', { name: 'Stroke of each side' }).click()
   await shot(page, C, '08 stroke each side', 'Stroke with Each side (T, R, B, L)', [section(page, 'Stroke')], 8)
   await opened(page, C, '09 line style select', 'Line style select', combo(page, 'Line style'))
   await section(page, 'Effects').getByRole('button', { name: 'Add effect' }).click()

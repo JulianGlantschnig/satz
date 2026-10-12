@@ -489,17 +489,17 @@ export function Sides({
               />
             ))}
       </div>
-      <button
-        type="button"
-        className="icon-button"
-        aria-label={`${what[0].toUpperCase()}${what.slice(1)} of each side`}
-        title={`${what[0].toUpperCase()}${what.slice(1)} of each side`}
-        aria-pressed={!!each}
-        disabled={opened}
-        onClick={() => setOpen(!open)}
-      >
-        <Icon name="sides" />
-      </button>
+      <SidesToggle what={what} pressed={!!each} disabled={opened} onClick={() => setOpen(!open)} />
     </div>
+  )
+}
+
+/** The button that shows one field per side of `what`. */
+export function SidesToggle({ what, pressed, disabled, onClick }: { what: string; pressed: boolean | null; disabled?: boolean; onClick: () => void }) {
+  const title = `${what[0].toUpperCase()}${what.slice(1)} of each side`
+  return (
+    <button type="button" className="icon-button" aria-label={title} title={title} aria-pressed={pressed ?? 'mixed'} disabled={disabled} onClick={onClick}>
+      <Icon name="sides" />
+    </button>
   )
 }
