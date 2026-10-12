@@ -540,7 +540,7 @@ function DocumentSection({ editor }: { editor: Editor }) {
       <div className="section-body">
       <div className="grid">
         <Field label="Pages" title="Pages" unit="" int min={1} value={pages.length} onCommit={count} />
-        <Select label="Spreads" value={facingPages && pages.length > 1 ? 'facing' : 'single'} disabled={pages.length < 2 ? ['facing'] : []} options={SPREADS} onChange={(v) => editor.apply({ type: 'setDocument', facingPages: v === 'facing' })} />
+        <Select label="Spreads" value={facingPages ? 'facing' : 'single'} options={SPREADS} onChange={(v) => editor.apply({ type: 'setDocument', facingPages: v === 'facing' })} />
         <Field label="Raster" reset={300} value={rasterPpi} unit="ppi" min={72} max={1200} onCommit={(v) => editor.apply({ type: 'setDocument', rasterPpi: v })} />
         <Select label="Color mode" prefix="Color" value={colorMode} options={MODES} onChange={(colorMode) => editor.apply({ type: 'setDocument', colorMode })} />
         <Select<string>

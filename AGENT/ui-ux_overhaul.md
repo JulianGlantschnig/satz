@@ -45,7 +45,7 @@ first review are in git history.
 
 - [x] 32. Right panel header ~4 px above the top bar centre line, no separator below, left header without icon → same header on both sides.
 - [x] 33. `Document` twice (panel header and section) → once, in the panel header.
-- [x] 34. 1-page document shows `Facing pages`; pages stepper `−` enabled at 1 → single pages when there is 1 page, `−` disabled at 1.
+- [x] 34. 1-page document shows `Facing pages`; pages stepper `−` enabled at 1 → `−` disabled at 1 (facing stays: masters keep left and right pages).
 - [x] 35. With the left panel hidden the document name disappears → name in the top bar.
 - [x] 36. Preflight shield and Export open the same panel; badge `2` red for 1 error + 1 warning → badge counts errors red, only warnings yellow.
 - [x] 37. Error status looks like info → red icon and colour.
