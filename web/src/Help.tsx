@@ -16,7 +16,6 @@ const GESTURES: Record<string, [string, string][]> = {
     ['Shift drag', 'Move along one axis'],
     ['Drag beside a corner', 'Rotate, with Shift in steps of 15°'],
     ['Enter', 'Edit the points of the selected shape'],
-    ['Ctrl D', 'Duplicate a moved copy again as far on'],
     ['Ctrl V', 'Paste text from outside as a new text layer'],
     ['Alt', 'Show the distances to the layer under the pointer'],
     ['← → ↑ ↓', 'Nudge by 0.1 mm, with Shift by 1 mm'],

@@ -219,7 +219,7 @@ test('a clicked text is auto width, a dragged one a fixed empty box shown while 
   await expect(field('X in mm')).toHaveValue(String(Math.round(x * 10 + 1) / 10))
   await expect(mode('Auto width')).toBeChecked()
   await expect(field('W in mm')).toHaveValue(w)
-  await page.keyboard.press('Shift+H')
+  await page.keyboard.press('Control+Alt+H')
   await expect(mode('Auto height')).toBeChecked()
 })
 

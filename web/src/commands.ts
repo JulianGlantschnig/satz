@@ -129,7 +129,7 @@ export const ACTIONS: Action[] = [
     group: 'File',
     run: (editor) => editor.apply({ type: 'setDocument', colorMode: editor.snapshot.colorMode === 'cmyk' ? 'rgb' : 'cmyk' }),
   },
-  { title: 'Auto height', keys: 'Shift H', group: 'Text' },
+  { title: 'Auto height', keys: 'Ctrl Alt H', group: 'Text' },
   { title: 'Auto fit', keys: 'Ctrl Alt C', group: 'Text' },
   { title: 'Move tool', keys: 'V', group: 'Tools' },
   { title: 'Frame tool', keys: 'F', group: 'Tools' },

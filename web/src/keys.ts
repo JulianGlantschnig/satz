@@ -78,6 +78,7 @@ export function handleKey(editor: Editor, e: KeyboardEvent): boolean {
   } else if (!ids.length) return false
   else if (e.key === 'Delete' || e.key === 'Backspace') editor.apply({ type: 'delete', ids })
   else if (mod && e.altKey && key === 'c') editor.resize(editor.selected(), 'autoFit')
+  else if (mod && e.altKey && key === 'h') editor.resize(editor.selected(), 'autoHeight')
   else if (mod && (key === 'c' || key === 'x') && !e.isTrusted) {
     navigator.clipboard?.writeText(editor.copy(ids)).catch(() => {})
     if (key === 'x') editor.apply({ type: 'delete', ids })
@@ -101,8 +102,6 @@ export function handleKey(editor: Editor, e: KeyboardEvent): boolean {
     editor.batch(() => {
       for (const n of editor.selected()) if (n.direction !== 'none') editor.apply({ type: 'set', id: n.id, direction: 'none' })
     })
-  } else if (!mod && !e.altKey && e.shiftKey && key === 'h' && editor.selected().every((n) => n.kind === 'text')) {
-    editor.resize(editor.selected(), 'autoHeight')
   } else if (!mod && !e.altKey && e.shiftKey && (key === 'h' || key === 'v')) {
     editor.batch(() => ids.forEach((id) => editor.apply({ type: 'flip', id, vertical: key === 'v' })))
   } else if (!mod && e.shiftKey && key === 'a') editor.set({ selection: editor.apply({ type: 'autoLayout', ids }) })
