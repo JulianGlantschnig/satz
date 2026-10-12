@@ -264,7 +264,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
             <Icon name="preflight" />
             {issues.length > 0 && (
               <span className="pf-count" data-sev={errors ? 'error' : 'warn'}>
-                {issues.length}
+                {errors || issues.length}
               </span>
             )}
           </button>

@@ -47,7 +47,7 @@ first review are in git history.
 - [x] 33. `Document` twice (panel header and section) → once, in the panel header.
 - [x] 34. 1-page document shows `Facing pages`; pages stepper `−` enabled at 1 → single pages when there is 1 page, `−` disabled at 1.
 - [x] 35. With the left panel hidden the document name disappears → name in the top bar.
-- [ ] 36. Preflight shield and Export open the same panel; badge `2` red for 1 error + 1 warning → badge counts errors red, only warnings yellow.
+- [x] 36. Preflight shield and Export open the same panel; badge `2` red for 1 error + 1 warning → badge counts errors red, only warnings yellow.
 - [ ] 37. Error status looks like info → red icon and colour.
 - [ ] 38. Empty layers panel has no empty state → `No layers yet`.
 - [ ] 39. Status `Created Custom, 8 pages` → `Created A5, 8 pages`.
