@@ -34,7 +34,7 @@ first review are in git history.
 - [x] 23. Stroke has 2 selects reading `Solid` (paint and dash) → dash select shows only the line preview.
 - [x] 24. Eyedropper tool has a pencil icon → pipette.
 - [x] 25. Image layers use the rectangle icon → image icon.
-- [ ] 26. Colour and number variables share the hexagon icon → colour: drop, number: `#`.
+- [x] 26. Colour and number variables share the hexagon icon → colour: drop, number: `#`.
 - [ ] 27. Flip V icon differs in style from Flip H → mirrored pair.
 - [ ] 28. Rotation `∠` smaller than the letter labels, `°` sits high → same size and baseline.
 - [ ] 29. Empty and cryptic values: `Off` in number fields, `…` in separations, `Mixed — + replaces` → `–` placeholder, `Mixed · + replaces all`.

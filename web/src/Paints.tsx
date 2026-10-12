@@ -143,7 +143,7 @@ export function PaintList({
                       </>
                     ) : boundVar ? (
                       <span className="bound-name" title={variable ? variable.name : 'Missing variable'}>
-                        <Icon name="variable" size={12} />
+                        <Icon name="drop" size={12} />
                         {variable ? variable.name : 'Missing variable'}
                       </span>
                     ) : (

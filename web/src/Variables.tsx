@@ -11,6 +11,7 @@ import { Popover } from './Popover'
 
 type Kind = 'color' | 'number' | 'font'
 const KINDS: Record<Kind, string> = { color: 'Color', number: 'Number', font: 'Font' }
+const KIND_ICONS = { color: 'drop', number: 'hash', font: 'text' } as const
 const kindOf = (v: Value): Kind => ('color' in v ? 'color' : 'number' in v ? 'number' : 'font')
 
 /** The document's variables: the plus makes one, a click edits it in a popover; like swatches, a right click or double click renames. */
@@ -67,13 +68,13 @@ export function Variables({ editor }: { editor: Editor }) {
             >
               {renaming === v.id ? (
                 <div className="var" onBlur={() => setRenaming(null)}>
-                  <Icon name={kindOf(Object.values(v.values)[0]) === 'font' ? 'text' : 'variable'} />
+                  <Icon name={KIND_ICONS[kindOf(Object.values(v.values)[0])]} />
                   <NameInput label="Variable name" value={v.name} autoFocus onCommit={(name) => editor.apply({ type: 'setVariable', id: v.id, name })} />
                 </div>
               ) : (
                 <>
                   <button type="button" className="var" aria-haspopup="dialog" aria-expanded={open === v.id} onClick={() => setOpen(open === v.id ? null : v.id)}>
-                    <Icon name={kindOf(Object.values(v.values)[0]) === 'font' ? 'text' : 'variable'} />
+                    <Icon name={KIND_ICONS[kindOf(Object.values(v.values)[0])]} />
                     <span className="var-name">{v.name}</span>
                     <span className="var-value">{preview(v.values[collections.find((c) => c.id === v.collection)!.modes[0].id])}</span>
                   </button>
@@ -307,7 +308,7 @@ export function Bindable({
             aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
           >
-            <Icon name="variable" size={12} />
+            <Icon name={KIND_ICONS[kind]} size={12} />
             {variable.name}
           </button>
           <button
