@@ -8,7 +8,6 @@ import { MM, scopeOf, useEditor, type Editor } from './editor'
 import { Icon } from './icons'
 import type { Bindable as Prop, Modes, Typeface, Value } from './model'
 import { Popover } from './Popover'
-import { useSettings } from './settings'
 
 type Kind = 'color' | 'number' | 'font'
 const KINDS: Record<Kind, string> = { color: 'Color', number: 'Number', font: 'Font' }
@@ -182,7 +181,7 @@ function VariableEditor({ editor, id, fonts, onClose }: { editor: Editor; id: st
             ) : 'number' in value ? (
               <Field label="" title={label} unit="" min={-Infinity} value={value.number} onCommit={(number) => set({ number })} />
             ) : (
-              <FontSelect label={label} faces={fonts} value={(value.font ?? fonts[0]).hash} onChange={(font) => set({ font })} />
+              <FontSelect label={label} faces={fonts} value={(value.font ?? fonts[0]).hash} compact onChange={(font) => set({ font })} />
             )}
             {c.modes.length > 1 && (
               <button
@@ -236,6 +235,7 @@ export function ModeSelects({ editor, id, own, inherited }: { editor: Editor; id
           key={c.id}
           label={many ? `${c.name} mode` : 'Mode'}
           prefix={many ? c.name : 'Mode'}
+          wide
           value={c.modes.some((m) => m.id === own[c.id]) ? own[c.id] : ''}
           options={options}
           onChange={(mode) => editor.apply({ type: 'useMode', id, collection: c.id, mode: mode || null })}
@@ -261,7 +261,6 @@ export function Bindable({
   children: ReactNode
 }) {
   const snapshot = useEditor(editor, (e) => e.snapshot)
-  const lengths = useSettings().unit
   const field = isValidElement<{ unit?: string; value?: number | null }>(children) ? children.props : {}
   const unit = field.unit
   const create = () =>
@@ -311,7 +310,6 @@ export function Bindable({
             <Icon name="variable" size={12} />
             {variable.name}
           </button>
-          {unit && <span className="field-unit">{unit === 'length' ? lengths : unit}</span>}
           <button
             type="button"
             className="icon-button"

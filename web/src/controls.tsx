@@ -206,6 +206,7 @@ export function Select<T extends string>({
   breaks = [],
   prefix,
   search,
+  wide,
   onChange,
 }: {
   label: string
@@ -217,6 +218,8 @@ export function Select<T extends string>({
   /** Shown before the value, like a field's label. */
   prefix?: ReactNode
   search?: boolean
+  /** Spans all columns of its grid. */
+  wide?: boolean
   onChange: (v: T) => void
 }) {
   const ref = useRef<HTMLButtonElement>(null)
@@ -227,7 +230,7 @@ export function Select<T extends string>({
       <button
         ref={ref}
         type="button"
-        className="select"
+        className={wide ? 'select wide' : 'select'}
         role="combobox"
         aria-label={label}
         aria-expanded={!!host}

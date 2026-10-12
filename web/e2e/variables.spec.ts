@@ -56,7 +56,7 @@ test('a font variable sets the font of a text in the mode of its page', async ({
   const panel = page.getByRole('complementary', { name: 'Properties' })
   const edit = await addVariable(page, 'Font')
   await edit.getByRole('button', { name: 'Add mode' }).click()
-  await choose(edit.getByRole('combobox', { name: 'Font 1 in Mode 2', exact: true }), 'DM Mono')
+  await choose(edit.getByRole('combobox', { name: 'Font 1 in Mode 2', exact: true }), 'DM Mono Regular')
   await page.keyboard.press('Escape')
   await expect(edit).toBeHidden()
   await choose(panel.getByRole('combobox', { name: 'Mode', exact: true }), 'Mode 2')
