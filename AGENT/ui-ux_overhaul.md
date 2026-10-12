@@ -32,7 +32,7 @@ first review are in git history.
 - [x] 21. The per-side toggle sits outside the 2-column grid, fields end ~28 px early → toggle in the section header like the lock.
 - [x] 22. Opacity: solid fill has it, gradients not, the picker shows a bare number → `Opacity` label everywhere (the ◐ icon in the narrow paint rows; gradients have opacity per stop).
 - [x] 23. Stroke has 2 selects reading `Solid` (paint and dash) → dash select shows only the line preview.
-- [ ] 24. Eyedropper tool has a pencil icon → pipette.
+- [x] 24. Eyedropper tool has a pencil icon → pipette.
 - [ ] 25. Image layers use the rectangle icon → image icon.
 - [ ] 26. Colour and number variables share the hexagon icon → colour: drop, number: `#`.
 - [ ] 27. Flip V icon differs in style from Flip H → mirrored pair.
