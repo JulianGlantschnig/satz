@@ -25,6 +25,7 @@ import { Tooltip } from './Tooltip'
 
 export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; first: boolean }) {
   const status = useEditor(editor, (e) => e.status)
+  const statusError = useEditor(editor, (e) => e.statusError)
   const statusAction = useEditor(editor, (e) => e.statusAction)
   const say = editor.say
   const dirty = useEditor(editor, (e) => e.dirty)
@@ -62,7 +63,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
           })
           say(`Exported ${names.length > 1 ? `${names.length} pages` : names[0]}`)
         },
-        (e: Error) => say(`Could not export the ${kind}: ${e.message}. Reload the page and try again.`),
+        (e: Error) => editor.fail(`Could not export the ${kind}: ${e.message}. Reload the page and try again.`),
       )
       .finally(() => setExporting(false))
   }
@@ -76,7 +77,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
     say('Saving…')
     save(editor, as).then(
       () => say(`Saved ${editor.file.name}`),
-      (e: Error) => say(e.name === 'AbortError' ? '' : <>Could not save {name}: {e.message}. Try Save as <Keys keys="Ctrl Shift S" /></>),
+      (e: Error) => e.name === 'AbortError' ? say('') : editor.fail(<>Could not save {name}: {e.message}. Try Save as <Keys keys="Ctrl Shift S" /></>),
     )
   }
 
@@ -116,9 +117,9 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
       } else if (mod && e.shiftKey && e.code === 'KeyE') openExport()
       else if (mod && e.altKey && e.code === 'KeyY') editor.togglePreflight()
       else if (mod && !e.altKey && e.code === 'KeyS') saveFile(e.shiftKey)
-      else if (mod && !e.altKey && !e.shiftKey && e.code === 'KeyO') open(editor, say)
+      else if (mod && !e.altKey && !e.shiftKey && e.code === 'KeyO') open(editor)
       else if (mod && e.altKey && !e.shiftKey && e.code === 'KeyN') setStarting(true)
-      else if (mod && e.shiftKey && !e.altKey && e.code === 'KeyK') placeImages(editor, say)
+      else if (mod && e.shiftKey && !e.altKey && e.code === 'KeyK') placeImages(editor)
       else if (mod && e.shiftKey && !e.altKey && e.code === 'KeyP') addPage(editor)
       else if (mod && !e.shiftKey && !e.altKey && e.code === 'KeyK') setDialog('palette')
       else if (mod && e.code === 'Comma') setDialog('settings')
@@ -153,7 +154,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
       if (e.type === 'paste') {
         const images = [...e.clipboardData.files].filter((f) => f.type === 'image/png' || f.type === 'image/jpeg')
         const text = e.clipboardData.getData('text/plain').replace(/\r\n?/g, '\n')
-        if (images.length) drop(editor, images, say)
+        if (images.length) drop(editor, images)
         else if (text.trim() && text !== editor.copied) editor.pasteText(text)
         else editor.paste()
       } else {
@@ -174,7 +175,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
     const onDrop = (e: DragEvent) => {
       if (!files(e)) return
       e.preventDefault()
-      drop(editor, [...e.dataTransfer!.files], say)
+      drop(editor, [...e.dataTransfer!.files])
     }
     window.addEventListener('dragover', over)
     window.addEventListener('drop', onDrop)
@@ -230,7 +231,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
               <span className="sep" />
             </>
           )}
-          <Toolbar editor={editor} onPlaceImage={() => placeImages(editor, say)} />
+          <Toolbar editor={editor} onPlaceImage={() => placeImages(editor)} />
         </div>
         <Switcher editor={editor} />
         <div className="bar-side end">
@@ -277,14 +278,10 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
       {overview && <Overview ck={ck} editor={editor} />}
       <div className="right" inert={off('right')}>
         <Edge side="right" />
-        {preflight ? <Preflight editor={editor} exporting={exporting} onExport={exportAs} /> : <Properties editor={editor} say={say} />}
+        {preflight ? <Preflight editor={editor} exporting={exporting} onExport={exportAs} /> : <Properties editor={editor} />}
       </div>
       {starting && (
-        <Start
-          editor={editor}
-          say={say}
-          onClose={() => setStarting(false)}
-        />
+        <Start editor={editor} onClose={() => setStarting(false)} />
       )}
       {finding && <Find editor={editor} onClose={() => setFinding(false)} />}
       {dialog === 'palette' && <Palette editor={editor} onClose={() => setDialog(null)} />}
@@ -306,9 +303,10 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
         />
       )}
       <p
-        className="status"
+        className={statusError ? 'status error' : 'status'}
         role="status"
       >
+        {statusError && <Icon name="error" />}
         {status}
         {statusAction && (
           <button

@@ -1576,6 +1576,14 @@ input[type='checkbox']:disabled {
   }
 }
 
+.status.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-color: color-mix(in srgb, var(--bad) 50%, var(--edge));
+  color: var(--bad);
+}
+
 .status:empty {
   display: none;
 }

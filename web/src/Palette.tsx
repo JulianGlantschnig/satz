@@ -52,7 +52,7 @@ function items(editor: Editor): Item[] {
       title: `Fill with ${s.name}`,
       hint: ink(s.color),
       icon: <Chip color={s.color} scope={NO_SCOPE} />,
-      run: () => fillWith(editor, s.id) || editor.say('Select a layer first'),
+      run: () => fillWith(editor, s.id) || editor.fail('Select a layer first'),
     })),
     ...textStyles.map((s) => ({
       group: 'Text styles',
@@ -61,7 +61,7 @@ function items(editor: Editor): Item[] {
       icon: <Icon name="text" />,
       run: () => {
         const texts = editor.selected().filter((n) => n.kind === 'text')
-        if (!texts.length) return editor.say('Select a text first')
+        if (!texts.length) return editor.fail('Select a text first')
         editor.batch(() => {
           for (const n of texts) editor.apply({ type: 'format', id: n.id, range: null, textStyle: s.id })
         })

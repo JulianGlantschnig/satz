@@ -65,13 +65,7 @@ const NUMBERINGS = { arabic: '1, 2, 3', upperRoman: 'I, II, III', lowerRoman: 'i
 const SPREADS = { single: 'Single pages', facing: 'Facing pages' }
 const HORIZONTAL: Record<Constraint, string> = { min: 'Left', max: 'Right', stretch: 'Left & right', center: 'Center', scale: 'Scale' }
 const VERTICAL: Record<Constraint, string> = { min: 'Top', max: 'Bottom', stretch: 'Top & bottom', center: 'Center', scale: 'Scale' }
-export function Properties({
-  editor,
-  say,
-}: {
-  editor: Editor
-  say: (message: string) => void
-}) {
+export function Properties({ editor }: { editor: Editor }) {
   const page = useEditor(editor, (e) => e.page)
   const isPage = useEditor(editor, (e) => e.snapshot.pages.includes(e.page))
   const mode = useEditor(editor, (e) => e.snapshot.colorMode)
@@ -182,7 +176,7 @@ export function Properties({
         </div>
       )}
       {combinable(editor) && <BooleanBar editor={editor} />}
-      {!box && <DocumentSection editor={editor} say={say} />}
+      {!box && <DocumentSection editor={editor} />}
       {!box && (
         <Section
           title={isPage ? (targets.length > 1 ? `Pages ${numbers.toSorted((a, b) => a - b).join(', ')}` : `Page ${numbers[0]}`) : 'Master'}
@@ -261,7 +255,7 @@ export function Properties({
       )}
       {!box && <GridSection editor={editor} sheets={sheets} all={isPage && targets.length === 1 ? snapshot.pages : []} />}
       {!box && (
-        <Section title="Fonts" onAdd={() => addFonts(editor, say)}>
+        <Section title="Fonts" onAdd={() => addFonts(editor)}>
           <ul className="fonts">
             {fonts.map((f, i) => (
               <li key={f.hash}>
@@ -280,12 +274,12 @@ export function Properties({
             ))}
           </ul>
           {canFindFonts && !locals.length && (
-            <button type="button" className="button" onClick={() => readLocalFonts(say)}>
+            <button type="button" className="button" onClick={() => readLocalFonts(editor)}>
               Use local fonts
             </button>
           )}
           {canFindFonts && missingFonts.length > 0 && (
-            <button type="button" className="button" onClick={() => findFonts(editor, say)}>
+            <button type="button" className="button" onClick={() => findFonts(editor)}>
               Find missing fonts on this computer
             </button>
           )}
@@ -535,7 +529,7 @@ function textBelow(editor: Editor, n: Node) {
   return false
 }
 
-function DocumentSection({ editor, say }: { editor: Editor; say: (message: string) => void }) {
+function DocumentSection({ editor }: { editor: Editor }) {
   const { pages, facingPages, colorMode, rasterPpi, profile } = useEditor(editor, (e) => e.snapshot)
   const count = (n: number) =>
     editor.batch(() => {
@@ -555,7 +549,7 @@ function DocumentSection({ editor, say }: { editor: Editor; say: (message: strin
           prefix="Profile"
           value={colorMode === 'rgb' ? 'srgb' : profile === null ? 'fogra' : 'own'}
           options={colorMode === 'rgb' ? { srgb: 'sRGB' } : { fogra: 'FOGRA51', ...(profile !== null && { own: profile || 'Uploaded' }), upload: 'Upload ICC…' }}
-          onChange={(v) => (v === 'upload' ? pickProfile(editor, say) : v === 'fogra' && editor.setProfile(null))}
+          onChange={(v) => (v === 'upload' ? pickProfile(editor) : v === 'fogra' && editor.setProfile(null))}
         />
       </div>
       </div>

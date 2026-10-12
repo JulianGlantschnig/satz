@@ -171,23 +171,23 @@ export function ask(question: string, yes: string): Promise<boolean> {
 
 export const discard = async (editor: Editor) => !editor.dirty || ask(`Discard unsaved changes to ${editor.file.name}?`, 'Discard')
 
-async function load(editor: Editor, file: File, handle: Handle | null, say: (message: string) => void) {
+async function load(editor: Editor, file: File, handle: Handle | null) {
   if (!(await discard(editor))) return
   try {
     editor.load(new Uint8Array(await file.arrayBuffer()), { name: file.name, handle })
   } catch (e) {
-    say(`Could not open ${file.name}: ${(e as Error).message}. Choose a .satz file saved by Satz.`)
+    editor.fail(`Could not open ${file.name}: ${(e as Error).message}. Choose a .satz file saved by Satz.`)
   }
 }
 
-/** Asks for a file and opens it in place of the document; `say` tells why it could not. */
-export async function open(editor: Editor, say: (message: string) => void) {
-  if (!pickers.showOpenFilePicker) return pick('.satz', false, ([file]) => file && load(editor, file, null, say))
+/** Asks for a file and opens it in place of the document. */
+export async function open(editor: Editor) {
+  if (!pickers.showOpenFilePicker) return pick('.satz', false, ([file]) => file && load(editor, file, null))
   try {
     const [handle] = await pickers.showOpenFilePicker({ types: TYPES })
-    await load(editor, await handle.getFile(), handle, say)
+    await load(editor, await handle.getFile(), handle)
   } catch (e) {
-    if ((e as Error).name !== 'AbortError') say(`Could not open a file: ${(e as Error).message}.`)
+    if ((e as Error).name !== 'AbortError') editor.fail(`Could not open a file: ${(e as Error).message}.`)
   }
 }
 
@@ -209,54 +209,54 @@ async function keep(editor: Editor, bytes: Uint8Array) {
   return face
 }
 
-async function addFont(editor: Editor, file: File, say: (message: string) => void) {
+async function addFont(editor: Editor, file: File) {
   try {
     await keep(editor, new Uint8Array(await file.arrayBuffer()))
   } catch (e) {
     if (e instanceof WebAssembly.RuntimeError) throw e
-    say(`Could not add ${file.name}: ${(e as Error).message}. Choose a .ttf, .otf, .woff or .woff2 file.`)
+    editor.fail(`Could not add ${file.name}: ${(e as Error).message}. Choose a .ttf, .otf, .woff or .woff2 file.`)
   }
 }
 
-async function placeImage(editor: Editor, file: File, say: (message: string) => void) {
+async function placeImage(editor: Editor, file: File) {
   try {
     editor.loadImage(new Uint8Array(await file.arrayBuffer()), file.name)
   } catch (e) {
     if (e instanceof WebAssembly.RuntimeError) throw e
-    say(`Could not place ${file.name}: ${(e as Error).message}.`)
+    editor.fail(`Could not place ${file.name}: ${(e as Error).message}.`)
   }
 }
 
 /** Asks for TrueType, OpenType, WOFF and WOFF2 files and adds them to the fonts. */
-export const addFonts = (editor: Editor, say: (message: string) => void) =>
+export const addFonts = (editor: Editor) =>
   pick('.ttf,.otf,.woff,.woff2', true, async (files) => {
-    for (const file of files) await addFont(editor, file, say)
+    for (const file of files) await addFont(editor, file)
   })
 
 /** Asks for PNG and JPEG files and places each on the current page. */
-export const pickProfile = (editor: Editor, say: (message: string) => void) =>
+export const pickProfile = (editor: Editor) =>
   pick('.icc,.icm', false, async ([file]) => {
     if (!file) return
     try {
       editor.setProfile(new Uint8Array(await file.arrayBuffer()))
     } catch (e) {
-      say(`Could not use ${file.name}: ${(e as Error).message}.`)
+      editor.fail(`Could not use ${file.name}: ${(e as Error).message}.`)
     }
   })
 
-export const placeImages = (editor: Editor, say: (message: string) => void) =>
+export const placeImages = (editor: Editor) =>
   pick('.png,.jpg,.jpeg', true, async (files) => {
-    for (const file of files) await placeImage(editor, file, say)
+    for (const file of files) await placeImage(editor, file)
   })
 
 /** Opens a dropped document, places dropped images and adds dropped fonts. */
-export async function drop(editor: Editor, files: File[], say: (message: string) => void) {
+export async function drop(editor: Editor, files: File[]) {
   for (const file of files) {
     const ext = file.name.split('.').pop()!.toLowerCase()
-    if (ext === 'satz') await load(editor, file, null, say)
-    else if (['ttf', 'otf', 'woff', 'woff2'].includes(ext)) await addFont(editor, file, say)
-    else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') await placeImage(editor, file, say)
-    else say(`Could not use ${file.name}. Drop a .satz document, a PNG or JPEG image or a .ttf, .otf, .woff or .woff2 font.`)
+    if (ext === 'satz') await load(editor, file, null)
+    else if (['ttf', 'otf', 'woff', 'woff2'].includes(ext)) await addFont(editor, file)
+    else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') await placeImage(editor, file)
+    else editor.fail(`Could not use ${file.name}. Drop a .satz document, a PNG or JPEG image or a .ttf, .otf, .woff or .woff2 font.`)
   }
 }
 
@@ -277,18 +277,18 @@ export const useLocalFonts = () =>
   )
 
 /** Reads the fonts of this computer by Local Font Access; says why it could not. */
-export async function readLocalFonts(say: (message: string) => void) {
+export async function readLocalFonts(editor?: Editor) {
   try {
     locals = await local.queryLocalFonts!()
   } catch (e) {
-    say(`Could not read the fonts on this computer: ${(e as Error).message}. Allow access to local fonts, or add them with Add font.`)
+    editor?.fail(`Could not read the fonts on this computer: ${(e as Error).message}. Allow access to local fonts, or add them with Add font.`)
     return false
   }
   heard.forEach((f) => f())
   return true
 }
 
-if (canFindFonts) navigator.permissions.query({ name: 'local-fonts' as PermissionName }).then((p) => p.state === 'granted' && readLocalFonts(() => {}), () => {})
+if (canFindFonts) navigator.permissions.query({ name: 'local-fonts' as PermissionName }).then((p) => p.state === 'granted' && readLocalFonts(), () => {})
 
 /** Adds the font `f` of this computer. */
 export async function addLocalFont(editor: Editor, f: LocalFont) {
@@ -296,14 +296,14 @@ export async function addLocalFont(editor: Editor, f: LocalFont) {
     return await keep(editor, new Uint8Array(await (await f.blob()).arrayBuffer()))
   } catch (e) {
     if (e instanceof WebAssembly.RuntimeError) throw e
-    editor.say(`Could not add ${f.fullName}: ${(e as Error).message}.`)
+    editor.fail(`Could not add ${f.fullName}: ${(e as Error).message}.`)
   }
 }
 
 /** Adds the missing fonts that this computer has, by Local Font Access. */
-export async function findFonts(editor: Editor, say: (message: string) => void) {
+export async function findFonts(editor: Editor) {
   const missing: Typeface[] = editor.snapshot.missingFonts.map((m) => m.font)
-  if (!(await readLocalFonts(say))) return
+  if (!(await readLocalFonts(editor))) return
   let found = 0
   for (const f of locals.filter((f) => missing.some((m) => m.name === f.fullName))) {
     const bytes = new Uint8Array(await (await f.blob()).arrayBuffer())
@@ -311,5 +311,5 @@ export async function findFonts(editor: Editor, say: (message: string) => void) 
     await keep(editor, bytes)
     found++
   }
-  say(`Found ${found} of ${missing.length} missing fonts on this computer.${found < missing.length ? ' Add the others with Add font.' : ''}`)
+  editor.say(`Found ${found} of ${missing.length} missing fonts on this computer.${found < missing.length ? ' Add the others with Add font.' : ''}`)
 }

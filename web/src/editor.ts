@@ -93,6 +93,8 @@ export class Editor {
   dirty = false
   /** The message in the status bar. */
   status: ReactNode = ''
+  /** The status tells that something went wrong. */
+  statusError = false
   /** A button after the status, like Undo after a deletion. */
   statusAction: { label: string; run: () => void } | null = null
   /** The engine trapped; nothing is saved any more. */
@@ -234,16 +236,19 @@ export class Editor {
       return out
     } catch (e) {
       if (e instanceof WebAssembly.RuntimeError) throw e
-      this.say((e as Error).message)
+      this.fail((e as Error).message)
       return []
     }
   }
 
-  say = (status: ReactNode, action?: Editor['statusAction']) => {
+  say = (status: ReactNode, action?: Editor['statusAction'], error = false) => {
     this.status = status
+    this.statusError = error
     this.statusAction = action ?? null
     this.emit()
   }
+
+  fail = (status: ReactNode) => this.say(status, null, true)
 
   /** Opens an undo group that lasts until `endGroup`; groups opened inside it join it. */
   beginGroup() {
@@ -454,7 +459,7 @@ export class Editor {
     const ids = this.snapshot.pages.map((p) => p.id)
     del = del.filter((id) => ids.includes(id))
     if (!del.length) return
-    if (del.length >= ids.length) return this.say('A document keeps at least 1 page')
+    if (del.length >= ids.length) return this.fail('A document keeps at least 1 page')
     const numbers = del.map((id) => ids.indexOf(id) + 1)
     const next = ids.find((id, i) => !del.includes(id) && i >= Math.min(...numbers) - 1) ?? ids.findLast((id) => !del.includes(id))!
     this.batch(() => {

@@ -27,7 +27,7 @@ const EXAMPLES = [
   ['Sample', 'A5, 1 page with shapes and text', null, 'Untitled.satz'],
 ] as const
 
-export function Start({ editor, say, onClose }: { editor: Editor; say: (m: string) => void; onClose: () => void }) {
+export function Start({ editor, onClose }: { editor: Editor; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null)
   const [format, setFormat] = useState('A5')
   const [custom, setCustom] = useState([148 * MM, 210 * MM])
@@ -53,7 +53,7 @@ export function Start({ editor, say, onClose }: { editor: Editor; say: (m: strin
         editor.load(new Uint8Array(await r.arrayBuffer()), { name, handle: null })
       } else load(Engine.sample())
     } catch (e) {
-      return say(`Could not open ${name}: ${(e as Error).message}. Create a new document instead.`)
+      return editor.fail(`Could not open ${name}: ${(e as Error).message}. Create a new document instead.`)
     }
     onClose()
   }
@@ -64,7 +64,7 @@ export function Start({ editor, say, onClose }: { editor: Editor; say: (m: strin
   const create = async () => {
     if (!(await discard(editor))) return
     load(Engine.blank(w, h, pages, pages > 1 && facing))
-    say(`Created ${format}, ${plural(pages)}`)
+    editor.say(`Created ${format}, ${plural(pages)}`)
     onClose()
   }
   const pick = (i: number) => {
@@ -75,7 +75,7 @@ export function Start({ editor, say, onClose }: { editor: Editor; say: (m: strin
 
   const openFile = () => {
     onClose()
-    open(editor, say)
+    open(editor)
   }
 
   return (
