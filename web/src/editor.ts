@@ -550,6 +550,7 @@ export class Editor {
     if (pen.anchors.length < 2) this.apply({ type: 'delete', ids: [pen.id] })
     else this.apply({ type: 'setPath', id: pen.id, path: penPath(pen.anchors, closed) })
     this.endGroup()
+    this.status = ''
     this.set({ tool: 'move', selection: pen.anchors.length < 2 ? [] : [pen.id] })
   }
 
