@@ -21,7 +21,7 @@ test('selection marks', async ({ page }) => {
   await select(page, 'Blurred tile')
   await shot(page, K, '04 rectangle radius handles', 'Rectangle with radius handles', [top()], 0)
   await select(page, 'Arrow')
-  await shot(page, K, '05 line ends', 'Line with its end handles', [top()], 0)
+  await shot(page, K, '05 line ends', 'Line with its end handles', [view()], 0)
   await select(page, 'Triangle')
   await props(page).getByRole('textbox', { name: /^Rotation/ }).fill('20')
   await page.keyboard.press('Enter')

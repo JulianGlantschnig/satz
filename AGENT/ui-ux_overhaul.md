@@ -9,7 +9,7 @@ first review are in git history.
 - [x] 1. Fit image menu (12/30) ticks all 3 entries → they are actions: no ticks.
 - [x] 2. Keyboard focus (05/63) and scrubbing (05/62) draw the red invalid border → red only for invalid, focus and scrubbing in the accent.
 - [x] 3. Pen hint stays in the status after switching to the move tool (01/34, 36, 37) → clear it on tool change.
-- [ ] 4. Quick bar runs off the canvas on the right (04/05 line ends) → clamp it to the viewport.
+- [x] 4. Quick bar runs off the canvas on the right (04/05 line ends) → clamp it to the viewport (it was; the shot clipped it, now it shows the whole bar).
 - [ ] 5. Objects on the pasteboard are not drawn, only an empty box (04/14) → draw them.
 - [ ] 6. Cut-off values: `Tint 1 %`, fill bound to a variable `1 %`, `Mode Auto (Mod…`, field bound to a variable `⬡ Nun mm`, font variable editor `So | Re` → minimum widths; a bound field hides its unit.
 - [ ] 7. `Create from value` and the font variable menu centre and wrap their text (06/34, 06/39) → same menu style as all others.
