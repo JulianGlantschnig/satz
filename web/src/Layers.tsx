@@ -219,6 +219,7 @@ export function Layers({ editor }: { editor: Editor }) {
         <Icon name="layers" />
         <h2>{pages.length > 1 ? 'Layers' : `Layers · ${all.includes(page) ? `Page ${all.indexOf(page) + 1}` : page.name}`}</h2>
       </header>
+      {pages.every((p) => !p.children.length) && <p className="empty layers-empty">No layers yet</p>}
       <ul
         role="tree"
         aria-label="Layers"

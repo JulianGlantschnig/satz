@@ -992,6 +992,10 @@ input[type='checkbox']:disabled {
   color: var(--text-3);
 }
 
+.layers-empty {
+  padding: 4px 12px;
+}
+
 .tabs {
   display: flex;
   gap: 4px;

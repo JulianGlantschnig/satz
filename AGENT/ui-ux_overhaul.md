@@ -49,7 +49,7 @@ first review are in git history.
 - [x] 35. With the left panel hidden the document name disappears → name in the top bar.
 - [x] 36. Preflight shield and Export open the same panel; badge `2` red for 1 error + 1 warning → badge counts errors red, only warnings yellow.
 - [x] 37. Error status looks like info → red icon and colour.
-- [ ] 38. Empty layers panel has no empty state → `No layers yet`.
+- [x] 38. Empty layers panel has no empty state → `No layers yet`.
 - [ ] 39. Status `Created Custom, 8 pages` → `Created A5, 8 pages`.
 - [ ] 40. Settings has no theme option → `Theme` select (carried over).
 
