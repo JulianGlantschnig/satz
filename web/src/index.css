@@ -1475,6 +1475,10 @@ textarea {
   margin-left: 12px;
 }
 
+.menu-item[aria-haspopup] > svg {
+  color: var(--text-3);
+}
+
 
 .fonts {
   margin: 0;

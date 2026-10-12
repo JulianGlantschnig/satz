@@ -3,7 +3,7 @@ import { Keys, roam } from './controls'
 import { Icon } from './icons'
 import { Popover, type Anchor } from './Popover'
 
-/** A menu beside `anchor` that closes on a pick, Escape or a click elsewhere; an item with a fourth value is a radio item, a fifth its shortcut, `null` a separator; a letter moves to the next item it starts, or with `search` filters the items. */
+/** A menu beside `anchor` that closes on a pick, Escape or a click elsewhere; an item with a fourth value is a radio item, a fifth its shortcut or `›` for a submenu, `null` a separator; a letter moves to the next item it starts, or with `search` filters the items. */
 export function ContextMenu({
   anchor,
   side = 'right',
@@ -84,6 +84,7 @@ export function ContextMenu({
             type="button"
             role={checked === undefined ? 'menuitem' : 'menuitemradio'}
             aria-checked={checked}
+            aria-haspopup={keys === '›' ? 'menu' : undefined}
             className={String(label).startsWith('Delete') ? 'menu-item danger' : 'menu-item'}
             disabled={!enabled}
             autoFocus={!search && i === first}
@@ -94,7 +95,7 @@ export function ContextMenu({
           >
             {radio && <span>{checked && <Icon name="check" />}</span>}
             <span>{label}</span>
-            {keys && <Keys keys={keys} />}
+            {keys === '›' ? <Icon name="chevron" /> : keys && <Keys keys={keys} />}
           </button>
           )
         })}

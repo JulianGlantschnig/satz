@@ -163,6 +163,7 @@ test('a right click selects the layer under it and offers the actions for it', a
   await expect(rects).toHaveCount(before + 2)
   await rects.first().click({ button: 'right' })
   await expect(menu.getByRole('menuitem', { name: /Delete/ })).toBeVisible()
+  await expect(menu.getByRole('menuitem', { name: 'Transform' })).toHaveAttribute('aria-haspopup', 'menu')
   await page.keyboard.press('Escape')
   await page.getByRole('toolbar', { name: 'Tools' }).click({ button: 'right' })
   await expect(menu.getByRole('menuitem', { name: /Select all/ })).toBeVisible()
