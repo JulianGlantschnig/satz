@@ -116,7 +116,7 @@ export function Preflight({ editor, exporting, onExport }: { editor: Editor; exp
       <input type="checkbox" checked={(inks.on & (1 << bit)) !== 0} onChange={() => set({ on: inks.on ^ (1 << bit) })} />
       <i className="ink" />
       <span>{name}</span>
-      <span className="plate-max">{previewed ? `max ${Math.round(previewed.max[bit] ?? 0)} %` : '…'}</span>
+      <span className="plate-max">{previewed ? `max ${Math.round(previewed.max[bit] ?? 0)} %` : '–'}</span>
     </label>
   )
   const highest = previewed?.highest ?? 0
@@ -183,7 +183,7 @@ export function Preflight({ editor, exporting, onExport }: { editor: Editor; exp
             <div className="kv">
               <span>Highest</span>
               <strong className={highest > limit + 0.5 ? 'bad' : ''}>
-                {previewed ? `${Math.round(highest)} %` : '…'}
+                {previewed ? `${Math.round(highest)} %` : '–'}
               </strong>
             </div>
             <div className="kv">

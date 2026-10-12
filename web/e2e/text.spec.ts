@@ -153,7 +153,7 @@ test('insets, columns, vertical alignment, baseline grid, max lines and trim are
   const frame = panel.getByRole('region', { name: 'Text frame' })
   const field = (name: string) => frame.getByRole('textbox', { name })
   await expect(field('Columns')).toHaveValue('1')
-  await expect(field('Baseline grid in pt')).toHaveAttribute('placeholder', 'Off')
+  await expect(field('Baseline grid in pt')).toHaveAttribute('placeholder', '–')
   await frame.getByRole('button', { name: 'Inset of each side' }).click()
   for (const [name, value] of [['Top inset in mm', '2'], ['Columns', '2'], ['Gutter in mm', '5'], ['Baseline grid in pt', '18'], ['Max lines', '3']]) {
     await field(name).fill(value)

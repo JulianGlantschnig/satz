@@ -550,10 +550,10 @@ export function TextFrameSection({ editor, node, set }: { editor: Editor; node: 
       <div className="grid">
         <Field label="Columns" title="Columns" unit="" int min={1} max={20} reset={1} value={node.columns} onCommit={(columns) => set({ columns })} />
         <Field label="Gutter" title="Gutter" unit="length" value={node.gutter} onCommit={(gutter) => set({ gutter })} />
-        <Field label="Baseline" title="Baseline grid" unit="pt" zero="Off" reset={0} value={node.baselineGrid} onCommit={(baselineGrid) => set({ baselineGrid })} />
+        <Field label="Baseline" title="Baseline grid" unit="pt" zero="–" reset={0} value={node.baselineGrid} onCommit={(baselineGrid) => set({ baselineGrid })} />
         <Field label="Start" title="Baseline grid start" unit="pt" reset={0} value={node.baselineStart} onCommit={(baselineStart) => set({ baselineStart })} />
-        <Field label="Min" title="Min height" unit="length" zero="Off" reset={0} disabled={resizing !== 'autoHeight'} value={node.minHeight} onCommit={(minHeight) => set({ minHeight })} />
-        <Field label="Lines" title="Max lines" unit="" int max={1000} zero="Off" reset={0} value={node.maxLines} onCommit={(maxLines) => set({ maxLines })} />
+        <Field label="Min" title="Min height" unit="length" zero="–" reset={0} disabled={resizing !== 'autoHeight'} value={node.minHeight} onCommit={(minHeight) => set({ minHeight })} />
+        <Field label="Lines" title="Max lines" unit="" int max={1000} zero="–" reset={0} value={node.maxLines} onCommit={(maxLines) => set({ maxLines })} />
         <Segmented label="Vertical align" prefix="Align" value={node.verticalAlign} options={VERTICAL} onChange={(verticalAlign) => set({ verticalAlign })} />
         <Check label="Trim to cap height" value={node.trim} set={(trim) => set({ trim })} />
       </div>

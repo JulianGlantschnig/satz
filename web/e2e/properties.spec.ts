@@ -92,7 +92,7 @@ test('properties the selected layers share are edited together', async ({ page }
   await panel.getByRole('textbox', { name: 'Opacity in %', exact: true }).fill('50')
   await panel.getByRole('textbox', { name: 'Opacity in %', exact: true }).press('Enter')
   const fill = panel.getByRole('region', { name: 'Fill' })
-  await expect(fill).toContainText('Mixed — + replaces')
+  await expect(fill).toContainText('Mixed · + replaces all')
   await fill.getByRole('button', { name: 'Add fill' }).click()
   await expect(fill.getByRole('button', { name: 'Fill color' })).toHaveCount(1)
   for (const name of ['Sun', 'Triangle']) {
