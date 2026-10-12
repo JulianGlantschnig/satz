@@ -775,6 +775,11 @@ textarea {
   color: var(--text-3);
 }
 
+.override-note {
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
 .row > .field,
 .row > .select,
 .row > .specimen {

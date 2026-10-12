@@ -152,6 +152,14 @@ export function Properties({
         {one ? <KindIcon node={one} /> : <Icon name={nodes.length ? 'group' : isPage ? 'doc' : 'master'} />}
         <h2>{one && cropping === one.id ? 'Crop' : one ? (one.kind === 'text' ? 'Text frame' : one.name) : nodes.length ? `${nodes.length} layers` : isPage ? 'Document' : page.name}</h2>
         {one && cropping === one.id && <button type="button" className="button" onClick={() => editor.set({ cropping: null })}>Done</button>}
+        {one?.overrideOf && (
+          <>
+            <span className="override-note">Overrides master</span>
+            <button type="button" className="button" aria-label="Reset to master" onClick={() => editor.apply({ type: 'resetToMaster', ids: [one.id] })}>
+              Reset
+            </button>
+          </>
+        )}
       </header>
       {box && <AlignBar editor={editor} />}
       {box && (
@@ -292,11 +300,6 @@ export function Properties({
           title="Layout"
           actions={
             <>
-              {one?.overrideOf && (
-                <button type="button" className="icon-button" aria-label="Reset to master" title="Reset to master" onClick={() => editor.apply({ type: 'resetToMaster', ids: [one.id] })}>
-                  <Icon name="reset" />
-                </button>
-              )}
               {!line && (
                 <button
                   type="button"

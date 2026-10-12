@@ -18,7 +18,7 @@ first review are in git history.
 - [x] 10. Preflight error row names only the layer (`Satz sets type in the browser. T…`) → `cause · Name` on every row, so the cause never truncates.
 - [x] 11. Screen preset: crop marks and bleed disabled but ticked → disabled means unticked.
 - [x] 12. Context menu submenu arrow sits in a keycap (11/02) → plain chevron.
-- [ ] 13. Overridden master layer (05/23) shows the document panel → select it and show `Overrides master · Reset`.
+- [x] 13. Overridden master layer (05/23) shows the document panel → select it and show `Overrides master · Reset`.
 - [ ] 14. Focus ring stays after a mouse click (`+` buttons, layer name, text style select) → `:focus-visible`.
 
 ## Consistency

@@ -45,7 +45,11 @@ test('extras master override', async ({ page }) => {
   await page.keyboard.press('PageDown')
   await rest(page)
   const c = (await page.getByLabel('Page canvas').boundingBox())!
-  await page.mouse.click(c.x + c.width * 0.3, c.y + c.height * 0.1, { modifiers: ['Control', 'Shift'] })
+  await page.keyboard.down('Control')
+  await page.keyboard.down('Shift')
+  await page.mouse.click(c.x + c.width * 0.14, c.y + c.height * 0.249)
+  await page.keyboard.up('Shift')
+  await page.keyboard.up('Control')
   await rest(page)
   await shot(page, P, '23 overridden master layer', 'A master layer overridden on a page (Reset to master)', ['right'])
   await shot(page, '04 Canvas', '71 overridden master layer', 'Master layer overridden on a page')
