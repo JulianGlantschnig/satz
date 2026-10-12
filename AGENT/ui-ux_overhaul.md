@@ -25,7 +25,7 @@ first review are in git history.
 
 - [x] 15. Spelling `colour` (swatches empty state, preflight gamut) next to `Color` → `color` everywhere.
 - [x] 16. Shortcuts as plain text (`Shift W` in the toast, `Esc` in palette and master banner, grey `Enter` in new document) → keycaps everywhere.
-- [ ] 17. 3 checkbox styles (settings native blue, new document white, panel grey) → 1 component.
+- [x] 17. 3 checkbox styles (settings native blue, new document white, panel grey) → 1 style for every checkbox.
 - [ ] 18. Selects without chevron (`No master`, `Profile sRGB`, font family and style, `Style any`) look like fields → every select has a chevron.
 - [ ] 19. Selects without prefix (master, `Body` next to bleed, line style) → prefix everywhere: `Master Body`.
 - [ ] 20. Per-side input: insets and padding use an icon toggle, stroke a checkbox with a broken grid → icon toggle everywhere, then a 2×2 grid T/R/B/L.
