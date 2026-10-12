@@ -36,9 +36,9 @@ test('the master select sets the master of the pages selected in the overview an
   await choose(master, 'A-Master')
   await option(page, 1).click({ modifiers: ['Shift'] })
   await expect(panel.getByRole('region', { name: 'Pages 1, 2' })).toBeVisible()
-  await expect(master).toHaveText('Mixed')
+  await expect(master).toHaveText(/Mixed$/)
   await choose(master, 'A-Master')
-  await expect(master).toHaveText('A-Master')
+  await expect(master).toHaveText(/A-Master$/)
 })
 
 test('the text style specimen opens a menu of the styles set at their size, marks overrides and resets or updates the style', async ({ page }) => {

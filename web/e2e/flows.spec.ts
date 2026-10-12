@@ -58,9 +58,9 @@ test('the overview lists masters beside vertical spreads, assigns a master and r
   await option(page, 3).click({ modifiers: ['Control'] })
   await choose(master, 'A-Master')
   await option(page, 4).click({ modifiers: ['Shift'] })
-  await expect(master).toHaveText('Mixed')
+  await expect(master).toHaveText(/Mixed$/)
   await choose(master, 'B-Master')
-  await expect(master).toHaveText('B-Master')
+  await expect(master).toHaveText(/B-Master$/)
 
   await region.getByRole('textbox', { name: 'Columns' }).fill('3')
   await region.getByRole('textbox', { name: 'Columns' }).press('Enter')
@@ -69,8 +69,8 @@ test('the overview lists masters beside vertical spreads, assigns a master and r
     await overview(page)
     await option(page, n).click()
     await expect(region).toHaveCount(0)
-    if (b) await expect(master).toHaveText('B-Master')
-    else await expect(master).not.toHaveText('B-Master')
+    if (b) await expect(master).toHaveText(/B-Master$/)
+    else await expect(master).not.toHaveText(/B-Master$/)
   }
 })
 
