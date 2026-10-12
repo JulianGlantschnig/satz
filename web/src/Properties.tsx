@@ -39,7 +39,7 @@ const LINE_STYLES = Object.fromEntries(
       <svg className="dash" viewBox="0 0 24 8" aria-hidden="true">
         <path d={d} />
       </svg>
-      {k[0].toUpperCase() + k.slice(1)}
+      <span className="dash-name">{k[0].toUpperCase() + k.slice(1)}</span>
     </>,
   ]),
 ) as Record<LineStyle, ReactNode>

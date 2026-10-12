@@ -727,6 +727,10 @@ textarea {
   vertical-align: middle;
 }
 
+.select .dash-name {
+  display: none;
+}
+
 .check {
   display: flex;
   align-items: center;
