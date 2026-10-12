@@ -337,11 +337,10 @@ export function Bindable({
         </>
       )}
       {open && (
-        <Popover anchor={() => ref.current!.getBoundingClientRect()} side="left" className="menu" role="listbox" aria-label={`${KINDS[kind]} variables`}>
+        <Popover anchor={() => ref.current!.getBoundingClientRect()} side="left" className={numbers.length ? 'menu' : 'menu plain'} role="listbox" aria-label={`${KINDS[kind]} variables`}>
           {numbers.length === 0 &&
             (kind === 'number' && typeof field.value === 'number' ? (
               <button type="button" className="menu-item" onClick={create}>
-                <span />
                 <span>Create from value</span>
               </button>
             ) : (
@@ -349,6 +348,7 @@ export function Bindable({
             ))}
           {numbers.map((v) => (
             <button key={v.id} type="button" role="option" aria-selected={v.id === bound} className="menu-item" onClick={() => bind(v.id)}>
+              <span>{v.id === bound && <Icon name="check" />}</span>
               <span>{v.name}</span>
             </button>
           ))}

@@ -12,7 +12,7 @@ first review are in git history.
 - [x] 4. Quick bar runs off the canvas on the right (04/05 line ends) → clamp it to the viewport (it was; the shot clipped it, now it shows the whole bar).
 - [x] 5. Objects on the pasteboard are not drawn, only an empty box (04/14) → draw them.
 - [x] 6. Cut-off values: `Tint 1 %`, fill bound to a variable `1 %`, `Mode Auto (Mod…`, field bound to a variable `⬡ Nun mm`, font variable editor `So | Re` → minimum widths; a bound field hides its unit.
-- [ ] 7. `Create from value` and the font variable menu centre and wrap their text (06/34, 06/39) → same menu style as all others.
+- [x] 7. `Create from value` and the font variable menu centre and wrap their text (06/34, 06/39) → same menu style as all others.
 - [ ] 8. Shift H is flip horizontal and auto height, Ctrl D is listed twice → one shortcut per action.
 - [ ] 9. Deleting a page gives no undo in the toast → toast with `Undo` after destructive actions.
 - [ ] 10. Preflight error row names only the layer (`Satz sets type in the browser. T…`) → `Name · cause` like warnings.
