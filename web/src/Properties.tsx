@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import { ContextMenu } from './ContextMenu'
 import { bounds, ends, MM, scopeOf, useEditor, type Editor } from './editor'
 import { Icon, KindIcon, type IconName } from './icons'
-import { FORMATS, ORIENTATIONS } from './Start'
+import { FORMATS, ORIENTATIONS, formatOf } from './Start'
 import { addFonts, canFindFonts, findFonts, pickProfile, readLocalFonts, removeFont, useLocalFonts } from './file'
 import type { Bindable as Prop, Blend, Constraint, Command, Grid, LineStyle, Node, Page, Props, Section as Numbers, Wrap } from './model'
 import { isOpen, radiusOf } from './model'
@@ -517,7 +517,6 @@ const sameOf = <T, U>(items: T[], get: (t: T) => U): U | null => {
   const values = items.map(get)
   return values.every((v) => v === values[0]) ? values[0] : null
 }
-const near = (a: number, b: number) => Math.abs(a - b) < 0.5
 
 /** Format, orientation, size, bleed and number of all pages, facing pages, color mode and raster resolution. */
 function textBelow(editor: Editor, n: Node) {
@@ -643,7 +642,7 @@ function FormatRow({ sheets, each }: { sheets: Page[]; each: (props: PageProps) 
   const h = sameOf(sheets, (p) => p.height)
   const landscape = w !== null && h !== null ? w > h : null
   const format =
-    w !== null && h !== null ? (FORMATS.find(([, a, b]) => near(Math.min(w, h), a * MM) && near(Math.max(w, h), b * MM))?.[0] ?? 'Custom') : 'Custom'
+    w !== null && h !== null ? formatOf(w, h) : 'Custom'
   const orient = (wide: boolean) => each((p) => (p.width > p.height === wide ? {} : { width: p.height, height: p.width }))
   return (
       <div className="grid">

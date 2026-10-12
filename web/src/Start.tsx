@@ -21,6 +21,10 @@ export const FORMATS: [string, number, number][] = [
   ['DL', 99, 210],
   ['Letter', 215.9, 279.4],
 ]
+const near = (a: number, b: number) => Math.abs(a - b) < 0.5
+/** The name of the format of a `w` by `h` pt page in either orientation, or Custom. */
+export const formatOf = (w: number, h: number) =>
+  FORMATS.find(([, a, b]) => near(Math.min(w, h), a * MM) && near(Math.max(w, h), b * MM))?.[0] ?? 'Custom'
 const EXAMPLES = [
   ['Satz booklet', 'A5, 8 pages, master pages', booklet, 'booklet.satz'],
   ['Poster', 'A2, 1 page, CMYK with a spot color', poster, 'poster.satz'],
@@ -64,7 +68,7 @@ export function Start({ editor, onClose }: { editor: Editor; onClose: () => void
   const create = async () => {
     if (!(await discard(editor))) return
     load(Engine.blank(w, h, pages, pages > 1 && facing))
-    editor.say(`Created ${format}, ${plural(pages)}`)
+    editor.say(`Created ${formatOf(w, h)}, ${plural(pages)}`)
     onClose()
   }
   const pick = (i: number) => {
