@@ -13,7 +13,7 @@ use zune_core::colorspace::ColorSpace;
 use zune_core::options::DecoderOptions;
 use zune_jpeg::JpegDecoder;
 
-/// A PNG or JPEG file by the hash of its bytes, its size in pixels and its colours.
+/// A PNG or JPEG file by the hash of its bytes, its size in pixels and its colors.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct ImageInfo {
     pub hash: String,

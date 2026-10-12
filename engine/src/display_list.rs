@@ -80,7 +80,7 @@ pub enum Op {
 #[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum Paint {
-    /// `color` is the screen colour, `ink` how it prints.
+    /// `color` is the screen color, `ink` how it prints.
     Solid {
         color: [f32; 4],
         #[serde(skip)]
@@ -373,7 +373,7 @@ pub fn encode(ops: &[Op]) -> Vec<u32> {
     out
 }
 
-/// `ops` with every colour replaced by `f(colour, ink, overprints)`.
+/// `ops` with every color replaced by `f(color, ink, overprints)`.
 pub fn recolor(ops: &[Op], f: &impl Fn(&[f32; 4], &Ink, bool) -> [f32; 4]) -> Vec<Op> {
     ops.iter()
         .map(|op| {

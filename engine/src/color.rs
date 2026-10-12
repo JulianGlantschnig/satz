@@ -19,9 +19,9 @@ pub enum ColorMode {
     Cmyk,
 }
 
-/// Switching the document's mode converts process colours into it.
+/// Switching the document's mode converts process colors into it.
 /// RGB is 0xRRGGBBAA; CMYK components, tint and alpha are 0..=1.
-/// The tint of a swatch only applies to spot colours; alpha multiplies what a
+/// The tint of a swatch only applies to spot colors; alpha multiplies what a
 /// swatch or variable holds.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -42,7 +42,7 @@ pub enum Color {
     },
 }
 
-/// How a colour prints: as RGB, as CMYK, or as a tint of a spot colour.
+/// How a color prints: as RGB, as CMYK, or as a tint of a spot color.
 #[derive(Debug, Clone, PartialEq, Default)]
 pub enum Ink {
     #[default]
@@ -56,7 +56,7 @@ pub enum Ink {
 }
 
 impl Ink {
-    /// The process colour this prints as; `rgba` is its screen colour.
+    /// The process color this prints as; `rgba` is its screen color.
     pub fn cmyk(&self, rgba: &[f32; 4]) -> [f32; 4] {
         match self {
             Ink::Rgb => to_cmyk([rgba[0], rgba[1], rgba[2]]),
@@ -66,7 +66,7 @@ impl Ink {
     }
 }
 
-/// A spot colour's `color` is its CMYK alternate.
+/// A spot color's `color` is its CMYK alternate.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Swatch {
     pub id: String,
@@ -82,7 +82,7 @@ impl Swatch {
             (Color::Swatch { .. } | Color::Variable { .. }, _) => {
                 Err("a swatch cannot use a swatch or variable".into())
             }
-            (Color::Rgb(_), true) => Err("a spot colour needs a CMYK alternate".into()),
+            (Color::Rgb(_), true) => Err("a spot color needs a CMYK alternate".into()),
             _ => Ok(()),
         }
     }
@@ -104,7 +104,7 @@ impl Color {
             Color::Variable { alpha, .. } => unit(alpha),
         };
         ok.then_some(())
-            .ok_or_else(|| "colour values must be in 0..=1".into())
+            .ok_or_else(|| "color values must be in 0..=1".into())
     }
 
     /// Black, white and light gray in the document's mode.
@@ -130,7 +130,7 @@ impl Color {
         }
     }
 
-    /// `self` as a process colour of `mode`, or `None` if it is one or names a
+    /// `self` as a process color of `mode`, or `None` if it is one or names a
     /// swatch or variable.
     pub fn convert(&self, mode: ColorMode) -> Option<Color> {
         match (self, mode) {
@@ -172,7 +172,7 @@ impl Color {
         }
     }
 
-    /// The colour a variable holds in the scope's modes; missing variables are transparent.
+    /// The color a variable holds in the scope's modes; missing variables are transparent.
     pub fn bind(&self, s: &Scope) -> Color {
         let Color::Variable { variable, alpha } = self else {
             return self.clone();
@@ -183,7 +183,7 @@ impl Color {
         }
     }
 
-    /// The process colour a swatch or variable stands for; missing swatches are transparent.
+    /// The process color a swatch or variable stands for; missing swatches are transparent.
     pub fn resolve(&self, s: &Scope) -> Color {
         match self.bind(s) {
             Color::Swatch {
@@ -229,7 +229,7 @@ impl Color {
         }
     }
 
-    /// Screen colour; CMYK is previewed through FOGRA51.
+    /// Screen color; CMYK is previewed through FOGRA51.
     pub fn rgba(&self, s: &Scope) -> [f32; 4] {
         match self.resolve(s) {
             Color::Rgb(c) => c.to_be_bytes().map(|v| v as f32 / 255.0),
@@ -257,7 +257,7 @@ struct Cms {
     from_srgb: Arc<TransformF32Executor>,
     separate: Arc<Transform8BitExecutor>,
     preview: Arc<Transform8BitExecutor>,
-    /// Black point compensation, as PDF viewers apply it: the darkest colour the
+    /// Black point compensation, as PDF viewers apply it: the darkest color the
     /// profile prints shows as screen black.
     lut: [[u8; 256]; 3],
     black: [f32; 3],
@@ -270,7 +270,7 @@ impl Cms {
             return Err("not a CMYK profile".into());
         }
         let srgb = ColorProfile::new_srgb();
-        let fail = |_| "the profile does not convert colours".to_string();
+        let fail = |_| "the profile does not convert colors".to_string();
         let name = match &p.description {
             Some(ProfileText::PlainString(s)) => s.clone(),
             Some(ProfileText::Localizable(l)) => {
@@ -334,7 +334,7 @@ fn cms() -> Rc<Cms> {
     CMS.with(|c| c.borrow().clone())
 }
 
-/// Checks that `icc` is a CMYK profile that converts colours.
+/// Checks that `icc` is a CMYK profile that converts colors.
 pub fn check_profile(icc: &[u8]) -> Result<(), String> {
     Cms::new(icc).map(|_| ())
 }
@@ -345,7 +345,7 @@ pub fn profile_name() -> Option<String> {
     (c.icc != FOGRA51).then(|| c.name.clone())
 }
 
-/// Makes `icc`, or FOGRA51 for `None`, the CMYK profile of the colours that follow;
+/// Makes `icc`, or FOGRA51 for `None`, the CMYK profile of the colors that follow;
 /// true when it changed.
 pub fn use_profile(icc: Option<&[u8]>) -> bool {
     let icc = icc.unwrap_or(FOGRA51);
@@ -362,7 +362,7 @@ pub fn profile() -> (Vec<u8>, String, bool) {
     (c.icc.clone(), c.name.clone(), c.icc == FOGRA51)
 }
 
-/// CMYK of the colour 0xRRGGBB; black, white and gray take their pure K.
+/// CMYK of the color 0xRRGGBB; black, white and gray take their pure K.
 pub fn separate(rgb: u32) -> [f32; 4] {
     let rgba = Color::Rgb(rgb << 8 | 0xff);
     for neutral in [Color::black, Color::white, Color::gray] {
@@ -375,7 +375,7 @@ pub fn separate(rgb: u32) -> [f32; 4] {
     to_cmyk([16, 8, 0].map(|s| (rgb >> s & 0xff) as f32 / 255.0))
 }
 
-/// Screen colour of `cmyk`, black point compensated.
+/// Screen color of `cmyk`, black point compensated.
 pub fn to_rgb(cmyk: [f32; 4]) -> [f32; 3] {
     let c = cms();
     c.compensate(c.srgb(cmyk))
@@ -401,18 +401,18 @@ fn gamma(v: f32) -> f32 {
     }
 }
 
-/// The colour `rgb` prints visibly different in the CMYK profile.
+/// The color `rgb` prints visibly different in the CMYK profile.
 pub fn out_of_gamut(rgb: [f32; 3]) -> bool {
     apart(rgb, to_rgb(to_cmyk(rgb)))
 }
 
-/// The sRGB colours `a` and `b` differ in chroma by more than 10 in CIELAB.
+/// The sRGB colors `a` and `b` differ in chroma by more than 10 in CIELAB.
 pub fn apart(a: [f32; 3], b: [f32; 3]) -> bool {
     let (a, b) = (chroma(a), chroma(b));
     (a[0] - b[0]).hypot(a[1] - b[1]) > 10.0
 }
 
-/// a* and b* of the sRGB colour `rgb` in CIELAB under D65.
+/// a* and b* of the sRGB color `rgb` in CIELAB under D65.
 fn chroma(rgb: [f32; 3]) -> [f32; 2] {
     let [r, g, b] = rgb.map(linear);
     let xyz = [
@@ -463,7 +463,7 @@ mod tests {
     }
 
     #[test]
-    fn the_darkest_print_colour_previews_as_black_and_paper_as_white() {
+    fn the_darkest_print_color_previews_as_black_and_paper_as_white() {
         let bytes = |cmyk| to_rgb(cmyk).map(|v| (v * 255.0).round());
         assert_eq!(bytes(to_cmyk([0.0; 3])), [0.0; 3]);
         assert_eq!(bytes([0.0; 4]), [255.0; 3]);
@@ -475,7 +475,7 @@ mod tests {
     }
 
     #[test]
-    fn pixels_preview_as_single_colours_do() {
+    fn pixels_preview_as_single_colors_do() {
         let cmyk: [f32; 4] = [0.1, 0.6, 0.9, 0.05];
         let rgb = preview_pixels(&cmyk.map(|v| (v * 255.0).round() as u8));
         let one = to_rgb(cmyk).map(|v| (v * 255.0).round() as i32);
@@ -486,7 +486,7 @@ mod tests {
     }
 
     #[test]
-    fn pixels_separate_as_single_colours_do() {
+    fn pixels_separate_as_single_colors_do() {
         let cmyk = separate_pixels(&[255, 0, 0, 255, 0, 0, 0, 0]);
         let red = separate(0xff0000).map(|v| (v * 255.0).round() as i32);
         assert!(

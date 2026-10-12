@@ -254,7 +254,7 @@ test('draw shapes and a closed pen path, then export them', async ({ page }) => 
   await expectCanvasMatchesPdf(page)
 })
 
-test('a cmyk document exports cmyk and spot colours and matches the canvas', async ({ page }) => {
+test('a cmyk document exports cmyk and spot colors and matches the canvas', async ({ page }) => {
   await open(page)
   const panel = page.getByRole('complementary', { name: 'Properties' })
   const rects = page.getByRole('tree', { name: 'Layers' }).getByRole('button', { name: 'Rectangle', exact: true })
@@ -341,7 +341,7 @@ test('each preset exports as its standard', async ({ page }) => {
   expect(trace(x1a)).toContain('colorspace="DeviceCMYK"')
 })
 
-test('an auto layout frame with a colour variable in a second mode matches the canvas', async ({ page }) => {
+test('an auto layout frame with a color variable in a second mode matches the canvas', async ({ page }) => {
   await open(page)
   const panel = page.getByRole('complementary', { name: 'Properties' })
   const layers = page.getByRole('tree', { name: 'Layers' })

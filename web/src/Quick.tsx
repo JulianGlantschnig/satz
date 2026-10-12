@@ -31,7 +31,7 @@ export function Quick({ editor }: { editor: Editor }) {
   const spans = one?.kind === 'text' ? (snapshot.stories[one.story]?.spans ?? []) : []
   const align = sameOf(spans, (a) => a.textAlign)
   const format = (p: TextProps) => editor.apply({ type: 'format', id: one!.id, range: null, ...p })
-  /** The colour of the top paint, or a value no colour equals if that is no solid colour. */
+  /** The color of the top paint, or a value no color equals if that is no solid color. */
   const current = (paint: Paint) => {
     const p = nodes[0][paint].findLast((f) => f.visible)
     return p ? (p.type === 'solid' ? p.color : p.type) : null

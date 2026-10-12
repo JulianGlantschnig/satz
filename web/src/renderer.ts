@@ -17,7 +17,7 @@ export type View = { x: number; y: number; zoom: number }
 export type Box = { x: number; y: number; w: number; h: number; rotation?: number }
 type Line = [{ x: number; y: number }, { x: number; y: number }]
 export type Overlay = {
-  /** The colour of the selection chrome, the theme's accent. */
+  /** The color of the selection chrome, the theme's accent. */
   accent: string
   /** Layers beyond the bleed are drawn too. */
   pasteboard?: boolean
@@ -86,7 +86,7 @@ const BLENDS = [
   'SrcOver', 'Multiply', 'Screen', 'Overlay', 'Darken', 'Lighten', 'ColorDodge', 'ColorBurn',
   'HardLight', 'SoftLight', 'Difference', 'Exclusion', 'Hue', 'Saturation', 'Color', 'Luminosity',
 ] as const
-/** Shows the inverted C, M and Y plate `cmy` and K plate `k` as their inks print on paper, through the screen colours `lut` of a grid of `n` steps per ink; `on` keeps or drops each ink. */
+/** Shows the inverted C, M and Y plate `cmy` and K plate `k` as their inks print on paper, through the screen colors `lut` of a grid of `n` steps per ink; `on` keeps or drops each ink. */
 const INKS = `
 uniform shader cmy;
 uniform shader k;
@@ -143,7 +143,7 @@ export class Renderer {
   /** Item pictures by item id, and pictures of layers with shadows by layer hash, for the page and for its C, M and Y and its K plate. */
   private caches = [0, 1, 2].map(() => ({ pictures: new Map(), layers: new Map() }) as { pictures: Cache; layers: Cache })
   private cache = this.caches[0]
-  /** The plates, the shader that shows them and its screen colours, made on first use. */
+  /** The plates, the shader that shows them and its screen colors, made on first use. */
   private plates: Surface[] = []
   private inksEffect?: RuntimeEffect
   private lut?: Image

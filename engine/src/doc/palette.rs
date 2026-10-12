@@ -1,6 +1,6 @@
 use super::*;
 
-/// Replaces the colours in `v` that `f` maps to another colour.
+/// Replaces the colors in `v` that `f` maps to another color.
 pub(super) fn map_colors(v: &mut serde_json::Value, f: &impl Fn(&Color) -> Option<Color>) -> bool {
     match v {
         serde_json::Value::Object(o) => o.iter_mut().fold(false, |d, (k, v)| {
@@ -113,7 +113,7 @@ impl Doc {
         Ok(())
     }
 
-    /// Replaces the colours of every node that `f` maps to another colour.
+    /// Replaces the colors of every node that `f` maps to another color.
     pub(super) fn recolor(&self, f: impl Fn(&Color, &Scope) -> Option<Color>) -> Res<()> {
         let palette = self.palette();
         self.each(|id, modes| {
@@ -160,7 +160,7 @@ impl Doc {
         })
     }
 
-    /// Turns every process colour into `mode`; spot colours stay CMYK.
+    /// Turns every process color into `mode`; spot colors stay CMYK.
     pub(super) fn convert(&self, mode: ColorMode) -> Res<()> {
         self.recolor(|c, _| c.convert(mode))?;
         for name in ["swatches", "variables", "textStyles"] {
@@ -583,7 +583,7 @@ mod tests {
     }
 
     #[test]
-    fn switching_to_cmyk_converts_every_process_colour_but_spots_and_undo_restores_them() {
+    fn switching_to_cmyk_converts_every_process_color_but_spots_and_undo_restores_them() {
         let mut d = Doc::sample();
         assert_eq!(d.snapshot().color_mode, ColorMode::Rgb);
         let t = text(&mut d, "Hi there");
@@ -649,7 +649,7 @@ mod tests {
     }
 
     #[test]
-    fn cmyk_colours_render_through_the_fogra51_preview() {
+    fn cmyk_colors_render_through_the_fogra51_preview() {
         let (mut d, p) = empty();
         let r = create(&mut d, &p, NewKind::Rect, [0.0; 4]);
         let cyan = Color::Cmyk {
@@ -812,7 +812,7 @@ mod tests {
     }
 
     #[test]
-    fn colours_out_of_range_are_rejected() {
+    fn colors_out_of_range_are_rejected() {
         let (mut d, p) = empty();
         let r = create(&mut d, &p, NewKind::Rect, [0.0; 4]);
         let fill = |c| Props {
@@ -832,7 +832,7 @@ mod tests {
     }
 
     #[test]
-    fn a_fill_bound_to_a_colour_variable_takes_the_mode_of_its_frame_or_page() {
+    fn a_fill_bound_to_a_color_variable_takes_the_mode_of_its_frame_or_page() {
         let (mut d, p) = empty();
         let (c, light) = collection(&mut d, "Theme");
         let dark = d
@@ -871,7 +871,7 @@ mod tests {
     }
 
     #[test]
-    fn a_range_bound_to_a_colour_variable_takes_the_mode_of_the_page_it_shows_on() {
+    fn a_range_bound_to_a_color_variable_takes_the_mode_of_the_page_it_shows_on() {
         let (mut d, p1) = empty();
         let p2 = add_page(&mut d, None);
         let (c, _) = collection(&mut d, "Theme");

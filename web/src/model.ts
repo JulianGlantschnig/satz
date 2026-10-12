@@ -229,7 +229,7 @@ export type Section = { start: number; style: 'arabic' | 'upperRoman' | 'lowerRo
 /** `count` columns or rows between margins and gutters, or square cells of `size`, in pt. */
 export type Grid = { kind: 'columns' | 'rows' | 'grid'; count: number; gutter: number; margin: number; size: number }
 
-/** A spot colour's `color` is its CMYK alternate. */
+/** A spot color's `color` is its CMYK alternate. */
 export type Swatch = { id: string; name: string; color: Color; spot: boolean }
 
 /** Chosen mode per collection; collections not listed use their first mode. */
@@ -288,7 +288,7 @@ export type Attrs = {
   tabs: Tab[]
   /** A bullet, or a number counting on from the paragraph before, hung in front. */
   list: 'none' | 'bullet' | 'number'
-  /** The colour behind the paragraph across its column. */
+  /** The color behind the paragraph across its column. */
   shading: Color | null
 }
 /** A tab stop `at` pt from the column's left edge, with a leader repeated over the gap. */
@@ -361,7 +361,7 @@ export type Snapshot = Palette & {
   fonts: Typeface[]
   /** Fonts text is set in that are not there, with the stories that use them by their first frame. */
   missingFonts: { font: Typeface; stories: string[] }[]
-  /** The colours of each image by its hash. */
+  /** The colors of each image by its hash. */
   images: Record<string, 'Gray' | 'RGB' | 'CMYK'>
   preflight: Issue[]
   canUndo: boolean

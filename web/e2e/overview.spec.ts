@@ -6,7 +6,7 @@ test('dot opens the page overview on the current page with drawn thumbnails kept
   const region = page.getByRole('region', { name: 'Page overview' })
   await page.keyboard.press('.')
   await expect(option(page, 1)).toHaveAttribute('aria-selected', 'true')
-  const colours = () =>
+  const colors = () =>
     option(page, 1)
       .locator('canvas')
       .evaluate((c: HTMLCanvasElement) => {
@@ -17,11 +17,11 @@ test('dot opens the page overview on the current page with drawn thumbnails kept
         for (let i = 0; i < data.length; i += 4) seen.add((data[i] << 16) | (data[i + 1] << 8) | data[i + 2])
         return seen.size
       })
-  await expect.poll(colours).toBeGreaterThan(3)
+  await expect.poll(colors).toBeGreaterThan(3)
   await page.keyboard.press('.')
   await expect(region).toHaveCount(0)
   await page.keyboard.press('.')
-  expect(await colours()).toBeGreaterThan(3)
+  expect(await colors()).toBeGreaterThan(3)
   await page.keyboard.press('Escape')
   await expect(region).toHaveCount(0)
 })

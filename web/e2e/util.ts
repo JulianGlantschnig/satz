@@ -77,7 +77,7 @@ export async function autosaved(page: Page, dirty = true) {
   await expect.poll(stored).toBe(true)
 }
 
-/** A PNG file `name` of `width` × `height` pixels coloured `rgb(x, y)`. */
+/** A PNG file `name` of `width` × `height` pixels colored `rgb(x, y)`. */
 export function png(name: string, width: number, height: number, rgb: (x: number, y: number) => number[]) {
   const out = new PNG({ width, height })
   for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) out.data.set([...rgb(x, y), 255], (y * width + x) * 4)
@@ -140,7 +140,7 @@ export async function frameOnNewPage(page: Page, box: number[]) {
   await drag(page, await screen(page, box[0], box[1]), await screen(page, box[2], box[3]))
 }
 
-/** Whether the colour `p` is within 24 of `q` in each channel. */
+/** Whether the color `p` is within 24 of `q` in each channel. */
 export const near = ([r, g, b]: number[], [R, G, B]: number[]) => Math.max(Math.abs(r - R), Math.abs(g - G), Math.abs(b - B)) <= 24
 
 /** The page overview, opened by its button in the top bar if it is closed. */

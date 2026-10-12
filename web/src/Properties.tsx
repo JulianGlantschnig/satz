@@ -519,7 +519,7 @@ const sameOf = <T, U>(items: T[], get: (t: T) => U): U | null => {
 }
 const near = (a: number, b: number) => Math.abs(a - b) < 0.5
 
-/** Format, orientation, size, bleed and number of all pages, facing pages, colour mode and raster resolution. */
+/** Format, orientation, size, bleed and number of all pages, facing pages, color mode and raster resolution. */
 function textBelow(editor: Editor, n: Node) {
   const page = editor.nodes.get(n.id)?.page
   for (const [id, e] of editor.nodes) {

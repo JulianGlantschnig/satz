@@ -31,7 +31,7 @@ pub struct Snapshot {
     /// The fonts text can be set in, the bundled one first.
     pub fonts: Vec<Typeface>,
     pub missing_fonts: Vec<MissingFont>,
-    /// The colours of each image by its hash.
+    /// The colors of each image by its hash.
     pub images: BTreeMap<String, image::Space>,
     pub preflight: Vec<Issue>,
     pub can_undo: bool,
@@ -65,15 +65,15 @@ pub enum Problem {
     },
     /// Reaches the trim edge but not the edge of the bleed.
     ShortOfBleed,
-    /// Is coloured in RGB in a CMYK document.
+    /// Is colored in RGB in a CMYK document.
     Rgb,
     /// Is filled with an image at fewer pixels per inch than print needs.
     LowPpi {
         ppi: f64,
     },
-    /// Has an RGB colour that prints visibly different in a CMYK document.
+    /// Has an RGB color that prints visibly different in a CMYK document.
     Gamut,
-    /// Has a colour whose inks add up to `ink` %, above the document's limit.
+    /// Has a color whose inks add up to `ink` %, above the document's limit.
     Ink {
         ink: f64,
     },
@@ -1842,7 +1842,7 @@ mod tests {
     }
 
     #[test]
-    fn preflight_reports_colours_out_of_gamut_ink_over_the_limit_and_layers_near_the_trim_where_they_show()
+    fn preflight_reports_colors_out_of_gamut_ink_over_the_limit_and_layers_near_the_trim_where_they_show()
      {
         let (mut d, p) = empty();
         facing(&mut d, false);
@@ -1892,7 +1892,7 @@ mod tests {
     }
 
     #[test]
-    fn pages_rasterize_the_coverage_of_each_ink_and_the_colours_out_of_gamut() {
+    fn pages_rasterize_the_coverage_of_each_ink_and_the_colors_out_of_gamut() {
         let (mut d, p) = empty();
         let Page {
             width,
@@ -1975,7 +1975,7 @@ mod tests {
     }
 
     #[test]
-    fn the_plates_show_rgb_colours_as_they_print() {
+    fn the_plates_show_rgb_colors_as_they_print() {
         let (mut d, p) = empty();
         let red = create(&mut d, &p, NewKind::Rect, [0.0, 0.0, 72.0, 72.0]);
         set(

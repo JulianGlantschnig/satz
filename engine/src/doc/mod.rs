@@ -320,7 +320,7 @@ pub enum Command {
         color: Option<Color>,
         spot: Option<bool>,
     },
-    /// Removes a swatch; what uses it keeps the colour it stood for.
+    /// Removes a swatch; what uses it keeps the color it stood for.
     DeleteSwatch {
         id: String,
     },
@@ -3226,14 +3226,14 @@ mod tests {
 
     /// The M1 booklet: 8 facing A5 pages on a master spread with a page number at the
     /// outer foot of each side, one story of 41 k characters threaded through a frame
-    /// on every page, coloured by a variable that each page shows in a mode of its own.
+    /// on every page, colored by a variable that each page shows in a mode of its own.
     pub(super) struct Booklet {
         d: Doc,
         pages: Vec<String>,
         master: String,
         frames: Vec<String>,
         story: String,
-        /// The story's colour on each page.
+        /// The story's color on each page.
         inks: Vec<[f32; 4]>,
     }
 
@@ -4619,7 +4619,7 @@ mod tests {
     }
 
     #[test]
-    fn each_booklet_page_colours_the_story_in_its_own_mode() {
+    fn each_booklet_page_colors_the_story_in_its_own_mode() {
         let b = booklet();
         for (p, ink) in b.pages.iter().zip(&b.inks) {
             let colors: Vec<[f32; 4]> =

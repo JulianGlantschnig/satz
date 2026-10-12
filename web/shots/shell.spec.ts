@@ -112,7 +112,7 @@ test('booklet', async ({ page }) => {
 
 test('poster', async ({ page }) => {
   await example(page, 'poster.satz')
-  await shot(page, A, '22 poster example', 'Poster example (A2, CMYK, spot colour)')
+  await shot(page, A, '22 poster example', 'Poster example (A2, CMYK, spot color)')
 })
 
 test('start dialog options', async ({ page }) => {

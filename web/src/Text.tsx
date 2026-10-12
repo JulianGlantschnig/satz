@@ -570,7 +570,7 @@ export function TextFrameSection({ editor, node, set }: { editor: Editor; node: 
   )
 }
 
-/** A check that turns a colour on or off, and the colour's picker while it is on; `undefined` is mixed. */
+/** A check that turns a color on or off, and the color's picker while it is on; `undefined` is mixed. */
 function ColorCheck({ editor, node, label, color, set, children }: { editor: Editor; node: TextNode; label: string; color: Color | null | undefined; set: (c: Color | null) => void; children?: ReactNode }) {
   const snapshot = useEditor(editor, (e) => e.snapshot)
   return (

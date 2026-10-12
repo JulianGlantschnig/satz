@@ -280,7 +280,7 @@ impl Blend {
     }
 }
 
-/// The paint of a colour or gradient fill.
+/// The paint of a color or gradient fill.
 fn paint(f: &Fill, frame: [f32; 4], s: &Scope, overprint: bool) -> Option<Paint> {
     let transform = f.place(frame);
     let stops = f
@@ -312,7 +312,7 @@ fn paint(f: &Fill, frame: [f32; 4], s: &Scope, overprint: bool) -> Option<Paint>
     })
 }
 
-/// The paints of the visible colour and gradient fills among `fills`.
+/// The paints of the visible color and gradient fills among `fills`.
 pub fn paints<'a>(
     fills: &'a [Fill],
     frame: [f32; 4],

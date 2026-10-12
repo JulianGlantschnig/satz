@@ -139,7 +139,7 @@ impl Engine {
         cmy.chain(k).collect()
     }
 
-    /// Screen colours of CMYK on a grid of 17 steps per ink as RGBA pixels, C across
+    /// Screen colors of CMYK on a grid of 17 steps per ink as RGBA pixels, C across
     /// and Y down within a tile, M across and K down between tiles.
     pub fn lut(&self) -> Vec<u8> {
         const N: usize = 17;
@@ -359,20 +359,20 @@ pub fn prefix(name: &str) -> String {
     doc::prefix(name)
 }
 
-/// Screen preview of a CMYK colour as 0xRRGGBB.
+/// Screen preview of a CMYK color as 0xRRGGBB.
 #[wasm_bindgen]
 pub fn preview(c: f32, m: f32, y: f32, k: f32) -> u32 {
     let [r, g, b] = color::to_rgb([c, m, y, k]).map(|v| (v * 255.0).round() as u32);
     r << 16 | g << 8 | b
 }
 
-/// CMYK of the 0xRRGGBB colour `rgb` in the document's print condition.
+/// CMYK of the 0xRRGGBB color `rgb` in the document's print condition.
 #[wasm_bindgen(js_name = toCmyk)]
 pub fn to_cmyk(rgb: u32) -> Vec<f32> {
     color::separate(rgb).to_vec()
 }
 
-/// `"black"`, `"white"` or `"gray"` in the colour mode `mode`.
+/// `"black"`, `"white"` or `"gray"` in the color mode `mode`.
 #[wasm_bindgen]
 pub fn neutral(name: &str, mode: JsValue) -> Result<JsValue, JsError> {
     let mode = serde_wasm_bindgen::from_value(mode)?;

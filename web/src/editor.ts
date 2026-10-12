@@ -82,7 +82,7 @@ export class Editor {
   vector: { id: string; mode: 'move' | 'add' | 'delete' | 'fill'; at: At[] } | null = null
   /** The image whose handles crop it and which a drag moves inside its frame. */
   cropping: string | null = null
-  /** The plates shown (bit 0 for C to 3 for K, then the spots), and whether ink above the limit and colours out of gamut are marked. */
+  /** The plates shown (bit 0 for C to 3 for K, then the spots), and whether ink above the limit and colors out of gamut are marked. */
   inks = { on: 2 ** 31 - 1, over: true, gamut: true }
   /** The inks of the shown pages and of the document, from the worker. */
   previewed: Previewed | null = null

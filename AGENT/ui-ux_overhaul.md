@@ -23,7 +23,7 @@ first review are in git history.
 
 ## Consistency
 
-- [ ] 15. Spelling `colour` (swatches empty state, preflight gamut) next to `Color` → `color` everywhere.
+- [x] 15. Spelling `colour` (swatches empty state, preflight gamut) next to `Color` → `color` everywhere.
 - [ ] 16. Shortcuts as plain text (`Shift W` in the toast, `Esc` in palette and master banner, grey `Enter` in new document) → keycaps everywhere.
 - [ ] 17. 3 checkbox styles (settings native blue, new document white, panel grey) → 1 component.
 - [ ] 18. Selects without chevron (`No master`, `Profile sRGB`, font family and style, `Style any`) look like fields → every select has a chevron.

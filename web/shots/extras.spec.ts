@@ -15,7 +15,7 @@ test('extras sample', async ({ page }) => {
   await shot(page, T, '13 all characters, search', 'Glyphs dialog searched', [page.getByRole('dialog', { name: 'All characters' })], 8)
   await page.keyboard.press('Escape')
   await select(page, 'Rectangle')
-  await opened(page, Q, '32 quick fill color menu', 'Quick edit fill colour menu', page.locator('.quick').getByRole('button', { name: 'Fill color' }), page.getByRole('menu').last())
+  await opened(page, Q, '32 quick fill color menu', 'Quick edit fill color menu', page.locator('.quick').getByRole('button', { name: 'Fill color' }), page.getByRole('menu').last())
   await section(page, 'Fill').getByRole('button', { name: 'Hide fill' }).click()
   await rest(page)
   await shot(page, C, '50 hidden fill', 'Fill hidden with the eye', [section(page, 'Fill')], 8)

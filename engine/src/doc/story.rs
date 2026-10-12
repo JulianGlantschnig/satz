@@ -952,7 +952,7 @@ mod tests {
     }
 
     #[test]
-    fn a_range_colour_draws_its_glyphs_in_that_colour_and_the_rest_in_the_fills() {
+    fn a_range_color_draws_its_glyphs_in_that_color_and_the_rest_in_the_fills() {
         let (mut d, _) = empty();
         let t = text(&mut d, "Hi there");
         let red = TextProps {

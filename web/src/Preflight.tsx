@@ -15,7 +15,7 @@ const problem = (i: Issue, editor: Editor) =>
   : i.problem === 'overset' ? `Overset text · ${count(words(editor, i.layer), 'word')} left`
   : i.problem === 'shortOfBleed' ? 'Short of the bleed'
   : i.problem === 'lowPpi' ? `Image at ${Math.round(i.ppi)} ppi`
-  : i.problem === 'gamut' ? 'Colour outside the gamut'
+  : i.problem === 'gamut' ? 'Color outside the gamut'
   : i.problem === 'ink' ? `${Math.round(i.ink)} % ink`
   : i.problem === 'nearTrim' ? `${length(i.distance)} from the trim`
   : 'RGB color'
@@ -163,7 +163,7 @@ export function Preflight({ editor, exporting, onExport }: { editor: Editor; exp
             <p className="pf-note">Simulates print, {profile}</p>
             <label className="check">
               <input type="checkbox" checked={inks.gamut} onChange={(e) => set({ gamut: e.currentTarget.checked })} />
-              Mark colours outside the gamut
+              Mark colors outside the gamut
             </label>
           </Section>
           <Section title="Separations">
@@ -188,7 +188,7 @@ export function Preflight({ editor, exporting, onExport }: { editor: Editor; exp
             </div>
             <div className="kv">
               <span>Under pointer</span>
-              <strong title={pointerInk === null ? 'Point at a colour' : undefined}>{pointerInk === null ? '—' : `${pointerInk} %`}</strong>
+              <strong title={pointerInk === null ? 'Point at a color' : undefined}>{pointerInk === null ? '—' : `${pointerInk} %`}</strong>
             </div>
           </Section>
           </>

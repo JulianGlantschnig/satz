@@ -37,14 +37,14 @@ const INKS = ['Cyan', 'Magenta', 'Yellow', 'Black']
 
 type Props = { label: string; color: Color; mode: ColorMode; scope: Scope; onChange: (c: Color) => void }
 
-/** Colour chip with a transparency checkerboard. */
+/** Color chip with a transparency checkerboard. */
 export function Chip({ color, scope }: { color: Color; scope: Scope }) {
   return <span className="chip" style={{ '--color': css(color, scope) } as CSSProperties} />
 }
 
 export const NO_SCOPE: Scope = { swatches: [], collections: [], variables: [], modes: {} }
 
-/** A swatch colour's CMYK values in %, or RGB. */
+/** A swatch color's CMYK values in %, or RGB. */
 export const ink = (c: Color) => (typeof c === 'object' && 'cmyk' in c ? c.cmyk.map((v, i) => 'CMYK'[i] + Math.round(v * 100)).join(' ') : 'RGB')
 
 export function SwatchOption({ swatch, selected, onPick }: { swatch: Swatch; selected: boolean; onPick: () => void }) {
@@ -228,7 +228,7 @@ export function Picker({
       {tab === 'swatches' ? (
         <div role="listbox" aria-label="Swatches" className="swatch-list">
           {scope.swatches.length + colors.length === 0 && (
-            <p className="empty">No swatches or colour variables yet.</p>
+            <p className="empty">No swatches or color variables yet.</p>
           )}
           {colors.length > 0 && <h3>Variables</h3>}
           {colors.map((v) => (

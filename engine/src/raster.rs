@@ -195,7 +195,7 @@ fn means(s: [u32; 4], mean: &[u8]) -> [u8; 4] {
     ]
 }
 
-/// Replaces the colour of every pixel with `color`, keeping coverage.
+/// Replaces the color of every pixel with `color`, keeping coverage.
 pub fn tint(px: &mut Pixmap, color: [f32; 4]) {
     let by_coverage: Vec<[u8; 4]> = (0..=255)
         .map(|v| {

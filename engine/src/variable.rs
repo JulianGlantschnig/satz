@@ -37,7 +37,7 @@ pub struct Variable {
     pub values: BTreeMap<String, Value>,
 }
 
-/// What colours, bound numbers and styled text refer to.
+/// What colors, bound numbers and styled text refer to.
 #[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Palette {
@@ -138,7 +138,7 @@ mod tests {
     }
 
     #[test]
-    fn values_are_of_one_kind_when_both_are_colours_or_numbers() {
+    fn values_are_of_one_kind_when_both_are_colors_or_numbers() {
         let c = Value::Color(Color::Rgb(0xff));
         assert!(c.same_kind(&Value::Color(Color::Rgb(0))));
         assert!(!c.same_kind(&Value::Number(0.0)));

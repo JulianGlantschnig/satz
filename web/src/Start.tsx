@@ -23,7 +23,7 @@ export const FORMATS: [string, number, number][] = [
 ]
 const EXAMPLES = [
   ['Satz booklet', 'A5, 8 pages, master pages', booklet, 'booklet.satz'],
-  ['Poster', 'A2, 1 page, CMYK with a spot colour', poster, 'poster.satz'],
+  ['Poster', 'A2, 1 page, CMYK with a spot color', poster, 'poster.satz'],
   ['Sample', 'A5, 1 page with shapes and text', null, 'Untitled.satz'],
 ] as const
 

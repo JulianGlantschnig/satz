@@ -7,7 +7,7 @@ use wasm_bindgen::prelude::*;
 const OVER: [u8; 4] = [204, 47, 131, 255];
 
 /// A page as it prints at a preview resolution: the coverage of each ink per pixel,
-/// C, M, Y and K and then each spot colour, and the pixels of RGB colours that print
+/// C, M, Y and K and then each spot color, and the pixels of RGB colors that print
 /// visibly different. The pixels cover the page and its bleed.
 #[wasm_bindgen]
 pub struct Inks {
@@ -124,7 +124,7 @@ impl Inks {
         self.height
     }
 
-    /// The names of the spot colours, in the order of their plates after K.
+    /// The names of the spot colors, in the order of their plates after K.
     pub fn spots(&self) -> Vec<String> {
         self.spots.iter().map(|s| s.0.clone()).collect()
     }
@@ -144,7 +144,7 @@ impl Inks {
 
     /// RGBA pixels over the page: the plates `on` (bit 0 for C … bit 3 for K, then the
     /// spots) as they print if a spot is off, magenta where the coverage is above
-    /// `limit` % if `over`, and hatched where a colour is out of gamut if `gamut`.
+    /// `limit` % if `over`, and hatched where a color is out of gamut if `gamut`.
     pub fn image(&self, on: u32, limit: f32, over: bool, gamut: bool) -> Vec<u8> {
         let n = self.gamut.len();
         let spots = (4..self.plates.len()).all(|p| on & 1 << p != 0);

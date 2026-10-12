@@ -393,7 +393,7 @@ fn draw(s: &mut Surface, env: &Env, ops: &[Op]) {
 }
 
 /// Draws `ops` as an image, blurred by `sigma` pt, moved by `offset` and,
-/// for shadows, tinted with the shadow's colour. CMYK documents get CMYK images.
+/// for shadows, tinted with the shadow's color. CMYK documents get CMYK images.
 fn raster(
     s: &mut Surface,
     env: &Env,
@@ -514,7 +514,7 @@ fn plane(
     Some(px)
 }
 
-/// `ops` over `rect` at `ppi` in CMYK, drawn plate by plate, tinted with the colour
+/// `ops` over `rect` at `ppi` in CMYK, drawn plate by plate, tinted with the color
 /// of `shadow` and blurred by `sigma` pt. With `paper` each plate is drawn as white
 /// less its ink, so that it blends as ink does on paper.
 fn separate(
@@ -622,7 +622,7 @@ fn opacity(rgba: &[f32; 4]) -> NormalizedF32 {
     NormalizedF32::new(rgba[3].clamp(0.0, 1.0)).unwrap()
 }
 
-/// The stops' inks, or all of them as CMYK when they do not share one colour space.
+/// The stops' inks, or all of them as CMYK when they do not share one color space.
 fn inks(stops: &[ListStop]) -> Vec<Ink> {
     let shared = stops.windows(2).all(|w| match (&w[0].ink, &w[1].ink) {
         (Ink::Rgb, Ink::Rgb) | (Ink::Cmyk(_), Ink::Cmyk(_)) => true,
@@ -912,7 +912,7 @@ mod tests {
     }
 
     #[test]
-    fn spot_colours_are_separations_with_their_cmyk_alternate() {
+    fn spot_colors_are_separations_with_their_cmyk_alternate() {
         let pdf = page(vec![Paint::Solid {
             color: [0.0, 0.5, 0.8, 1.0],
             ink: Ink::Spot {
@@ -984,7 +984,7 @@ mod tests {
     }
 
     #[test]
-    fn shadows_are_rasterized_in_the_documents_colour_mode() {
+    fn shadows_are_rasterized_in_the_documents_color_mode() {
         let cmyk = image_dict(Preset::X4, ColorMode::Cmyk);
         assert!(cmyk.contains("/ColorSpace/DeviceCMYK"), "{cmyk}");
         let rgb = image_dict(Preset::Screen, ColorMode::Rgb);

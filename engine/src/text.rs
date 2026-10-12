@@ -358,7 +358,7 @@ pub struct Attrs {
     pub keep_next: bool,
     pub tabs: Vec<Tab>,
     pub list: List,
-    /// The colour behind the paragraph across its column.
+    /// The color behind the paragraph across its column.
     pub shading: Option<Color>,
 }
 

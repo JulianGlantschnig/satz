@@ -13,7 +13,7 @@ async function expectInside(page: Page, el: Locator) {
   expect(box.y + box.height).toBeLessThanOrEqual(height)
 }
 
-test('the colour picker and the shape menu stay inside the window', async ({ page }) => {
+test('the color picker and the shape menu stay inside the window', async ({ page }) => {
   await open(page)
   await page.setViewportSize({ width: 1400, height: 640 })
   await page.getByRole('tree', { name: 'Layers' }).getByRole('button', { name: 'Sun' }).click()
@@ -30,7 +30,7 @@ test('the colour picker and the shape menu stay inside the window', async ({ pag
   await expectInside(page, page.getByRole('menu', { name: 'Shape tools' }))
 })
 
-test('the colour picker follows its button when the properties panel scrolls', async ({ page }) => {
+test('the color picker follows its button when the properties panel scrolls', async ({ page }) => {
   await open(page)
   await page.setViewportSize({ width: 1400, height: 400 })
   await page.getByRole('tree', { name: 'Layers' }).getByRole('button', { name: 'Rectangle', exact: true }).last().click()
@@ -249,7 +249,7 @@ test('opacity shows whole percent', async ({ page }) => {
   await expect(opacity).toHaveValue('50')
 })
 
-test('a spot colour made from black gets k 100 as its alternate', async ({ page }) => {
+test('a spot color made from black gets k 100 as its alternate', async ({ page }) => {
   await open(page)
   await page.getByRole('button', { name: 'Add swatch' }).click()
   const editor = page.getByRole('dialog', { name: 'Edit swatch' })
@@ -295,7 +295,7 @@ test('a cmyk document takes an uploaded icc profile and goes back to fogra51', a
   await expect(profile).toHaveText(/FOGRA51$/)
 })
 
-test('save as swatch in the swatches tab adds the colour as a swatch and binds it', async ({ page }) => {
+test('save as swatch in the swatches tab adds the color as a swatch and binds it', async ({ page }) => {
   await open(page)
   const panel = page.getByRole('complementary', { name: 'Properties' })
   await page.getByRole('tree', { name: 'Layers' }).getByRole('button', { name: 'Rectangle', exact: true }).last().click()

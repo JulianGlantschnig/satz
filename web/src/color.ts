@@ -3,7 +3,7 @@ import type { Fill, Scope } from './model'
 
 export type ColorMode = 'rgb' | 'cmyk'
 /**
- * RGB is 0xRRGGBBAA; CMYK components, tint and alpha are 0..1. A swatch's tint only applies to spot colours;
+ * RGB is 0xRRGGBBAA; CMYK components, tint and alpha are 0..1. A swatch's tint only applies to spot colors;
  * alpha multiplies what a swatch or variable holds.
  */
 export type Color =
@@ -14,11 +14,11 @@ export type Color =
 export type Process = number | { cmyk: number[]; alpha: number }
 export type Hsv = [h: number, s: number, v: number]
 
-/** The process colour a swatch or variable stands for. */
+/** The process color a swatch or variable stands for. */
 export const resolve = (c: Color, scope: Scope): Process =>
   typeof c === 'object' && !('cmyk' in c) ? engineResolve(c, scope) : c
 
-/** Screen colour as 0xRRGGBB. */
+/** Screen color as 0xRRGGBB. */
 export function rgb(c: Color, scope: Scope) {
   const p = resolve(c, scope)
   return typeof p === 'number' ? p >>> 8 : preview(p.cmyk[0], p.cmyk[1], p.cmyk[2], p.cmyk[3])
