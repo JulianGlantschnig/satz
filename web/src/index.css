@@ -669,7 +669,11 @@ textarea {
   color: var(--text-3);
 }
 
-.field-step:hover {
+.field-step:disabled {
+  opacity: 0.4;
+}
+
+.field-step:hover:not(:disabled) {
   background: var(--hover);
   color: var(--text);
 }

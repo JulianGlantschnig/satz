@@ -114,7 +114,7 @@ export function Field({
         </span>
       )}
       {int && edit && (
-        <button type="button" className="field-step" tabIndex={-1} aria-label={`Decrease ${title}`} onClick={(e) => bump(-step(e, true))}>
+        <button type="button" className="field-step" tabIndex={-1} aria-label={`Decrease ${title}`} disabled={shown !== null && shown <= min} onClick={(e) => bump(-step(e, true))}>
           <Icon name="minus" />
         </button>
       )}
@@ -156,7 +156,7 @@ export function Field({
       />
       {((shown !== null && !(shown === 0 && zero)) || draft !== null) && unit && <span className={unit === '°' ? 'field-unit degrees' : 'field-unit'}>{unit}</span>}
       {int && edit && (
-        <button type="button" className="field-step" tabIndex={-1} aria-label={`Increase ${title}`} onClick={(e) => bump(step(e, true))}>
+        <button type="button" className="field-step" tabIndex={-1} aria-label={`Increase ${title}`} disabled={shown !== null && shown >= max} onClick={(e) => bump(step(e, true))}>
           <Icon name="plus" />
         </button>
       )}
