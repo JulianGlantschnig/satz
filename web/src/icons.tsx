@@ -253,6 +253,7 @@ const ICONS = {
     </>
   ),
   sides: <path d="M5 2.5h6M13.5 5v6M5 13.5h6M2.5 5v6" />,
+  angle: <path d="M13 13H3l7.5-9.5M7.5 13a4.5 4.5 0 0 0-1.7-3.5" />,
   radius: <path d="M3 13V8a5 5 0 0 1 5-5h5" />,
   stroke: (
     <>

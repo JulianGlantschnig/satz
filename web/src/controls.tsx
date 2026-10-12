@@ -154,7 +154,7 @@ export function Field({
           }
         }}
       />
-      {((shown !== null && !(shown === 0 && zero)) || draft !== null) && unit && <span className="field-unit">{unit}</span>}
+      {((shown !== null && !(shown === 0 && zero)) || draft !== null) && unit && <span className={unit === '°' ? 'field-unit degrees' : 'field-unit'}>{unit}</span>}
       {int && edit && (
         <button type="button" className="field-step" tabIndex={-1} aria-label={`Increase ${title}`} onClick={(e) => bump(step(e, true))}>
           <Icon name="plus" />

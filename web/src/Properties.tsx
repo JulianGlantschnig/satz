@@ -321,7 +321,7 @@ export function Properties({
             {line ? (
               <>
                 <Field label="L" title="Length" value={length!} unit="length" onCommit={(v) => setLine(v, angle!)} />
-                <Field label="∠" title="Angle" min={-Infinity} value={angle!} unit="°" onCommit={(v) => setLine(length!, v)} />
+                <Field label={<Icon name="angle" />} title="Angle" min={-Infinity} value={angle!} unit="°" onCommit={(v) => setLine(length!, v)} />
               </>
             ) : (
               <>
@@ -330,7 +330,7 @@ export function Properties({
               </>
             )}
             {!line && nodes.every((n) => n.kind !== 'group') && (
-              <Field label="∠" title="Rotation" unit="°" min={-Infinity} reset={0} value={same((n) => n.rotation)} onCommit={(v) => set({ rotation: ((v % 360) + 360) % 360 })} />
+              <Field label={<Icon name="angle" />} title="Rotation" unit="°" min={-Infinity} reset={0} value={same((n) => n.rotation)} onCommit={(v) => set({ rotation: ((v % 360) + 360) % 360 })} />
             )}
             {row && (
               <Field

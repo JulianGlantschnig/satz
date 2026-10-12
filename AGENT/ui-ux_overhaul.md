@@ -36,7 +36,7 @@ first review are in git history.
 - [x] 25. Image layers use the rectangle icon → image icon.
 - [x] 26. Colour and number variables share the hexagon icon → colour: drop, number: `#`.
 - [x] 27. Flip V icon differs in style from Flip H → mirrored pair.
-- [ ] 28. Rotation `∠` smaller than the letter labels, `°` sits high → same size and baseline.
+- [x] 28. Rotation `∠` smaller than the letter labels, `°` sits high → same size and baseline.
 - [ ] 29. Empty and cryptic values: `Off` in number fields, `…` in separations, `Mixed — + replaces` → `–` placeholder, `Mixed · + replaces all`.
 - [ ] 30. Text wrap sits between Layout and Layer → after Effects.
 - [ ] 31. Toasts appear bottom centre and bottom right inside the export panel → one place, bottom centre, clear of the page edge.
