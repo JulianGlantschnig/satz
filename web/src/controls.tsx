@@ -84,7 +84,6 @@ export function Field({
       htmlFor={id}
       className={`field${int ? ' int' : ''}${bad ? ' bad' : ''}${scrub ? ' scrub' : ''}${disabled ? ' disabled' : ''}`}
       title={title}
-      onAnimationEnd={() => setBad(false)}
     >
       {label && (
         <span
@@ -98,6 +97,7 @@ export function Field({
             const target = e.currentTarget
             target.setPointerCapture(e.pointerId)
             setScrub(true)
+            setBad(false)
             const move = (m: PointerEvent) => put(cur + Math.round((m.clientX - x0) / 2) * step(m, int))
             target.addEventListener('pointermove', move)
             target.addEventListener(
@@ -133,7 +133,10 @@ export function Field({
           setDraft(e.currentTarget.value)
           setBad(false)
         }}
-        onFocus={(e) => e.currentTarget.select()}
+        onFocus={(e) => {
+          e.currentTarget.select()
+          setBad(false)
+        }}
         onBlur={commit}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
