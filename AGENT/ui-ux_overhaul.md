@@ -27,7 +27,7 @@ first review are in git history.
 - [x] 16. Shortcuts as plain text (`Shift W` in the toast, `Esc` in palette and master banner, grey `Enter` in new document) → keycaps everywhere.
 - [x] 17. 3 checkbox styles (settings native blue, new document white, panel grey) → 1 style for every checkbox.
 - [x] 18. Selects without chevron (`No master`, `Profile sRGB`, font family and style, `Style any`) look like fields → every select has a chevron.
-- [ ] 19. Selects without prefix (master, `Body` next to bleed, line style) → prefix everywhere: `Master Body`.
+- [x] 19. Selects without prefix (master, `Body` next to bleed, line style) → prefix everywhere: `Master Body` (line style: see 23).
 - [ ] 20. Per-side input: insets and padding use an icon toggle, stroke a checkbox with a broken grid → icon toggle everywhere, then a 2×2 grid T/R/B/L.
 - [ ] 21. The per-side toggle sits outside the 2-column grid, fields end ~28 px early → toggle in the section header like the lock.
 - [ ] 22. Opacity: solid fill has it, gradients not, the picker shows a bare number → `Opacity` label everywhere.

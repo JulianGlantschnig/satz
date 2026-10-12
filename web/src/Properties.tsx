@@ -230,8 +230,9 @@ export function Properties({
             {isPage && (
               <Select
                 label="Master"
+                prefix="Master"
                 value={master}
-                options={Object.fromEntries([['', 'No master'], ...snapshot.masters.map((m) => [m.id, m.name])])}
+                options={Object.fromEntries([['', 'None'], ...snapshot.masters.map((m) => [m.id, m.name])])}
                 onChange={(m) => editor.batch(() => targets.forEach((id) => editor.apply({ type: 'useMaster', page: id, master: m || null })))}
               />
             )}
