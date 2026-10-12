@@ -101,3 +101,16 @@ test('properties the selected layers share are edited together', async ({ page }
     await expect(fill.getByRole('button', { name: 'Fill color' })).toHaveCount(1)
   }
 })
+
+test('focus moved after a click shows no ring until a key is pressed', async ({ page }) => {
+  await open(page)
+  await page.keyboard.press('Escape')
+  const add = page.getByRole('complementary', { name: 'Properties' }).getByRole('button', { name: 'Add layout grid' })
+  await add.click()
+  await page.getByRole('menu').getByRole('menuitem').first().click()
+  await expect(add).toBeFocused()
+  await expect(add).toHaveCSS('outline-style', 'none')
+  await page.keyboard.press('Shift+Tab')
+  await page.keyboard.press('Tab')
+  await expect(add).toHaveCSS('outline-style', 'solid')
+})

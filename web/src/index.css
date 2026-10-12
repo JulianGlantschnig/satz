@@ -319,6 +319,10 @@ button {
   outline-offset: -1.5px;
 }
 
+[data-pointer] :focus-visible {
+  outline: none;
+}
+
 .primary {
   flex: none;
   height: 28px;

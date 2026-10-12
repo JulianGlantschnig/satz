@@ -11,6 +11,8 @@ import './index.css'
 if (import.meta.env.PROD) navigator.serviceWorker?.register(`${import.meta.env.BASE_URL}sw.js`)
 
 const root = createRoot(document.getElementById('root')!)
+addEventListener('pointerdown', () => document.documentElement.toggleAttribute('data-pointer', true), true)
+addEventListener('keydown', () => document.documentElement.removeAttribute('data-pointer'), true)
 
 const notice = (title: string, text: string, reload = false) =>
   root.render(
