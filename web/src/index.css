@@ -1547,7 +1547,7 @@ input[type='checkbox']:disabled {
 
 .status {
   position: fixed;
-  bottom: 24px;
+  bottom: 12px;
   left: 50%;
   z-index: 95;
   max-width: min(560px, 90vw);

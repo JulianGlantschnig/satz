@@ -91,9 +91,8 @@ export class Editor {
   file = UNTITLED
   /** The document has changed since it was last saved to or opened from its file. */
   dirty = false
-  /** The message in the status bar, shown above `statusAt` if set. */
+  /** The message in the status bar. */
   status: ReactNode = ''
-  statusAt: DOMRect | null = null
   /** A button after the status, like Undo after a deletion. */
   statusAction: { label: string; run: () => void } | null = null
   /** The engine trapped; nothing is saved any more. */
@@ -240,9 +239,8 @@ export class Editor {
     }
   }
 
-  say = (status: ReactNode, near?: Element | null, action?: Editor['statusAction']) => {
+  say = (status: ReactNode, action?: Editor['statusAction']) => {
     this.status = status
-    this.statusAt = near?.getBoundingClientRect() ?? null
     this.statusAction = action ?? null
     this.emit()
   }
@@ -463,7 +461,7 @@ export class Editor {
       for (const id of del) this.apply({ type: 'deletePage', id })
     })
     if (this.overview) this.set({ overview: [next] })
-    this.say(`Deleted ${del.length === 1 ? `page ${numbers[0]}` : `${del.length} pages`}`, null, { label: 'Undo', run: () => this.apply({ type: 'undo' }) })
+    this.say(`Deleted ${del.length === 1 ? `page ${numbers[0]}` : `${del.length} pages`}`, { label: 'Undo', run: () => this.apply({ type: 'undo' }) })
   }
 
   /** The current master, if a master is shown. */
