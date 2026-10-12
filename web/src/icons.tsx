@@ -262,6 +262,7 @@ const ICONS = {
       <path d="M3 12.5h10" strokeWidth="3" />
     </>
   ),
+  layers: <path d="M8 2 14 5 8 8 2 5zM2 8l6 3 6-3M2 11l6 3 6-3" />,
   pages: (
     <>
       <rect x="2.5" y="2.5" width="4.5" height="5" rx="1" />

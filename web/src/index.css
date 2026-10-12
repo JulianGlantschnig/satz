@@ -261,12 +261,21 @@ body,
 .panel-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
   height: 34px;
   padding: 0 6px 0 12px;
-  color: var(--text-2);
+  color: var(--text);
   flex: none;
+}
+
+.panel-header > svg {
+  flex: none;
+  color: var(--text-3);
+}
+
+.properties > .panel-header {
+  height: 40px;
+  border-bottom: 1px solid var(--border);
 }
 
 .ghost-image {
@@ -275,7 +284,7 @@ body,
   pointer-events: none;
 }
 
-.panel-header .button {
+.panel-header :is(.button, .icon-button) {
   margin-left: auto;
 }
 
@@ -807,16 +816,6 @@ input[type='checkbox']:disabled {
   display: flex;
   align-items: center;
   gap: 4px;
-}
-
-.properties .panel-header {
-  justify-content: flex-start;
-  color: var(--text);
-}
-
-.properties .panel-header svg {
-  flex: none;
-  color: var(--text-3);
 }
 
 .override-note {

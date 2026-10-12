@@ -43,7 +43,7 @@ first review are in git history.
 
 ## App shell
 
-- [ ] 32. Right panel header ~4 px above the top bar centre line, no separator below, left header without icon → same header on both sides.
+- [x] 32. Right panel header ~4 px above the top bar centre line, no separator below, left header without icon → same header on both sides.
 - [ ] 33. `Document` twice (panel header and section) → section only.
 - [ ] 34. 1-page document shows `Facing pages`; pages stepper `−` enabled at 1 → single pages when there is 1 page, `−` disabled at 1.
 - [ ] 35. With the left panel hidden the document name disappears → name in the top bar.
