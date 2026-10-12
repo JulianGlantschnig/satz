@@ -337,7 +337,7 @@ export function Picker({
                 />
               </label>
               <Field
-                label=""
+                label="Opacity"
                 title="Opacity"
                 unit="%"
                 value={alpha(process)}
