@@ -1,225 +1,115 @@
 # UI/UX overhaul
 
-From a review of all 237 screenshots of `web/shots` (`/tmp/satz-shots/<folder>/<nr>`, the same as the Figma file).
-Each item: problem → proposal. Numbers like `05/21` name folder and shot.
-Not checked: live interaction, hover states and tooltips beyond the shots, keyboard navigation; alignment was judged by eye on the 2× shots, not measured.
+From the second review of the `web/shots` screenshots (dark theme, 2026-10-12).
+Each item: problem → proposal. Numbers like `05/21` name folder and shot. Done items of the
+first review are in git history.
 
-## Priorities
+## Bugs
 
-- [x] **Unlabeled fields** (Hug/Hug, Fixed/Fixed, Left/Top, shadow X/Y, bare `%` for fill and layer opacity, auto size icons, gradient stops `0 % | 100 %`) → inline prefix like `W`/`H`/`Limit`: `W Hug`, `H Hug`, `Opacity 100 %`, `Pos 0 % · Alpha 100 %`.
-- [x] **`−` means 4 things** in the quick bar (no stroke, add, remove, unclear) → empty stroke slot shows a struck-through stroke swatch, `+` adds, removing only in the panel.
-- [x] **Dropdowns are always ~425 px wide**; in the right column, and in the quick fill and fit menus, they open shifted → min width = trigger width, aligned to the trigger edge.
-- [x] **Stroke block layout differs per type** (rectangle, polygon/star, 2 shapes, 5 layers) → 1 fixed 2-column grid: `Weight | Style`, `Align | Joins`, `Caps | Start/End`, `Overprint`.
-- [x] **Text sections come after Fill, Stroke, Effects** → for text frames put Text and Text frame right after Layout.
-- [x] **Layers: selection and hover share one grey** → selection in the accent colour.
-- [x] **No feedback for overset, threads, overrides** → overset badge `+42 words`, connection line between threaded frames, loaded cursor while threading, override marker plus `Reset to master`.
-- [x] **New document is silently CMYK** → fields `Colour RGB/CMYK` and `Bleed 3 mm` under the formats.
-- [x] **Colour pickers without swatches** (shadow, gradient stop, quick fill with only None/Black/White) → one picker everywhere with Swatches | Custom | Variables.
-- [x] **Magenta is overloaded** (snapping, distances, master banner, master letters) → magenta only for measuring/snapping; masters get their own colour and `B · Body`.
-- [x] **Rectangle icon is an empty square** and looks like an unchecked checkbox (layers, properties header) → filled square or square with corner handles.
-- [x] **Shortcut notation varies** (`Ctrl+Shift+E` vs `Ctrl Shift E`, `⌘` before every palette command) → 1 keycap component everywhere, per platform.
+- [ ] 1. Fit image menu (12/30) ticks all 3 entries → they are actions: no ticks.
+- [ ] 2. Keyboard focus (05/63) and scrubbing (05/62) draw the red invalid border → red only for invalid, focus and scrubbing in the accent.
+- [ ] 3. Pen hint stays in the status after switching to the move tool (01/34, 36, 37) → clear it on tool change.
+- [ ] 4. Quick bar runs off the canvas on the right (04/05 line ends) → clamp it to the viewport.
+- [ ] 5. Objects on the pasteboard are not drawn, only an empty box (04/14) → draw them.
+- [ ] 6. Cut-off values: `Tint 1 %`, fill bound to a variable `1 %`, `Mode Auto (Mod…`, field bound to a variable `⬡ Nun mm`, font variable editor `So | Re` → minimum widths; a bound field hides its unit.
+- [ ] 7. `Create from value` and the font variable menu centre and wrap their text (06/34, 06/39) → same menu style as all others.
+- [ ] 8. Shift H is flip horizontal and auto height, Ctrl D is listed twice → one shortcut per action.
+- [ ] 9. Deleting a page gives no undo in the toast → toast with `Undo` after destructive actions.
+- [ ] 10. Preflight error row names only the layer (`Satz sets type in the browser. T…`) → `Name · cause` like warnings.
+- [ ] 11. Screen preset: crop marks and bleed disabled but ticked → disabled means unticked.
+- [ ] 12. Context menu submenu arrow sits in a keycap (11/02) → plain chevron.
+- [ ] 13. Overridden master layer (05/23) shows the document panel → select it and show `Overrides master · Reset`.
+- [ ] 14. Focus ring stays after a mouse click (`+` buttons, layer name, text style select) → `:focus-visible`.
+
+## Consistency
+
+- [ ] 15. Spelling `colour` (swatches empty state, preflight gamut) next to `Color` → `color` everywhere.
+- [ ] 16. Shortcuts as plain text (`Shift W` in the toast, `Esc` in palette and master banner, grey `Enter` in new document) → keycaps everywhere.
+- [ ] 17. 3 checkbox styles (settings native blue, new document white, panel grey) → 1 component.
+- [ ] 18. Selects without chevron (`No master`, `Profile sRGB`, font family and style, `Style any`) look like fields → every select has a chevron.
+- [ ] 19. Selects without prefix (master, `Body` next to bleed, line style) → prefix everywhere: `Master Body`.
+- [ ] 20. Per-side input: insets and padding use an icon toggle, stroke a checkbox with a broken grid → icon toggle everywhere, then a 2×2 grid T/R/B/L.
+- [ ] 21. The per-side toggle sits outside the 2-column grid, fields end ~28 px early → toggle in the section header like the lock.
+- [ ] 22. Opacity: solid fill has it, gradients not, the picker shows a bare number → `Opacity` label everywhere.
+- [ ] 23. Stroke has 2 selects reading `Solid` (paint and dash) → dash select shows only the line preview.
+- [ ] 24. Eyedropper tool has a pencil icon → pipette.
+- [ ] 25. Image layers use the rectangle icon → image icon.
+- [ ] 26. Colour and number variables share the hexagon icon → colour: drop, number: `#`.
+- [ ] 27. Flip V icon differs in style from Flip H → mirrored pair.
+- [ ] 28. Rotation `∠` smaller than the letter labels, `°` sits high → same size and baseline.
+- [ ] 29. Empty and cryptic values: `Off` in number fields, `…` in separations, `Mixed — + replaces` → `–` placeholder, `Mixed · + replaces all`.
+- [ ] 30. Text wrap sits between Layout and Layer → after Effects.
+- [ ] 31. Toasts appear bottom centre and bottom right inside the export panel → one place, bottom centre, clear of the page edge.
 
 ## App shell
 
-- [x] Panel header says `Page` but shows document and page settings, partly twice → without selection 2 sections `Document` and `Page`, each setting once.
-- [x] RGB profile is static text, CMYK profile a dropdown → both `Profile ▾`, disabled when there is no choice.
-- [x] `N` is page count and polygon points → `Pages` and `Points`.
-- [x] Page navigation has no total → `3 / 12`.
-- [x] `>` turns into `+` on the last page → disable `>`, `+` separate and always visible.
-- [x] Page navigation width depends on the document → fixed width.
-- [x] Spread pill does not mark the current page → highlight the active half.
-- [x] Page does not re-centre when panels are hidden → re-centre if it was centred.
-- [x] Shift W gives no hint how to get the UI back → toast `Shift W shows the interface again`.
-- [x] Export tooltip says `Export PDF` though PNG/JPEG exist → `Export`.
-- [x] `List the fonts of this computer` too long → `Use local fonts`.
-- [x] Layout grids header has an extra icon → only `+` like the other sections.
-- [ ] Dark/Light dropdown has no label → `Theme ▾`.
-- [x] Text style rows indented ~10 px → flush with swatch rows.
-- [x] Swatch values without C/M/Y/K labels → `C0 M55 Y100 K0` or tooltip.
-- [x] Swatches section has no chevron → collapsible like Layers.
-- [x] Auto layout children listed in reverse → list in layout direction.
-
-## Dialogs
-
-### New document
-- [x] Format names wrap onto 2 lines → shorter labels or wider tiles.
-- [x] Selected state depends on focus → own selected state with accent border.
-- [x] Custom thumbnail looks like A5 → dashed sheet with `+`.
-- [x] Button reads `Create Custom` → always `Create`.
-- [x] `Open file…` has a magnifier and sits under Examples → folder icon, secondary button bottom left.
-- [x] Esc opens the booklet → Esc only closes.
-- [x] `Examples` heading baseline is off.
-- [x] Poster description ends in an orphan word.
-
-### Shortcuts
-- [x] Gestures (drag, scroll) shown as keycaps → italic text.
-- [x] Cryptic labels → full sentences.
-- [x] 2-line row has a tall keycap → keycap top-aligned, fixed height.
-- [x] Reset button shifts the header → reserve its space.
-- [x] Remapped shortcuts have no marker → dot plus per-row reset.
-- [x] Recording gives no Esc hint → `Press a key · Esc cancels`.
-- [x] Search matches not highlighted; dialog height jumps → highlight, fixed height.
-- [x] `100 %` has a stray space.
-
-### Settings
-- [x] Focus lands on X → first field.
-- [x] `Layers: Of the page` unclear → `Layers panel shows: Current page / Whole document`.
-- [x] Checkbox rows built differently → one row layout.
-- [x] Modal too large for its content.
-
-### Command palette
-- [x] `⌘` before every command → no icon or one per command.
-- [x] Group `Commands` appears twice.
-- [x] Ranking off, matches not highlighted → prefix matches first, matches bold.
-- [x] Shortcut `.` invisible; shortcuts are text → keycaps.
-
-### Find & replace
-- [x] Matches not highlighted on the canvas.
-- [x] Fields have different widths.
-- [x] `Case` sticks to the next checkbox.
-- [x] `0 found` has no error state → red field border.
-- [x] `All` ambiguous → `Replace all`.
-- [x] `Any style` unclear → `Style: any`.
-
-## Toolbar
-
-- [x] Eyedropper uses a pencil icon → eyedropper icon.
-- [x] Shape menu: no mark for the current shape, no shortcuts for Polygon/Star, opens offset.
-- [x] Path bar icons unclear, `Done` is text → tooltips, `Done` as primary button with `Enter` hint.
-- [x] Panel toggles sit among the tools → separator, move right to the help group.
-
-## Canvas
-
-- [x] No W×H label while drawing shapes and text frames → live label under the cursor.
-- [x] 3 distance labels overlap; a label covers its line → labels on the line in a pill, offset on collision.
-- [x] Stray handles during marquee.
-- [x] Pen: no hint how to finish/close → `Enter finishes · click the start point closes`.
-- [x] Path edit: hovering a point gives no feedback (both shots identical); quick bar stays during path edit.
-- [x] New text frame has no inset; text touches the frame edge.
-- [x] Text frame has only corner handles → side handles for width alone.
-- [x] Text quick bar wider than the page column (`No style` select ~150 px) → style as icon button, font and weight in one select.
-- [x] Quick bar covers content above the frame; in 43 it sits on the guide → place below when there is no room above.
-- [x] Overset `+` covers the last glyph, no count.
-- [x] Threading: no loaded cursor, no connection line; in-port barely visible.
-- [x] Crop mode hard to tell apart; panel identical to normal mode (05/21 = 05/20) → dim outside, show image bounds, panel `Crop · Done`.
-- [x] Image: 2 kinds of handles (corner squares, white inner dots) unexplained.
-- [x] Placing an image shows an empty blue rectangle → image preview.
-- [x] Layout grid column stripes cross the header and bleed → clip to the margins.
-- [x] Square grid too faint.
-- [x] Dragging a guide: 2 unlabeled magenta labels → `↑ 6.7 mm · ↓ 11.3 mm`.
-- [x] Guide hover shows no change.
-- [x] Text wrap offset not shown → dashed outline.
-- [x] Overridden master layers have no marker on canvas or in layers.
-- [x] `Use as mask` is a checkbox for 1 object, a button for several → button everywhere.
-- [x] Multi selection fill shows one colour instead of `mixed`.
-- [x] Distribute icons look disabled for 2 objects (15) → hide instead of grey.
-
-## Quick edit bar (12)
-
-- [x] `Inside` (group, mask) cryptic → `Align to: Selection/Parent` icon toggle with tooltip.
-- [x] `15 two shapes (boolean bar)` has no boolean ops → 4 boolean icons for 2+ shapes.
-- [x] Line with arrow (06) shows no arrow heads → `Start ▾ End ▾`.
-- [x] Stroke swatch (white square, black core) looks like a stop icon → ring swatch in the stroke colour.
-- [x] `≡ 1 pt`: icon reads as paragraph align; big gap between number and unit → stroke weight icon, unit right after the number.
-- [x] `N − 3 +`: number clipped and faint → `Points`, min width.
-- [x] Image (20–22): first item `−`, icons unlabeled; no `RGB → CMYK` hint in a CMYK document.
-- [x] Fit menu (30): no mark for the current option, empty indent → use the check column.
-- [x] Adjust (31): 3 steppers in 2 columns, one cell empty, no reset → 3 rows plus `Reset`.
-- [x] Quick fill (32): only None/Black/White → document swatches plus `Custom…`.
-- [x] Auto layout (18, 19): `Hug | Hug`, `Fixed | Fixed` unlabeled → `W Hug ▾ H Hug ▾`.
-- [x] Bar covers text (wrap object, image) → avoid content, allow placement below.
+- [ ] 32. Right panel header ~4 px above the top bar centre line, no separator below, left header without icon → same header on both sides.
+- [ ] 33. `Document` twice (panel header and section) → section only.
+- [ ] 34. 1-page document shows `Facing pages`; pages stepper `−` enabled at 1 → single pages when there is 1 page, `−` disabled at 1.
+- [ ] 35. With the left panel hidden the document name disappears → name in the top bar.
+- [ ] 36. Preflight shield and Export open the same panel; badge `2` red for 1 error + 1 warning → badge counts errors red, only warnings yellow.
+- [ ] 37. Error status looks like info → red icon and colour.
+- [ ] 38. Empty layers panel has no empty state → `No layers yet`.
+- [ ] 39. Status `Created Custom, 8 pages` → `Created A5, 8 pages`.
+- [ ] 40. Settings has no theme option → `Theme` select (carried over).
 
 ## Properties
 
-- [x] Arrow: caps/start/end/joins crossed → `Start ▾ End ▾` in 1 row.
-- [x] Ellipse: `Start °` next to `Sweep %` → both °; `Ratio` → `Inner radius`.
-- [ ] Star: Ratio and N under Layout → own section `Shape`; link button far right.
-- [x] Shadow: X/Y look like position → `Offset X/Y`; colour and 40 % unlabeled.
-- [x] Stroke: 2 dropdowns `Solid` (paint, dash) → dash style with pattern preview; stroke icons unlabeled.
-- [x] Overprint always visible → only in CMYK documents.
-- [x] Constraints and sizing dropdowns unlabeled.
-- [x] Frame: `Clip content` next to the angle field → own row.
-- [x] Auto layout padding as T R / B L → horizontal/vertical, expandable to 4.
-- [x] Auto layout: `−` next to the direction toggle; `Packed` → `Spacing: Fixed / Space between`.
-- [x] Text frame header shows the first words → `Text frame`.
-- [x] Auto size icons unlabeled; inset icons tiny.
-- [x] Gutter `4.23 mm` → round.
-- [x] Baseline field shows `Off`.
-- [x] `Lines` and `Min` rows appear only sometimes, layout jumps → always show, disable when not applicable.
-- [x] Vertical align buttons full width.
-- [x] Letter spacing in %, spacing in pt.
-- [x] `#` button opens special characters → `Ω`.
-- [x] Image section has no `Replace` and `Fit`.
-- [x] Text wrap offsets labelled `X/Y`, row half empty → `Offset`.
-- [x] Field bound to a variable (51): chip shows `¿?` and drops the unit.
-- [x] Hexagon replaces the chevron only on hover; bound fill has no marker → one binding marker, always visible.
-- [x] `Click + to replace mixed fills` wordy → `Mixed — + replaces`.
-- [x] Mixed: Stroke still shows controls while Fill does not.
-- [x] Icon rows (align, flip, boolean) without group labels → tooltips and separators.
-- [ ] Mask shape shows the group's props (03 = 04), not selectable or distinguishable.
+- [ ] 41. Second icon row shows edit points for groups, frames, images (disabled) → hide what does not apply.
+- [ ] 42. Multi selection align row: bottom align detached, 10 icons squeezed with 5 layers → aligns in 1 row, distribute and spacing in a 2nd.
+- [ ] 43. Spacing field `↔ 6 mm` shown for 2 layers, not 5, unlabeled → `Spacing` label, shown from 2 layers.
+- [ ] 44. Mixed fields drop their unit → keep the unit.
+- [ ] 45. Groups have no rotation, frames no radius → add them.
+- [ ] 46. Active `Use as mask` looks like a focus ring; a group with a mask is not marked (carried over) → `Release mask` and a mask marker.
+- [ ] 47. Constraints and sizing selects stand unlabeled under Layout → `Constraints`, `Resizing` sub-labels.
+- [ ] 48. Auto layout direction ↓ before → → horizontal first.
+- [ ] 49. Text alignment row with `⋯` overflows the grid → `⋯` inside the grid.
+- [ ] 50. Inset labels `↔ 0 | ↕ 0` read as width and height → `Inset H | V`.
+- [ ] 51. 4th size icon (corners) unclear → tooltip and title on all size options.
+- [ ] 52. Text stroke rows ordered differently from shape stroke → same order.
+- [ ] 53. Stroke align icons cryptic → tooltips `Inside`, `Center`, `Outside`.
+- [ ] 54. No way to add or remove a gradient stop → `+` in the stops header, `−` per stop.
+- [ ] 55. Invalid input shows a red border without text → tooltip with the reason.
+- [ ] 56. Star: Ratio and points belong into `Shape` (carried over; check).
 
-## Popovers
+## Popovers, pickers, variables
 
-- [x] CMYK picker fields clipped (`M 73.`) → integers or wider fields.
-- [x] Blend modes: no group separators → separators after Darken, Lighten, Contrast.
-- [x] Format menu: `Custom` greyed out.
-- [x] Variable editor opens far from its row.
-- [x] Variable name and mode are text in one state, inputs in another.
-- [x] `Delete variable` weighs like `Add mode` → red, separated.
-- [x] Variable rows show a swatch or `−`.
-- [x] `auto (Mode 1)` lower case.
-- [x] `No number variables yet` → `Create from value`.
-- [x] Empty swatches tab only explains → button `Save as swatch`.
-- [x] Swatch icons ⊙/⊕ (spot/process) unclear → badge `Spot`.
-- [x] Context menu `Delete` not red.
-- [x] Tooltip covers the neighbouring field → show above.
+- [ ] 57. Picker header shows a lone `Custom` tab for stops and shadows → no tab bar when there is only 1 tab.
+- [ ] 58. Variable editor: name and mode names do not look editable, `Delete variable` beside `Add mode` → fields, delete moved to the context menu.
+- [ ] 59. Edit swatch name field squeezed by `Spot color` → name full width.
+- [ ] 60. Swatch row `RGB ⚠` without explanation → tooltip.
+- [ ] 61. `Upload ICC…` in the profile select without separator → separator.
+- [ ] 62. Line end select without preview → arrow icons.
 
 ## Text
 
-- [x] Type options mixes too much; first-line indent is an icon, the rest text; `After` lives elsewhere; `Drop`, `Chars`, `Keep` cryptic; full-width `Add tab stop` in the middle → 3 groups (Indents & spacing, Drop cap, Tabs), text labels.
-- [x] OpenType 2-part toggle unclear; Lining/Oldstyle and Proportional/Tabular exclusive → segmented controls.
-- [x] Insert character: tiny grey glyphs; All characters without names → name as tooltip and footer.
-- [x] Font select has no search.
-- [x] `Create text style` inside the select → `+` next to it.
-- [x] Style applied with overrides shows no marker → `Heading*` plus reset/update.
-- [x] Shot 31 `word selected` shows only a caret.
+- [ ] 63. OpenType rows `Auto | 196 | 196` and `Auto | 11 | 11` unlabeled → row labels and readable options.
+- [ ] 64. Unlabeled type selects (`As typed`, `Normal position`, `No decoration`, `No list`) → prefixes `Case`, `Position`, `Decoration`, `List`.
+- [ ] 65. `Keep 1` unclear; drop cap `Characters` enabled at 0 lines → `Keep lines`, disable.
+- [ ] 66. Insert character: only page number has keycaps, glyph chips tiny → glyph left, name, shortcut right.
+- [ ] 67. All characters shows no name on hover → title with name and code point.
 
-## Layers, swatches, pages, masters
+## Canvas
 
-- [x] Drop above shows no insertion line (07).
-- [x] Page with a master shows no master entries → collapsed group `Master B`.
-- [x] Spread has page headers, a single page none.
-- [x] Master layer names duplicated (#, Rule, EARTHRISE) without left/right grouping.
-- [x] Edit swatch: no hex field; RGB picker for CMYK → 4 sliders for CMYK.
-- [x] Page labels `1 C` use letters the masters column does not show → `B · Body`.
-- [x] Empty slot left of page 1 solid, after the last page dashed with `+` → both dashed or drop the left one.
-- [x] Dragging a page: no drop indicator or ghost.
-- [x] Page menu: `Master like page` → `Create master from page`; add `Apply master`, `Insert page`.
-- [x] Master menu lacks `Duplicate master`.
-- [x] Master rename field overflows, name cut (`ody`).
-- [x] While editing a master, the master slot shows `auto (Light)`, a different meaning in the same place.
-- [x] Page switcher shows no total.
+- [ ] 68. Resize shows no size, rotate no angle → label at the pointer.
+- [ ] 69. Size label is magenta like snap distances → neutral label, centred under the box.
+- [ ] 70. Distance labels `11 mm` and `29 mm` overlap (04/12) → move the shorter one aside.
+- [ ] 71. Drawing a rectangle shows radius handles → only after drawing.
+- [ ] 72. Quick bar for text, wrap and threading sits over the text → above the frame, below if no room.
+- [ ] 73. Quick bar image shows a meaningless `∅` fill chip → hide.
+- [ ] 74. Adjust image: values far from the labels between − and + → slider with the value right.
 
-## Preflight & export
+## Layers, pages, export, dialogs
 
-- [x] `Images Keep` looks like an input.
-- [x] `JPEG − Lossless +` unclear → `JPEG quality ▾` (Lossless, 90, 75).
-- [x] Page range `7-x` only greys out the button → error text under the field.
-- [x] PNG/JPEG export has no resolution field.
-- [x] Export toast bottom left, far from the button.
-- [x] Badge `0` always visible → green check or nothing.
-- [x] Separations at first open (20): spot `Satz Orange` missing, `Highest 0 %` → loading state `…` instead of a false 0.
-- [x] Separation rows are boxed cards, other checkboxes are not.
-- [x] Black dot nearly invisible on dark ground.
-- [x] Gamut (22): checkbox off, no marks visible → fix the shot or the feedback.
-- [x] Issues (23): `Background ink at 297 %, above the limit` wraps → `Background · 297 % ink` in 1 line, page as link.
-- [x] `Under pointer: Point at a colour` is an instruction in a value slot → `—` plus grey hint.
-- [x] Overset issue text truncated.
-
-## Context menus (11)
-
-- [x] 19 items → submenu `Transform` for flip, mask, flatten.
-- [x] `Delete` not red, between Duplicate and Group → last, red.
-- [x] Missing: `Bring forward` / `Send backward`, `Copy/Paste style`, `Apply master`.
-- [x] `Hide selection` / `Lock selection` → `Hide` / `Lock`.
-- [x] `Page overview` has a barely visible marker; `Add page` has no shortcut.
+- [ ] 75. Spread layers header reads `Layers` and the page is a grey group row → `Layers · Pages 2–3`.
+- [ ] 76. Switcher marks only `2` of spread `2 3` → mark both.
+- [ ] 77. Overview labels `2B 3B` read like names; master tile `B  · Body` gap → `2 · B`, even gap.
+- [ ] 78. Page range error `Pages 1 to 1, like 1-3, 5` → `Pages 1–8, e.g. 1-3, 5`, `Only page 1` for 1 page.
+- [ ] 79. `JPEG quality` shown when images are kept → only when images are resampled.
+- [ ] 80. `Export with 3 errors` looks like the normal primary button → warning style.
+- [ ] 81. Black separation dot is hollow → filled.
+- [ ] 82. New document: `Open file…` broken styling, headings of different size, format sizes wrap (`420 mm × / 594 mm`), pages without stepper → fix styling, `420 × 594 mm` on 1 line, stepper.
+- [ ] 83. Shortcuts dialog: keys left or right aligned per section, recording row not highlighted → keys right, highlight the row.
+- [ ] 84. Settings is a full-height dialog with 3 options and autofocus → compact, no autofocus.
+- [ ] 85. Find: `Replace` sticks to the field, `Replace all` not flush with the close button → even gaps, flush right.
+- [ ] 86. Shape menu: ~42 px left padding, ~12 px right, no tick for the current shape → even padding, tick.
