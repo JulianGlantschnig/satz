@@ -118,7 +118,7 @@ export function Help({ onClose }: { onClose: () => void }) {
                         setRecording(null)
                       }}
                     >
-                      {recording === r.title ? <span className="keys-hint">Press a key · Esc cancels</span> : <Keys keys={keys(r)} />}
+                      {recording === r.title ? <span className="keys-hint">Press a key · <Keys keys="Esc" /> cancels</span> : <Keys keys={keys(r)} />}
                     </button>
                   ) : (
                     <Keys keys={r.keys} />

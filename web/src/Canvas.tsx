@@ -15,6 +15,7 @@ import { curved, nearest as nearestSegment, remove, shift, smooth, split, type A
 import { handleTextKey, insert, range, select, textOf, wordAt } from './textEdit'
 import { Quick } from './Quick'
 import { MasterBanner } from './Switcher'
+import { Keys } from './controls'
 
 const PX_PER_PT = 96 / 72
 const DRAG = 3
@@ -848,7 +849,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
           editor.beginGroup()
           const { id, dx } = create('path', p)
           editor.set({ pen: { id, anchors: [{ x: p.x - dx, y: p.y, hx: 0, hy: 0 }] }, selection: [] })
-          editor.say('Enter finishes · click the start point closes')
+          editor.say(<><Keys keys="Enter" /> finishes · click the start point closes</>)
           return
         }
         // Anchors are in the space of the path's page.

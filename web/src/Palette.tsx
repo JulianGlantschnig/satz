@@ -135,7 +135,7 @@ export function Palette({ editor, onClose }: { editor: Editor; onClose: () => vo
             e.stopPropagation()
           }}
         />
-        <kbd>Esc</kbd>
+        <Keys keys="Esc" />
       </div>
       <div className="pal-list" role="listbox" aria-label="Results">
         {shown.map((x, i) => (

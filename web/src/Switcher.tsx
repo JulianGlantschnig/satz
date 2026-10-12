@@ -1,5 +1,6 @@
 import { useEditor, type Editor } from './editor'
 import { Icon } from './icons'
+import { Keys } from './controls'
 
 /** Picks the page of the spread whose layers are listed, and moves between spreads; on a master, names it. */
 export function Switcher({ editor }: { editor: Editor }) {
@@ -59,7 +60,7 @@ export function MasterBanner({ editor }: { editor: Editor }) {
         Editing master <strong>{master.name}</strong>, used by {used} {used === 1 ? 'page' : 'pages'}
       </span>
       <button type="button" onClick={() => editor.exitMaster()}>
-        Done<kbd>Esc</kbd>
+        Done<Keys keys="Esc" />
       </button>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from 'react'
+import { useSyncExternalStore, type ReactNode } from 'react'
 import type { Engine } from './engine/engine'
 import { textSizing, type Command, type Container, type Modes, type Node, type Page, type Palette, type Resizing, type Scope, type Snapshot, type TextNode, type Typeface } from './model'
 import type { Previewed } from './exportWorker'
@@ -92,7 +92,7 @@ export class Editor {
   /** The document has changed since it was last saved to or opened from its file. */
   dirty = false
   /** The message in the status bar, shown above `statusAt` if set. */
-  status = ''
+  status: ReactNode = ''
   statusAt: DOMRect | null = null
   /** A button after the status, like Undo after a deletion. */
   statusAction: { label: string; run: () => void } | null = null
@@ -240,7 +240,7 @@ export class Editor {
     }
   }
 
-  say = (status: string, near?: Element | null, action?: Editor['statusAction']) => {
+  say = (status: ReactNode, near?: Element | null, action?: Editor['statusAction']) => {
     this.status = status
     this.statusAt = near?.getBoundingClientRect() ?? null
     this.statusAction = action ?? null

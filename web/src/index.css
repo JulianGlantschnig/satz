@@ -324,7 +324,11 @@ button {
 }
 
 .primary {
+  display: inline-flex;
   flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   height: 28px;
   padding: 0 12px;
   border: 0;
@@ -1340,11 +1344,6 @@ textarea {
   margin-left: 6px;
 }
 
-.toolbar .primary kbd {
-  color: inherit;
-  opacity: 0.7;
-}
-
 .menu.shapes .menu-item {
   grid-template-columns: 16px 16px 1fr auto;
 }
@@ -1881,6 +1880,9 @@ textarea {
 }
 
 .banner button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   height: 26px;
   padding: 0 10px;
   border: 0;
@@ -1894,8 +1896,6 @@ textarea {
 }
 
 kbd {
-  margin-left: 6px;
-  color: var(--text-3);
   font: 500 11px 'Hanken Grotesk', system-ui, sans-serif;
 }
 
@@ -1922,6 +1922,15 @@ kbd {
 
 .keys em {
   padding: 0 1px;
+}
+
+.primary .keys,
+.primary .keys kbd {
+  color: inherit;
+}
+
+.primary .keys kbd {
+  background: color-mix(in srgb, currentColor 12%, transparent);
 }
 
 .tool,
@@ -2567,11 +2576,6 @@ kbd {
 .start-footer button {
   height: 34px;
   padding: 0 14px;
-}
-
-.start-footer kbd {
-  color: inherit;
-  opacity: 0.7;
 }
 
 .start-side {

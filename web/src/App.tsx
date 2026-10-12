@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { CanvasKit } from 'canvaskit-wasm'
 import { Canvas, isTyping } from './Canvas'
-import { Edge, NameInput } from './controls'
+import { Edge, Keys, NameInput } from './controls'
 import { ACTIONS, addPage, comboOf, keysOf, MENU, press } from './commands'
 import { ContextMenu } from './ContextMenu'
 import { useEditor, type Editor } from './editor'
@@ -78,7 +78,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
     say('Saving…')
     save(editor, as).then(
       () => say(`Saved ${editor.file.name}`),
-      (e: Error) => say(e.name === 'AbortError' ? '' : `Could not save ${name}: ${e.message}. Try Save as (Ctrl+Shift+S).`),
+      (e: Error) => say(e.name === 'AbortError' ? '' : <>Could not save {name}: {e.message}. Try Save as <Keys keys="Ctrl Shift S" /></>),
     )
   }
 
@@ -113,7 +113,7 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
       else if (e.altKey && !mod && e.code === 'Digit2') hide('right')
       else if (e.shiftKey && !mod && !e.altKey && e.code === 'KeyR') hide('rulers')
       else if (e.shiftKey && !mod && !e.altKey && e.code === 'KeyW') {
-        if (!hidden.ui) editor.say('Shift W shows the interface again')
+        if (!hidden.ui) editor.say(<><Keys keys="Shift W" /> shows the interface again</>)
         hide('ui')
       } else if (mod && e.shiftKey && e.code === 'KeyE') openExport()
       else if (mod && e.altKey && e.code === 'KeyY') editor.togglePreflight()
