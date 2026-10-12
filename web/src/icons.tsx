@@ -331,6 +331,7 @@ function iconOf(node: Node): IconName {
   if (node.mask) return 'mask'
   if (node.kind === 'frame' && node.direction !== 'none') return 'autoLayout'
   if (node.kind !== 'shape') return node.kind
+  if (node.fills.some((f) => f.type === 'image')) return 'image'
   if (node.shape !== 'path') return node.shape
   if (node.arrowStart || node.arrowEnd) return 'arrow'
   return node.path.length === 6 ? 'line' : 'path'
