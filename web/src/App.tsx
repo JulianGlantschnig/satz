@@ -221,6 +221,15 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
       </div>
       <header className="bar" inert={hidden.ui}>
         <div className="bar-side">
+          {off('left') && (
+            <>
+              <span className="bar-name">
+                {title}
+                <span className="ext">.satz</span>
+              </span>
+              <span className="sep" />
+            </>
+          )}
           <Toolbar editor={editor} onPlaceImage={() => placeImages(editor, say)} />
         </div>
         <Switcher editor={editor} />

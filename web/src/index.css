@@ -1717,7 +1717,16 @@ input[type='checkbox']:disabled {
   white-space: nowrap;
 }
 
-.brand .ext {
+.bar-name {
+  padding: 0 4px;
+  font-size: 12px;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:is(.brand, .bar-name) .ext {
   color: var(--text-3);
   font-size: 12px;
   font-weight: 400;
