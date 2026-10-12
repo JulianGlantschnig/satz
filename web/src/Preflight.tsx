@@ -143,8 +143,8 @@ export function Preflight({ editor, exporting, onExport }: { editor: Editor; exp
                   onClick={() => show(i)}
                 >
                   <Icon name={isError(i) ? 'error' : 'warn'} />
-                  <span className="iss-m" title={`${i.name} · ${problem(i, editor)}`}>
-                    <strong>{i.name}</strong> · {problem(i, editor)}
+                  <span className="iss-m" title={`${problem(i, editor)} · ${i.name}`}>
+                    <strong>{problem(i, editor)}</strong> · {i.name}
                   </span>
                   <span className="iss-w">{where(i.page)}</span>
                 </button>
