@@ -1525,6 +1525,11 @@ textarea {
   display: none;
 }
 
+.status .button {
+  margin: -4px -8px -4px 12px;
+  pointer-events: auto;
+}
+
 .notice {
   display: grid;
   place-content: center;

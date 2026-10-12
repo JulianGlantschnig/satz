@@ -94,6 +94,8 @@ export class Editor {
   /** The message in the status bar, shown above `statusAt` if set. */
   status = ''
   statusAt: DOMRect | null = null
+  /** A button after the status, like Undo after a deletion. */
+  statusAction: { label: string; run: () => void } | null = null
   /** The engine trapped; nothing is saved any more. */
   broken = false
   /** Typing into the edited text is one undo step until the caret moves. */
@@ -238,9 +240,10 @@ export class Editor {
     }
   }
 
-  say = (status: string, near?: Element | null) => {
+  say = (status: string, near?: Element | null, action?: Editor['statusAction']) => {
     this.status = status
     this.statusAt = near?.getBoundingClientRect() ?? null
+    this.statusAction = action ?? null
     this.emit()
   }
 
@@ -460,7 +463,7 @@ export class Editor {
       for (const id of del) this.apply({ type: 'deletePage', id })
     })
     if (this.overview) this.set({ overview: [next] })
-    this.say(`Deleted ${del.length === 1 ? `page ${numbers[0]}` : `${del.length} pages`}. Ctrl Z restores`)
+    this.say(`Deleted ${del.length === 1 ? `page ${numbers[0]}` : `${del.length} pages`}`, null, { label: 'Undo', run: () => this.apply({ type: 'undo' }) })
   }
 
   /** The current master, if a master is shown. */

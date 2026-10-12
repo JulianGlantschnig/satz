@@ -26,6 +26,7 @@ import { Tooltip } from './Tooltip'
 export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; first: boolean }) {
   const status = useEditor(editor, (e) => e.status)
   const statusAt = useEditor(editor, (e) => e.statusAt)
+  const statusAction = useEditor(editor, (e) => e.statusAction)
   const say = editor.say
   const dirty = useEditor(editor, (e) => e.dirty)
   const name = useEditor(editor, (e) => e.file.name)
@@ -303,6 +304,18 @@ export function App({ ck, editor, first }: { ck: CanvasKit; editor: Editor; firs
         style={statusAt ? { left: 'auto', right: innerWidth - statusAt.right, bottom: innerHeight - statusAt.top + 8, transform: 'none' } : undefined}
       >
         {status}
+        {statusAction && (
+          <button
+            type="button"
+            className="button"
+            onClick={() => {
+              say('')
+              statusAction.run()
+            }}
+          >
+            {statusAction.label}
+          </button>
+        )}
       </p>
     </main>
   )
