@@ -45,21 +45,19 @@
   background: var(--panel);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: light;
-    --bg: #d8dbe1;
-    --fg: #1e1e21;
-    --canvas: #cbced5;
-    --raised: color-mix(in srgb, #fff 55%, var(--bg));
-    --input: color-mix(in srgb, #fff 30%, var(--bg));
-    --accent: #0b87bd;
-    --bad: #d63a2c;
-    --warn: #a86b00;
-    --shadow: rgb(30 30 33 / 0.18);
-    --border: color-mix(in srgb, var(--fg) 13%, var(--bg));
-    --edge: color-mix(in srgb, var(--fg) 22%, var(--bg));
-  }
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #d8dbe1;
+  --fg: #1e1e21;
+  --canvas: #cbced5;
+  --raised: color-mix(in srgb, #fff 55%, var(--bg));
+  --input: color-mix(in srgb, #fff 30%, var(--bg));
+  --accent: #0b87bd;
+  --bad: #d63a2c;
+  --warn: #a86b00;
+  --shadow: rgb(30 30 33 / 0.18);
+  --border: color-mix(in srgb, var(--fg) 13%, var(--bg));
+  --edge: color-mix(in srgb, var(--fg) 22%, var(--bg));
 }
 
 *,

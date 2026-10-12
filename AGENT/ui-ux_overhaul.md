@@ -51,7 +51,7 @@ first review are in git history.
 - [x] 37. Error status looks like info → red icon and colour.
 - [x] 38. Empty layers panel has no empty state → `No layers yet`.
 - [x] 39. Status `Created Custom, 8 pages` → `Created A5, 8 pages`.
-- [ ] 40. Settings has no theme option → `Theme` select (carried over).
+- [x] 40. Settings has no theme option → `Theme` select (carried over).
 
 ## Properties
 

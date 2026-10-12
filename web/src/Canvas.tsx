@@ -1407,17 +1407,17 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
     canvas.addEventListener('click', onClick)
     window.addEventListener('keydown', onKey)
     window.addEventListener('keyup', onKey)
-    const scheme = matchMedia('(prefers-color-scheme: light)')
     const restyle = () => {
       accent = ''
       rulers.delete(top)
       rulers.delete(left)
       redraw()
     }
-    scheme.addEventListener('change', restyle)
+    const theme = new MutationObserver(restyle)
+    theme.observe(document.documentElement, { attributeFilter: ['data-theme'] })
     document.fonts.addEventListener('loadingdone', restyle)
     return () => {
-      scheme.removeEventListener('change', restyle)
+      theme.disconnect()
       document.fonts.removeEventListener('loadingdone', restyle)
       cancelAnimationFrame(frame)
       cancelAnimationFrame(anim)

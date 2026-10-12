@@ -8,7 +8,7 @@ const NAMES: Record<Unit, string> = { mm: 'Millimetres', cm: 'Centimetres', in: 
 /** Ctrl+,: the settings of this browser. */
 export function Settings({ onClose }: { onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null)
-  const { unit, quickEdit, layers } = useSettings()
+  const { unit, theme, quickEdit, layers } = useSettings()
   useEffect(() => {
     ref.current!.showModal()
     ref.current!.querySelector<HTMLElement>('.settings-body button')?.focus()
@@ -23,6 +23,10 @@ export function Settings({ onClose }: { onClose: () => void }) {
         </button>
       </header>
       <div className="help-body settings-body">
+        <div className="settings-row">
+          Theme
+          <Select label="Theme" value={theme} options={{ system: 'System', light: 'Light', dark: 'Dark' }} onChange={(t) => setSettings({ theme: t })} />
+        </div>
         <div className="settings-row">
           Unit
           <Select label="Unit" value={unit} options={NAMES} onChange={(u) => setSettings({ unit: u })} />

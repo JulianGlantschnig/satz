@@ -8,6 +8,7 @@ export type Unit = keyof typeof UNITS
 const KEY = 'satz.settings'
 const DEFAULTS = {
   unit: 'mm' as Unit,
+  theme: 'system' as 'system' | 'light' | 'dark',
   quickEdit: true,
   layers: 'page' as 'page' | 'spread',
   keys: {} as Record<string, string>,
@@ -38,6 +39,12 @@ export const subscribeSettings = (l: () => void) => {
   listeners.add(l)
   return () => void listeners.delete(l)
 }
+
+const light = matchMedia('(prefers-color-scheme: light)')
+const theme = () => (document.documentElement.dataset.theme = settings.theme === 'system' ? (light.matches ? 'light' : 'dark') : settings.theme)
+theme()
+light.addEventListener('change', theme)
+listeners.add(theme)
 
 export const useSettings = () => useSyncExternalStore(subscribeSettings, () => settings)
 
