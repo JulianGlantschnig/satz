@@ -1,7 +1,7 @@
 import { Fragment, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { ContextMenu } from './ContextMenu'
-import { Check, Field, FontSelect, NameInput, nextName, Section, Segmented, Select, Sides } from './controls'
+import { Check, Field, FontSelect, NameInput, nextName, Section, Segmented, Select, Sides, useSides } from './controls'
 import { ColorPicker } from './ColorPicker'
 import { neutral, type Color } from './color'
 import { scopeOf, useEditor, type Editor } from './editor'
@@ -534,8 +534,10 @@ export function TextFrameSection({ editor, node, set }: { editor: Editor; node: 
   const { horizontal, vertical } = node.sizing
   const resizing = horizontal === 'hug' ? 'autoWidth' : vertical === 'hug' ? 'autoHeight' : 'fixedSize'
   const rule = node.columnRule?.weight ? node.columnRule : null
+  const insets = INSETS.map((p) => node[p])
+  const [each, toggle] = useSides('inset', node.id, insets)
   return (
-    <Section title="Text frame">
+    <Section title="Text frame" actions={toggle}>
       <Segmented
         label="Resizing"
         prefix="Size"
@@ -544,7 +546,7 @@ export function TextFrameSection({ editor, node, set }: { editor: Editor; node: 
         disabled={(v) => (v === 'autoWidth' && !!(node.prev || node.next)) || (v !== 'autoWidth' && v !== 'fixedSize' && !!node.next)}
         onChange={(mode) => (mode === 'autoFit' ? editor.resize([node], mode) : set({ sizing: textSizing(node.sizing, mode) }))}
       />
-      <Sides key={node.id} what="inset" values={INSETS.map((p) => node[p])} set={(v) => set(Object.fromEntries(INSETS.map((p, i) => [p, v[i]])))} />
+      <Sides what="inset" values={insets} each={each} set={(v) => set(Object.fromEntries(INSETS.map((p, i) => [p, v[i]])))} />
       <div className="grid">
         <Field label="Columns" title="Columns" unit="" int min={1} max={20} reset={1} value={node.columns} onCommit={(columns) => set({ columns })} />
         <Field label="Gutter" title="Gutter" unit="length" value={node.gutter} onCommit={(gutter) => set({ gutter })} />

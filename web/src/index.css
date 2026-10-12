@@ -716,13 +716,6 @@ textarea {
   cursor: default;
 }
 
-.sides {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 24px;
-  align-items: start;
-  gap: 4px;
-}
-
 .dash {
   width: 24px;
   height: 8px;

@@ -1,4 +1,4 @@
-import { Field, Section, Segmented, Select, SIDE_NAMES, Sides } from './controls'
+import { Field, Section, Segmented, Select, SIDE_NAMES, Sides, useSides } from './controls'
 import type { Editor } from './editor'
 import { Icon } from './icons'
 import type { Layout, Node, Props, Size } from './model'
@@ -47,6 +47,8 @@ export function Sizing({ editor, node, set }: { editor: Editor; node: Node; set:
 
 /** Direction, alignment, gap and padding of an auto layout frame, or a button that adds one. */
 export function AutoLayout({ editor, node, set }: { editor: Editor; node: Node & Layout; set: (p: Props) => void }) {
+  const padding = PADDING.map((p) => node[p])
+  const [each, toggle] = useSides('padding', node.id, padding, PADDING.some((p) => node.bindings[p]))
   if (node.direction === 'none') return <Section title="Auto layout" onAdd={() => editor.apply({ type: 'autoLayout', ids: [node.id] })} />
   const horizontal = node.direction === 'horizontal'
   const between = node.alignMain === 'spaceBetween'
@@ -58,9 +60,12 @@ export function AutoLayout({ editor, node, set }: { editor: Editor; node: Node &
     <Section
       title="Auto layout"
       actions={
-        <button type="button" className="icon-button" aria-label="Remove auto layout" title="Remove auto layout (Shift+Alt+A)" onClick={() => set({ direction: 'none' })}>
-          <Icon name="minus" />
-        </button>
+        <>
+          {toggle}
+          <button type="button" className="icon-button" aria-label="Remove auto layout" title="Remove auto layout (Shift+Alt+A)" onClick={() => set({ direction: 'none' })}>
+            <Icon name="minus" />
+          </button>
+        </>
       }
     >
       <Segmented label="Direction" prefix="Direction" value={node.direction} options={DIRECTIONS} onChange={(direction) => set({ direction })} />
@@ -114,10 +119,9 @@ export function AutoLayout({ editor, node, set }: { editor: Editor; node: Node &
         </div>
       </div>
       <Sides
-        key={node.id}
         what="padding"
-        values={PADDING.map((p) => node[p])}
-        opened={PADDING.some((p) => node.bindings[p])}
+        values={padding}
+        each={each}
         wrap={(i, field) => (
           <Bindable editor={editor} id={node.id} prop={PADDING[i]} title={`${SIDE_NAMES[i]} padding`} label={SIDE_NAMES[i]}>
             {field}

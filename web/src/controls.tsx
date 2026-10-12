@@ -451,45 +451,46 @@ export function Keys({ keys }: { keys: string }) {
 
 export const SIDE_NAMES = ['Top', 'Right', 'Bottom', 'Left']
 
-/** Lengths of the four sides, top first, as a horizontal and a vertical field or, opened, one field per side; `wrap` wraps those. */
+/** Whether the sides of `what` of the layer `id` show one field each, kept for `opened`, and the button in the section header that switches it. */
+export function useSides(what: string, id: string, values: number[], opened?: boolean): [boolean, ReactNode] {
+  const [shown, setShown] = useState<{ id: string; each: boolean } | null>(null)
+  const each = (shown?.id === id ? shown.each : values[0] !== values[2] || values[1] !== values[3]) || !!opened
+  return [each, <SidesToggle what={what} pressed={each} disabled={opened} onClick={() => setShown({ id, each: !each })} />]
+}
+
+/** Lengths of the four sides, top first, as a horizontal and a vertical field or, `each`, one field per side; `wrap` wraps those. */
 export function Sides({
   what,
   values,
+  each,
   wrap = (_, f) => f,
-  opened,
   set,
 }: {
   what: string
   values: number[]
+  each: boolean
   wrap?: (side: number, field: ReactNode) => ReactNode
-  /** Keeps the sides open, e.g. while one is bound to a variable. */
-  opened?: boolean
   set: (values: number[]) => void
 }) {
-  const [open, setOpen] = useState(values[0] !== values[2] || values[1] !== values[3])
-  const each = open || opened
   return (
-    <div className="sides">
-      <div className="grid">
-        {each
-          ? SIDE_NAMES.map((side, i) => (
-              <Fragment key={side}>
-                {wrap(i, <Field label={side} title={`${side} ${what}`} unit="length" reset={0} value={values[i]} onCommit={(v) => set(values.with(i, v))} />)}
-              </Fragment>
-            ))
-          : ([['↔', 'Horizontal', 1, 3], ['↕', 'Vertical', 0, 2]] as const).map(([label, name, a, b]) => (
-              <Field
-                key={name}
-                label={label}
-                title={`${name} ${what}`}
-                unit="length"
-                reset={0}
-                value={values[a] === values[b] ? values[a] : null}
-                onCommit={(v) => set(values.with(a, v).with(b, v))}
-              />
-            ))}
-      </div>
-      <SidesToggle what={what} pressed={!!each} disabled={opened} onClick={() => setOpen(!open)} />
+    <div className="grid">
+      {each
+        ? SIDE_NAMES.map((side, i) => (
+            <Fragment key={side}>
+              {wrap(i, <Field label={side} title={`${side} ${what}`} unit="length" reset={0} value={values[i]} onCommit={(v) => set(values.with(i, v))} />)}
+            </Fragment>
+          ))
+        : ([['↔', 'Horizontal', 1, 3], ['↕', 'Vertical', 0, 2]] as const).map(([label, name, a, b]) => (
+            <Field
+              key={name}
+              label={label}
+              title={`${name} ${what}`}
+              unit="length"
+              reset={0}
+              value={values[a] === values[b] ? values[a] : null}
+              onCommit={(v) => set(values.with(a, v).with(b, v))}
+            />
+          ))}
     </div>
   )
 }
