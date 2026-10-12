@@ -35,7 +35,7 @@ first review are in git history.
 - [x] 24. Eyedropper tool has a pencil icon → pipette.
 - [x] 25. Image layers use the rectangle icon → image icon.
 - [x] 26. Colour and number variables share the hexagon icon → colour: drop, number: `#`.
-- [ ] 27. Flip V icon differs in style from Flip H → mirrored pair.
+- [x] 27. Flip V icon differs in style from Flip H → mirrored pair.
 - [ ] 28. Rotation `∠` smaller than the letter labels, `°` sits high → same size and baseline.
 - [ ] 29. Empty and cryptic values: `Off` in number fields, `…` in separations, `Mixed — + replaces` → `–` placeholder, `Mixed · + replaces all`.
 - [ ] 30. Text wrap sits between Layout and Layer → after Effects.
