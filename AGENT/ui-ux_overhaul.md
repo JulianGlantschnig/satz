@@ -6,7 +6,7 @@ first review are in git history.
 
 ## Bugs
 
-- [ ] 1. Fit image menu (12/30) ticks all 3 entries → they are actions: no ticks.
+- [x] 1. Fit image menu (12/30) ticks all 3 entries → they are actions: no ticks.
 - [ ] 2. Keyboard focus (05/63) and scrubbing (05/62) draw the red invalid border → red only for invalid, focus and scrubbing in the accent.
 - [ ] 3. Pen hint stays in the status after switching to the move tool (01/34, 36, 37) → clear it on tool change.
 - [ ] 4. Quick bar runs off the canvas on the right (04/05 line ends) → clamp it to the viewport.
