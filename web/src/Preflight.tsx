@@ -205,11 +205,11 @@ export function Preflight({ editor, exporting, onExport }: { editor: Editor; exp
                 onChange={(preset) => editor.apply({ type: 'setDocument', preset })}
               />
               <label className="check">
-                <input type="checkbox" checked={cropMarks} disabled={preset === 'screen'} onChange={(e) => editor.apply({ type: 'setDocument', cropMarks: e.currentTarget.checked })} />
+                <input type="checkbox" checked={cropMarks && preset !== 'screen'} disabled={preset === 'screen'} onChange={(e) => editor.apply({ type: 'setDocument', cropMarks: e.currentTarget.checked })} />
                 Crop marks
               </label>
               <label className="check">
-                <input type="checkbox" checked={includeBleed} disabled={preset === 'screen'} onChange={(e) => editor.apply({ type: 'setDocument', includeBleed: e.currentTarget.checked })} />
+                <input type="checkbox" checked={includeBleed && preset !== 'screen'} disabled={preset === 'screen'} onChange={(e) => editor.apply({ type: 'setDocument', includeBleed: e.currentTarget.checked })} />
                 Include {length(pages[0]?.bleed ?? 0)} bleed
               </label>
               <Select label="Image resolution" prefix="Images" value={String(imagePpi)} options={options([72, 150, 300], 'ppi', 'Keep', imagePpi)} onChange={(v) => editor.apply({ type: 'setDocument', imagePpi: Number(v) })} />

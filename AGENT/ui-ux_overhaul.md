@@ -16,7 +16,7 @@ first review are in git history.
 - [x] 8. Shift H is flip horizontal and auto height, Ctrl D is listed twice → one shortcut per action.
 - [x] 9. Deleting a page gives no undo in the toast → toast with `Undo` after destructive actions.
 - [x] 10. Preflight error row names only the layer (`Satz sets type in the browser. T…`) → `cause · Name` on every row, so the cause never truncates.
-- [ ] 11. Screen preset: crop marks and bleed disabled but ticked → disabled means unticked.
+- [x] 11. Screen preset: crop marks and bleed disabled but ticked → disabled means unticked.
 - [ ] 12. Context menu submenu arrow sits in a keycap (11/02) → plain chevron.
 - [ ] 13. Overridden master layer (05/23) shows the document panel → select it and show `Overrides master · Reset`.
 - [ ] 14. Focus ring stays after a mouse click (`+` buttons, layer name, text style select) → `:focus-visible`.

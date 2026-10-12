@@ -320,6 +320,7 @@ test('each preset exports as its standard', async ({ page }) => {
 
   await choose(preset, 'PDF, screen')
   await expect(panel.getByRole('checkbox', { name: 'Crop marks' })).toBeDisabled()
+  await expect(panel.getByRole('checkbox', { name: 'Crop marks' })).not.toBeChecked()
   const screen = await save()
   const boxes = execFileSync('mutool', ['pages', screen, '1']).toString()
   expect(pageBox(boxes, 'MediaBox')).toEqual(pageBox(boxes, 'TrimBox'))
