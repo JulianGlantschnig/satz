@@ -1255,7 +1255,7 @@ input[type='checkbox']:disabled {
 }
 
 .select:disabled > svg {
-  visibility: hidden;
+  opacity: 0.4;
 }
 
 .select > svg {
