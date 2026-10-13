@@ -228,7 +228,7 @@ export function Preflight({ editor, exporting, onExport }: { editor: Editor; exp
               onChange={(e) => setRange(e.currentTarget.value)}
             />
           </label>
-          {chosen === null && <p className="pf-error">Pages 1 to {pages.length}, like 1-3, 5</p>}
+          {chosen === null && <p className="pf-error">{pages.length > 1 ? `Pages 1–${pages.length}, e.g. 1-3, 5` : 'Only page 1'}</p>}
           {(format === 'png' || format === 'jpeg') && (
             <Field label="Resolution" title="Resolution" unit="ppi" min={72} max={1200} reset={300} value={rasterPpi} onCommit={(rasterPpi) => editor.apply({ type: 'setDocument', rasterPpi })} />
           )}

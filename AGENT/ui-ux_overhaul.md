@@ -104,7 +104,7 @@ first review are in git history.
 - [x] 75. Spread layers header reads `Layers` and the page is a grey group row → `Layers · Pages 2–3`.
 - [x] 76. Switcher marks only `2` of spread `2 3` → mark both.
 - [x] 77. Overview labels `2B 3B` read like names; master tile `B  · Body` gap → `2 · B`, even gap.
-- [ ] 78. Page range error `Pages 1 to 1, like 1-3, 5` → `Pages 1–8, e.g. 1-3, 5`, `Only page 1` for 1 page.
+- [x] 78. Page range error `Pages 1 to 1, like 1-3, 5` → `Pages 1–8, e.g. 1-3, 5`, `Only page 1` for 1 page.
 - [ ] 79. `JPEG quality` shown when images are kept → only when images are resampled.
 - [ ] 80. `Export with 3 errors` looks like the normal primary button → warning style.
 - [ ] 81. Black separation dot is hollow → filled.
