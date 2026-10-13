@@ -55,7 +55,7 @@ first review are in git history.
 
 ## Properties
 
-- [ ] 41. Second icon row shows edit points for groups, frames, images (disabled) → hide what does not apply.
+- [x] 41. Second icon row shows edit points for groups, frames, images (disabled) → hide what does not apply.
 - [ ] 42. Multi selection align row: bottom align detached, 10 icons squeezed with 5 layers → aligns in 1 row, distribute and spacing in a 2nd.
 - [ ] 43. Spacing field `↔ 6 mm` shown for 2 layers, not 5, unlabeled → `Spacing` label, shown from 2 layers.
 - [ ] 44. Mixed fields drop their unit → keep the unit.

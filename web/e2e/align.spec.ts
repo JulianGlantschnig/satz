@@ -62,7 +62,7 @@ test('the arrange bar flattens a shape and adds auto layout', async ({ page }) =
   const arrange = panel.getByRole('toolbar', { name: 'Arrange' })
   const layers = page.getByRole('tree', { name: 'Layers' })
   await layers.getByRole('button', { name: 'Frame', exact: true }).click()
-  await expect(arrange.getByRole('button', { name: 'Flatten' })).toBeDisabled()
+  await expect(arrange.getByRole('button', { name: 'Flatten' })).toHaveCount(0)
   await arrange.getByRole('button', { name: 'Add auto layout' }).click()
   await expect(panel.getByRole('radio', { name: 'Horizontal layout' })).toBeChecked()
 

@@ -159,14 +159,13 @@ export function Properties({ editor }: { editor: Editor }) {
         <div role="toolbar" aria-label="Arrange" className="align">
           {ARRANGE.map(([title, icon]) => {
             const a = ACTIONS.find((a) => a.title === title)!
-            return (
+            return (a.can?.(editor) ?? true) && (
               <button
                 key={title}
                 type="button"
                 className="icon-button"
                 aria-label={title}
                 title={`${title} (${keysOf(a)})`}
-                disabled={!(a.can?.(editor) ?? true)}
                 onClick={() => press(a.keys)}
               >
                 <Icon name={icon} />
