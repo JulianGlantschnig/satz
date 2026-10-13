@@ -154,7 +154,19 @@ export function Properties({ editor }: { editor: Editor }) {
           </>
         )}
       </header>
-      {box && <AlignBar editor={editor} />}
+      {box && (
+        <AlignBar editor={editor}>
+          {row && (
+            <Field
+              label="Spacing"
+              title={row.axis === 'x' ? 'Horizontal spacing' : 'Vertical spacing'}
+              unit="length"
+              value={row.gaps.every((g) => Math.abs(g - row.gaps[0]) < 1e-6) ? row.gaps[0] : null}
+              onCommit={(v) => setGap(editor, row, v)}
+            />
+          )}
+        </AlignBar>
+      )}
       {box && (
         <div role="toolbar" aria-label="Arrange" className="align">
           {ARRANGE.map(([title, icon]) => {
@@ -324,15 +336,6 @@ export function Properties({ editor }: { editor: Editor }) {
             )}
             {!line && nodes.every((n) => n.kind !== 'group') && (
               <Field label={<Icon name="angle" />} title="Rotation" unit="°" min={-Infinity} reset={0} value={same((n) => n.rotation)} onCommit={(v) => set({ rotation: ((v % 360) + 360) % 360 })} />
-            )}
-            {row && (
-              <Field
-                label={row.axis === 'x' ? '↔' : '↕'}
-                title={row.axis === 'x' ? 'Horizontal gap' : 'Vertical gap'}
-                unit="length"
-                value={row.gaps.every((g) => Math.abs(g - row.gaps[0]) < 1e-6) ? row.gaps[0] : null}
-                onCommit={(v) => setGap(editor, row, v)}
-              />
             )}
             {nodes.length > 0 && nodes.every((n) => n.kind === 'shape' && n.shape === 'rect') && (
               bindable(

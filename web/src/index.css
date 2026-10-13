@@ -1341,17 +1341,19 @@ input[type='checkbox']:disabled {
   border-bottom: 1px solid var(--border);
 }
 
-.align > :nth-child(7) {
-  margin-left: auto;
+.align:has(+ .distribute) {
+  padding-bottom: 2px;
+  border-bottom: 0;
+}
+
+.distribute > .field {
+  flex: 1;
+  margin-left: 8px;
 }
 
 .quick > .align {
   padding: 0;
   border: 0;
-}
-
-.quick > .align > :nth-child(7) {
-  margin-left: 0;
 }
 
 .align-inside {

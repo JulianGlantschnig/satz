@@ -99,7 +99,7 @@ test('layers side by side show their gap in the panel and drag it on the canvas'
   await page.keyboard.down('Shift')
   await page.mouse.click(...(await screen(page, 30, 30)))
   await page.keyboard.up('Shift')
-  const gap = panel.getByRole('textbox', { name: 'Horizontal gap in mm' })
+  const gap = panel.getByRole('textbox', { name: 'Horizontal spacing in mm' })
   await expect(gap).toHaveValue('10')
   await gap.fill('5')
   await gap.press('Enter')

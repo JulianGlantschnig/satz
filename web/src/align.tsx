@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { bounds, MM, type Editor } from './editor'
 import { Icon, type IconName } from './icons'
 import type { Node } from './model'
@@ -113,37 +113,50 @@ export function setGap(editor: Editor, { axis, nodes }: Row, gap: number) {
   })
 }
 
-/** A button for each alignment of the selection, to itself or its parent, or of the layers `inside` a group; those it cannot do are left out. */
-export function AlignBar({ editor, inside }: { editor: Editor; inside?: Node[] }) {
+/**
+ * A button for each alignment of the selection, to itself or its parent, or of the layers `inside` a group, and a 2nd row
+ * for distributing them and `children`; those it cannot do are left out.
+ */
+export function AlignBar({ editor, inside, children }: { editor: Editor; inside?: Node[]; children?: ReactNode }) {
   const [toParent, setToParent] = useState(false)
   const n = inside?.length ?? editor.selection.length
   const parent = !inside && n > 1 && toParent
+  const button = ([how, title, icon, key]: (typeof ALIGNS)[number]) => (
+    <button
+      key={how}
+      type="button"
+      className="icon-button"
+      aria-label={title}
+      title={inside ? `${title} inside the group` : `${title} (${key})`}
+      onClick={() => align(editor, how, inside, parent)}
+    >
+      <Icon name={icon} />
+    </button>
+  )
+  const spread = ALIGNS.slice(6).filter(([how]) => n >= (how === 'tidy' ? 2 : 3) && !(parent && how === 'tidy'))
   return (
-    <div role="toolbar" aria-label={inside ? 'Align inside' : 'Align'} className="align">
-      {inside ? (
-        <span className="align-inside" title="Aligns the layers inside the group">
-          <Icon name="group" />
-        </span>
-      ) : (
-        n > 1 && (
-          <button type="button" className="icon-button" aria-label="Align to the parent frame or page" title="Align to the parent frame or page" aria-pressed={toParent} onClick={() => setToParent(!toParent)}>
-            <Icon name="frame" />
-          </button>
-        )
+    <>
+      <div role="toolbar" aria-label={inside ? 'Align inside' : 'Align'} className="align">
+        {inside ? (
+          <span className="align-inside" title="Aligns the layers inside the group">
+            <Icon name="group" />
+          </span>
+        ) : (
+          n > 1 && (
+            <button type="button" className="icon-button" aria-label="Align to the parent frame or page" title="Align to the parent frame or page" aria-pressed={toParent} onClick={() => setToParent(!toParent)}>
+              <Icon name="frame" />
+            </button>
+          )
+        )}
+        {ALIGNS.slice(0, 6).map(button)}
+      </div>
+      {(spread.length > 0 || children) && (
+        <div role="toolbar" aria-label="Distribute" className="align distribute">
+          {spread.map(button)}
+          {children}
+        </div>
       )}
-      {ALIGNS.filter(([how]) => n >= (how === 'tidy' ? 2 : how.startsWith('distribute') ? 3 : 1) && !(parent && how === 'tidy')).map(([how, title, icon, key]) => (
-        <button
-          key={how}
-          type="button"
-          className="icon-button"
-          aria-label={title}
-          title={inside ? `${title} inside the group` : `${title} (${key})`}
-          onClick={() => align(editor, how, inside, parent)}
-        >
-          <Icon name={icon} />
-        </button>
-      ))}
-    </div>
+    </>
   )
 }
 
