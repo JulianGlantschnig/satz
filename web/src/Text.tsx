@@ -307,9 +307,9 @@ function Characters({ editor, node, font }: { editor: Editor; node: TextNode; fo
             label="Insert character"
             onClose={() => setAt(null)}
             items={[
-              ['Page number', () => put(PAGE_NUMBER), true, undefined, 'Ctrl Alt Shift N'],
+              [<span data-glyph="#">Page number</span>, () => put(PAGE_NUMBER), true, undefined, 'Ctrl Alt Shift N'],
               null,
-              ...CHARACTERS.map(([name, c]): [string, () => void, boolean, undefined, string] => [name, () => put(c), true, undefined, c.trim() || '␣']),
+              ...CHARACTERS.map(([name, c]): [ReactNode, () => void, boolean] => [<span data-glyph={c.trim() || '␣'}>{name}</span>, () => put(c), true]),
               null,
               ['All characters…', () => setAll(at), true],
             ]}

@@ -1111,6 +1111,15 @@ input[type='checkbox']:disabled {
   grid-column: 1 / -1;
 }
 
+[data-glyph]::before {
+  content: attr(data-glyph) / "";
+  display: inline-block;
+  width: 16px;
+  margin-right: 10px;
+  font: 15px/1 var(--doc-font);
+  text-align: center;
+}
+
 .glyph-name {
   min-height: 16px;
   margin-top: 8px;
