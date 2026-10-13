@@ -63,7 +63,7 @@ first review are in git history.
 - [x] 46. Active `Use as mask` looks like a focus ring; a group with a mask is not marked (carried over) → `Release mask` and a mask marker.
 - [x] 47. Constraints and sizing selects stand unlabeled under Layout → `Constraints`, `Resizing` sub-labels.
 - [x] 48. Auto layout direction ↓ before → → horizontal first.
-- [ ] 49. Text alignment row with `⋯` overflows the grid → `⋯` inside the grid.
+- [x] 49. Text alignment row with `⋯` overflows the grid → `⋯` inside the grid (checked: flush with the row above).
 - [ ] 50. Inset labels `↔ 0 | ↕ 0` read as width and height → `Inset H | V`.
 - [ ] 51. 4th size icon (corners) unclear → tooltip and title on all size options.
 - [ ] 52. Text stroke rows ordered differently from shape stroke → same order.
