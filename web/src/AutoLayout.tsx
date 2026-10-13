@@ -13,8 +13,8 @@ const PADDING = ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'] a
 
 const SIZES: Record<Size, string> = { fixed: 'Fixed', hug: 'Hug', fill: 'Fill' }
 const DIRECTIONS = [
-  ['vertical', 'Vertical layout', 'arrowDown'],
   ['horizontal', 'Horizontal layout', 'arrowRight'],
+  ['vertical', 'Vertical layout', 'arrowDown'],
 ] as const
 
 /** `node` is laid out by the auto layout of its parent. */
