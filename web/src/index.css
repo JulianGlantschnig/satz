@@ -3487,6 +3487,11 @@ input[type='checkbox']:active {
   width: 164px;
 }
 
+.find-acts .button {
+  justify-self: stretch;
+  height: 28px;
+}
+
 .find-acts:has(.find-count) {
   grid-template-columns: 1fr;
   grid-auto-columns: 28px;
