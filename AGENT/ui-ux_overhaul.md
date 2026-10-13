@@ -109,7 +109,7 @@ first review are in git history.
 - [x] 80. `Export with 3 errors` looks like the normal primary button → warning style.
 - [x] 81. Black separation dot is hollow → filled.
 - [x] 82. New document: `Open file…` broken styling, headings of different size, format sizes wrap (`420 mm × / 594 mm`), pages without stepper → fix styling, `420 × 594 mm` on 1 line, stepper.
-- [ ] 83. Shortcuts dialog: keys left or right aligned per section, recording row not highlighted → keys right, highlight the row.
+- [x] 83. Shortcuts dialog: keys left or right aligned per section, recording row not highlighted → keys right, highlight the row.
 - [ ] 84. Settings is a full-height dialog with 3 options and autofocus → compact, no autofocus.
 - [ ] 85. Find: `Replace` sticks to the field, `Replace all` not flush with the close button → even gaps, flush right.
 - [ ] 86. Shape menu: ~42 px left padding, ~12 px right, no tick for the current shape → even padding, tick.

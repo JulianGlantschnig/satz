@@ -3250,7 +3250,7 @@ input[type='checkbox']:active {
   border-bottom: 1px solid var(--border);
 }
 
-.help-r > span {
+.help-r > span:first-child {
   flex: 1;
   color: var(--text-2);
 }
@@ -3261,7 +3261,7 @@ input[type='checkbox']:active {
   font-weight: 700;
 }
 
-.help-r[data-remapped] > span::before {
+.help-r[data-remapped] > span:first-child::before {
   content: '';
   display: inline-block;
   width: 6px;
@@ -3269,6 +3269,13 @@ input[type='checkbox']:active {
   margin: 0 6px 1px 0;
   border-radius: 50%;
   background: var(--accent);
+}
+
+.help-r:has([data-recording]) {
+  margin: 0 -6px;
+  padding-inline: 6px;
+  border-radius: 6px;
+  background: var(--selected);
 }
 
 .help-r .icon-button {
