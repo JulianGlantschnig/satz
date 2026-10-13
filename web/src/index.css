@@ -1512,11 +1512,6 @@ input[type='checkbox']:disabled {
 }
 
 
-.var-editor .row > .danger {
-  flex: 0 auto;
-  margin-left: auto;
-}
-
 .menu-item.danger,
 .button.danger {
   color: var(--bad);
@@ -2275,6 +2270,17 @@ input[type='checkbox']:active {
 
 .field .name-input {
   border: 0;
+}
+
+.var-editor .name-input {
+  height: 28px;
+  border-color: var(--border);
+  border-radius: 6px;
+  background: var(--input);
+}
+
+.var-editor .name-input:focus {
+  border-color: var(--text-3);
 }
 
 .var-group {

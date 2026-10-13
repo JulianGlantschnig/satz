@@ -207,16 +207,6 @@ function VariableEditor({ editor, id, fonts, onClose }: { editor: Editor; id: st
           <Icon name="plus" />
           Add mode
         </button>
-        <button
-          type="button"
-          className="button danger"
-          onClick={() => {
-            onClose()
-            editor.apply({ type: 'deleteVariable', id })
-          }}
-        >
-          Delete variable
-        </button>
       </div>
     </Popover>
   )
