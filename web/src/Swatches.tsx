@@ -118,7 +118,6 @@ export function Swatches({ editor }: { editor: Editor }) {
             }}
             side="right"
             label="Edit swatch"
-            title="Edit swatch"
             color={swatch.color}
             mode={swatch.spot ? 'cmyk' : mode}
             scope={scopeOf(snapshot)}
@@ -126,7 +125,7 @@ export function Swatches({ editor }: { editor: Editor }) {
             onClose={() => setEditing(null)}
           >
             <div className="grid">
-              <label className="field">
+              <label className="field wide">
                 <span className="field-label">Name</span>
                 <NameInput label="Name" value={swatch.name} onCommit={(name) => set({ name })} />
               </label>

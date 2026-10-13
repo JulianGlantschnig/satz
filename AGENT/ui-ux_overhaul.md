@@ -76,7 +76,7 @@ first review are in git history.
 
 - [x] 57. Picker header shows a lone `Custom` tab for stops and shadows → no tab bar when there is only 1 tab.
 - [x] 58. Variable editor: name and mode names do not look editable, `Delete variable` beside `Add mode` → fields, delete moved to the context menu.
-- [ ] 59. Edit swatch name field squeezed by `Spot color` → name full width.
+- [x] 59. Edit swatch name field squeezed by `Spot color` → name full width.
 - [ ] 60. Swatch row `RGB ⚠` without explanation → tooltip.
 - [ ] 61. `Upload ICC…` in the profile select without separator → separator.
 - [ ] 62. Line end select without preview → arrow icons.
