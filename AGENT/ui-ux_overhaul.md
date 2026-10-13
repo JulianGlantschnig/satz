@@ -112,4 +112,4 @@ first review are in git history.
 - [x] 83. Shortcuts dialog: keys left or right aligned per section, recording row not highlighted → keys right, highlight the row.
 - [x] 84. Settings is a full-height dialog with 3 options and autofocus → compact, no autofocus.
 - [x] 85. Find: `Replace` sticks to the field, `Replace all` not flush with the close button → even gaps, flush right.
-- [ ] 86. Shape menu: ~42 px left padding, ~12 px right, no tick for the current shape → even padding, tick.
+- [x] 86. Shape menu: ~42 px left padding, ~12 px right, no tick for the current shape → even padding, tick.

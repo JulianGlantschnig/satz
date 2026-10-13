@@ -125,14 +125,14 @@ export function Toolbar({ editor, onPlaceImage }: { editor: Editor; onPlaceImage
                 key={tool}
                 type="button"
                 role="menuitemradio"
-                aria-checked={active === tool}
+                aria-checked={shape.tool === tool}
                 className="menu-item"
                 onClick={() => {
                   editor.setTool(tool)
                   setOpen(false)
                 }}
               >
-                <span>{active === tool && <Icon name="check" />}</span>
+                <span>{shape.tool === tool && <Icon name="check" />}</span>
                 <Icon name={icon} />
                 <span>{label}</span>
                 <Keys keys={key} />
