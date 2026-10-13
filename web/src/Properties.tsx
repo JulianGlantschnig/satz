@@ -486,8 +486,10 @@ export function Properties({ editor }: { editor: Editor }) {
                 'Weight',
                 <Field label="Weight" title="Stroke weight" unit="pt" value={same((n) => n.strokeWeight)} onCommit={(v) => set({ strokeWeight: v })} />,
               )}
-              {nodes.every((n) => n.kind !== 'text') && (
+              {nodes.every((n) => n.kind !== 'text') ? (
                 <Select label="Line style" value={same((n) => n.lineStyle)} options={LINE_STYLES} onChange={(lineStyle) => set({ lineStyle })} />
+              ) : (
+                <span />
               )}
               {open ? (
                 <Segmented label="Stroke cap" prefix="Cap" value={same((n) => n.cap)} options={CAPS} onChange={(cap) => set({ cap })} />
