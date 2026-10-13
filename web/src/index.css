@@ -347,6 +347,11 @@ button {
   transition: opacity 0.1s;
 }
 
+.primary.bad {
+  background: color-mix(in srgb, var(--bad) 18%, transparent);
+  color: var(--bad);
+}
+
 .primary:hover {
   opacity: 0.86;
 }

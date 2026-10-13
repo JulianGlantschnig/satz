@@ -106,7 +106,7 @@ first review are in git history.
 - [x] 77. Overview labels `2B 3B` read like names; master tile `B  · Body` gap → `2 · B`, even gap.
 - [x] 78. Page range error `Pages 1 to 1, like 1-3, 5` → `Pages 1–8, e.g. 1-3, 5`, `Only page 1` for 1 page.
 - [x] 79. `JPEG quality` shown when images are kept → only when images are resampled. (kept: the quality also re-encodes PNG and converted images at full resolution)
-- [ ] 80. `Export with 3 errors` looks like the normal primary button → warning style.
+- [x] 80. `Export with 3 errors` looks like the normal primary button → warning style.
 - [ ] 81. Black separation dot is hollow → filled.
 - [ ] 82. New document: `Open file…` broken styling, headings of different size, format sizes wrap (`420 mm × / 594 mm`), pages without stepper → fix styling, `420 × 594 mm` on 1 line, stepper.
 - [ ] 83. Shortcuts dialog: keys left or right aligned per section, recording row not highlighted → keys right, highlight the row.
