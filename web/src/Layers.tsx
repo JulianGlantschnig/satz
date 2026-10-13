@@ -217,7 +217,7 @@ export function Layers({ editor }: { editor: Editor }) {
     <nav className="panel layers" aria-label="Layers">
       <header className="panel-header">
         <Icon name="layers" />
-        <h2>{pages.length > 1 ? 'Layers' : `Layers · ${all.includes(page) ? `Page ${all.indexOf(page) + 1}` : page.name}`}</h2>
+        <h2>{`Layers · ${!all.includes(page) ? page.name : pages.length > 1 ? `Pages ${all.indexOf(pages[0]) + 1}–${all.indexOf(pages.at(-1)!) + 1}` : `Page ${all.indexOf(page) + 1}`}`}</h2>
       </header>
       {pages.every((p) => !p.children.length) && <p className="empty layers-empty">No layers yet</p>}
       <ul
