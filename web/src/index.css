@@ -3193,9 +3193,12 @@ input[type='checkbox']:active {
 }
 
 .help.settings {
-  width: min(400px, 92vw);
+  width: min(440px, 94vw);
   height: fit-content;
-  margin-top: auto;
+}
+
+.help.settings:focus {
+  outline: none;
 }
 
 .settings-body {
@@ -3209,16 +3212,8 @@ input[type='checkbox']:active {
   display: grid;
   grid-template-columns: 1fr 180px;
   align-items: center;
-  color: var(--text-2);
-}
-
-.help.settings {
-  width: min(440px, 94vw);
-  height: auto;
-}
-
-.settings-row {
   min-height: 28px;
+  color: var(--text-2);
 }
 
 .settings-row input {

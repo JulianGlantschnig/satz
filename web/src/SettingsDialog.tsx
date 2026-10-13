@@ -11,10 +11,10 @@ export function Settings({ onClose }: { onClose: () => void }) {
   const { unit, theme, quickEdit, layers } = useSettings()
   useEffect(() => {
     ref.current!.showModal()
-    ref.current!.querySelector<HTMLElement>('.settings-body button')?.focus()
+    ref.current!.focus()
   }, [])
   return (
-    <dialog ref={ref} className="help settings" aria-label="Settings" onClose={onClose} onClick={(e) => e.target === e.currentTarget && ref.current!.close()}>
+    <dialog ref={ref} className="help settings" aria-label="Settings" tabIndex={-1} onClose={onClose} onClick={(e) => e.target === e.currentTarget && ref.current!.close()}>
       <header className="help-head">
         <h2>Settings</h2>
         <span className="grow" />
