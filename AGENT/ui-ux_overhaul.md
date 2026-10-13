@@ -67,7 +67,7 @@ first review are in git history.
 - [x] 50. Inset labels `↔ 0 | ↕ 0` read as width and height → `Inset H | V`.
 - [x] 51. 4th size icon (corners) unclear → removed: auto fit is an action (Ctrl+Alt+C, palette), not a state; the other 3 keep their titles.
 - [x] 52. Text stroke rows ordered differently from shape stroke → same order.
-- [ ] 53. Stroke align icons cryptic → tooltips `Inside`, `Center`, `Outside`.
+- [x] 53. Stroke align icons cryptic → tooltips `Inside`, `Center`, `Outside` (checked: Segmented titles every option).
 - [ ] 54. No way to add or remove a gradient stop → `+` in the stops header, `−` per stop.
 - [ ] 55. Invalid input shows a red border without text → tooltip with the reason.
 - [ ] 56. Star: Ratio and points belong into `Shape` (carried over; check).
