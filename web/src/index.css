@@ -2207,8 +2207,7 @@ input[type='checkbox']:active {
 }
 
 .plate-k .ink {
-  background: #1d1d1b;
-  box-shadow: 0 0 0 1px var(--edge);
+  background: #5c5c5a;
 }
 
 .plate span:first-of-type {
