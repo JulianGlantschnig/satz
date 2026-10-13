@@ -553,11 +553,8 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         const x = Math.min(Math.max(view.x + (sel.x + sel.w / 2) * view.zoom - w / 2, 8), vw - w - 8)
         const above = view.y + sel.y * view.zoom - h - 14
         const below = view.y + (sel.y + sel.h) * view.zoom + 14
-        const others = editor.spread.flatMap((p) => p.children.map(covered)).filter((n) => !n.hidden && !editor.selection.includes(n.id))
-        const covers = (top: number) =>
-          others.some((n) => view.x + n.x * view.zoom < x + w && view.x + (n.x + n.w) * view.zoom > x && view.y + n.y * view.zoom < top + h && view.y + (n.y + n.h) * view.zoom > top)
         bar.style.left = `${x}px`
-        bar.style.top = `${Math.min(Math.max(above >= 8 && (!covers(above) || covers(below)) ? above : below, 8), vh - h - 8)}px`
+        bar.style.top = `${Math.min(Math.max(above >= 8 ? above : below, 8), vh - h - 8)}px`
       }
       const page = pointer ? pageAt(toDoc(pointer), editor.sheets) : undefined
       const target = !alt || !sel || drag || ed || pen || editor.tool !== 'move'
