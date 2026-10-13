@@ -8,7 +8,7 @@ import { Icon, KindIcon, type IconName } from './icons'
 import { FORMATS, ORIENTATIONS, formatOf } from './Start'
 import { addFonts, canFindFonts, findFonts, pickProfile, readLocalFonts, removeFont, useLocalFonts } from './file'
 import type { Bindable as Prop, Blend, Constraint, Command, Grid, LineStyle, Node, Page, Props, Section as Numbers, Wrap } from './model'
-import { isOpen, radiusOf } from './model'
+import { isOpen, radiusOf, rounded } from './model'
 import { AlignBar, BooleanBar, combinable, rowOf, setGap } from './align'
 import { ACTIONS, keysOf, press } from './commands'
 import { AutoLayout, flows, Sizing } from './AutoLayout'
@@ -22,6 +22,12 @@ const ARRANGE: [string, IconName][] = [
   ['Flip vertical', 'flipVertical'],
   ['Add auto layout', 'autoLayout'],
 ]
+/** The rotation of `n`, for a group that of all its layers, or null if they differ. */
+const turnOf = (n: Node): number | null => {
+  if (n.kind !== 'group') return n.rotation
+  const turns = n.children.map(turnOf)
+  return turns.every((t) => t === turns[0]) ? turns[0] : null
+}
 const WRAPS: Record<Wrap, string> = { none: 'No text wrap', around: 'Wrap around', jump: 'Jump over' }
 const BLENDS: Record<Blend, string> = {
   normal: 'Normal', darken: 'Darken', multiply: 'Multiply', colorBurn: 'Color burn',
@@ -123,7 +129,7 @@ export function Properties({ editor }: { editor: Editor }) {
   const set = (props: Props) => each((n) => ({ type: 'set', id: n.id, ...props }))
   const open = nodes.length > 0 && nodes.every(isOpen)
   const stroked = nodes.length > 0 && nodes.every((n) => n.kind !== 'group')
-  const sided = nodes.length > 0 && nodes.every((n) => n.kind === 'frame' || (n.kind === 'shape' && n.shape === 'rect'))
+  const sided = nodes.length > 0 && nodes.every(rounded)
   const strokes = stroked ? sameList((n) => n.strokes) : null
   const line = one && ends(one)
   const length = line && Math.hypot(line[1].x - line[0].x, line[1].y - line[0].y)
@@ -334,10 +340,28 @@ export function Properties({ editor }: { editor: Editor }) {
                 {bindable('h', 'H', 'H', <Field label="H" value={same((n) => n.h)} unit="length" onCommit={frame('h')} />)}
               </>
             )}
-            {!line && nodes.every((n) => n.kind !== 'group') && (
-              <Field label={<Icon name="angle" />} title="Rotation" unit="°" min={-Infinity} reset={0} value={same((n) => n.rotation)} onCommit={(v) => set({ rotation: ((v % 360) + 360) % 360 })} />
+            {!line && (
+              <Field
+                label={<Icon name="angle" />}
+                title="Rotation"
+                unit="°"
+                min={-Infinity}
+                reset={0}
+                value={same(turnOf)}
+                onCommit={(v) =>
+                  editor.batch(() => {
+                    for (const n of nodes) {
+                      if (n.kind !== 'group') editor.apply({ type: 'set', id: n.id, rotation: ((v % 360) + 360) % 360 })
+                      else {
+                        const b = editor.shown(n)
+                        editor.turn([n], v - (turnOf(n) ?? 0), { x: b.x + b.w / 2, y: b.y + b.h / 2 })
+                      }
+                    }
+                  })
+                }
+              />
             )}
-            {nodes.length > 0 && nodes.every((n) => n.kind === 'shape' && n.shape === 'rect') && (
+            {sided && (
               bindable(
                 'radius',
                 'Corner radius',
@@ -347,7 +371,7 @@ export function Properties({ editor }: { editor: Editor }) {
                   title="Corner radius"
                   unit="length"
                   reset={0}
-                  value={same((n) => ('radius' in n ? (radiusOf(n) ?? undefined) : 0))}
+                  value={same((n) => (rounded(n) ? (radiusOf(n) ?? undefined) : 0))}
                   onCommit={(radius) => set({ radius, corners: [] })}
                 />,
               )

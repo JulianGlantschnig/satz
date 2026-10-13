@@ -197,6 +197,9 @@ pub enum Kind {
     },
     Frame {
         clip: bool,
+        radius: f32,
+        #[serde(skip_serializing_if = "Vec::is_empty")]
+        corners: Vec<f32>,
         children: Vec<Node>,
     },
 }
@@ -517,8 +520,19 @@ pub(super) fn draw(n: &Node, ops: &mut Vec<Op>, pal: &Palette) {
             )
         }
         Kind::Group { children } => draw_all(children, ops, pal),
-        Kind::Frame { clip, children } => {
-            let r = rect(frame[0], frame[1], frame[2], frame[3]);
+        Kind::Frame {
+            clip,
+            radius,
+            corners,
+            children,
+        } => {
+            let r = outline(
+                &Shape::Rect {
+                    radius: *radius,
+                    corners: corners.clone(),
+                },
+                frame,
+            );
             item(ops, n.style.shape(&r, &r, frame, s));
             if !*clip {
                 draw_all(children, ops, pal);
@@ -577,7 +591,7 @@ pub(super) fn hit(
         path.push(n.id.clone());
         let found = match &n.kind {
             Kind::Group { children } => hit(children, x, y, tolerance, locks, path),
-            Kind::Frame { children, clip } => {
+            Kind::Frame { children, clip, .. } => {
                 (inside || !clip) && hit(children, x, y, tolerance, locks, path) || inside
             }
             Kind::Shape(s) => {
@@ -1166,6 +1180,8 @@ impl Doc {
             },
             Some(NodeKind::Frame) => Kind::Frame {
                 clip: v["clip"] == true,
+                radius: v["radius"].as_f64().unwrap_or_default() as f32,
+                corners: serde_json::from_value(v["corners"].clone()).unwrap_or_default(),
                 children: children(),
             },
             _ => Kind::Shape(Shape::deserialize(&v).unwrap_or(Shape::Rect {
@@ -1220,6 +1236,7 @@ impl Doc {
             Kind::Frame {
                 clip: false,
                 children,
+                ..
             } => union([own].into_iter().chain(children.iter().map(|c| c.bounds))),
             _ => own,
         };
@@ -1395,6 +1412,33 @@ mod tests {
         })
         .unwrap();
         assert_eq!(hits(&d, 15.0, 15.0, 0.0), [f, a]);
+    }
+
+    #[test]
+    fn a_frame_with_a_radius_clips_along_its_rounded_outline() {
+        let (mut d, p) = empty();
+        let f = create(&mut d, &p, NewKind::Frame, [0.0, 0.0, 40.0, 30.0]);
+        create(&mut d, &f, NewKind::Rect, [0.0, 0.0, 10.0, 10.0]);
+        set(
+            &mut d,
+            &f,
+            Props {
+                radius: Some(5.0),
+                ..Props::default()
+            },
+        );
+        let clip = page_ops(&d).into_iter().find_map(|o| match o {
+            Op::PushClip { path, .. } => Some(path),
+            _ => None,
+        });
+        let round = outline(
+            &Shape::Rect {
+                radius: 5.0,
+                corners: vec![],
+            },
+            [0.0, 0.0, 40.0, 30.0],
+        );
+        assert_eq!(clip, Some(round));
     }
 
     #[test]

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { CanvasKit, Surface } from 'canvaskit-wasm'
 import { INSETS, MM, bounds, ends, insertion, useEditor, type Editor, type Point, type Tool } from './editor'
 import type { Container, NewKind, Node, Page, TextNode } from './model'
-import { radii } from './model'
+import { radii, rounded } from './model'
 import { penPath } from './pen'
 import { rowOf, setGap, type Row } from './align'
 import { gapHandles, handleAt, portAt, portsOf, radiusHandles, rect, resized, spin, upright } from './handles'
@@ -333,7 +333,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       const row = rowOf(editor)
       return {
         box,
-        radii: shown && n.kind === 'shape' && n.shape === 'rect' ? radiusHandles(view, shown, radii(n)) : undefined,
+        radii: shown && rounded(n) ? radiusHandles(view, shown, radii(n)) : undefined,
         gaps: row ? gapHandles(view, row.axis, row.nodes.map(placed)) : undefined,
       }
     }
@@ -980,7 +980,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       if (handle?.startsWith('radius')) {
         const n = placed(editor.selected()[0])
         const turn = editor.shown(n).rotation!
-        if (n.kind === 'shape' && n.shape === 'rect') drag = { kind: 'radius', start: p, id: n.id, box: n, radii: radii(n), index: Number(handle.slice(6)), turn }
+        if (rounded(n)) drag = { kind: 'radius', start: p, id: n.id, box: n, radii: radii(n), index: Number(handle.slice(6)), turn }
         editor.beginGroup()
         return
       }

@@ -174,7 +174,7 @@ export type Node = {
     | ({ kind: 'shape' } & Shape)
     | ({ kind: 'text' } & Threaded & TextFrame)
     | { kind: 'group'; children: Node[] }
-    | { kind: 'frame'; clip: boolean; children: Node[] }
+    | { kind: 'frame'; clip: boolean; radius: number; corners?: number[]; children: Node[] }
   )
 
 export type Container = Extract<Node, { children: Node[] }>
@@ -378,11 +378,14 @@ export function textSizing({ horizontal, vertical }: Sizing, mode: Resizing): Si
     : { horizontal: width, vertical: vertical === 'fill' ? 'fill' : 'fixed' }
 }
 
-export const radii = ({ radius, corners }: { radius: number; corners?: number[] }) => (corners?.length ? corners : [radius, radius, radius, radius])
-/** The radius of all corners of a rectangle, or null if they differ. */
 export const isOpen = (n: Node) => n.kind === 'shape' && n.shape === 'path' && !n.path.includes(5)
 
-export const radiusOf = (s: { radius: number; corners?: number[] }) => {
+type Rounded = { radius: number; corners?: number[] }
+/** Whether `n` has corners to round: a frame or a rectangle. */
+export const rounded = (n: Node): n is Node & Rounded => n.kind === 'frame' || (n.kind === 'shape' && n.shape === 'rect')
+export const radii = ({ radius, corners }: Rounded) => (corners?.length ? corners : [radius, radius, radius, radius])
+/** The radius of all corners of a rectangle, or null if they differ. */
+export const radiusOf = (s: Rounded) => {
   const r = radii(s)
   return r.every((v) => v === r[0]) ? r[0] : null
 }
