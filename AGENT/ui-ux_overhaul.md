@@ -65,7 +65,7 @@ first review are in git history.
 - [x] 48. Auto layout direction ↓ before → → horizontal first.
 - [x] 49. Text alignment row with `⋯` overflows the grid → `⋯` inside the grid (checked: flush with the row above).
 - [x] 50. Inset labels `↔ 0 | ↕ 0` read as width and height → `Inset H | V`.
-- [ ] 51. 4th size icon (corners) unclear → tooltip and title on all size options.
+- [x] 51. 4th size icon (corners) unclear → removed: auto fit is an action (Ctrl+Alt+C, palette), not a state; the other 3 keep their titles.
 - [ ] 52. Text stroke rows ordered differently from shape stroke → same order.
 - [ ] 53. Stroke align icons cryptic → tooltips `Inside`, `Center`, `Outside`.
 - [ ] 54. No way to add or remove a gradient stop → `+` in the stops header, `−` per stop.

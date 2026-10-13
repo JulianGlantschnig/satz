@@ -245,7 +245,8 @@ test('auto fit and a double click on an edge or corner of a text frame fit it to
 
   await width.fill('100')
   await width.press('Enter')
-  await mode('Auto fit').click()
+  await page.evaluate(() => (document.activeElement as HTMLElement).blur())
+  await page.keyboard.press('Control+Alt+c')
   await expect(mode('Auto width')).toBeChecked()
   await mode('Fixed size').click()
   await page.mouse.dblclick(...(await screen(page, 20, 100)))

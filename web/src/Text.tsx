@@ -29,7 +29,6 @@ const RESIZING = [
   ['autoWidth', 'Auto width', 'autoWidth'],
   ['autoHeight', 'Auto height', 'autoHeight'],
   ['fixedSize', 'Fixed size', 'fixedSize'],
-  ['autoFit', 'Auto fit', 'autoFit'],
 ] as const
 const LANGS = { en: 'English', de: 'German', fr: 'French', it: 'Italian', es: 'Spanish', nl: 'Dutch' } as const
 /** Styled numbers: title, label, unit, least value and the text shown for 0. */
@@ -531,8 +530,8 @@ export function TextFrameSection({ editor, node, set }: { editor: Editor; node: 
         prefix="Size"
         value={resizing}
         options={RESIZING}
-        disabled={(v) => (v === 'autoWidth' && !!(node.prev || node.next)) || (v !== 'autoWidth' && v !== 'fixedSize' && !!node.next)}
-        onChange={(mode) => (mode === 'autoFit' ? editor.resize([node], mode) : set({ sizing: textSizing(node.sizing, mode) }))}
+        disabled={(v) => (v === 'autoWidth' && !!(node.prev || node.next)) || (v === 'autoHeight' && !!node.next)}
+        onChange={(mode) => set({ sizing: textSizing(node.sizing, mode) })}
       />
       <Sides what="inset" values={insets} each={each} set={(v) => set(Object.fromEntries(INSETS.map((p, i) => [p, v[i]])))} />
       <div className="grid">
