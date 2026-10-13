@@ -133,8 +133,8 @@ export function Start({ editor, onClose }: { editor: Editor; onClose: () => void
                   )}
                 </span>
                 <strong>{f[0]}</strong>
-                <small>
-                  {length(a)} × {length(b)}
+                <small title={`${length(a)} × ${length(b)}`}>
+                  {length(a).split(' ')[0]} × {length(b).split(' ')[0]}
                 </small>
               </button>
             )
@@ -148,14 +148,14 @@ export function Start({ editor, onClose }: { editor: Editor; onClose: () => void
               <Field label="H" title="Height" value={h} unit="length" onCommit={(v) => v > 0 && setCustom(land ? [v, custom[1]] : [custom[0], v])} />
             </>
           )}
-          <Field label="Pages" title="Pages" value={pages} unit="" min={1} max={999} onCommit={(v) => setPages(Math.round(v))} />
+          <Field label="Pages" title="Pages" value={pages} unit="" int min={1} max={999} onCommit={(v) => setPages(Math.round(v))} />
           <label className="check">
             <input type="checkbox" checked={pages > 1 && facing} disabled={pages < 2} onChange={(e) => setFacing(e.currentTarget.checked)} />
             Facing pages
           </label>
         </div>
         <footer className="start-footer">
-          <button type="button" onClick={openFile}>
+          <button type="button" className="button" onClick={openFile}>
             <Icon name="folder" />
             Open file…
             <Keys keys="Ctrl O" />

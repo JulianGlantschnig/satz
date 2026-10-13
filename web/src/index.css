@@ -2534,7 +2534,7 @@ input[type='checkbox']:active {
 .start[open] {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 250px;
-  width: min(900px, 94vw);
+  width: min(960px, 94vw);
   padding: 0;
   overflow: hidden;
   border: 1px solid var(--edge);
@@ -2564,7 +2564,7 @@ input[type='checkbox']:active {
 
 .formats {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 6px;
 }
 
@@ -2572,7 +2572,7 @@ input[type='checkbox']:active {
   display: grid;
   justify-items: center;
   gap: 4px;
-  padding: 10px 4px;
+  padding: 10px 2px;
   border: 0;
   border-radius: 8px;
   background: none;
@@ -2622,6 +2622,13 @@ input[type='checkbox']:active {
   font-size: 11px;
 }
 
+.format small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .start-options {
   display: flex;
   flex-wrap: wrap;
@@ -2643,6 +2650,9 @@ input[type='checkbox']:active {
 }
 
 .start-footer button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   height: 34px;
   padding: 0 14px;
 }
@@ -2658,8 +2668,9 @@ input[type='checkbox']:active {
 
 .start-side h3 {
   margin: 0 0 6px;
-  color: var(--text-2);
-  font-size: 13px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
 }
 
 .example {
