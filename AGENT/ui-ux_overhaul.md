@@ -94,7 +94,7 @@ first review are in git history.
 - [x] 68. Resize shows no size, rotate no angle → label at the pointer.
 - [x] 69. Size label is magenta like snap distances → neutral label, centred under the box. (done with 68)
 - [x] 70. Distance labels `11 mm` and `29 mm` overlap (04/12) → move the shorter one aside. (checked: labels move apart since f7f8807, snap.spec asserts no overlap)
-- [ ] 71. Drawing a rectangle shows radius handles → only after drawing.
+- [x] 71. Drawing a rectangle shows radius handles → only after drawing.
 - [ ] 72. Quick bar for text, wrap and threading sits over the text → above the frame, below if no room.
 - [ ] 73. Quick bar image shows a meaningless `∅` fill chip → hide.
 - [ ] 74. Adjust image: values far from the labels between − and + → slider with the value right.

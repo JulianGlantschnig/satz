@@ -333,7 +333,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       const row = rowOf(editor)
       return {
         box,
-        radii: shown && rounded(n) ? radiusHandles(view, shown, radii(n)) : undefined,
+        radii: shown && rounded(n) && drag?.kind !== 'draw' ? radiusHandles(view, shown, radii(n)) : undefined,
         gaps: row ? gapHandles(view, row.axis, row.nodes.map(placed)) : undefined,
       }
     }
