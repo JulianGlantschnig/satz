@@ -504,3 +504,16 @@ export function SidesToggle({ what, pressed, disabled, onClick }: { what: string
     </button>
   )
 }
+
+/** A titled group of options in a section. */
+export function Group({ title, action, children }: { title: string; action?: ReactNode; children?: ReactNode }) {
+  return (
+    <div role="group" aria-label={title} className="options-group">
+      <header>
+        <h4>{title}</h4>
+        {action}
+      </header>
+      {children && <div className="grid">{children}</div>}
+    </div>
+  )
+}

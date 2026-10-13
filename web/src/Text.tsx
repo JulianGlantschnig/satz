@@ -1,7 +1,7 @@
 import { Fragment, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { ContextMenu } from './ContextMenu'
-import { Check, Field, FontSelect, NameInput, nextName, Section, Segmented, Select, Sides, useSides } from './controls'
+import { Check, Field, FontSelect, Group, NameInput, nextName, Section, Segmented, Select, Sides, useSides } from './controls'
 import { ColorPicker } from './ColorPicker'
 import { neutral, type Color } from './color'
 import { scopeOf, useEditor, type Editor } from './editor'
@@ -222,18 +222,6 @@ export function TypeOptions({ spans, set }: { spans: Pick<Attrs, Styled>[]; set:
           document.body,
         )}
     </>
-  )
-}
-
-function Group({ title, action, children }: { title: string; action?: ReactNode; children?: ReactNode }) {
-  return (
-    <div role="group" aria-label={title} className="options-group">
-      <header>
-        <h4>{title}</h4>
-        {action}
-      </header>
-      {children && <div className="grid">{children}</div>}
-    </div>
   )
 }
 

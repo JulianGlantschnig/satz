@@ -1,5 +1,5 @@
 import { neutral, solid, type ColorMode } from './color'
-import { Check, Field, NameInput, Section, Segmented, Select, SIDE_NAMES, SidesToggle } from './controls'
+import { Check, Field, Group, NameInput, Section, Segmented, Select, SIDE_NAMES, SidesToggle } from './controls'
 import { useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { ContextMenu } from './ContextMenu'
@@ -386,7 +386,7 @@ export function Properties({ editor }: { editor: Editor }) {
             </label>
           )}
           {one && parent?.kind === 'frame' && !flows(editor, one) && (
-            <div className="grid">
+            <Group title="Constraints">
               {(['horizontal', 'vertical'] as const).map((axis) => (
                 <Select
                   key={axis}
@@ -397,7 +397,7 @@ export function Properties({ editor }: { editor: Editor }) {
                   onChange={(k) => set({ constraints: { ...one.constraints, [axis]: k } })}
                 />
               ))}
-            </div>
+            </Group>
           )}
         </Section>
       )}

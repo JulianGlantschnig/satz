@@ -1,4 +1,4 @@
-import { Field, Section, Segmented, Select, SIDE_NAMES, Sides, useSides } from './controls'
+import { Field, Group, Section, Segmented, Select, SIDE_NAMES, Sides, useSides } from './controls'
 import type { Editor } from './editor'
 import { Icon } from './icons'
 import type { Layout, Node, Props, Size } from './model'
@@ -30,7 +30,7 @@ export function Sizing({ editor, node, set }: { editor: Editor; node: Node; set:
   if (!hugs && !fills) return null
   const sizes = Object.fromEntries(Object.entries(SIZES).filter(([s]) => s === 'fixed' || (s === 'hug' ? hugs : fills))) as Record<Size, string>
   return (
-    <div className="grid">
+    <Group title="Resizing">
       {(['horizontal', 'vertical'] as const).map((axis) => (
         <Select
           key={axis}
@@ -41,7 +41,7 @@ export function Sizing({ editor, node, set }: { editor: Editor; node: Node; set:
           onChange={(s) => set({ sizing: { ...node.sizing, [axis]: s } })}
         />
       ))}
-    </div>
+    </Group>
   )
 }
 
