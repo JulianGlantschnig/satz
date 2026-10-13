@@ -406,7 +406,9 @@ export function Overview({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
                 />
               ) : (
                 <span className="ov-cap" title={m.name} onDoubleClick={() => setRenaming(m.id)}>
-                  <b>{prefix(m.name)}</b> · {m.name}
+                  <span>
+                    <b>{prefix(m.name)}</b> · {m.name}
+                  </span>
                 </span>
               )}
             </div>
@@ -452,7 +454,12 @@ export function Overview({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
                     return (
                       <span key={id}>
                         {ids.indexOf(id) + 1}
-                        {m && <b title={`Master ${m.name}`}>{prefix(m.name)}</b>}
+                        {m && (
+                          <>
+                            {' · '}
+                            <b title={`Master ${m.name}`}>{prefix(m.name)}</b>
+                          </>
+                        )}
                       </span>
                     )
                   })}

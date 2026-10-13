@@ -2884,14 +2884,13 @@ input[type='checkbox']:active {
 
 .ov-cap {
   display: flex;
-  gap: 10px;
+  gap: 16px;
   user-select: none;
   color: var(--text-2);
   font-size: 11px;
 }
 
 .ov-cap b {
-  margin-left: 2px;
   color: var(--master);
   font-weight: 600;
 }
