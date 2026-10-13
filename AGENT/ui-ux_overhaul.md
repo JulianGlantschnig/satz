@@ -70,7 +70,7 @@ first review are in git history.
 - [x] 53. Stroke align icons cryptic → tooltips `Inside`, `Center`, `Outside` (checked: Segmented titles every option).
 - [x] 54. No way to add or remove a gradient stop → `+` in the stops header, `−` per stop.
 - [x] 55. Invalid input shows a red border without text → tooltip with the reason.
-- [ ] 56. Star: Ratio and points belong into `Shape` (carried over; check).
+- [x] 56. Star: Ratio and points belong into `Shape` (carried over; checked: Points and Inner radius sit in `Shape`).
 
 ## Popovers, pickers, variables
 
