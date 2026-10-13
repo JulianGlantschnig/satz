@@ -26,7 +26,8 @@ test('a field takes expressions with units, steps with the arrow keys and shakes
   await x.fill('2 +')
   await x.press('Enter')
   await expect(x).toHaveValue('30.9')
-  await expect(panel.locator('.field.bad')).toHaveCount(1)
+  await expect(x).toHaveAttribute('aria-invalid', 'true')
+  await expect(panel.locator('.field.bad')).toHaveAttribute('title', /not a number/)
 })
 
 test('dragging the label of a field scrubs it in one undo step', async ({ page }) => {

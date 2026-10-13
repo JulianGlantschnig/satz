@@ -69,7 +69,7 @@ first review are in git history.
 - [x] 52. Text stroke rows ordered differently from shape stroke → same order.
 - [x] 53. Stroke align icons cryptic → tooltips `Inside`, `Center`, `Outside` (checked: Segmented titles every option).
 - [x] 54. No way to add or remove a gradient stop → `+` in the stops header, `−` per stop.
-- [ ] 55. Invalid input shows a red border without text → tooltip with the reason.
+- [x] 55. Invalid input shows a red border without text → tooltip with the reason.
 - [ ] 56. Star: Ratio and points belong into `Shape` (carried over; check).
 
 ## Popovers, pickers, variables

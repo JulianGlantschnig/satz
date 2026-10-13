@@ -83,7 +83,7 @@ export function Field({
     <label
       htmlFor={id}
       className={`field${int ? ' int' : ''}${bad ? ' bad' : ''}${scrub ? ' scrub' : ''}${disabled ? ' disabled' : ''}`}
-      title={title}
+      title={bad ? `${title}: not a number, e.g. 12, 10+5 or 1cm` : title}
     >
       {label && (
         <span
@@ -122,6 +122,7 @@ export function Field({
         id={id}
         name={title.toLowerCase().replaceAll(' ', '-')}
         aria-label={title}
+        aria-invalid={bad || undefined}
         inputMode="decimal"
         autoComplete="off"
         spellCheck={false}
