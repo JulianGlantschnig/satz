@@ -118,7 +118,7 @@ export function Picker({
   color,
   mode,
   scope,
-  title = 'Custom',
+  title = label,
   children,
   onChange,
   onClose,
