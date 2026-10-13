@@ -66,7 +66,7 @@ export function Quick({ editor }: { editor: Editor }) {
       </button>
     )
   }
-  const stroked = nodes.every((n) => n.kind !== 'group')
+  const stroked = nodes.every((n) => n.kind !== 'group' && n.ppi === undefined)
   const size = sameOf(spans, (a) => a.size)
   return (
     <>
