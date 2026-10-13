@@ -58,7 +58,7 @@ first review are in git history.
 - [x] 41. Second icon row shows edit points for groups, frames, images (disabled) → hide what does not apply.
 - [x] 42. Multi selection align row: bottom align detached, 10 icons squeezed with 5 layers → aligns in 1 row, distribute and spacing in a 2nd.
 - [x] 43. Spacing field `↔ 6 mm` shown for 2 layers, not 5, unlabeled → `Spacing` label, shown from 2 layers.
-- [ ] 44. Mixed fields drop their unit → keep the unit.
+- [x] 44. Mixed fields drop their unit → keep the unit.
 - [ ] 45. Groups have no rotation, frames no radius → add them.
 - [ ] 46. Active `Use as mask` looks like a focus ring; a group with a mask is not marked (carried over) → `Release mask` and a mask marker.
 - [ ] 47. Constraints and sizing selects stand unlabeled under Layout → `Constraints`, `Resizing` sub-labels.
