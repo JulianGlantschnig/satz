@@ -49,14 +49,15 @@ export const ink = (c: Color) => (typeof c === 'object' && 'cmyk' in c ? c.cmyk.
 
 export function SwatchOption({ swatch, selected, onPick }: { swatch: Swatch; selected: boolean; onPick: () => void }) {
   const values = ink(swatch.color)
-  const kind = swatch.spot ? 'Spot color' : `Process color (${values === 'RGB' ? 'RGB' : 'CMYK'})`
+  const kind = swatch.spot ? 'Spot color' : 'Process color'
+  const inks = values === 'RGB' ? 'RGB only, converted to CMYK when printed' : values
   return (
-    <button type="button" role="option" aria-selected={selected} className="swatch-option" title={`${swatch.name} · ${kind} · ${values}`} onClick={onPick}>
+    <button type="button" role="option" aria-selected={selected} className="swatch-option" title={`${swatch.name} · ${kind} · ${inks}`} onClick={onPick}>
       <Chip color={swatch.color} scope={NO_SCOPE} />
       <span className="swatch-name">{swatch.name}</span>
       <span className="swatch-ink" data-ink={values} />
       {values === 'RGB' ? (
-        <span className="swatch-warn" title="RGB only, converted when printed">
+        <span className="swatch-warn">
           <Icon name="warn" />
         </span>
       ) : (
