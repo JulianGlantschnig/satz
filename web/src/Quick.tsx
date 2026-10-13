@@ -90,8 +90,8 @@ export function Quick({ editor }: { editor: Editor }) {
       )}
       {one && isOpen(one) && one.strokes.length > 0 && (
         <>
-          <Select label="Start point" prefix="Start" value={one.arrowStart ? 'arrow' : 'none'} options={ARROWS} onChange={(v) => set({ arrowStart: v === 'arrow' })} />
-          <Select label="End point" prefix="End" value={one.arrowEnd ? 'arrow' : 'none'} options={ARROWS} onChange={(v) => set({ arrowEnd: v === 'arrow' })} />
+          <Select label="Start point" prefix="Start" value={one.arrowStart ? 'arrow' : 'none'} options={ARROWS.start} onChange={(v) => set({ arrowStart: v === 'arrow' })} />
+          <Select label="End point" prefix="End" value={one.arrowEnd ? 'arrow' : 'none'} options={ARROWS.end} onChange={(v) => set({ arrowEnd: v === 'arrow' })} />
         </>
       )}
       {one && one.ppi !== undefined && (

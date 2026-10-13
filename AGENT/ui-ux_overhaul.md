@@ -79,7 +79,7 @@ first review are in git history.
 - [x] 59. Edit swatch name field squeezed by `Spot color` → name full width.
 - [x] 60. Swatch row `RGB ⚠` without explanation → tooltip.
 - [x] 61. `Upload ICC…` in the profile select without separator → separator.
-- [ ] 62. Line end select without preview → arrow icons.
+- [x] 62. Line end select without preview → arrow icons.
 
 ## Text
 

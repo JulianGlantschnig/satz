@@ -49,7 +49,18 @@ const LINE_STYLES = Object.fromEntries(
     </>,
   ]),
 ) as Record<LineStyle, ReactNode>
-export const ARROWS = { none: 'None', arrow: 'Arrow' }
+const end = (d: string, name: string) => (
+  <>
+    <svg className="dash" viewBox="0 0 24 8" aria-hidden="true">
+      <path d={d} />
+    </svg>
+    {name}
+  </>
+)
+export const ARROWS = {
+  start: { none: end('M1 4h22', 'None'), arrow: end('M23 4H2M5 1 2 4l3 3', 'Arrow') },
+  end: { none: end('M1 4h22', 'None'), arrow: end('M1 4h22M19 1l3 3-3 3', 'Arrow') },
+}
 
 const STROKE_ALIGNS = [
   ['inside', 'Inside', 'strokeInside'],
@@ -499,8 +510,8 @@ export function Properties({ editor }: { editor: Editor }) {
               <Segmented label="Stroke join" prefix="Join" value={same((n) => n.join)} options={JOINS} onChange={(join) => set({ join })} />
               {open && (
                 <>
-                  <Select label="Start point" prefix="Start" value={same((n) => (n.arrowStart ? 'arrow' : 'none'))} options={ARROWS} onChange={(v) => set({ arrowStart: v === 'arrow' })} />
-                  <Select label="End point" prefix="End" value={same((n) => (n.arrowEnd ? 'arrow' : 'none'))} options={ARROWS} onChange={(v) => set({ arrowEnd: v === 'arrow' })} />
+                  <Select label="Start point" prefix="Start" value={same((n) => (n.arrowStart ? 'arrow' : 'none'))} options={ARROWS.start} onChange={(v) => set({ arrowStart: v === 'arrow' })} />
+                  <Select label="End point" prefix="End" value={same((n) => (n.arrowEnd ? 'arrow' : 'none'))} options={ARROWS.end} onChange={(v) => set({ arrowEnd: v === 'arrow' })} />
                 </>
               )}
               {sided && one?.strokeSides?.length === 4 &&
