@@ -78,7 +78,7 @@ first review are in git history.
 - [x] 58. Variable editor: name and mode names do not look editable, `Delete variable` beside `Add mode` → fields, delete moved to the context menu.
 - [x] 59. Edit swatch name field squeezed by `Spot color` → name full width.
 - [x] 60. Swatch row `RGB ⚠` without explanation → tooltip.
-- [ ] 61. `Upload ICC…` in the profile select without separator → separator.
+- [x] 61. `Upload ICC…` in the profile select without separator → separator.
 - [ ] 62. Line end select without preview → arrow icons.
 
 ## Text

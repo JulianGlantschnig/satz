@@ -575,6 +575,7 @@ function DocumentSection({ editor }: { editor: Editor }) {
           prefix="Profile"
           value={colorMode === 'rgb' ? 'srgb' : profile === null ? 'fogra' : 'own'}
           options={colorMode === 'rgb' ? { srgb: 'sRGB' } : { fogra: 'FOGRA51', ...(profile !== null && { own: profile || 'Uploaded' }), upload: 'Upload ICC…' }}
+          breaks={[profile === null ? 'fogra' : 'own']}
           onChange={(v) => (v === 'upload' ? pickProfile(editor) : v === 'fogra' && editor.setProfile(null))}
         />
       </div>
