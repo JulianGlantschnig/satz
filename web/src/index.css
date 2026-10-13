@@ -3332,6 +3332,15 @@ input[type='checkbox']:active {
     fill: var(--magenta);
   }
 
+  .label.note {
+    fill: var(--raised);
+    stroke: var(--edge);
+  }
+
+  text.note {
+    fill: var(--text);
+  }
+
   .override {
     fill: var(--master);
   }

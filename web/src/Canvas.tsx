@@ -67,7 +67,7 @@ type Drag =
   | { kind: 'pan'; last: Point }
   | { kind: 'move'; start: Point; frames: Node[]; active: boolean; flow?: Container; to?: ReturnType<typeof insertion>; box?: Box; snaps?: Snaps }
   | { kind: 'resize'; start: Point; handle: string; box: Box; frames: Node[]; snaps: Snaps; by: number; turn: number; own: number }
-  | { kind: 'rotate'; c: Point; from: number; nodes: Node[]; handle: string; turn: number }
+  | { kind: 'rotate'; c: Point; from: number; nodes: Node[]; handle: string; turn: number; by: number }
   | { kind: 'end'; start: Point; id: string; ends: [Point, Point]; index: number }
   | { kind: 'gap'; start: Point; row: Row; index: number }
   | { kind: 'radius'; start: Point; id: string; box: Box; radii: number[]; index: number; turn: number }
@@ -379,7 +379,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
       const [xs, ys] = [[x + dx, x + dx + w / 2, x + dx + w], [y + dy, y + dy + h / 2, y + dy + h]]
       return { p: { x: p.x + dx, y: p.y + dy }, guides: off ? [] : guides({ x: x + dx, y: y + dy, w, h }, lines, xs, ys) }
     }
-    const svgOf = (target?: Box, size?: Box) => {
+    const svgOf = (target?: Box, size?: Box, turn?: number) => {
       const [X, Y] = [(x: number) => view.x + x * view.zoom, (y: number) => view.y + y * view.zoom]
       const line = (x1: number, y1: number, x2: number, y2: number, cls = '') =>
         `<line class="${cls}" x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(y2)}"/>`
@@ -417,12 +417,12 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         labels.push({ x: cx, y: cy, w, h: 18 })
         tags += `<rect class="label" x="${cx - w / 2}" y="${cy - 9}" width="${w}" height="18" rx="4"/><text x="${cx}" y="${cy}">${t}</text>`
       }
-      if (size) {
-        const t = `${length(size.w)} × ${length(size.h)}`
+      const note = (t: string, cx: number, cy: number) => {
         const w = t.length * 6.2 + 10
-        const [cx, cy] = [X(size.x + size.w / 2), Y(size.y + size.h) + 18]
-        tags += `<rect class="label" x="${cx - w / 2}" y="${cy - 9}" width="${w}" height="18" rx="4"/><text x="${cx}" y="${cy}">${t}</text>`
+        tags += `<rect class="label note" x="${cx - w / 2}" y="${cy - 9}" width="${w}" height="18" rx="4"/><text class="note" x="${cx}" y="${cy}">${t}</text>`
       }
+      if (size) note(`${length(size.w)} × ${length(size.h)}`, X(size.x + size.w / 2), Y(size.y + size.h) + 18)
+      if (turn !== undefined && pointer) note(`${Math.round((turn % 360) + 360) % 360}°`, pointer.offsetX + 28, pointer.offsetY + 20)
       const moving = drag?.kind === 'swap' ? drag : undefined
       for (const s of swaps()) {
         const on = moving?.id === s.id
@@ -565,7 +565,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         : hovered || (page && { x: page.x, y: 0, w: page.width, h: page.height })
       if (target) measures = measure(sel!, target, snapsNow().others)
       else if (!drag) measures = []
-      const next = svgOf(target, drag?.kind === 'draw' && drag.id && drag.tool !== 'line' ? sel : undefined)
+      const next = svgOf(target, (drag?.kind === 'draw' && drag.id && drag.tool !== 'line') || drag?.kind === 'resize' ? sel : undefined, drag?.kind === 'rotate' ? drag.turn + drag.by : undefined)
       if (next !== markup) marks.current!.innerHTML = markup = next
       const at = (axis: 'x' | 'y', o: number) => snapped.filter((g) => g.axis === axis).map((g) => o + g.at * view.zoom)
       drawRuler(rulerX.current!, true, x0, view.zoom * UNITS[settings.unit], sel && [view.x + sel.x * view.zoom, view.x + (sel.x + sel.w) * view.zoom], at('x', view.x))
@@ -988,7 +988,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         const nodes = editor.selected()
         const b = boxOf(nodes)
         const c = { x: b.x + b.w / 2, y: b.y + b.h / 2 }
-        drag = { kind: 'rotate', c, from: angle(c, p), nodes, handle, turn: b.rotation ?? 0 }
+        drag = { kind: 'rotate', c, from: angle(c, p), nodes, handle, turn: b.rotation ?? 0, by: 0 }
         editor.beginGroup()
         return
       }
@@ -1196,6 +1196,7 @@ export function Canvas({ ck, editor }: { ck: CanvasKit; editor: Editor }) {
         let by = angle(drag.c, p) - drag.from
         if (e.shiftKey) by = Math.round(by / 15) * 15
         editor.turn(drag.nodes, by, drag.c)
+        drag.by = by
         canvas.style.cursor = cursorOf(drag.handle, drag.turn + by)
       } else if (drag.kind === 'gap') {
         const { row, index, start } = drag

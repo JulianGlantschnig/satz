@@ -91,8 +91,8 @@ first review are in git history.
 
 ## Canvas
 
-- [ ] 68. Resize shows no size, rotate no angle → label at the pointer.
-- [ ] 69. Size label is magenta like snap distances → neutral label, centred under the box.
+- [x] 68. Resize shows no size, rotate no angle → label at the pointer.
+- [ ] 69. Size label is magenta like snap distances → neutral label, centred under the box. (done with 68)
 - [ ] 70. Distance labels `11 mm` and `29 mm` overlap (04/12) → move the shorter one aside.
 - [ ] 71. Drawing a rectangle shows radius handles → only after drawing.
 - [ ] 72. Quick bar for text, wrap and threading sits over the text → above the frame, below if no room.
