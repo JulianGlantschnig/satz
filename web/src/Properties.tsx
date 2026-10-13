@@ -440,11 +440,10 @@ export function Properties({ editor }: { editor: Editor }) {
           <button
             type="button"
             className="button"
-            title="Use as mask (Ctrl+Alt+M)"
-            aria-pressed={one?.mask}
+            title={`${one?.mask ? 'Release mask' : 'Use as mask'} (Ctrl+Alt+M)`}
             onClick={() => (one ? set({ mask: !one.mask }) : editor.set({ selection: editor.apply({ type: 'mask', ids: selection }) }))}
           >
-            Use as mask
+            {one?.mask ? 'Release mask' : 'Use as mask'}
           </button>
         </Section>
       )}

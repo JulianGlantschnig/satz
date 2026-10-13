@@ -60,7 +60,7 @@ first review are in git history.
 - [x] 43. Spacing field `↔ 6 mm` shown for 2 layers, not 5, unlabeled → `Spacing` label, shown from 2 layers.
 - [x] 44. Mixed fields drop their unit → keep the unit.
 - [x] 45. Groups have no rotation, frames no radius → add them.
-- [ ] 46. Active `Use as mask` looks like a focus ring; a group with a mask is not marked (carried over) → `Release mask` and a mask marker.
+- [x] 46. Active `Use as mask` looks like a focus ring; a group with a mask is not marked (carried over) → `Release mask` and a mask marker.
 - [ ] 47. Constraints and sizing selects stand unlabeled under Layout → `Constraints`, `Resizing` sub-labels.
 - [ ] 48. Auto layout direction ↓ before → → horizontal first.
 - [ ] 49. Text alignment row with `⋯` overflows the grid → `⋯` inside the grid.
