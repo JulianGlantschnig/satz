@@ -133,3 +133,18 @@ test('a frame takes a corner radius and a group turns its layers', async ({ page
   await rotation.press('Enter')
   await expect(rotation).toHaveValue('90')
 })
+
+test('a gradient takes a stop halfway along its widest gap and drops stops down to 2', async ({ page }) => {
+  await open(page)
+  const panel = page.getByRole('complementary', { name: 'Properties' })
+  await page.getByRole('tree', { name: 'Layers' }).getByRole('button', { name: 'Rectangle', exact: true }).last().click()
+  const fills = panel.getByRole('region', { name: 'Fill' })
+  await choose(fills.getByRole('combobox', { name: 'Fill type' }).first(), 'Linear')
+  const remove = fills.getByRole('button', { name: /^Remove stop/ })
+  await expect(remove).toHaveCount(0)
+  await fills.getByRole('button', { name: 'Add stop' }).click()
+  await expect(fills.getByRole('textbox', { name: 'Stop 2 position in %' })).toHaveValue('50')
+  await remove.nth(1).click()
+  await expect(fills.getByRole('textbox', { name: /^Stop \d position/ })).toHaveCount(2)
+  await expect(remove).toHaveCount(0)
+})

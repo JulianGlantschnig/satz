@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { ColorPicker } from './ColorPicker'
 import { alpha, css, neutral, withAlpha, type ColorMode } from './color'
-import { Field, RowActions, Section, Select } from './controls'
+import { Field, Group, RowActions, Section, Select } from './controls'
 import { Icon } from './icons'
 import type { Editor } from './editor'
 import type { Effect, Fill, Scope, Snapshot } from './model'
@@ -31,6 +31,13 @@ function retype(p: Fill, type: Fill['type']): Fill {
 }
 
 const replace = <T,>(list: T[], i: number, item: T) => list.map((v, j) => (j === i ? item : v))
+/** `stops` with a new stop halfway along the widest gap, in the colour of the stop before it. */
+const split = <S extends { at: number }>(stops: S[]) => {
+  const sorted = stops.toSorted((a, b) => a.at - b.at)
+  let k = 0
+  for (let i = 1; i < sorted.length - 1; i++) if (sorted[i + 1].at - sorted[i].at > sorted[k + 1].at - sorted[k].at) k = i
+  return sorted.toSpliced(k + 1, 0, { ...sorted[k], at: (sorted[k].at + sorted[k + 1].at) / 2 })
+}
 const move = <T,>(list: T[], from: number, to: number) => {
   const out = list.filter((_, j) => j !== from)
   out.splice(to, 0, list[from])
@@ -177,29 +184,49 @@ export function PaintList({
                           onCommit={(v) => set({ ...p, transform: linear(v) })}
                         />
                       )}
-                      {p.stops.map((s, k) => {
-                        const stop = (next: Partial<typeof s>) => set({ ...p, stops: replace(p.stops, k, { ...s, ...next }) })
-                        return (
-                          <div key={k} className="row">
-                            <ColorPicker label={`Stop ${k + 1} color`} color={s.color} mode={mode} scope={scope} onChange={(color) => stop({ color })} />
-                            <Field
-                              label="Pos"
-                              title={`Stop ${k + 1} position`}
-                              unit="%"
-                              max={100}
-                              value={s.at * 100}
-                              onCommit={(v) => stop({ at: v / 100 })}
-                            />
-                            <Field
-                              label="Opacity"
-                              title={`Stop ${k + 1} opacity`}
-                              unit="%"
-                              value={alpha(s.color)}
-                              onCommit={(v) => stop({ color: withAlpha(s.color, v) })}
-                            />
-                          </div>
-                        )
-                      })}
+                      <Group
+                        title="Stops"
+                        action={
+                          <button type="button" className="icon-button" aria-label="Add stop" title="Add stop" onClick={() => set({ ...p, stops: split(p.stops) })}>
+                            <Icon name="plus" />
+                          </button>
+                        }
+                      >
+                        {p.stops.map((s, k) => {
+                          const stop = (next: Partial<typeof s>) => set({ ...p, stops: replace(p.stops, k, { ...s, ...next }) })
+                          return (
+                            <div key={k} className="row wide">
+                              <ColorPicker label={`Stop ${k + 1} color`} color={s.color} mode={mode} scope={scope} onChange={(color) => stop({ color })} />
+                              <Field
+                                label="Pos"
+                                title={`Stop ${k + 1} position`}
+                                unit="%"
+                                max={100}
+                                value={s.at * 100}
+                                onCommit={(v) => stop({ at: v / 100 })}
+                              />
+                              <Field
+                                label="Opacity"
+                                title={`Stop ${k + 1} opacity`}
+                                unit="%"
+                                value={alpha(s.color)}
+                                onCommit={(v) => stop({ color: withAlpha(s.color, v) })}
+                              />
+                              {p.stops.length > 2 && (
+                                <button
+                                  type="button"
+                                  className="icon-button"
+                                  aria-label={`Remove stop ${k + 1}`}
+                                  title="Remove stop"
+                                  onClick={() => set({ ...p, stops: p.stops.filter((_, j) => j !== k) })}
+                                >
+                                  <Icon name="minus" />
+                                </button>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </Group>
                     </div>
                   )}
                 </li>
