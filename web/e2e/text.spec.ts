@@ -60,7 +60,7 @@ test('case, decoration, indents and OpenType features are set in the type option
   await options.getByRole('textbox', { name: 'Tab leader 1' }).fill('.')
   await options.getByRole('textbox', { name: 'Tab leader 1' }).press('Enter')
   await options.getByRole('checkbox', { name: 'Ligatures', exact: true }).uncheck()
-  await options.getByRole('radio', { name: 'Oldstyle figures' }).click()
+  await choose(options.getByRole('combobox', { name: 'Figures', exact: true }), 'Oldstyle')
   await page.keyboard.press('Escape')
   await expect(options).toHaveCount(0)
 
@@ -72,7 +72,7 @@ test('case, decoration, indents and OpenType features are set in the type option
   await expect(options.getByRole('textbox', { name: 'First line indent in pt' })).toHaveValue('12')
   await expect(options.getByRole('textbox', { name: 'Left indent in pt' })).toHaveValue('6')
   await expect(options.getByRole('checkbox', { name: 'Ligatures', exact: true })).not.toBeChecked()
-  await expect(options.getByRole('radio', { name: 'Oldstyle figures' })).toBeChecked()
+  await expect(options.getByRole('combobox', { name: 'Figures', exact: true })).toHaveText(/Oldstyle$/)
   await expect(options.getByRole('combobox', { name: 'Position' })).toHaveText('Superscript')
   await expect(options.getByRole('textbox', { name: 'Baseline shift in pt' })).toHaveValue('-2')
   await expect(options.getByRole('textbox', { name: 'Drop cap lines' })).toHaveValue('3')

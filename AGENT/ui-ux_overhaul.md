@@ -83,7 +83,7 @@ first review are in git history.
 
 ## Text
 
-- [ ] 63. OpenType rows `Auto | 196 | 196` and `Auto | 11 | 11` unlabeled → row labels and readable options.
+- [x] 63. OpenType rows `Auto | 196 | 196` and `Auto | 11 | 11` unlabeled → row labels and readable options.
 - [ ] 64. Unlabeled type selects (`As typed`, `Normal position`, `No decoration`, `No list`) → prefixes `Case`, `Position`, `Decoration`, `List`.
 - [ ] 65. `Keep 1` unclear; drop cap `Characters` enabled at 0 lines → `Keep lines`, disable.
 - [ ] 66. Insert character: only page number has keycaps, glyph chips tiny → glyph left, name, shortcut right.

@@ -1107,13 +1107,8 @@ input[type='checkbox']:disabled {
   font-weight: 600;
 }
 
-.options-group .figures,
 .wide {
   grid-column: 1 / -1;
-}
-
-.figures button {
-  flex: 1;
 }
 
 .glyph-name {
@@ -1124,10 +1119,6 @@ input[type='checkbox']:disabled {
   font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.feature {
-  font: 13px var(--doc-font);
 }
 
 .picker-header {

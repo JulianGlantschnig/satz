@@ -59,8 +59,8 @@ const FEATURES: [string, string, boolean?][] = [
 ]
 /** Features of which one at most applies: title, a sample and the tags with their titles. */
 const FIGURES: [string, string, [string, string][]][] = [
-  ['Figures', '196', [['lnum', 'Lining'], ['onum', 'Oldstyle']]],
-  ['Figure spacing', '11', [['pnum', 'Proportional'], ['tnum', 'Tabular']]],
+  ['Figures', 'Figures', [['lnum', 'Lining'], ['onum', 'Oldstyle']]],
+  ['Figure spacing', 'Spacing', [['pnum', 'Proportional'], ['tnum', 'Tabular']]],
 ]
 
 /** The text style's name set at its size, within what a panel row takes. */
@@ -200,18 +200,16 @@ export function TypeOptions({ spans, set }: { spans: Pick<Attrs, Styled>[]; set:
               </Group>
               <TabStops tabs={same((a) => JSON.stringify(a.tabs))} set={(tabs) => set({ tabs })} />
               <Group title="OpenType">
-                {FIGURES.map(([title, sample, tags]) => {
-                  const value = same((a) => tags.find(([t]) => a.features.includes(t))?.[0] ?? '')
-                  return (
-                    <div key={title} role="radiogroup" aria-label={title} className="segmented figures">
-                      {[['', 'Default'], ...tags].map(([tag, name]) => (
-                        <button key={tag} type="button" role="radio" aria-checked={value === tag} aria-label={`${name} ${title.toLowerCase()}`} title={`${name} ${title.toLowerCase()}`} onClick={() => put(tags.map(([t]) => t), tag ? [tag] : [])}>
-                          {tag ? <span className="feature" style={{ fontFeatureSettings: `"${tag}"` }}>{sample}</span> : 'Auto'}
-                        </button>
-                      ))}
-                    </div>
-                  )
-                })}
+                {FIGURES.map(([title, prefix, tags]) => (
+                  <Select
+                    key={title}
+                    label={title}
+                    prefix={prefix}
+                    value={same((a) => tags.find(([t]) => a.features.includes(t))?.[0] ?? '')}
+                    options={Object.fromEntries([['', 'Default'], ...tags])}
+                    onChange={(tag) => put(tags.map(([t]) => t), tag ? [tag] : [])}
+                  />
+                ))}
                 {FEATURES.map(([tag, title, dflt]) => (
                   <Check key={tag} label={title} value={same(on(tag, dflt))} set={(c) => put([tag], dflt ? (c ? [] : [`${tag}=0`]) : c ? [tag] : [])} />
                 ))}
