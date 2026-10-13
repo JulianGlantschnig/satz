@@ -190,13 +190,13 @@ export function TypeOptions({ spans, set }: { spans: Pick<Attrs, Styled>[]; set:
               </Group>
               <Group title="Paragraph">
                 <Select label="List" prefix="List" value={same((a) => a.list)} options={LISTS} onChange={(list) => set({ list })} />
-                <Field label="Keep" title="Lines kept together at start and end" unit="" int min={1} max={20} reset={1} value={same((a) => a.keepLines)} onCommit={(keepLines) => set({ keepLines })} />
+                <Field label="Keep lines" title="Lines kept together at start and end" unit="" int min={1} max={20} reset={1} value={same((a) => a.keepLines)} onCommit={(keepLines) => set({ keepLines })} />
                 <Check label="Keep lines together" value={same((a) => a.keepTogether)} set={(keepTogether) => set({ keepTogether })} />
                 <Check label="Keep with next" value={same((a) => a.keepNext)} set={(keepNext) => set({ keepNext })} />
               </Group>
               <Group title="Drop cap">
                 <Field label="Lines" title="Drop cap lines" unit="" int min={0} max={20} reset={0} value={same((a) => a.dropLines)} onCommit={(dropLines) => set({ dropLines })} />
-                <Field label="Characters" title="Drop cap characters" unit="" int min={1} max={20} reset={1} value={same((a) => a.dropChars)} onCommit={(dropChars) => set({ dropChars })} />
+                <Field label="Characters" title="Drop cap characters" disabled={same((a) => a.dropLines) === 0} unit="" int min={1} max={20} reset={1} value={same((a) => a.dropChars)} onCommit={(dropChars) => set({ dropChars })} />
               </Group>
               <TabStops tabs={same((a) => JSON.stringify(a.tabs))} set={(tabs) => set({ tabs })} />
               <Group title="OpenType">
