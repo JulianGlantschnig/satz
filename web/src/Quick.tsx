@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { Fragment, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { AlignBar, BooleanBar, combinable } from './align'
 import { Sizing } from './AutoLayout'
@@ -229,7 +229,11 @@ function Adjust({ node, set }: { node: Node; set: (props: Props) => void }) {
             >
               <div className="adjust">
                 {ADJUST.map((name, i) => (
-                  <Field key={name} label={name} unit="%" int min={-100} max={100} reset={0} value={Math.round(adjust[i] * 100)} onCommit={(v) => change(i, v)} />
+                  <Fragment key={name}>
+                    <span>{name}</span>
+                    <input type="range" aria-label={name} min={-100} max={100} value={Math.round(adjust[i] * 100)} onChange={(e) => change(i, Number(e.currentTarget.value))} />
+                    <Field label="" title={name} unit="%" min={-100} max={100} reset={0} value={Math.round(adjust[i] * 100)} onCommit={(v) => change(i, v)} />
+                  </Fragment>
                 ))}
                 <button type="button" className="button" disabled={adjust.every((v) => !v)} onClick={() => set({ fills: node.fills.map((f) => (f.type === 'image' ? { ...f, adjust: [0, 0, 0] } : f)) })}>
                   Reset

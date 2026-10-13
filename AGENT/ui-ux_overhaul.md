@@ -97,7 +97,7 @@ first review are in git history.
 - [x] 71. Drawing a rectangle shows radius handles → only after drawing.
 - [x] 72. Quick bar for text, wrap and threading sits over the text → above the frame, below if no room.
 - [x] 73. Quick bar image shows a meaningless `∅` fill chip → hide.
-- [ ] 74. Adjust image: values far from the labels between − and + → slider with the value right.
+- [x] 74. Adjust image: values far from the labels between − and + → slider with the value right.
 
 ## Layers, pages, export, dialogs
 
