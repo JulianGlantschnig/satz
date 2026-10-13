@@ -1,11 +1,13 @@
 import { useEditor, type Editor } from './editor'
 import { Icon } from './icons'
 import { Keys } from './controls'
+import { useSettings } from './settings'
 
 /** Picks the page of the spread whose layers are listed, and moves between spreads; on a master, names it. */
 export function Switcher({ editor }: { editor: Editor }) {
   const snapshot = useEditor(editor, (e) => e.snapshot)
   const current = useEditor(editor, (e) => e.pageId)
+  const spread = useSettings().layers === 'spread'
   const master = snapshot.masters.find((m) => m.id === current)
   if (master) {
     return (
@@ -27,7 +29,7 @@ export function Switcher({ editor }: { editor: Editor }) {
           {spreads[k]?.map((id) => {
             const n = pages.findIndex((p) => p.id === id) + 1
             return (
-              <button key={id} type="button" aria-pressed={id === current} aria-label={`Page ${n}`} title={`Page ${n}, its layers`} onClick={() => editor.showPage(id)}>
+              <button key={id} type="button" aria-pressed={spread || id === current} aria-label={`Page ${n}`} title={`Page ${n}, its layers`} onClick={() => editor.showPage(id)}>
                 {n}
               </button>
             )
