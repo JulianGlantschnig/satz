@@ -87,7 +87,7 @@ first review are in git history.
 - [x] 64. Unlabeled type selects (`As typed`, `Normal position`, `No decoration`, `No list`) → prefixes `Case`, `Position`, `Decoration`, `List`.
 - [x] 65. `Keep 1` unclear; drop cap `Characters` enabled at 0 lines → `Keep lines`, disable.
 - [x] 66. Insert character: only page number has keycaps, glyph chips tiny → glyph left, name, shortcut right.
-- [ ] 67. All characters shows no name on hover → title with name and code point.
+- [x] 67. All characters shows no name on hover → title with name and code point. (checked: each glyph has a title with name and code point, the footer names the hovered one)
 
 ## Canvas
 
