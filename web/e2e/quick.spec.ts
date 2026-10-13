@@ -97,7 +97,7 @@ test('quick edit above a text shows its font and sets its type options', async (
   await expect(textCase).toBeFocused()
   await page.keyboard.press('Escape')
   await panel.getByRole('button', { name: 'Type options' }).click()
-  await expect(page.getByRole('dialog', { name: 'Type options' }).getByRole('combobox', { name: 'Case' })).toHaveText('Upper case')
+  await expect(page.getByRole('dialog', { name: 'Type options' }).getByRole('combobox', { name: 'Case' })).toHaveText(/Upper case$/)
 })
 
 test('quick edit aligns several layers, sizes a layer in an auto layout and sets the font size', async ({ page }) => {

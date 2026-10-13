@@ -40,9 +40,9 @@ const METRICS: [Exclude<Styled, 'font' | 'textCase' | 'textDecoration' | 'featur
 ]
 
 const CASES = { original: 'As typed', upper: 'Upper case', lower: 'Lower case', title: 'Title case' } as const
-const DECORATIONS = { none: 'No decoration', underline: 'Underline', strikethrough: 'Strikethrough' } as const
-const LISTS = { none: 'No list', bullet: 'Bullets', number: 'Numbers' } as const
-const POSITIONS = { normal: 'Normal position', superscript: 'Superscript', subscript: 'Subscript' } as const
+const DECORATIONS = { none: 'None', underline: 'Underline', strikethrough: 'Strikethrough' } as const
+const LISTS = { none: 'None', bullet: 'Bullets', number: 'Numbers' } as const
+const POSITIONS = { normal: 'Normal', superscript: 'Superscript', subscript: 'Subscript' } as const
 /** OpenType features: tag, title and whether fonts apply it unless turned off. */
 const FEATURES: [string, string, boolean?][] = [
   ['kern', 'Kerning', true],
@@ -176,9 +176,9 @@ export function TypeOptions({ spans, set }: { spans: Pick<Attrs, Styled>[]; set:
               }}
             >
               <Group title="Character">
-                <Select label="Case" value={same((a) => a.textCase)} options={CASES} onChange={(textCase) => set({ textCase })} />
-                <Select label="Decoration" value={same((a) => a.textDecoration)} options={DECORATIONS} onChange={(textDecoration) => set({ textDecoration })} />
-                <Select label="Position" value={same((a) => a.position)} options={POSITIONS} onChange={(position) => set({ position })} />
+                <Select label="Case" prefix="Case" value={same((a) => a.textCase)} options={CASES} onChange={(textCase) => set({ textCase })} />
+                <Select label="Decoration" prefix="Decoration" value={same((a) => a.textDecoration)} options={DECORATIONS} onChange={(textDecoration) => set({ textDecoration })} />
+                <Select label="Position" prefix="Position" value={same((a) => a.position)} options={POSITIONS} onChange={(position) => set({ position })} />
                 <Field label="Shift" title="Baseline shift" unit="pt" min={-Infinity} reset={0} value={same((a) => a.baselineShift)} onCommit={(baselineShift) => set({ baselineShift })} />
               </Group>
               <Group title="Indents & spacing">
@@ -189,7 +189,7 @@ export function TypeOptions({ spans, set }: { spans: Pick<Attrs, Styled>[]; set:
                 <Field label="After" title="Space after" unit="pt" reset={0} value={same((a) => a.paragraphSpacing)} onCommit={(paragraphSpacing) => set({ paragraphSpacing })} />
               </Group>
               <Group title="Paragraph">
-                <Select label="List" value={same((a) => a.list)} options={LISTS} onChange={(list) => set({ list })} />
+                <Select label="List" prefix="List" value={same((a) => a.list)} options={LISTS} onChange={(list) => set({ list })} />
                 <Field label="Keep" title="Lines kept together at start and end" unit="" int min={1} max={20} reset={1} value={same((a) => a.keepLines)} onCommit={(keepLines) => set({ keepLines })} />
                 <Check label="Keep lines together" value={same((a) => a.keepTogether)} set={(keepTogether) => set({ keepTogether })} />
                 <Check label="Keep with next" value={same((a) => a.keepNext)} set={(keepNext) => set({ keepNext })} />
