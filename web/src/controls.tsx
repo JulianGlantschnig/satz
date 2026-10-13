@@ -480,10 +480,10 @@ export function Sides({
               {wrap(i, <Field label={side} title={`${side} ${what}`} unit="length" reset={0} value={values[i]} onCommit={(v) => set(values.with(i, v))} />)}
             </Fragment>
           ))
-        : ([['↔', 'Horizontal', 1, 3], ['↕', 'Vertical', 0, 2]] as const).map(([label, name, a, b]) => (
+        : ([['H', 'Horizontal', 1, 3], ['V', 'Vertical', 0, 2]] as const).map(([label, name, a, b]) => (
             <Field
               key={name}
-              label={label}
+              label={`${what[0].toUpperCase()}${what.slice(1)} ${label}`}
               title={`${name} ${what}`}
               unit="length"
               reset={0}
