@@ -27,18 +27,21 @@ struct EditorView: View {
 
     var body: some View {
         NavigationSplitView {
-            PagesSidebar(editor: editor)
+            Sidebar(editor: editor)
                 .navigationSplitViewColumnWidth(min: 160, ideal: 200, max: 320)
         } detail: {
             Canvas(editor: editor)
         }
         .inspector(isPresented: $showsInspector) {
-            InspectorPlaceholder(editor: editor)
+            Inspector(editor: editor)
                 .inspectorColumnWidth(min: 220, ideal: 260, max: 360)
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 ZoomMenu(editor: editor)
+            }
+            ToolbarItem(placement: .navigation) {
+                ToolPicker(editor: editor)
             }
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -55,47 +58,6 @@ struct EditorView: View {
         .onAppear { editor.undoManager = undoManager }
         .onChange(of: undoManager) { _, new in editor.undoManager = new }
         .frame(minWidth: 800, minHeight: 500)
-    }
-}
-
-/// The page list until the page overview comes.
-struct PagesSidebar: View {
-    @Bindable var editor: Editor
-
-    var body: some View {
-        List(selection: $editor.pageID) {
-            Section("Pages") {
-                ForEach(Array(editor.snapshot.pages.enumerated()), id: \.element.id) { i, page in
-                    Label(String(localized: "Page \(i + 1)"), systemImage: "doc")
-                        .tag(Optional(page.id))
-                        .accessibilityIdentifier("page-\(i + 1)")
-                }
-            }
-            if !editor.snapshot.masters.isEmpty {
-                Section("Masters") {
-                    ForEach(editor.snapshot.masters) { master in
-                        Label(master.name, systemImage: "doc.on.doc")
-                            .tag(Optional(master.id))
-                            .accessibilityIdentifier("master-\(master.name)")
-                    }
-                }
-            }
-        }
-    }
-}
-
-struct InspectorPlaceholder: View {
-    let editor: Editor
-
-    var body: some View {
-        Form {
-            Section("Document") {
-                LabeledContent("Colour mode", value: editor.snapshot.colorMode == .cmyk ? "CMYK" : "RGB")
-                LabeledContent("Pages", value: "\(editor.snapshot.pages.count)")
-                LabeledContent("Facing pages", value: editor.snapshot.facingPages ? String(localized: "On") : String(localized: "Off"))
-            }
-        }
-        .formStyle(.grouped)
     }
 }
 
@@ -140,5 +102,22 @@ struct ZoomMenu: View {
         .menuIndicator(.visible)
         .fixedSize()
         .help("Zoom")
+    }
+}
+
+/// The tools that a press on the canvas uses.
+struct ToolPicker: View {
+    @Bindable var editor: Editor
+
+    var body: some View {
+        Picker("Tool", selection: $editor.tool) {
+            ForEach(Editor.Tool.allCases) { tool in
+                Label(String(localized: tool.title), systemImage: tool.symbol)
+                    .help("\(String(localized: tool.title)) (\(tool.key.uppercased()))")
+                    .tag(tool)
+            }
+        }
+        .pickerStyle(.segmented)
+        .labelStyle(.iconOnly)
     }
 }

@@ -11,6 +11,8 @@ enum Drag {
     case radius(start: CGPoint, id: String, box: Box, radii: [Double], index: Int, turn: Double)
     case marquee(start: CGPoint, end: CGPoint, base: [String])
     case guide(axis: XY, page: String, dx: Double, index: Int, grouped: Bool)
+    /// Draws a new layer with `tool`; it is made once the press moves or ends on a page.
+    case draw(start: CGPoint, id: String?, dx: Double, moved: Bool, tool: Editor.Tool, snaps: Snaps)
 }
 
 /// What a drag snaps to and the layers it measures to.
@@ -150,6 +152,11 @@ extension CanvasView {
     static func angle(_ c: CGPoint, _ p: CGPoint) -> Double { atan2(c.y - p.y, p.x - c.x) * 180 / .pi }
 
     /// A vector snapped to the nearest multiple of 45°.
+    static func snap45(_ dx: CGFloat, _ dy: CGFloat) -> (CGFloat, CGFloat) {
+        let (x, y) = snap45(Double(dx), Double(dy))
+        return (CGFloat(x), CGFloat(y))
+    }
+
     static func snap45(_ dx: Double, _ dy: Double) -> (Double, Double) {
         let a = (atan2(dy, dx) / (.pi / 4)).rounded() * (.pi / 4)
         let d = hypot(dx, dy)
@@ -184,6 +191,11 @@ extension CanvasView {
         overlay.pointer = q
         editor.pointer = p
         guard drag == nil else { return }
+        guard editor.tool == .move else {
+            overlay.hover = nil
+            NSCursor.crosshair.set()
+            return
+        }
         let deep = event.modifierFlags.contains(.command)
         let hover = pick(p, deep ? .deep : .click)
         if hover != overlay.hover {
@@ -195,6 +207,7 @@ extension CanvasView {
 
     func cursor(for handle: Handle?, guide: (axis: XY, page: String, dx: Double, index: Int)?) -> NSCursor {
         if spaceHeld { return .openHand }
+        if editor.tool != .move { return .crosshair }
         if let guide { return guide.axis == .x ? .resizeLeftRight : .resizeUpDown }
         let turn = selectionHandles().box?.rotation ?? 0
         switch handle {
@@ -244,6 +257,14 @@ extension CanvasView {
             return
         }
         editor.guide = nil
+        if editor.tool != .move {
+            let s = snaps()
+            let at = snapPoint(p, s, off: flags.contains(.command)).p
+            var d = Drag.draw(start: at, id: nil, dx: 0, moved: false, tool: editor.tool, snaps: s)
+            if editor.sheets.contains(where: { $0.bleedBox.contains(at) }) { d = makeDrawn(d) }
+            drag = d
+            return
+        }
         let h = handle(at: q)
         switch h {
         case .end(let i)?:
@@ -422,6 +443,33 @@ extension CanvasView {
                 editor.apply(.set(id: id, ["radius": .number(r), "corners": .array([])]))
             }
 
+        case .draw(let start, let made, let pdx, var moved, let tool, let s):
+            moved = moved || hypot(p.x - start.x, p.y - start.y) * view.zoom > Self.dragSlop
+            guard moved else { return }
+            var d = Drag.draw(start: start, id: made, dx: pdx, moved: moved, tool: tool, snaps: s)
+            if made == nil { d = makeDrawn(d) }
+            guard case .draw(_, let id?, let dx0, _, _, _) = d else { self.drag = d; return }
+            let snapped = snapPoint(p, s, off: !free || flags.contains(.shift))
+            overlay.snapped = snapped.guides
+            var dx = snapped.p.x - start.x
+            var dy = snapped.p.y - start.y
+            if tool == .line {
+                if flags.contains(.shift) { (dx, dy) = Self.snap45(dx, dy) }
+                let (x, y) = (start.x - dx0, start.y)
+                editor.apply(.setPath(id: id, path: [0, x, y, 1, x + dx, y + dy]))
+            } else {
+                if flags.contains(.shift) {
+                    let m = max(abs(dx), abs(dy))
+                    dx = (dx < 0 ? -1 : 1) * m
+                    dy = (dy < 0 ? -1 : 1) * m
+                }
+                let a = flags.contains(.option) ? CGPoint(x: start.x - dx, y: start.y - dy) : start
+                let r = Handles.rect(a, CGPoint(x: start.x + dx, y: start.y + dy))
+                overlay.size = r
+                editor.apply(.setFrame(id: id, x: r.x - dx0, y: r.y, w: r.w, h: r.h))
+            }
+            self.drag = d
+
         case .guide(let axis, var pageID, var dx, var index, var grouped):
             let off = axis == .x ? q.y < 0 : q.x < 0
             if index < 0 && off { return }
@@ -491,9 +539,49 @@ extension CanvasView {
             editor.endGroup()
         case .guide(_, _, _, _, let grouped) where grouped:
             editor.endGroup()
+        case .draw(let start, let id?, let dx, let moved, let tool, _):
+            if !moved {
+                let (w, h) = tool.size
+                editor.apply(.setFrame(id: id, x: start.x - dx, y: start.y, w: Units.mm(w), h: Units.mm(h)))
+            }
+            editor.endGroup()
+            editor.tool = .move
+        case .draw(_, nil, _, _, _, _):
+            editor.tool = .move
+            editor.select([])
         default:
             break
         }
+    }
+
+    /// `p` moved onto what it snaps to, unless `off`, with the guides through it.
+    func snapPoint(_ p: CGPoint, _ s: Snaps?, off: Bool) -> (p: CGPoint, guides: [SnapGuide]) {
+        guard let s, !off else { return (p, []) }
+        let tolerance = Self.snapSlop / view.zoom
+        let q = CGPoint(x: p.x + Snap.snap([p.x], s.lines.x, tolerance: tolerance), y: p.y + Snap.snap([p.y], s.lines.y, tolerance: tolerance))
+        return (q, Snap.guides(Box(x: q.x, y: q.y, w: 0, h: 0), s.lines, xs: [q.x], ys: [q.y]))
+    }
+
+    /// The frame or page under `p` that a new layer goes into, and how far its page sits right of the spine.
+    func parent(at p: CGPoint) -> (id: String, dx: Double)? {
+        let h = hit(p)
+        if let frame = h.path.last(where: { editor.nodes[$0]?.node.kind == .frame }), let page = h.page {
+            return (frame, page.x)
+        }
+        if let m = editor.master { return (m.id, m.x) }
+        return editor.page(at: p).map { ($0.id, $0.x) }
+    }
+
+    /// Makes the layer of a draw drag, inside an undo group that the drag ends.
+    func makeDrawn(_ d: Drag) -> Drag {
+        guard case .draw(let start, nil, _, let moved, let tool, let s) = d, let kind = tool.kind, let parent = parent(at: start) else { return d }
+        editor.beginGroup()
+        guard let id = editor.apply(.create(parent: parent.id, kind: kind, x: start.x - parent.dx, y: start.y, w: 0, h: 0)).first else {
+            editor.endGroup()
+            return d
+        }
+        editor.select([id])
+        return .draw(start: start, id: id, dx: parent.dx, moved: moved, tool: tool, snaps: s)
     }
 
     func doubleClick(_ p: CGPoint) {

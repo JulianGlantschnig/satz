@@ -15,7 +15,7 @@ extension CanvasView {
         case 51, 117:  // delete, forward delete
             editor.delete()
         case 53:  // escape
-            editor.escape()
+            if editor.tool != .move { editor.tool = .move } else { editor.escape() }
         case 36, 76:  // return, enter
             if flags.contains(.shift) { editor.selectParent() } else { editor.enter() }
         case 48:  // tab
@@ -34,6 +34,8 @@ extension CanvasView {
                 editor.flip(vertical: false)
             } else if flags == .shift && key == "v" {
                 editor.flip(vertical: true)
+            } else if flags.isEmpty, let tool = Editor.Tool.allCases.first(where: { $0.key == key }) ?? (key == "a" ? .frame : nil) {
+                if !event.isARepeat { editor.tool = tool }
             } else {
                 super.keyDown(with: event)
             }

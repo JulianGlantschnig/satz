@@ -23,12 +23,73 @@ final class Editor {
     /// Where the pointer is over the canvas, in the spread's space.
     @ObservationIgnored var pointer: CGPoint?
 
+    enum Tool: String, CaseIterable, Identifiable {
+        case move, frame, rect, ellipse, polygon, star, line
+
+        var id: String { rawValue }
+
+        /// The kind of layer the tool draws.
+        var kind: NewKind? {
+            switch self {
+            case .move: nil
+            case .frame: .frame
+            case .rect: .rect
+            case .ellipse: .ellipse
+            case .polygon: .polygon
+            case .star: .star
+            case .line: .line
+            }
+        }
+
+        /// Its key on the canvas, as in Figma.
+        var key: String {
+            switch self {
+            case .move: "v"
+            case .frame: "f"
+            case .rect: "r"
+            case .ellipse: "o"
+            case .polygon: "y"
+            case .star: "s"
+            case .line: "l"
+            }
+        }
+
+        /// Size in mm of a layer made with a click.
+        var size: (Double, Double) { self == .line ? (30, 0) : (30, 30) }
+
+        var symbol: String {
+            switch self {
+            case .move: "cursorarrow"
+            case .frame: "number"
+            case .rect: "rectangle"
+            case .ellipse: "circle"
+            case .polygon: "triangle"
+            case .star: "star"
+            case .line: "line.diagonal"
+            }
+        }
+
+        var title: LocalizedStringResource {
+            switch self {
+            case .move: "Move"
+            case .frame: "Frame"
+            case .rect: "Rectangle"
+            case .ellipse: "Ellipse"
+            case .polygon: "Polygon"
+            case .star: "Star"
+            case .line: "Line"
+            }
+        }
+    }
+
     struct PickedGuide: Equatable {
         var page: String
         var axis: XY
         var index: Int
     }
     private(set) var status: Status?
+    /// What a press on the canvas does.
+    var tool: Tool = .move
     /// Layout grids and guides show on the canvas.
     var showsGrids = false
     /// The canvas's zoom, 1 at one pt per screen point.
