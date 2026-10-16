@@ -98,6 +98,11 @@ struct TextSection: View {
                 .labelsHidden()
                 TypeOptions(spans: spans, set: format)
             }
+            let shading: SatzCore.Color?? = shared(spans) { $0.shading }
+            ColorCheck(
+                editor: editor, label: "Shading", color: shading,
+                modes: nodes.first?.activeModes ?? [:]
+            ) { format(["shading": $0.map { (try? JSON(encoding: $0)) ?? .null } ?? .null]) }
             HStack {
                 Toggle("Hyphenate", isOn: Binding(get: { shared(spans) { $0.hyphenate } ?? false }, set: { format(["hyphenate": .bool($0)]) }))
                 Spacer()
@@ -456,6 +461,44 @@ struct TextFrameSection: View {
             }
             .pickerStyle(.segmented)
             Toggle("Trim to cap height", isOn: Binding(get: { node.trim ?? false }, set: { set(["trim": .bool($0)]) }))
+            if (node.columns ?? 1) > 1 {
+                let rule = node.columnRule.flatMap { $0.weight > 0 ? $0 : nil }
+                HStack {
+                    ColorCheck(editor: editor, label: "Column rule", color: .some(rule?.color), modes: node.activeModes) { c in
+                        if let c {
+                            set(["columnRule": ["weight": .number(rule?.weight ?? 1), "color": (try? JSON(encoding: c)) ?? .null]])
+                        } else if let rule {
+                            set(["columnRule": ["weight": 0, "color": (try? JSON(encoding: rule.color)) ?? .null]])
+                        }
+                    }
+                    if let rule {
+                        NumberField(label: "Weight", help: "Column rule weight", value: rule.weight, unit: .points, range: 0...100) {
+                            set(["columnRule": ["weight": .number($0), "color": (try? JSON(encoding: rule.color)) ?? .null]])
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// A check that turns a colour on or off, and its well while it is on; nil is mixed.
+struct ColorCheck: View {
+    let editor: Editor
+    let label: LocalizedStringKey
+    /// Nil when mixed, .some(nil) when off.
+    let color: SatzCore.Color??
+    var modes: Modes = [:]
+    let set: (SatzCore.Color?) -> Void
+
+    var body: some View {
+        HStack {
+            Toggle(label, isOn: Binding(
+                get: { (color ?? nil) != nil },
+                set: { set($0 ? ColorMath.neutral("gray", editor.snapshot.colorMode) : nil) }))
+            if let c = color ?? nil {
+                ColorWell(label: label, color: c, mode: editor.snapshot.colorMode, scope: Scope(editor.snapshot, modes: modes), editor: editor) { set($0) }
+            }
         }
     }
 }

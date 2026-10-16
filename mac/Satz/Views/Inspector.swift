@@ -22,6 +22,9 @@ struct Inspector: View {
                     TextSection(editor: editor, nodes: nodes)
                     if nodes.count == 1, editor.editing == nil { TextFrameSection(editor: editor, node: nodes[0]) }
                 }
+                if editor.editing == nil {
+                    PaintSections(editor: editor, nodes: nodes)
+                }
             }
         }
         .formStyle(.grouped)

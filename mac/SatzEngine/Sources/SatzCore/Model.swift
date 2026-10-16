@@ -52,6 +52,10 @@ public struct Effect: Codable, Hashable, Sendable {
     public var radius: Double
     public var color: Color
     public var visible: Bool
+
+    public init(type: Kind, x: Double, y: Double, radius: Double, color: Color, visible: Bool = true) {
+        (self.type, self.x, self.y, self.radius, self.color, self.visible) = (type, x, y, radius, color, visible)
+    }
 }
 
 public enum Blend: String, Codable, Sendable, CaseIterable {
