@@ -22,6 +22,7 @@ struct Canvas: NSViewRepresentable {
         _ = editor.hover
         _ = editor.guide
         _ = editor.editing
+        _ = editor.threading
         container.showsRulers = editor.showsRulers
         container.canvas.contentChanged()
     }

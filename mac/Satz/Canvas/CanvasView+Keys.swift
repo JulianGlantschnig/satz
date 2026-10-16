@@ -24,7 +24,13 @@ extension CanvasView {
         case 51, 117:  // delete, forward delete
             editor.delete()
         case 53:  // escape
-            if editor.tool != .move { editor.tool = .move } else { editor.escape() }
+            if editor.threading != nil {
+                editor.threading = nil
+            } else if editor.tool != .move {
+                editor.tool = .move
+            } else {
+                editor.escape()
+            }
         case 36, 76:  // return, enter
             if flags.contains(.shift) {
                 editor.selectParent()

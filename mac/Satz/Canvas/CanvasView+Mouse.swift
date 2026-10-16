@@ -193,9 +193,20 @@ extension CanvasView {
         overlay.pointer = q
         editor.pointer = p
         guard drag == nil else { return }
+        if let from = editor.threading {
+            let to = textUnder(p)
+            (to != nil && to != from && !editor.engine.canThread(from: from, to: to!) ? NSCursor.operationNotAllowed : NSCursor.dragLink).set()
+            overlay.hover = to
+            needsDisplay = true
+            return
+        }
         guard editor.tool == .move else {
             overlay.hover = nil
             (editor.tool == .text ? NSCursor.iBeam : NSCursor.crosshair).set()
+            return
+        }
+        if port(at: q) != nil {
+            NSCursor.pointingHand.set()
             return
         }
         if inEdited(p) != nil {
@@ -272,6 +283,13 @@ extension CanvasView {
         }
         editor.stopEditing()
         if event.clickCount == 2 {
+            if let hit = port(at: q) {
+                // Double-clicking a port breaks the thread there.
+                let id = hit.side == .out ? hit.node.id : hit.node.prev
+                if let id, hit.side == .in || hit.node.next != nil { editor.apply(.unthread(id)) }
+                editor.threading = nil
+                return
+            }
             doubleClick(p)
             return
         }
@@ -282,6 +300,23 @@ extension CanvasView {
             return
         }
         editor.guide = nil
+        if let from = editor.threading {
+            if port(at: q) != nil { return }
+            let to = textUnder(p)
+            if to == from { return }
+            if let to {
+                editor.thread(from: from, to: to)
+                return
+            }
+            // A new frame drawn or clicked beside the others continues the thread.
+            let s = snaps()
+            drag = makeDrawn(.draw(start: p, id: nil, dx: 0, moved: false, tool: .text, snaps: s))
+            return
+        }
+        if event.clickCount == 1, let hit = port(at: q) {
+            if hit.side == .out { editor.threading = hit.node.id }
+            return
+        }
         if editor.tool != .move {
             let s = snaps()
             let at = snapPoint(p, s, off: flags.contains(.command)).p
@@ -582,6 +617,19 @@ extension CanvasView {
             editor.endGroup()
         case .guide(_, _, _, _, let grouped) where grouped:
             editor.endGroup()
+        case .draw(let start, let id?, let dx, let moved, _, _) where editor.threading != nil:
+            let from = editor.threading!
+            if !moved, let f = editor.nodes[from]?.node ?? editor.selected.first {
+                editor.apply(.setFrame(id: id, x: start.x - dx, y: start.y, w: f.w, h: f.h))
+            }
+            editor.endGroup()
+            if editor.engine.canThread(from: from, to: id) {
+                editor.thread(from: from, to: id)
+            } else {
+                editor.apply(.delete([id]))
+                editor.threading = nil
+                editor.select([])
+            }
         case .draw(let start, let id?, let dx, let moved, let tool, _):
             if !moved && tool != .text {
                 let (w, h) = tool.size
@@ -630,6 +678,24 @@ extension CanvasView {
         if kind == .text { editor.apply(.set(id: id, Editor.insets)) }
         editor.select([id])
         return .draw(start: start, id: id, dx: parent.dx, moved: moved, tool: tool, snaps: s)
+    }
+
+    /// The in- and out-port of a single selected text frame that can thread, on the canvas.
+    func ports() -> (node: Node, in: CGPoint?, out: CGPoint)? {
+        guard editor.tool == .move, editor.selection.count == 1, editor.editing == nil, let n = editor.selected.first, n.kind == .text else { return nil }
+        if n.sizing.horizontal == .hug && n.sizing.vertical == .hug && n.prev == nil && n.next == nil { return nil }
+        let p = Handles.ports(view, editor.shown(n))
+        return (n, n.prev != nil ? p.in : nil, p.out)
+    }
+
+    func port(at q: CGPoint) -> (side: Handles.Port, node: Node)? {
+        guard let p = ports(), let side = Handles.port((p.in, p.out), at: q) else { return nil }
+        return (side, p.node)
+    }
+
+    /// The text frame under `p`, innermost first.
+    func textUnder(_ p: CGPoint) -> String? {
+        hit(p).path.last { editor.nodes[$0]?.node.kind == .text }
     }
 
     /// Starts to drag a new guide out of a ruler.

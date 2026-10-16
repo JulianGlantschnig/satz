@@ -70,6 +70,34 @@ extension CanvasView {
             }
         }
 
+        // The ports of a selected text frame and the lines of its thread.
+        if let ports = ports() {
+            let n = ports.node
+            let frames = editor.nodes.values.map(\.node).filter { $0.kind == .text && $0.story == n.story }
+            ctx.setStrokeColor(accent)
+            for f in frames {
+                guard let next = f.next, let g = frames.first(where: { $0.id == next }) else { continue }
+                ctx.strokeLineSegments(between: [Handles.ports(view, editor.shown(f)).out, Handles.ports(view, editor.shown(g)).in])
+            }
+            if let p = ports.in { port(ctx, p, state: .threaded) }
+            port(ctx, ports.out, state: n.overset == true ? .overset : n.next != nil ? .threaded : .open)
+        }
+        // Labels under the selection: overset words and master overrides.
+        for n in selected where !n.hidden && editor.editing == nil {
+            let b = editor.covered(n)
+            let bottom = view.toCanvas(CGPoint(x: b.x, y: b.maxY))
+            let right = view.toCanvas(CGPoint(x: b.maxX, y: b.maxY))
+            if n.overrideOf != nil {
+                _ = drawLabel(ctx, String(localized: "Override"), at: CGPoint(x: bottom.x + 36, y: bottom.y + 17), fill: CGColor(srgbRed: 0.55, green: 0.35, blue: 0.95, alpha: 1))
+            }
+            let words = n.kind == .text ? editor.oversetWords(n) : 0
+            if words > 0 {
+                let text = String(localized: "+\(words) words")
+                let w = label(text).size().width + 10
+                _ = drawLabel(ctx, text, at: CGPoint(x: right.x - w / 2, y: right.y + 17), fill: Self.overset)
+            }
+        }
+
         // Snap guides and distances.
         let magenta = CGColor(srgbRed: 1, green: 0.2, blue: 0.55, alpha: 1)
         ctx.setStrokeColor(magenta)
@@ -101,6 +129,31 @@ extension CanvasView {
             let degrees = Int(((turn.truncatingRemainder(dividingBy: 360)) + 360).truncatingRemainder(dividingBy: 360).rounded())
             _ = drawLabel(ctx, "\(degrees)°", at: CGPoint(x: p.x + 28, y: p.y + 20), fill: accent)
         }
+    }
+
+    static let overset = CGColor(srgbRed: 1, green: 0.42, blue: 0.37, alpha: 1)
+
+    enum PortState { case threaded, overset, open }
+
+    /// A text frame's port: threaded shows an arrow, overset a red plus, open a plus.
+    private func port(_ ctx: CGContext, _ c: CGPoint, state: PortState) {
+        square(ctx, c, Handles.port)
+        let (x, y) = (c.x.rounded(.down) + 0.5, c.y.rounded(.down) + 0.5)
+        ctx.saveGState()
+        switch state {
+        case .overset, .open:
+            ctx.setStrokeColor(state == .overset ? Self.overset : accent)
+            ctx.setLineWidth(state == .overset ? 2 : 1.5)
+            ctx.strokeLineSegments(between: [CGPoint(x: x - 3, y: y), CGPoint(x: x + 3, y: y), CGPoint(x: x, y: y - 3), CGPoint(x: x, y: y + 3)])
+        case .threaded:
+            ctx.setFillColor(accent)
+            ctx.move(to: CGPoint(x: x - 2, y: y - 3))
+            ctx.addLine(to: CGPoint(x: x + 3, y: y))
+            ctx.addLine(to: CGPoint(x: x - 2, y: y + 3))
+            ctx.closePath()
+            ctx.fillPath()
+        }
+        ctx.restoreGState()
     }
 
     private var isMoving: Bool {
@@ -152,7 +205,7 @@ extension CanvasView {
         ctx.strokeEllipse(in: r)
     }
 
-    private func label(_ text: String) -> NSAttributedString {
+    func label(_ text: String) -> NSAttributedString {
         NSAttributedString(string: text, attributes: [
             .font: NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .medium),
             .foregroundColor: NSColor.white,
@@ -160,7 +213,7 @@ extension CanvasView {
     }
 
     /// A pill with `text` centred at `c`; returns where it went.
-    private func drawLabel(_ ctx: CGContext, _ text: String, at c: CGPoint, fill: CGColor) -> CGRect {
+    func drawLabel(_ ctx: CGContext, _ text: String, at c: CGPoint, fill: CGColor) -> CGRect {
         let s = label(text)
         let size = s.size()
         let r = CGRect(x: c.x - size.width / 2 - 5, y: c.y - 9, width: size.width + 10, height: 18)

@@ -146,6 +146,23 @@ extension Editor {
         return (editedText as NSString).substring(with: NSRange(location: e.range.lowerBound, length: e.range.count))
     }
 
+    /// The words of the text `n` that do not fit its thread's last frame.
+    func oversetWords(_ n: Node) -> Int {
+        guard n.overset == true, let text = story(of: n)?.text, let end = n.textEnd else { return 0 }
+        let rest = (text as NSString).substring(from: min(end, (text as NSString).length))
+        return rest.split(whereSeparator: \.isWhitespace).count
+    }
+
+    /// Threads the text frame `from` on into `to`, as the engine allows.
+    func thread(from: String, to: String) {
+        let ok = engine.canThread(from: from, to: to)
+        apply(.thread(from: from, to: to))
+        if ok {
+            threading = nil
+            select([to])
+        }
+    }
+
     func copyText() {
         let board = NSPasteboard.general
         board.clearContents()

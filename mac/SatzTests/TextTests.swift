@@ -68,3 +68,28 @@ struct TextTests {
         #expect(e.nodes[id] != nil)
     }
 }
+
+@MainActor
+struct ThreadTests {
+    @Test func aThreadCarriesTheOversetTextOn() throws {
+        let e = try SatzDocument().editor.get()
+        let page = try #require(e.pageID)
+        let a = e.apply(.create(parent: page, kind: .text, x: 50, y: 50, w: 100, h: 30))[0]
+        e.apply(.set(id: a, ["sizing": ["horizontal": "fixed", "vertical": "fixed"]]))
+        e.apply(.setFrame(id: a, x: 50, y: 50, w: 100, h: 30))
+        e.apply(.setText(id: a, text: TextEdit.lorem(80)))
+        let first = try #require(e.nodes[a]?.node)
+        #expect(first.overset == true)
+        #expect(e.oversetWords(first) > 10)
+        let b = e.apply(.create(parent: page, kind: .text, x: 50, y: 200, w: 100, h: 300))[0]
+        e.apply(.set(id: b, ["sizing": ["horizontal": "fixed", "vertical": "fixed"]]))
+        e.apply(.setFrame(id: b, x: 50, y: 200, w: 100, h: 300))
+        e.threading = a
+        e.thread(from: a, to: b)
+        #expect(e.threading == nil)
+        #expect(e.selection == [b])
+        #expect(e.nodes[a]?.node.next == b)
+        #expect(e.nodes[a]?.node.overset == false)
+        #expect(e.oversetWords(try #require(e.nodes[a]?.node)) == 0)
+    }
+}

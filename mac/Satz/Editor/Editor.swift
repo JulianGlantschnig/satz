@@ -96,6 +96,8 @@ final class Editor {
     var tool: Tool = .move
     /// The text layer edited in its frame, which is then the selection.
     var editing: Editing?
+    /// The text frame whose out-port was clicked, to thread into the next one clicked.
+    var threading: String?
     /// Layout grids and guides show on the canvas.
     var showsGrids = false
     /// Rulers show along the canvas.
