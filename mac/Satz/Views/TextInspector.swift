@@ -76,7 +76,13 @@ struct TextSection: View {
             }
             Grid(horizontalSpacing: 8, verticalSpacing: 6) {
                 GridRow {
-                    NumberField(label: "Size", help: "Font size", value: shared(spans) { $0.size }, unit: .points, range: 0.1 ... 5000, commit: number("size"))
+                    if nodes.count == 1 {
+                        VariableBinding(editor: editor, id: nodes[0].id, prop: "size", title: "Font size", value: shared(spans) { $0.size }) {
+                            NumberField(label: "Size", help: "Font size", value: shared(spans) { $0.size }, unit: .points, range: 0.1 ... 5000, commit: number("size"))
+                        }
+                    } else {
+                        NumberField(label: "Size", help: "Font size", value: shared(spans) { $0.size }, unit: .points, range: 0.1 ... 5000, commit: number("size"))
+                    }
                     NumberField(label: "Line", help: "Line height", value: shared(spans) { $0.lineHeight }, unit: .points, range: 0 ... 5000, zero: String(localized: "Auto"), commit: number("lineHeight"))
                 }
                 GridRow {

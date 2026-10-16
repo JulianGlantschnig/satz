@@ -91,8 +91,17 @@ private struct LayerSection: View {
     var body: some View {
         let one = nodes.count == 1 ? nodes[0] : nil
         Section("Layer") {
+            if let one, one.kind == .frame {
+                ModePickers(editor: editor, id: one.id, own: one.modes, inherited: editor.nodes[one.id]?.parent?.activeModes ?? editor.nodes[one.id]?.page?.modes ?? [:])
+            }
             HStack {
-                NumberField(label: "Opacity", value: same(nodes) { $0.opacity * 100 }, unit: .percent, range: 0...100) { set(["opacity": .number($0 / 100)]) }
+                if let one {
+                    VariableBinding(editor: editor, id: one.id, prop: "opacity", title: "Opacity", value: one.opacity * 100) {
+                        NumberField(label: "Opacity", value: one.opacity * 100, unit: .percent, range: 0...100) { set(["opacity": .number($0 / 100)]) }
+                    }
+                } else {
+                    NumberField(label: "Opacity", value: same(nodes) { $0.opacity * 100 }, unit: .percent, range: 0...100) { set(["opacity": .number($0 / 100)]) }
+                }
                 Picker("Blend mode", selection: Binding(get: { same(nodes) { $0.blend } ?? .normal }, set: { set(["blend": .string($0.rawValue)]) })) {
                     ForEach(Array(Self.blends.enumerated()), id: \.offset) { i, b in
                         if [1, 4, 7, 10, 12].contains(i) { Divider() }

@@ -11,6 +11,8 @@ struct Inspector: View {
             if nodes.isEmpty {
                 DocumentSection(editor: editor)
                 PageSection(editor: editor)
+                SwatchesSection(editor: editor)
+                VariablesSection(editor: editor)
                 TextStylesSection(editor: editor)
             } else {
                 SelectionHeader(editor: editor, nodes: nodes)
@@ -152,6 +154,16 @@ private struct LayoutSection: View {
         }
     }
 
+    /// `field` with a variable menu when one layer is selected; lengths bind in mm.
+    @ViewBuilder
+    private func bindable(_ prop: String, _ title: LocalizedStringKey, _ pt: Double?, @ViewBuilder field: @escaping () -> some View) -> some View {
+        if nodes.count == 1 {
+            VariableBinding(editor: editor, id: nodes[0].id, prop: prop, title: title, value: pt.map { $0 / Units.ptPerMM }, field: field)
+        } else {
+            field()
+        }
+    }
+
     var body: some View {
         let one = nodes.count == 1 ? nodes[0] : nil
         let line = one.flatMap(Editor.ends)
@@ -170,8 +182,12 @@ private struct LayoutSection: View {
                     }
                 } else {
                     GridRow {
-                        NumberField(label: "W", value: same(nodes) { $0.w }, range: 0 ... .infinity, commit: frame("w"))
-                        NumberField(label: "H", value: same(nodes) { $0.h }, range: 0 ... .infinity, commit: frame("h"))
+                        bindable("w", "W", same(nodes) { $0.w }) {
+                            NumberField(label: "W", value: same(nodes) { $0.w }, range: 0 ... .infinity, commit: frame("w"))
+                        }
+                        bindable("h", "H", same(nodes) { $0.h }) {
+                            NumberField(label: "H", value: same(nodes) { $0.h }, range: 0 ... .infinity, commit: frame("h"))
+                        }
                     }
                     GridRow {
                         NumberField(label: "∠", help: "Rotation", value: same(nodes) { Self.turnOf($0) } ?? nil, unit: .degrees) { v in
@@ -232,6 +248,7 @@ private struct PageSection: View {
     var body: some View {
         if let page = editor.page {
             Section(editor.isMaster ? String(localized: "Master") : String(localized: "Page")) {
+                ModePickers(editor: editor, id: page.id, own: page.modes, inherited: [:])
                 Grid(horizontalSpacing: 8, verticalSpacing: 6) {
                     GridRow {
                         NumberField(label: "W", value: page.width, range: 1 ... .infinity) { editor.apply(.setPage(page.id, width: $0)) }
