@@ -5,8 +5,8 @@ import SatzCore
 /// trim, crop marks, layout grids and guides; it pans, zooms and pinches.
 final class CanvasView: NSView {
     let editor: Editor
-    private let resources = Resources()
-    private(set) lazy var painter = Painter(resources: resources)
+    var painter: Painter { editor.scenes.painter }
+    private var decodedToken: UUID?
 
     private(set) var view = Viewport(x: 0, y: 0, zoom: 1)
     /// The view each spread was left with, as Figma keeps one per page.
@@ -16,10 +16,6 @@ final class CanvasView: NSView {
     private var fitting = true
 
     private var scene: CanvasScene?
-    /// Decoded display lists by page id, with their version.
-    private var decoded: [String: (version: UInt32, ops: [DisplayList.Op], plates: (cmy: [DisplayList.Op], k: [DisplayList.Op])?)] = [:]
-    private var inkTable: InkTable?
-    private var inkProfile: String??
 
     /// Tiles at the zoom they were drawn for, and the ones before shown scaled until these fill.
     private var tiles: Tiles?
@@ -53,7 +49,7 @@ final class CanvasView: NSView {
         super.init(frame: .zero)
         wantsLayer = true
         layerContentsRedrawPolicy = .onSetNeedsDisplay
-        resources.decoded = { [weak self] in self?.imagesDecoded() }
+        decodedToken = editor.scenes.onImagesDecoded { [weak self] in self?.imagesDecoded() }
         setAccessibilityElement(true)
         setAccessibilityRole(.group)
         setAccessibilityIdentifier("canvas")
@@ -71,39 +67,7 @@ final class CanvasView: NSView {
 
     /// Reads the editor's document again; the tiles stay until new ones replace them.
     func contentChanged() {
-        let snapshot = editor.snapshot
-        let cmyk = snapshot.colorMode == .cmyk
-        if !cmyk {
-            inkTable = nil
-            inkProfile = nil
-        } else if inkTable == nil || inkProfile != .some(snapshot.profile) {
-            inkTable = InkTable(pixels: editor.engine.lut(), id: Int.random(in: 1...Int.max))
-            if inkProfile != nil { resources.forgetImages() }
-            inkProfile = .some(snapshot.profile)
-        }
-        let lists: [CanvasScene.List] = editor.lists.map { item in
-            let version = editor.engine.listVersion(page: item.id)
-            if let d = decoded[item.id], d.version == version, (d.plates != nil) == cmyk {
-                return CanvasScene.List(id: item.id, x: item.x, version: version, ops: d.ops, plates: d.plates)
-            }
-            let ops = (try? DisplayList.decode(editor.engine.displayList(page: item.id))) ?? []
-            var plates: (cmy: [DisplayList.Op], k: [DisplayList.Op])?
-            if cmyk {
-                plates = (
-                    (try? DisplayList.decode(editor.engine.plate(page: item.id, k: false))) ?? [],
-                    (try? DisplayList.decode(editor.engine.plate(page: item.id, k: true))) ?? []
-                )
-            }
-            decoded[item.id] = (version, ops, plates)
-            return CanvasScene.List(id: item.id, x: item.x, version: version, ops: ops, plates: plates)
-        }
-        let live = Set(lists.map(\.id))
-        decoded = decoded.filter { live.contains($0.key) }
-        for list in lists {
-            resources.prepare(list.ops)
-            if let plates = list.plates { resources.prepare(plates.cmy + plates.k) }
-        }
-        let next = CanvasScene(lists: lists, sheets: editor.sheets, pasteboard: true, lut: inkTable)
+        let next = editor.scenes.scene(editor.snapshot, lists: editor.lists, sheets: editor.sheets, pasteboard: true)
         let changed = scene?.key != next.key
         scene = next
         if editor.spreadKey != shownSpread {

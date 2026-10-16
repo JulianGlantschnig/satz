@@ -77,6 +77,9 @@ targets:
             UTTypeTagSpecification:
               public.filename-extension: [satz]
               public.mime-type: [application/x-satz]
+          - UTTypeIdentifier: com.julianglantschnig.satz.pages
+            UTTypeDescription: Satz Pages
+            UTTypeConformsTo: [public.data]
 
   SatzTests:
     type: bundle.unit-test

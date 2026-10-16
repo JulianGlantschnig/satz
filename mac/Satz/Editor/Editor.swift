@@ -102,6 +102,12 @@ final class Editor {
     var editing: Editing?
     /// The text frame whose out-port was clicked, to thread into the next one clicked.
     var threading: String?
+    /// The page overview shows in place of the canvas, with the pages and masters picked in it.
+    var showsOverview = false
+    var overviewSelection: [String] = []
+    /// Pictures of pages for the overview.
+    @ObservationIgnored private(set) lazy var thumbnails = Thumbnails(editor: self)
+
     /// The find bar shows, and the matches it marks on the canvas.
     var showsFind = false
     var found: [Find.Match] = []
@@ -111,6 +117,9 @@ final class Editor {
     var showsRulers = true
     /// The canvas's zoom, 1 at one pt per screen point.
     var zoom: Double = 1
+
+    /// What the canvas and the page thumbnails draw from.
+    @ObservationIgnored private(set) lazy var scenes = SceneSource(engine: engine)
 
     /// The window's canvas, for the commands that move its view.
     @ObservationIgnored weak var canvas: CanvasView?
@@ -286,18 +295,23 @@ final class Editor {
         snapshot.pages.firstIndex { $0.id == id }.map { $0 + 1 }
     }
 
+    /// The page to add after or act on: the current one, or the last page on a master.
+    var pageOrLast: String? {
+        snapshot.pages.contains { $0.id == pageID } ? pageID : snapshot.pages.last?.id
+    }
+
     func addPage() {
-        if let id = apply(.addPage(after: pageID)).first { pageID = id }
+        if let id = apply(.addPage(after: pageOrLast)).first { showPage(id) }
     }
 
     func duplicatePage() {
-        guard let pageID, !isMaster else { return }
-        if let id = apply(.duplicatePage(pageID)).first { self.pageID = id }
+        guard let id = pageOrLast else { return }
+        if let made = apply(.duplicatePage(id)).first { showPage(made) }
     }
 
     func deletePage() {
-        guard let pageID, !isMaster, snapshot.pages.count > 1 else { return }
-        apply(.deletePage(pageID))
+        guard let id = pageOrLast else { return }
+        deletePages([id])
     }
 
     func undo() { undoManager?.undo() }

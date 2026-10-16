@@ -90,12 +90,18 @@ struct SatzCommands: Commands {
         }
 
         CommandMenu("Page") {
+            Button(editor?.showsOverview == true ? "Close Page Overview" : "Page Overview") { editor?.toggleOverview() }
+                .keyboardShortcut("o", modifiers: [.command, .shift])
+            Divider()
             Button("Add Page") { editor?.addPage() }
                 .keyboardShortcut("p", modifiers: [.command, .shift])
             Button("Duplicate Page") { editor?.duplicatePage() }
-                .disabled(editor?.isMaster ?? true)
             Button("Delete Page") { editor?.deletePage() }
-                .disabled(editor.map { $0.isMaster || $0.snapshot.pages.count < 2 } ?? true)
+                .disabled(editor.map { $0.snapshot.pages.count < 2 } ?? true)
+            Divider()
+            Button("New Master from Page") { editor.map { $0.addMaster(like: $0.pageOrLast, layers: true) } }
+            Button("Leave Master") { editor?.exitMaster() }
+                .disabled(editor?.master == nil)
             Divider()
             Button("Next Spread") { editor?.nextSpread() }
                 .keyboardShortcut(.pageDown, modifiers: [])

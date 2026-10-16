@@ -30,10 +30,19 @@ struct EditorView: View {
             Sidebar(editor: editor)
                 .navigationSplitViewColumnWidth(min: 160, ideal: 200, max: 320)
         } detail: {
-            Canvas(editor: editor)
-                .safeAreaInset(edge: .top, spacing: 0) {
-                    if editor.showsFind { FindBar(editor: editor) }
+            ZStack {
+                Canvas(editor: editor)
+                    .safeAreaInset(edge: .top, spacing: 0) {
+                        VStack(spacing: 0) {
+                            if editor.showsFind { FindBar(editor: editor) }
+                            if let m = editor.master { MasterBanner(editor: editor, master: m) }
+                        }
+                    }
+                if editor.showsOverview {
+                    Overview(editor: editor)
+                        .background(.background)
                 }
+            }
         }
         .inspector(isPresented: $showsInspector) {
             Inspector(editor: editor)
@@ -42,6 +51,12 @@ struct EditorView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 ZoomMenu(editor: editor)
+            }
+            ToolbarItem(placement: .principal) {
+                Toggle(isOn: Binding(get: { editor.showsOverview }, set: { _ in editor.toggleOverview() })) {
+                    Label("Page Overview", systemImage: "square.grid.2x2")
+                }
+                .help("Page Overview")
             }
             ToolbarItem(placement: .navigation) {
                 ToolPicker(editor: editor)
@@ -122,5 +137,25 @@ struct ToolPicker: View {
         }
         .pickerStyle(.segmented)
         .labelStyle(.iconOnly)
+    }
+}
+
+/// Shown above the canvas while a master is on screen.
+struct MasterBanner: View {
+    let editor: Editor
+    let master: Page
+
+    var body: some View {
+        HStack {
+            Image(systemName: "doc.on.doc")
+            Text("Editing master \(master.name)")
+            Spacer()
+            Button("Done") { editor.exitMaster() }
+                .controlSize(.small)
+        }
+        .font(.callout)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(Color.purple.opacity(0.18))
     }
 }

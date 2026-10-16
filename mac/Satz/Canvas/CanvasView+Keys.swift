@@ -56,6 +56,8 @@ extension CanvasView {
                 editor.flip(vertical: false)
             } else if flags == .shift && key == "v" {
                 editor.flip(vertical: true)
+            } else if flags.isEmpty && key == "." {
+                editor.toggleOverview()
             } else if flags == .shift && key == "g" {
                 editor.showsGrids.toggle()
             } else if flags == .shift && (key == "1" || event.keyCode == 18) {
