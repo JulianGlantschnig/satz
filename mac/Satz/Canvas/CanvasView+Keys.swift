@@ -34,6 +34,12 @@ extension CanvasView {
                 editor.flip(vertical: false)
             } else if flags == .shift && key == "v" {
                 editor.flip(vertical: true)
+            } else if flags == .shift && key == "g" {
+                editor.showsGrids.toggle()
+            } else if flags == .shift && (key == "1" || event.keyCode == 18) {
+                fit()
+            } else if flags == .shift && (key == "2" || event.keyCode == 19) {
+                zoomToSelection()
             } else if flags.isEmpty, let tool = Editor.Tool.allCases.first(where: { $0.key == key }) ?? (key == "a" ? .frame : nil) {
                 if !event.isARepeat { editor.tool = tool }
             } else {

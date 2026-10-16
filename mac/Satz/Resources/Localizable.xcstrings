@@ -1,6 +1,16 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ (%@)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ (%2$@)"
+          }
+        }
+      }
+    },
     "%lld layers": {
       "localizations": {
         "de": {
@@ -21,12 +31,162 @@
         }
       }
     },
+    "Align Bottom": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unten ausrichten"
+          }
+        }
+      }
+    },
+    "Align Horizontal Centers": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal mittig ausrichten"
+          }
+        }
+      }
+    },
+    "Align Left": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Links ausrichten"
+          }
+        }
+      }
+    },
+    "Align Right": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechts ausrichten"
+          }
+        }
+      }
+    },
+    "Align Top": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oben ausrichten"
+          }
+        }
+      }
+    },
+    "Align Vertical Centers": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikal mittig ausrichten"
+          }
+        }
+      }
+    },
+    "Angle": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Winkel"
+          }
+        }
+      }
+    },
+    "Bleed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anschnitt"
+          }
+        }
+      }
+    },
+    "Bring Forward": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Ebene nach vorne"
+          }
+        }
+      }
+    },
+    "Bring to Front": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In den Vordergrund"
+          }
+        }
+      }
+    },
+    "Clip content": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inhalt beschneiden"
+          }
+        }
+      }
+    },
     "Colour mode": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Farbmodus"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopieren"
+          }
+        }
+      }
+    },
+    "Corner radius": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eckenradius"
+          }
+        }
+      }
+    },
+    "Cut": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausschneiden"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löschen"
           }
         }
       }
@@ -41,6 +201,26 @@
         }
       }
     },
+    "Distribute Horizontally": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal verteilen"
+          }
+        }
+      }
+    },
+    "Distribute Vertically": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikal verteilen"
+          }
+        }
+      }
+    },
     "Document": {
       "localizations": {
         "de": {
@@ -51,12 +231,42 @@
         }
       }
     },
+    "Duplicate": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duplizieren"
+          }
+        }
+      }
+    },
     "Duplicate Page": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Seite duplizieren"
+          }
+        }
+      }
+    },
+    "Ellipse": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ellipse"
+          }
+        }
+      }
+    },
+    "Exclude": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausschließen"
           }
         }
       }
@@ -81,12 +291,102 @@
         }
       }
     },
+    "Flip Horizontal": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal spiegeln"
+          }
+        }
+      }
+    },
+    "Flip Vertical": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikal spiegeln"
+          }
+        }
+      }
+    },
+    "Frame": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rahmen"
+          }
+        }
+      }
+    },
+    "Group": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gruppieren"
+          }
+        }
+      }
+    },
+    "Group as Frame": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als Rahmen gruppieren"
+          }
+        }
+      }
+    },
+    "Hide": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausblenden"
+          }
+        }
+      }
+    },
     "Hide Layout Grids": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Layoutraster ausblenden"
+          }
+        }
+      }
+    },
+    "Hide Layout Grids and Guides": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layoutraster und Hilfslinien ausblenden"
+          }
+        }
+      }
+    },
+    "Hide Rulers": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lineale ausblenden"
+          }
+        }
+      }
+    },
+    "Horizontal spacing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontaler Abstand"
           }
         }
       }
@@ -101,12 +401,102 @@
         }
       }
     },
+    "Intersect": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schnittmenge"
+          }
+        }
+      }
+    },
+    "Keep aspect ratio": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seitenverhältnis beibehalten"
+          }
+        }
+      }
+    },
     "Last Spread": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Letzter Druckbogen"
+          }
+        }
+      }
+    },
+    "Layers": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebenen"
+          }
+        }
+      }
+    },
+    "Layout": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layout"
+          }
+        }
+      }
+    },
+    "Length": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Länge"
+          }
+        }
+      }
+    },
+    "Line": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linie"
+          }
+        }
+      }
+    },
+    "Lock": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sperren"
+          }
+        }
+      }
+    },
+    "Lock or Unlock": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sperren oder entsperren"
+          }
+        }
+      }
+    },
+    "Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterseite"
           }
         }
       }
@@ -121,12 +511,52 @@
         }
       }
     },
+    "Mixed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemischt"
+          }
+        }
+      }
+    },
+    "Move": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bewegen"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      }
+    },
     "Next Spread": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Nächster Druckbogen"
+          }
+        }
+      }
+    },
+    "Object": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objekt"
           }
         }
       }
@@ -151,6 +581,16 @@
         }
       }
     },
+    "Overrides its master layer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überschreibt die Ebene der Musterseite"
+          }
+        }
+      }
+    },
     "Page": {
       "localizations": {
         "de": {
@@ -171,12 +611,42 @@
         }
       }
     },
+    "Page canvas": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seitenfläche"
+          }
+        }
+      }
+    },
     "Pages": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Seiten"
+          }
+        }
+      }
+    },
+    "Paste": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einsetzen"
+          }
+        }
+      }
+    },
+    "Polygon": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon"
           }
         }
       }
@@ -191,6 +661,76 @@
         }
       }
     },
+    "Rectangle": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechteck"
+          }
+        }
+      }
+    },
+    "Rename": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umbenennen"
+          }
+        }
+      }
+    },
+    "Reset to Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Musterseite zurücksetzen"
+          }
+        }
+      }
+    },
+    "Rotation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drehung"
+          }
+        }
+      }
+    },
+    "Send Backward": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Ebene nach hinten"
+          }
+        }
+      }
+    },
+    "Send to Back": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In den Hintergrund"
+          }
+        }
+      }
+    },
+    "Show": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einblenden"
+          }
+        }
+      }
+    },
     "Show Layout Grids": {
       "localizations": {
         "de": {
@@ -201,12 +741,142 @@
         }
       }
     },
+    "Show Layout Grids and Guides": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layoutraster und Hilfslinien einblenden"
+          }
+        }
+      }
+    },
+    "Show Rulers": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lineale einblenden"
+          }
+        }
+      }
+    },
+    "Show or Hide": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein- oder ausblenden"
+          }
+        }
+      }
+    },
+    "Star": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stern"
+          }
+        }
+      }
+    },
+    "Subtract": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subtrahieren"
+          }
+        }
+      }
+    },
+    "Text frame": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textrahmen"
+          }
+        }
+      }
+    },
     "This file does not open": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Diese Datei lässt sich nicht öffnen"
+          }
+        }
+      }
+    },
+    "Tidy Up": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufräumen"
+          }
+        }
+      }
+    },
+    "Tool": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkzeug"
+          }
+        }
+      }
+    },
+    "Ungroup": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gruppierung aufheben"
+          }
+        }
+      }
+    },
+    "Union": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vereinigen"
+          }
+        }
+      }
+    },
+    "Unlock": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entsperren"
+          }
+        }
+      }
+    },
+    "Use as Mask": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als Maske verwenden"
+          }
+        }
+      }
+    },
+    "Vertical spacing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikaler Abstand"
           }
         }
       }
@@ -257,6 +927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "In Fenster einpassen"
+          }
+        }
+      }
+    },
+    "Zoom to Selection": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Auswahl zoomen"
           }
         }
       }

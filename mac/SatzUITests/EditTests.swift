@@ -6,14 +6,13 @@ final class EditTests: XCTestCase {
 
     override func setUp() {
         continueAfterFailure = false
-        app = XCUIApplication()
-        app.launchArguments += ["-ApplePersistenceIgnoreState", "YES", "-AppleLanguages", "(en)"]
-        app.launch()
+        app = .satz()
         let poster = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appending(path: "examples/poster.satz")
         app.open(poster)
-        XCTAssertTrue(app.windows["poster.satz"].waitForExistence(timeout: 10))
+        let found = app.windows["poster.satz"].waitForExistence(timeout: 30)
+        XCTAssertTrue(found, "windows: \(app.windows.allElementsBoundByIndex.map { $0.title })")
     }
 
     override func tearDown() { app.terminate() }

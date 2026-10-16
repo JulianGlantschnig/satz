@@ -320,6 +320,12 @@ extension CanvasView {
     override func otherMouseUp(with event: NSEvent) { mouseUp(with: event) }
 
     override func mouseDragged(with event: NSEvent) {
+        if event.type != .otherMouseDragged { autoscroll(for: event) }
+        dragged(event)
+    }
+
+    /// Follows a drag to the pointer of `event`.
+    func dragged(_ event: NSEvent) {
         let q = convert(event.locationInWindow, from: nil)
         let p = view.toSpread(q)
         overlay.pointer = q
@@ -582,6 +588,12 @@ extension CanvasView {
         }
         editor.select([id])
         return .draw(start: start, id: id, dx: parent.dx, moved: moved, tool: tool, snaps: s)
+    }
+
+    /// Starts to drag a new guide out of a ruler.
+    func beginGuide(axis: XY) {
+        window?.makeFirstResponder(self)
+        drag = .guide(axis: axis, page: editor.pageID ?? "", dx: 0, index: -1, grouped: false)
     }
 
     func doubleClick(_ p: CGPoint) {

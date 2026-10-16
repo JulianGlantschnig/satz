@@ -26,10 +26,18 @@ final class CanvasView: NSView {
     private var fallback: Tiles?
     private var settle: Timer?
 
-    var drag: Drag?
+    var drag: Drag? {
+        didSet { if drag == nil { edgeTimer?.invalidate(); edgeTimer = nil } }
+    }
+    var edgeTimer: Timer?
+    /// The last drag event, moved again while the view scrolls under it.
+    var lastDrag: NSEvent?
     var overlay = Overlay()
     /// Space is down: a drag pans.
     var spaceHeld = false
+
+    /// Runs when the view moves or what it shows changes, for the rulers.
+    var viewChanged: (() -> Void)?
 
     /// Runs when the zoom changes, for the zoom field.
     var zoomChanged: ((Double) -> Void)?
@@ -105,6 +113,7 @@ final class CanvasView: NSView {
         }
         if changed { refreshTiles() }
         needsDisplay = true
+        viewChanged?()
     }
 
     private func imagesDecoded() {
@@ -151,6 +160,7 @@ final class CanvasView: NSView {
         let zoomed = v.zoom != view.zoom
         fitting = false
         view = v
+        viewChanged?()
         if zoomed {
             zoomChanged?(v.zoom)
             settle?.invalidate()
@@ -167,6 +177,14 @@ final class CanvasView: NSView {
         fallback = tiles
         self.tiles = nil
         needsDisplay = true
+    }
+
+    /// Fits the selection into the view.
+    func zoomToSelection() {
+        let nodes = editor.selected
+        guard !nodes.isEmpty else { return }
+        let b = Box.around(nodes.map { Handles.upright(editor.shown($0)) })
+        show(.fit(b.rect, in: bounds.size, padding: 120))
     }
 
     func fit() {

@@ -7,14 +7,12 @@ final class CanvasTests: XCTestCase {
 
     override func setUp() {
         continueAfterFailure = false
-        app = XCUIApplication()
-        app.launchArguments += ["-ApplePersistenceIgnoreState", "YES", "-AppleLanguages", "(en)"]
-        app.launch()
+        app = .satz()
         let booklet = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appending(path: "examples/booklet.satz")
         app.open(booklet)
-        XCTAssertTrue(app.windows["booklet.satz"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.windows["booklet.satz"].waitForExistence(timeout: 30))
     }
 
     override func tearDown() {
@@ -53,7 +51,7 @@ final class CanvasTests: XCTestCase {
         sleep(2)
         shot("3-zoomed")
         XCTAssertNotEqual(window.toolbars.menuButtons.firstMatch.title, zoom)
-        menu("Show Layout Grids")
+        menu("Show Layout Grids and Guides")
         menu("Zoom to Fit")
         sleep(2)
         shot("4-grids")

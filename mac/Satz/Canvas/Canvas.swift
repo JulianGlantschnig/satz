@@ -6,18 +6,22 @@ import SwiftUI
 struct Canvas: NSViewRepresentable {
     let editor: Editor
 
-    func makeNSView(context: Context) -> CanvasView {
+    func makeNSView(context: Context) -> CanvasContainer {
         let view = CanvasView(editor: editor)
         editor.canvas = view
         view.zoomChanged = { zoom in editor.zoom = zoom }
-        return view
+        return CanvasContainer(canvas: view)
     }
 
-    func updateNSView(_ view: CanvasView, context: Context) {
+    func updateNSView(_ container: CanvasContainer, context: Context) {
         // Reading these makes SwiftUI call this again when they change.
         _ = editor.snapshot
         _ = editor.pageID
         _ = editor.showsGrids
-        view.contentChanged()
+        _ = editor.selection
+        _ = editor.hover
+        _ = editor.guide
+        container.showsRulers = editor.showsRulers
+        container.canvas.contentChanged()
     }
 }

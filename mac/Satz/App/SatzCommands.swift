@@ -15,12 +15,19 @@ struct SatzCommands: Commands {
             Button("Zoom to 100%") { editor?.canvas?.zoom(to: 1) }
                 .keyboardShortcut("0", modifiers: .command)
             Button("Zoom to Fit") { editor?.canvas?.fit() }
-                .keyboardShortcut("1", modifiers: .shift)
+                .keyboardShortcut("1", modifiers: .command)
+            Button("Zoom to Selection") { editor?.canvas?.zoomToSelection() }
+                .keyboardShortcut("2", modifiers: .command)
+                .disabled(editor?.selection.isEmpty ?? true)
             Divider()
-            Button(editor?.showsGrids == true ? "Hide Layout Grids" : "Show Layout Grids") {
+            Button(editor?.showsRulers == true ? "Hide Rulers" : "Show Rulers") {
+                editor?.showsRulers.toggle()
+            }
+            .keyboardShortcut("r", modifiers: .command)
+            Button(editor?.showsGrids == true ? "Hide Layout Grids and Guides" : "Show Layout Grids and Guides") {
                 editor?.showsGrids.toggle()
             }
-            .keyboardShortcut("g", modifiers: .shift)
+            .keyboardShortcut(";", modifiers: .command)
             Divider()
         }
 
