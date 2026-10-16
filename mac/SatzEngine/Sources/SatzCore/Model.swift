@@ -29,7 +29,7 @@ public struct Fill: Codable, Hashable, Sendable {
     public var adjust: [Double]?
 
     public init(
-        type: FillKind = .solid, color: Color, stops: [Stop] = [], transform: [Double] = [],
+        type: FillKind = .solid, color: Color, stops: [Stop] = [], transform: [Double] = [1, 0, 0, 1, 0, 0],
         visible: Bool = true, image: String? = nil, adjust: [Double]? = nil
     ) {
         self.type = type

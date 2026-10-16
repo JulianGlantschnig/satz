@@ -24,7 +24,7 @@ final class Editor {
     @ObservationIgnored var pointer: CGPoint?
 
     enum Tool: String, CaseIterable, Identifiable {
-        case move, frame, text, rect, ellipse, polygon, star, line
+        case move, frame, text, rect, ellipse, polygon, star, line, eyedropper
 
         var id: String { rawValue }
 
@@ -39,6 +39,7 @@ final class Editor {
             case .polygon: .polygon
             case .star: .star
             case .line: .line
+            case .eyedropper: nil
             }
         }
 
@@ -53,6 +54,7 @@ final class Editor {
             case .polygon: "y"
             case .star: "s"
             case .line: "l"
+            case .eyedropper: "i"
             }
         }
 
@@ -69,6 +71,7 @@ final class Editor {
             case .polygon: "triangle"
             case .star: "star"
             case .line: "line.diagonal"
+            case .eyedropper: "eyedropper"
             }
         }
 
@@ -82,6 +85,7 @@ final class Editor {
             case .polygon: "Polygon"
             case .star: "Star"
             case .line: "Line"
+            case .eyedropper: "Eyedropper"
             }
         }
     }

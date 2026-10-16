@@ -11,6 +11,16 @@
         }
       }
     },
+    "%@ mode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modus %@"
+          }
+        }
+      }
+    },
     "%lld found": {
       "localizations": {
         "de": {
@@ -51,12 +61,62 @@
         }
       }
     },
+    "Add": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinzufügen"
+          }
+        }
+      }
+    },
+    "Add Mode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modus hinzufügen"
+          }
+        }
+      }
+    },
     "Add Page": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Seite hinzufügen"
+          }
+        }
+      }
+    },
+    "Add Stop": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stopp hinzufügen"
+          }
+        }
+      }
+    },
+    "Add swatch": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbfeld hinzufügen"
+          }
+        }
+      }
+    },
+    "Add variable": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable hinzufügen"
           }
         }
       }
@@ -201,6 +261,56 @@
         }
       }
     },
+    "Apply variable": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable anwenden"
+          }
+        }
+      }
+    },
+    "Arc start": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bogenanfang"
+          }
+        }
+      }
+    },
+    "Arc sweep": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bogenlänge"
+          }
+        }
+      }
+    },
+    "Arrow at end": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfeil am Ende"
+          }
+        }
+      }
+    },
+    "Arrow at start": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfeil am Anfang"
+          }
+        }
+      }
+    },
     "As typed": {
       "localizations": {
         "de": {
@@ -217,6 +327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Auto"
+          }
+        }
+      }
+    },
+    "Auto (%@)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto (%@)"
           }
         }
       }
@@ -291,12 +411,52 @@
         }
       }
     },
+    "Bevel join": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgeflachte Ecke"
+          }
+        }
+      }
+    },
     "Bleed": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Anschnitt"
+          }
+        }
+      }
+    },
+    "Blend mode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füllmethode"
+          }
+        }
+      }
+    },
+    "Blur": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unschärfe"
+          }
+        }
+      }
+    },
+    "Bottom": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unten"
           }
         }
       }
@@ -351,6 +511,16 @@
         }
       }
     },
+    "Cap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ende"
+          }
+        }
+      }
+    },
     "Capitals to small caps": {
       "localizations": {
         "de": {
@@ -377,6 +547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Versalformen"
+          }
+        }
+      }
+    },
+    "Center": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitte"
           }
         }
       }
@@ -411,12 +591,62 @@
         }
       }
     },
+    "Colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbe"
+          }
+        }
+      }
+    },
+    "Colour Burn": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbig nachbelichten"
+          }
+        }
+      }
+    },
+    "Colour Dodge": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbig abwedeln"
+          }
+        }
+      }
+    },
     "Colour mode": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Farbmodus"
+          }
+        }
+      }
+    },
+    "Column rule": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spaltenlinie"
+          }
+        }
+      }
+    },
+    "Column rule weight": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stärke der Spaltenlinie"
           }
         }
       }
@@ -441,6 +671,16 @@
         }
       }
     },
+    "Copy CMYK": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CMYK kopieren"
+          }
+        }
+      }
+    },
     "Copyright": {
       "localizations": {
         "de": {
@@ -461,12 +701,52 @@
         }
       }
     },
+    "Create from Value": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus Wert erstellen"
+          }
+        }
+      }
+    },
+    "Custom": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eigene"
+          }
+        }
+      }
+    },
     "Cut": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ausschneiden"
+          }
+        }
+      }
+    },
+    "Darken": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abdunkeln"
+          }
+        }
+      }
+    },
+    "Dashed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gestrichelt"
           }
         }
       }
@@ -521,12 +801,62 @@
         }
       }
     },
+    "Delete mode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modus löschen"
+          }
+        }
+      }
+    },
+    "Delete swatch": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbfeld löschen"
+          }
+        }
+      }
+    },
     "Delete text style": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Absatzformat löschen"
+          }
+        }
+      }
+    },
+    "Delete variable": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable löschen"
+          }
+        }
+      }
+    },
+    "Detach Variable": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable lösen"
+          }
+        }
+      }
+    },
+    "Difference": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Differenz"
           }
         }
       }
@@ -567,6 +897,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dokument"
+          }
+        }
+      }
+    },
+    "Dotted": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gepunktet"
+          }
+        }
+      }
+    },
+    "Drop Shadow": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlagschatten"
           }
         }
       }
@@ -641,6 +991,36 @@
         }
       }
     },
+    "Edit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bearbeiten"
+          }
+        }
+      }
+    },
+    "Effect": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effekt"
+          }
+        }
+      }
+    },
+    "Effects": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effekte"
+          }
+        }
+      }
+    },
     "Ellipse": {
       "localizations": {
         "de": {
@@ -711,6 +1091,26 @@
         }
       }
     },
+    "Exclusion": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausschluss"
+          }
+        }
+      }
+    },
+    "Eyedropper": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pipette"
+          }
+        }
+      }
+    },
     "Facing pages": {
       "localizations": {
         "de": {
@@ -737,6 +1137,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ziffern"
+          }
+        }
+      }
+    },
+    "Fill": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fläche"
           }
         }
       }
@@ -921,6 +1331,26 @@
         }
       }
     },
+    "Hard Light": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hartes Licht"
+          }
+        }
+      }
+    },
+    "Hex": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hex"
+          }
+        }
+      }
+    },
     "Hide": {
       "localizations": {
         "de": {
@@ -971,12 +1401,32 @@
         }
       }
     },
+    "Hue": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbton"
+          }
+        }
+      }
+    },
     "Hyphenate": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Silbentrennung"
+          }
+        }
+      }
+    },
+    "Image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild"
           }
         }
       }
@@ -1011,12 +1461,42 @@
         }
       }
     },
+    "Inner": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innen"
+          }
+        }
+      }
+    },
+    "Inner radius": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innenradius"
+          }
+        }
+      }
+    },
     "Insert character": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Zeichen einfügen"
+          }
+        }
+      }
+    },
+    "Inside": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innen"
           }
         }
       }
@@ -1047,6 +1527,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Italienisch"
+          }
+        }
+      }
+    },
+    "Join": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ecke"
+          }
+        }
+      }
+    },
+    "Jump Over": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überspringen"
           }
         }
       }
@@ -1127,6 +1627,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Letzter Druckbogen"
+          }
+        }
+      }
+    },
+    "Layer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebene"
+          }
+        }
+      }
+    },
+    "Layer Blur": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebenenunschärfe"
           }
         }
       }
@@ -1221,6 +1741,16 @@
         }
       }
     },
+    "Lighten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufhellen"
+          }
+        }
+      }
+    },
     "Line": {
       "localizations": {
         "de": {
@@ -1237,6 +1767,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zeilenabstand"
+          }
+        }
+      }
+    },
+    "Line style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linienart"
+          }
+        }
+      }
+    },
+    "Linear": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linear"
           }
         }
       }
@@ -1311,6 +1861,16 @@
         }
       }
     },
+    "Luminosity": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luminanz"
+          }
+        }
+      }
+    },
     "Master": {
       "localizations": {
         "de": {
@@ -1371,6 +1931,26 @@
         }
       }
     },
+    "Missing swatch": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehlendes Farbfeld"
+          }
+        }
+      }
+    },
+    "Missing variable": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehlende Variable"
+          }
+        }
+      }
+    },
     "Missing: its text is set in the bundled font": {
       "localizations": {
         "de": {
@@ -1381,12 +1961,42 @@
         }
       }
     },
+    "Miter join": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spitze Ecke"
+          }
+        }
+      }
+    },
     "Mixed": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Gemischt"
+          }
+        }
+      }
+    },
+    "Mixed · + replaces all": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemischt · + ersetzt alle"
+          }
+        }
+      }
+    },
+    "Mode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modus"
           }
         }
       }
@@ -1407,6 +2017,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Malzeichen"
+          }
+        }
+      }
+    },
+    "Multiply": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiplizieren"
           }
         }
       }
@@ -1461,6 +2081,46 @@
         }
       }
     },
+    "No Text Wrap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Umfluss"
+          }
+        }
+      }
+    },
+    "No cap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne Abschluss"
+          }
+        }
+      }
+    },
+    "No swatches or colour variables yet.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Farbfelder oder Farbvariablen."
+          }
+        }
+      }
+    },
+    "No variables yet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Variablen"
+          }
+        }
+      }
+    },
     "Non-breaking space": {
       "localizations": {
         "de": {
@@ -1487,6 +2147,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Normal"
+          }
+        }
+      }
+    },
+    "Number": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zahl"
           }
         }
       }
@@ -1521,6 +2191,16 @@
         }
       }
     },
+    "Offset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand"
+          }
+        }
+      }
+    },
     "Oldstyle": {
       "localizations": {
         "de": {
@@ -1551,6 +2231,16 @@
         }
       }
     },
+    "Opacity": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deckkraft"
+          }
+        }
+      }
+    },
     "OpenType": {
       "localizations": {
         "de": {
@@ -1567,6 +2257,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ordinalzeichen"
+          }
+        }
+      }
+    },
+    "Outside": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Außen"
+          }
+        }
+      }
+    },
+    "Overlay": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ineinanderkopieren"
+          }
+        }
+      }
+    },
+    "Overprint fill": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fläche überdrucken"
+          }
+        }
+      }
+    },
+    "Overprint stroke": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontur überdrucken"
           }
         }
       }
@@ -1671,12 +2401,42 @@
         }
       }
     },
+    "Paste CMYK": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CMYK einsetzen"
+          }
+        }
+      }
+    },
+    "Points": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ecken"
+          }
+        }
+      }
+    },
     "Polygon": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Polygon"
+          }
+        }
+      }
+    },
+    "Pos": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pos"
           }
         }
       }
@@ -1721,6 +2481,26 @@
         }
       }
     },
+    "RGB only, converted to CMYK when printed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur RGB, wird beim Druck in CMYK umgewandelt"
+          }
+        }
+      }
+    },
+    "Radial": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Radial"
+          }
+        }
+      }
+    },
     "Rectangle": {
       "localizations": {
         "de": {
@@ -1737,6 +2517,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "Eingetragen"
+          }
+        }
+      }
+    },
+    "Release Mask": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maske lösen"
+          }
+        }
+      }
+    },
+    "Release mask": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maske lösen"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entfernen"
+          }
+        }
+      }
+    },
+    "Remove stop": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stopp entfernen"
           }
         }
       }
@@ -1871,6 +2691,66 @@
         }
       }
     },
+    "Round cap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rundes Ende"
+          }
+        }
+      }
+    },
+    "Round join": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Runde Ecke"
+          }
+        }
+      }
+    },
+    "Saturation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sättigung"
+          }
+        }
+      }
+    },
+    "Saturation and brightness": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sättigung und Helligkeit"
+          }
+        }
+      }
+    },
+    "Save as Swatch": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als Farbfeld sichern"
+          }
+        }
+      }
+    },
+    "Screen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Negativ multiplizieren"
+          }
+        }
+      }
+    },
     "Search fonts": {
       "localizations": {
         "de": {
@@ -1907,6 +2787,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "In den Hintergrund"
+          }
+        }
+      }
+    },
+    "Shading": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinterlegung"
+          }
+        }
+      }
+    },
+    "Shadow colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schattenfarbe"
+          }
+        }
+      }
+    },
+    "Shadow offset X": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schattenversatz X"
+          }
+        }
+      }
+    },
+    "Shadow offset Y": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schattenversatz Y"
+          }
+        }
+      }
+    },
+    "Shadow opacity": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schattendeckkraft"
+          }
+        }
+      }
+    },
+    "Shape": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Form"
           }
         }
       }
@@ -2001,12 +2941,62 @@
         }
       }
     },
+    "Soft Light": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiches Licht"
+          }
+        }
+      }
+    },
+    "Solid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vollton"
+          }
+        }
+      }
+    },
     "Spanish": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Spanisch"
+          }
+        }
+      }
+    },
+    "Spot": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonder"
+          }
+        }
+      }
+    },
+    "Spot colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonderfarbe"
+          }
+        }
+      }
+    },
+    "Square cap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eckiges Ende"
           }
         }
       }
@@ -2031,12 +3021,62 @@
         }
       }
     },
+    "Stop colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbe des Stopps"
+          }
+        }
+      }
+    },
+    "Stop opacity": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deckkraft des Stopps"
+          }
+        }
+      }
+    },
+    "Stop position": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Position des Stopps"
+          }
+        }
+      }
+    },
     "Strikethrough": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Durchgestrichen"
+          }
+        }
+      }
+    },
+    "Stroke": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontur"
+          }
+        }
+      }
+    },
+    "Stroke weight": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konturstärke"
           }
         }
       }
@@ -2091,6 +3131,46 @@
         }
       }
     },
+    "Swatch": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbfeld"
+          }
+        }
+      }
+    },
+    "Swatch %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbfeld %lld"
+          }
+        }
+      }
+    },
+    "Swatches": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbfelder"
+          }
+        }
+      }
+    },
+    "Sweep": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bogen"
+          }
+        }
+      }
+    },
     "Tabular": {
       "localizations": {
         "de": {
@@ -2131,6 +3211,16 @@
         }
       }
     },
+    "Text Wrap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textumfluss"
+          }
+        }
+      }
+    },
     "Text frame": {
       "localizations": {
         "de": {
@@ -2157,6 +3247,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Absatzformat %lld"
+          }
+        }
+      }
+    },
+    "Text wrap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textumfluss"
+          }
+        }
+      }
+    },
+    "Text wrap offset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand des Textumflusses"
           }
         }
       }
@@ -2201,6 +3311,16 @@
         }
       }
     },
+    "Tint": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tonwert"
+          }
+        }
+      }
+    },
     "Title case": {
       "localizations": {
         "de": {
@@ -2217,6 +3337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Werkzeug"
+          }
+        }
+      }
+    },
+    "Top": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oben"
           }
         }
       }
@@ -2257,6 +3387,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Auf Versalhöhe beschneiden"
+          }
+        }
+      }
+    },
+    "Type": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Art"
           }
         }
       }
@@ -2341,6 +3481,26 @@
         }
       }
     },
+    "Value": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wert"
+          }
+        }
+      }
+    },
+    "Variables": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variablen"
+          }
+        }
+      }
+    },
     "Vertical align": {
       "localizations": {
         "de": {
@@ -2361,12 +3521,62 @@
         }
       }
     },
+    "Wavy": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wellig"
+          }
+        }
+      }
+    },
+    "Weight": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stärke"
+          }
+        }
+      }
+    },
+    "Weight per side": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stärke je Seite"
+          }
+        }
+      }
+    },
     "Whole words": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ganze Wörter"
+          }
+        }
+      }
+    },
+    "Wrap Around": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umfließen"
+          }
+        }
+      }
+    },
+    "Zigzag": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zickzack"
           }
         }
       }

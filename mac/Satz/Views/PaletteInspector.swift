@@ -325,10 +325,12 @@ struct VariableBinding<Field: View>: View {
                     Text("No variables yet")
                 }
             } label: {
-                Image(systemName: "curlybraces")
+                Image(systemName: "curlybraces").font(.caption2)
             }
+            .menuStyle(.borderlessButton)
             .menuIndicator(.hidden)
-            .fixedSize()
+            .frame(width: 16)
+            .foregroundStyle(variable == nil ? .tertiary : .secondary)
             .help("Apply variable")
         }
     }

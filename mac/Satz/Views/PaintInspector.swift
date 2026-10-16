@@ -97,10 +97,10 @@ private struct LayerSection: View {
             HStack {
                 if let one {
                     VariableBinding(editor: editor, id: one.id, prop: "opacity", title: "Opacity", value: one.opacity * 100) {
-                        NumberField(label: "Opacity", value: one.opacity * 100, unit: .percent, range: 0...100) { set(["opacity": .number($0 / 100)]) }
+                        NumberField(label: "α", help: "Opacity", value: one.opacity * 100, unit: .percent, range: 0...100) { set(["opacity": .number($0 / 100)]) }
                     }
                 } else {
-                    NumberField(label: "Opacity", value: same(nodes) { $0.opacity * 100 }, unit: .percent, range: 0...100) { set(["opacity": .number($0 / 100)]) }
+                    NumberField(label: "α", help: "Opacity", value: same(nodes) { $0.opacity * 100 }, unit: .percent, range: 0...100) { set(["opacity": .number($0 / 100)]) }
                 }
                 Picker("Blend mode", selection: Binding(get: { same(nodes) { $0.blend } ?? .normal }, set: { set(["blend": .string($0.rawValue)]) })) {
                     ForEach(Array(Self.blends.enumerated()), id: \.offset) { i, b in

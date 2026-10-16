@@ -317,6 +317,20 @@ extension CanvasView {
             if hit.side == .out { editor.threading = hit.node.id }
             return
         }
+        if editor.tool == .eyedropper {
+            // Takes the fills and strokes of the layer clicked onto the selection.
+            guard let id = hit(p).path.last, let from = editor.nodes[id]?.node else { return }
+            editor.batch {
+                for n in editor.selected where n.kind != .group && n.id != from.id {
+                    editor.apply(.set(id: n.id, [
+                        "fills": (try? JSON(encoding: from.fills)) ?? .null,
+                        "strokes": (try? JSON(encoding: from.strokes)) ?? .null,
+                        "strokeWeight": .number(from.strokeWeight),
+                    ]))
+                }
+            }
+            return
+        }
         if editor.tool != .move {
             let s = snaps()
             let at = snapPoint(p, s, off: flags.contains(.command)).p
