@@ -8,7 +8,7 @@ struct Inspector: View {
     var body: some View {
         let nodes = editor.selected
         Form {
-            if nodes.isEmpty {
+            if nodes.isEmpty || editor.showsOverview {
                 DocumentSection(editor: editor)
                 PageSection(editor: editor)
                 SwatchesSection(editor: editor)
@@ -35,7 +35,7 @@ struct Inspector: View {
 }
 
 /// The value of `get` for all of `nodes`, or nil when they differ.
-func same<T: Equatable>(_ nodes: [Node], _ get: (Node) -> T) -> T? {
+func same<Item, T: Equatable>(_ nodes: [Item], _ get: (Item) -> T) -> T? {
     guard let first = nodes.first.map(get) else { return nil }
     return nodes.dropFirst().allSatisfy { get($0) == first } ? first : nil
 }
@@ -227,38 +227,5 @@ private struct LayoutSection: View {
     private func setLine(_ n: Node, _ a: CGPoint, _ length: Double, _ degrees: Double) {
         let r = degrees * .pi / 180
         editor.apply(.setPath(id: n.id, path: [0, a.x, a.y, 1, a.x + length * cos(r), a.y - length * sin(r)]))
-    }
-}
-
-private struct DocumentSection: View {
-    let editor: Editor
-
-    var body: some View {
-        Section("Document") {
-            LabeledContent("Colour mode", value: editor.snapshot.colorMode == .cmyk ? "CMYK" : "RGB")
-            LabeledContent("Pages", value: "\(editor.snapshot.pages.count)")
-            LabeledContent("Facing pages", value: editor.snapshot.facingPages ? String(localized: "On") : String(localized: "Off"))
-        }
-    }
-}
-
-private struct PageSection: View {
-    let editor: Editor
-
-    var body: some View {
-        if let page = editor.page {
-            Section(editor.isMaster ? String(localized: "Master") : String(localized: "Page")) {
-                ModePickers(editor: editor, id: page.id, own: page.modes, inherited: [:])
-                Grid(horizontalSpacing: 8, verticalSpacing: 6) {
-                    GridRow {
-                        NumberField(label: "W", value: page.width, range: 1 ... .infinity) { editor.apply(.setPage(page.id, width: $0)) }
-                        NumberField(label: "H", value: page.height, range: 1 ... .infinity) { editor.apply(.setPage(page.id, height: $0)) }
-                    }
-                    GridRow {
-                        NumberField(label: "Bleed", value: page.bleed, range: 0 ... .infinity) { editor.apply(.setPage(page.id, bleed: $0)) }
-                    }
-                }
-            }
-        }
     }
 }

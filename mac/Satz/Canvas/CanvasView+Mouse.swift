@@ -370,6 +370,14 @@ extension CanvasView {
         case .gap?, nil:
             break
         }
+        // Command-Shift-click on a master layer that no page layer covers overrides it, as in InDesign.
+        if flags.contains(.command), flags.contains(.shift), editor.master == nil, hit(p).path.isEmpty,
+            let page = editor.page(at: p),
+            let id = editor.engine.masterHit(page: page.id, at: CGPoint(x: p.x - page.x, y: p.y), tolerance: Self.hitSlop / view.zoom)
+        {
+            editor.override(id, on: page.id)
+            return
+        }
         let sel = editor.selection
         guard let id = pick(p, flags.contains(.command) ? .deep : .click) else {
             let base = flags.contains(.shift) ? sel : []

@@ -61,6 +61,96 @@
         }
       }
     },
+    "1 column": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Spalte"
+          }
+        }
+      }
+    },
+    "12 columns": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "12 Spalten"
+          }
+        }
+      }
+    },
+    "2 columns": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 Spalten"
+          }
+        }
+      }
+    },
+    "3 columns": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 Spalten"
+          }
+        }
+      }
+    },
+    "3 × 3 modules": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 × 3 Module"
+          }
+        }
+      }
+    },
+    "4 columns": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "4 Spalten"
+          }
+        }
+      }
+    },
+    "5 mm grid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5-mm-Raster"
+          }
+        }
+      }
+    },
+    "6 × 6 modules": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "6 × 6 Module"
+          }
+        }
+      }
+    },
+    "A document keeps at least 1 page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Dokument behält mindestens 1 Seite"
+          }
+        }
+      }
+    },
     "Add": {
       "localizations": {
         "de": {
@@ -97,6 +187,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stopp hinzufügen"
+          }
+        }
+      }
+    },
+    "Add layout grid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layoutraster hinzufügen"
+          }
+        }
+      }
+    },
+    "Add page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seite hinzufügen"
           }
         }
       }
@@ -257,6 +367,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apostroph"
+          }
+        }
+      }
+    },
+    "Apply Grids to All Pages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raster auf alle Seiten anwenden"
+          }
+        }
+      }
+    },
+    "Apply Size to All Pages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Größe auf alle Seiten anwenden"
           }
         }
       }
@@ -551,6 +681,16 @@
         }
       }
     },
+    "Cell size": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zellgröße"
+          }
+        }
+      }
+    },
     "Center": {
       "localizations": {
         "de": {
@@ -571,6 +711,16 @@
         }
       }
     },
+    "Choose a CMYK ICC profile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CMYK-ICC-Profil wählen"
+          }
+        }
+      }
+    },
     "Clip content": {
       "localizations": {
         "de": {
@@ -587,6 +737,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Schließen"
+          }
+        }
+      }
+    },
+    "Close Page Overview": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seitenübersicht schließen"
           }
         }
       }
@@ -701,6 +861,16 @@
         }
       }
     },
+    "Create Master from Page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterseite aus Seite erstellen"
+          }
+        }
+      }
+    },
     "Create from Value": {
       "localizations": {
         "de": {
@@ -791,6 +961,16 @@
         }
       }
     },
+    "Delete Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterseite löschen"
+          }
+        }
+      }
+    },
     "Delete Page": {
       "localizations": {
         "de": {
@@ -837,6 +1017,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Variable löschen"
+          }
+        }
+      }
+    },
+    "Deleted %lld pages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Seiten gelöscht"
+          }
+        }
+      }
+    },
+    "Deleted page %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seite %lld gelöscht"
           }
         }
       }
@@ -897,6 +1097,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dokument"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig"
           }
         }
       }
@@ -971,6 +1181,16 @@
         }
       }
     },
+    "Duplicate Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterseite duplizieren"
+          }
+        }
+      }
+    },
     "Duplicate Page": {
       "localizations": {
         "de": {
@@ -997,6 +1217,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bearbeiten"
+          }
+        }
+      }
+    },
+    "Editing master %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterseite %@ wird bearbeitet"
           }
         }
       }
@@ -1107,6 +1337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pipette"
+          }
+        }
+      }
+    },
+    "Facing Pages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doppelseiten"
           }
         }
       }
@@ -1261,6 +1501,16 @@
         }
       }
     },
+    "Format": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format"
+          }
+        }
+      }
+    },
     "Fractions": {
       "localizations": {
         "de": {
@@ -1297,6 +1547,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deutsch"
+          }
+        }
+      }
+    },
+    "Grid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raster"
+          }
+        }
+      }
+    },
+    "Grid type": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rasterart"
           }
         }
       }
@@ -1481,6 +1751,16 @@
         }
       }
     },
+    "Insert Page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seite einfügen"
+          }
+        }
+      }
+    },
     "Insert character": {
       "localizations": {
         "de": {
@@ -1611,6 +1891,16 @@
         }
       }
     },
+    "Landscape": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Querformat"
+          }
+        }
+      }
+    },
     "Language": {
       "localizations": {
         "de": {
@@ -1667,6 +1957,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Layout"
+          }
+        }
+      }
+    },
+    "Layout Grids": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layoutraster"
+          }
+        }
+      }
+    },
+    "Leave Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterseite verlassen"
           }
         }
       }
@@ -1871,12 +2181,32 @@
         }
       }
     },
+    "Margin": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rand"
+          }
+        }
+      }
+    },
     "Master": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Musterseite"
+          }
+        }
+      }
+    },
+    "Master name": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name der Musterseite"
           }
         }
       }
@@ -1981,6 +2311,16 @@
         }
       }
     },
+    "Mixed · + replaces": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemischt · + ersetzt"
+          }
+        }
+      }
+    },
     "Mixed · + replaces all": {
       "localizations": {
         "de": {
@@ -2041,6 +2381,26 @@
         }
       }
     },
+    "New Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Musterseite"
+          }
+        }
+      }
+    },
+    "New Master from Page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Musterseite aus Seite"
+          }
+        }
+      }
+    },
     "New Style from Text": {
       "localizations": {
         "de": {
@@ -2067,6 +2427,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nächster Treffer"
+          }
+        }
+      }
+    },
+    "No Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Musterseite"
           }
         }
       }
@@ -2157,6 +2527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zahl"
+          }
+        }
+      }
+    },
+    "Numbering": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nummerierung"
           }
         }
       }
@@ -2261,6 +2641,16 @@
         }
       }
     },
+    "Orientation": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausrichtung"
+          }
+        }
+      }
+    },
     "Outside": {
       "localizations": {
         "de": {
@@ -2351,6 +2741,16 @@
         }
       }
     },
+    "Page Overview": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seitenübersicht"
+          }
+        }
+      }
+    },
     "Page canvas": {
       "localizations": {
         "de": {
@@ -2367,6 +2767,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Seiten"
+          }
+        }
+      }
+    },
+    "Pages %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seiten %@"
           }
         }
       }
@@ -2431,6 +2841,16 @@
         }
       }
     },
+    "Portrait": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hochformat"
+          }
+        }
+      }
+    },
     "Pos": {
       "localizations": {
         "de": {
@@ -2451,6 +2871,16 @@
         }
       }
     },
+    "Prefix": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Präfix"
+          }
+        }
+      }
+    },
     "Previous Spread": {
       "localizations": {
         "de": {
@@ -2467,6 +2897,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vorheriger Treffer"
+          }
+        }
+      }
+    },
+    "Profile": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profil"
           }
         }
       }
@@ -2497,6 +2937,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Radial"
+          }
+        }
+      }
+    },
+    "Raster": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raster"
+          }
+        }
+      }
+    },
+    "Raster resolution for transparency in print PDFs": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rasterauflösung für Transparenz in Druck-PDFs"
           }
         }
       }
@@ -2551,6 +3011,16 @@
         }
       }
     },
+    "Remove grid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raster entfernen"
+          }
+        }
+      }
+    },
     "Remove stop": {
       "localizations": {
         "de": {
@@ -2567,6 +3037,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Umbenennen"
+          }
+        }
+      }
+    },
+    "Rename Master": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterseite umbenennen"
           }
         }
       }
@@ -2607,6 +3087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld Treffer ersetzt"
+          }
+        }
+      }
+    },
+    "Reset Overrides": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überschreibungen zurücksetzen"
           }
         }
       }
@@ -2711,6 +3201,16 @@
         }
       }
     },
+    "Rows": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeilen"
+          }
+        }
+      }
+    },
     "Saturation": {
       "localizations": {
         "de": {
@@ -2767,6 +3267,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Paragraf"
+          }
+        }
+      }
+    },
+    "Section starts at": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abschnitt beginnt bei"
           }
         }
       }
@@ -2911,6 +3421,16 @@
         }
       }
     },
+    "Single Pages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einzelseiten"
+          }
+        }
+      }
+    },
     "Size": {
       "localizations": {
         "de": {
@@ -2991,6 +3511,16 @@
         }
       }
     },
+    "Spreads": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Druckbögen"
+          }
+        }
+      }
+    },
     "Square cap": {
       "localizations": {
         "de": {
@@ -3017,6 +3547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Start"
+          }
+        }
+      }
+    },
+    "Start section": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abschnitt beginnen"
           }
         }
       }
@@ -3457,6 +3997,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Format aktualisieren"
+          }
+        }
+      }
+    },
+    "Upload ICC…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ICC hochladen …"
+          }
+        }
+      }
+    },
+    "Uploaded": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hochgeladen"
           }
         }
       }

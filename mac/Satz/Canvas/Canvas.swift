@@ -25,6 +25,8 @@ struct Canvas: NSViewRepresentable {
         _ = editor.threading
         _ = editor.found
         container.showsRulers = editor.showsRulers
+        // The overview covers the canvas, which then takes no clicks.
+        container.isHidden = editor.showsOverview
         container.canvas.contentChanged()
     }
 }

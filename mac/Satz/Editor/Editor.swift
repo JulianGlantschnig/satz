@@ -177,6 +177,16 @@ final class Editor {
         }
     }
 
+    /// Makes `icc` the document's CMYK profile, or FOGRA51 for nil.
+    func setProfile(_ icc: Data?) {
+        do {
+            try engine.setProfile(icc)
+            refresh()
+        } catch {
+            fail(error.message)
+        }
+    }
+
     /// Adds a TrueType or OpenType font, which sets the text in it again.
     @discardableResult
     func addFont(_ data: Data) -> Typeface? {
@@ -259,10 +269,12 @@ final class Editor {
 
     /// Reads the snapshot again and keeps the page and selection where they still exist.
     private func refresh() {
+        // A page that goes leaves the page at its place on screen, as the web app does.
+        let at = snapshot.pages.firstIndex { $0.id == pageID } ?? 0
         // The engine makes a snapshot of every state it reaches.
         snapshot = try! engine.snapshot
-        if pageID.flatMap({ snapshot.page($0) }) == nil {
-            pageID = snapshot.pages.first?.id
+        if pageID.flatMap({ snapshot.page($0) }) == nil, !snapshot.pages.isEmpty {
+            pageID = snapshot.pages[min(at, snapshot.pages.count - 1)].id
         }
         nodes = index()
         selection.removeAll { nodes[$0] == nil }

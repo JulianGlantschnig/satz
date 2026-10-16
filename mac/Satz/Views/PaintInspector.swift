@@ -386,7 +386,7 @@ private struct StrokeSection: View {
 
     private func segmented<T: Hashable>(_ title: LocalizedStringKey, _ value: Binding<T>, _ options: [(T, LocalizedStringKey, String)]) -> some View {
         Picker(title, selection: value) {
-            ForEach(options, id: \.0) { Image(systemName: $0.2).help($0.1).tag($0.0) }
+            ForEach(options, id: \.0) { Label($0.1, systemImage: $0.2).labelStyle(.iconOnly).help($0.1).tag($0.0) }
         }
         .pickerStyle(.segmented)
     }

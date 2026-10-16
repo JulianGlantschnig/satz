@@ -95,10 +95,10 @@ struct TextSection: View {
                     get: { shared(spans) { $0.textAlign } ?? .left },
                     set: { format(["textAlign": .string($0.rawValue)]) })
                 ) {
-                    Image(systemName: "text.alignleft").tag(Attrs.TextAlign.left).help("Align left")
-                    Image(systemName: "text.aligncenter").tag(Attrs.TextAlign.center).help("Align center")
-                    Image(systemName: "text.alignright").tag(Attrs.TextAlign.right).help("Align right")
-                    Image(systemName: "text.justify").tag(Attrs.TextAlign.justify).help("Justify")
+                    Label("Align left", systemImage: "text.alignleft").labelStyle(.iconOnly).tag(Attrs.TextAlign.left).help("Align left")
+                    Label("Align center", systemImage: "text.aligncenter").labelStyle(.iconOnly).tag(Attrs.TextAlign.center).help("Align center")
+                    Label("Align right", systemImage: "text.alignright").labelStyle(.iconOnly).tag(Attrs.TextAlign.right).help("Align right")
+                    Label("Justify", systemImage: "text.justify").labelStyle(.iconOnly).tag(Attrs.TextAlign.justify).help("Justify")
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
@@ -461,9 +461,9 @@ struct TextFrameSection: View {
                 }
             }
             Picker("Vertical align", selection: Binding(get: { node.verticalAlign ?? .top }, set: { set(["verticalAlign": .string($0.rawValue)]) })) {
-                Image(systemName: "align.vertical.top").tag(VerticalAlign.top)
-                Image(systemName: "align.vertical.center").tag(VerticalAlign.center)
-                Image(systemName: "align.vertical.bottom").tag(VerticalAlign.bottom)
+                Label("Top", systemImage: "align.vertical.top").labelStyle(.iconOnly).tag(VerticalAlign.top)
+                Label("Center", systemImage: "align.vertical.center").labelStyle(.iconOnly).tag(VerticalAlign.center)
+                Label("Bottom", systemImage: "align.vertical.bottom").labelStyle(.iconOnly).tag(VerticalAlign.bottom)
             }
             .pickerStyle(.segmented)
             Toggle("Trim to cap height", isOn: Binding(get: { node.trim ?? false }, set: { set(["trim": .bool($0)]) }))
