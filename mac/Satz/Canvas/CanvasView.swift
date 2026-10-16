@@ -42,6 +42,10 @@ final class CanvasView: NSView {
         wantsLayer = true
         layerContentsRedrawPolicy = .onSetNeedsDisplay
         resources.decoded = { [weak self] in self?.imagesDecoded() }
+        setAccessibilityElement(true)
+        setAccessibilityRole(.group)
+        setAccessibilityIdentifier("canvas")
+        setAccessibilityLabel(String(localized: "Page canvas"))
     }
 
     @available(*, unavailable)
