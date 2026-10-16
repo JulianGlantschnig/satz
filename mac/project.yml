@@ -1,0 +1,119 @@
+# The Mac app. Run `xcodegen` in mac/ to make Satz.xcodeproj from this file.
+name: Satz
+options:
+  bundleIdPrefix: com.julianglantschnig
+  deploymentTarget:
+    macOS: "15.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+    DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+
+packages:
+  SatzEngine:
+    path: SatzEngine
+
+targets:
+  # Builds the Rust engine into SatzEngine/ before the package compiles against it.
+  Engine:
+    type: ""
+    platform: macOS
+    legacy:
+      toolPath: /bin/bash
+      arguments: "$(SRCROOT)/build-engine $(ENGINE_BUILD)"
+      passSettings: true
+      workingDirectory: "$(SRCROOT)"
+    settings:
+      base:
+        ENGINE_BUILD: debug
+      configs:
+        Release:
+          ENGINE_BUILD: release
+
+  Satz:
+    type: application
+    platform: macOS
+    sources:
+      - path: Satz
+    dependencies:
+      - target: Engine
+      - package: SatzEngine
+        product: SatzCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.julianglantschnig.satz
+        PRODUCT_NAME: Satz
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Satz
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.graphics-design
+        INFOPLIST_KEY_NSHumanReadableCopyright: "ISC License"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_HARDENED_RUNTIME: YES
+        CODE_SIGN_ENTITLEMENTS: Satz/Satz.entitlements
+    info:
+      path: Satz/Info.plist
+      properties:
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Satz Document
+            CFBundleTypeRole: Editor
+            LSHandlerRank: Owner
+            LSItemContentTypes: [com.julianglantschnig.satz.document]
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: com.julianglantschnig.satz.document
+            UTTypeDescription: Satz Document
+            UTTypeConformsTo: [public.data, public.content]
+            UTTypeTagSpecification:
+              public.filename-extension: [satz]
+              public.mime-type: [application/x-satz]
+
+  SatzTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [SatzTests]
+    dependencies:
+      - target: Satz
+    settings:
+      base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Satz.app/Contents/MacOS/Satz"
+        GENERATE_INFOPLIST_FILE: YES
+
+  SatzUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [SatzUITests]
+    dependencies:
+      - target: Satz
+    settings:
+      base:
+        TEST_TARGET_NAME: Satz
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_DEFAULT_ACTOR_ISOLATION: nonisolated
+
+schemes:
+  Satz:
+    build:
+      parallelizeBuild: false
+      targets:
+        Engine: all
+        Satz: all
+        SatzTests: [test]
+        SatzUITests: [test]
+    test:
+      targets: [SatzTests, SatzUITests]
+    run:
+      config: Debug
+    archive:
+      config: Release

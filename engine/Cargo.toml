@@ -5,7 +5,7 @@ edition = "2024"
 license = "ISC"
 
 [lib]
-crate-type = ["cdylib", "rlib"]
+crate-type = ["cdylib", "staticlib", "rlib"]
 
 [dependencies]
 console_error_panic_hook = "0.1.7"
@@ -32,3 +32,6 @@ wasm-bindgen = "=0.2.127"
 wuff = "0.2.9"
 zune-core = "0.5.3"
 zune-jpeg = "0.5.15"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+uniffi = "0.32.2"

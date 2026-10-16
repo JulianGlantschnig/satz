@@ -1,0 +1,5 @@
+[bindings.swift]
+module_name = "SatzEngine"
+ffi_module_name = "SatzEngineFFI"
+ffi_module_filename = "SatzEngineFFI"
+generate_module_map = true

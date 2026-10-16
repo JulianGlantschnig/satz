@@ -8,6 +8,8 @@ mod image;
 mod inks;
 mod layout;
 mod linebreak;
+#[cfg(not(target_arch = "wasm32"))]
+mod native;
 mod pdf;
 mod pdfx;
 mod raster;
@@ -26,13 +28,21 @@ use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 
+#[cfg(not(target_arch = "wasm32"))]
+uniffi::setup_scaffolding!();
+
 #[wasm_bindgen]
 #[derive(Default)]
 pub struct Engine {
     doc: Doc,
     list: Vec<u32>,
     overlay: Vec<u32>,
-    /// The display list of each page and master, and its version.
+    lists: Lists,
+}
+
+/// The display list of each page and master and its version, kept until the page changes.
+#[derive(Default)]
+pub(crate) struct Lists {
     lists: HashMap<String, (u32, Vec<u32>)>,
     /// The snapshot that `lists` were checked against, and the ids checked.
     seen: Option<Rc<Snapshot>>,
@@ -125,35 +135,13 @@ impl Engine {
     /// down within a tile, G across between tiles; C, M and Y in the upper half, K
     /// in the lower one.
     pub fn separation(&self) -> Vec<u8> {
-        const N: usize = 33;
-        let v = |i: usize| ((i * 255 + (N - 1) / 2) / (N - 1)) as u8;
-        let rgba: Vec<u8> = (0..N.pow(3))
-            .flat_map(|i| {
-                let (x, b) = (i % (N * N), i / (N * N));
-                [v(x % N), v(x / N), v(b), 255]
-            })
-            .collect();
-        let cmyk = color::separate_pixels(&rgba);
-        let cmy = cmyk.chunks(4).flat_map(|p| [p[0], p[1], p[2], 255]);
-        let k = cmyk.chunks(4).flat_map(|p| [p[3], p[3], p[3], 255]);
-        cmy.chain(k).collect()
+        separation()
     }
 
     /// Screen colors of CMYK on a grid of 17 steps per ink as RGBA pixels, C across
     /// and Y down within a tile, M across and K down between tiles.
     pub fn lut(&self) -> Vec<u8> {
-        const N: usize = 17;
-        let v = |i: usize| ((i * 255 + (N - 1) / 2) / (N - 1)) as u8;
-        let cmyk: Vec<u8> = (0..N.pow(4))
-            .flat_map(|i| {
-                let (x, y) = (i % (N * N), i / (N * N));
-                [v(x % N), v(x / N), v(y % N), v(y / N)]
-            })
-            .collect();
-        color::preview_pixels(&cmyk)
-            .chunks(3)
-            .flat_map(|p| [p[0], p[1], p[2], 255])
-            .collect()
+        lut()
     }
 
     /// [x, top, bottom] in pt of a caret before the UTF-16 `index` of the text `id`.
@@ -314,7 +302,13 @@ impl Engine {
 
 impl Engine {
     fn drawn(&mut self, page: &str) -> &(u32, Vec<u32>) {
-        let snap = self.doc.snapshot();
+        self.lists.drawn(&self.doc, page)
+    }
+}
+
+impl Lists {
+    pub(crate) fn drawn(&mut self, doc: &Doc, page: &str) -> &(u32, Vec<u32>) {
+        let snap = doc.snapshot();
         if !self.seen.as_ref().is_some_and(|s| Rc::ptr_eq(s, &snap)) {
             let ids: HashSet<&str> = snap
                 .pages
@@ -327,7 +321,7 @@ impl Engine {
             self.seen = Some(snap);
         }
         if self.fresh.insert(page.to_string()) {
-            let list = encode(&self.doc.render(page));
+            let list = encode(&doc.render(page));
             let entry = self.lists.entry(page.to_string()).or_default();
             if entry.1 != list {
                 self.versions += 1;
@@ -336,6 +330,41 @@ impl Engine {
         }
         &self.lists[page]
     }
+}
+
+/// CMYK of RGB on a grid of 33 steps per channel as RGBA pixels, R across and B
+/// down within a tile, G across between tiles; C, M and Y in the upper half, K
+/// in the lower one.
+pub(crate) fn separation() -> Vec<u8> {
+    const N: usize = 33;
+    let v = |i: usize| ((i * 255 + (N - 1) / 2) / (N - 1)) as u8;
+    let rgba: Vec<u8> = (0..N.pow(3))
+        .flat_map(|i| {
+            let (x, b) = (i % (N * N), i / (N * N));
+            [v(x % N), v(x / N), v(b), 255]
+        })
+        .collect();
+    let cmyk = color::separate_pixels(&rgba);
+    let cmy = cmyk.chunks(4).flat_map(|p| [p[0], p[1], p[2], 255]);
+    let k = cmyk.chunks(4).flat_map(|p| [p[3], p[3], p[3], 255]);
+    cmy.chain(k).collect()
+}
+
+/// Screen colors of CMYK on a grid of 17 steps per ink as RGBA pixels, C across
+/// and Y down within a tile, M across and K down between tiles.
+pub(crate) fn lut() -> Vec<u8> {
+    const N: usize = 17;
+    let v = |i: usize| ((i * 255 + (N - 1) / 2) / (N - 1)) as u8;
+    let cmyk: Vec<u8> = (0..N.pow(4))
+        .flat_map(|i| {
+            let (x, y) = (i % (N * N), i / (N * N));
+            [v(x % N), v(x / N), v(y % N), v(y / N)]
+        })
+        .collect();
+    color::preview_pixels(&cmyk)
+        .chunks(3)
+        .flat_map(|p| [p[0], p[1], p[2], 255])
+        .collect()
 }
 
 /// FNV-1a hash of `bytes` in hex, which names fonts and images by their content.

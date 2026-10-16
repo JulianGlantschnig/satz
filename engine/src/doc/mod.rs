@@ -1576,7 +1576,9 @@ impl Doc {
         Ok(id)
     }
 
-    fn finish(&self, out: Vec<String>, history: bool) -> Res<Vec<String>> {
+    /// Makes the document's CMYK profile the thread's; a thread that holds several
+    /// documents calls it before it works on one.
+    pub fn use_profile(&self) {
         let icc = value(&self.doc.get_map("document"), "profile");
         if color::use_profile(match &icc {
             Some(LoroValue::Binary(b)) => Some(b),
@@ -1584,6 +1586,10 @@ impl Doc {
         }) {
             image::forget(&[]);
         }
+    }
+
+    fn finish(&self, out: Vec<String>, history: bool) -> Res<Vec<String>> {
+        self.use_profile();
         let palette = self.palette();
         for p in self.tree.roots() {
             if !history && matches!(self.kind(p), Some(NodeKind::Page | NodeKind::Master)) {

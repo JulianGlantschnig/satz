@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Builds the Rust engine into mac/SatzEngine: SatzEngineFFI.xcframework (static
+# library and C header) and the Swift bindings that UniFFI generates.
+#
+#   mac/build-engine            fast build for this Mac (Debug)
+#   mac/build-engine release    optimized universal build (arm64 + x86_64)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+# Xcode runs build scripts with a minimal PATH.
+export PATH="$HOME/.cargo/bin:/opt/homebrew/bin:$PATH"
+# Xcode's environment would make cargo build for the wrong SDK or architecture.
+unset SDKROOT ARCHS PLATFORM_NAME MACOSX_DEPLOYMENT_TARGET 2>/dev/null || true
+export MACOSX_DEPLOYMENT_TARGET=15.0
+
+mode="${1:-debug}"
+out=mac/SatzEngine
+gen=target/mac-gen
+
+if [[ "$mode" == release ]]; then
+  profile=release
+  targets=(aarch64-apple-darwin x86_64-apple-darwin)
+else
+  profile=mac-dev
+  targets=("$(uname -m | sed 's/arm64/aarch64/')-apple-darwin")
+fi
+
+for t in "${targets[@]}"; do
+  cargo build -q -p engine --profile "$profile" --target "$t" --lib
+done
+
+libs=()
+for t in "${targets[@]}"; do libs+=("target/$t/$profile/libengine.a"); done
+rm -rf "$gen" && mkdir -p "$gen/include"
+lipo -create "${libs[@]}" -output "$gen/libengine.a"
+
+cargo run -q -p uniffi-bindgen -- generate \
+  --library "target/${targets[0]}/$profile/libengine.dylib" \
+  --language swift --out-dir "$gen/swift" --no-format
+
+mv "$gen/swift/SatzEngineFFI.h" "$gen/include/"
+mv "$gen/swift/SatzEngineFFI.modulemap" "$gen/include/module.modulemap"
+
+new="$gen/SatzEngineFFI.xcframework"
+xcodebuild -create-xcframework -library "$gen/libengine.a" -headers "$gen/include" \
+  -output "$new" >/dev/null
+
+# Replace only what changed, so that Xcode does not rebuild the package for nothing.
+if ! diff -rq "$new" "$out/SatzEngineFFI.xcframework" >/dev/null 2>&1; then
+  rm -rf "$out/SatzEngineFFI.xcframework" && cp -R "$new" "$out/"
+fi
+cmp -s "$gen/swift/SatzEngine.swift" "$out/Sources/SatzEngine/SatzEngine.swift" ||
+  cp "$gen/swift/SatzEngine.swift" "$out/Sources/SatzEngine/SatzEngine.swift"
