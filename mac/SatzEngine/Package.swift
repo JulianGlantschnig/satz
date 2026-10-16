@@ -17,7 +17,12 @@ let package = Package(
             dependencies: ["SatzEngineFFI"],
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),
-        .target(name: "SatzCore", dependencies: ["SatzEngine"]),
+        .target(
+            name: "SatzCore",
+            dependencies: ["SatzEngine"],
+            // The painter and the ink table run per pixel; unoptimized they are too slow to use.
+            swiftSettings: [.unsafeFlags(["-O"], .when(configuration: .debug))]
+        ),
         .testTarget(name: "SatzCoreTests", dependencies: ["SatzCore"]),
     ]
 )

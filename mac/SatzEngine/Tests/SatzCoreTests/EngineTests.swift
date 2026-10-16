@@ -5,9 +5,6 @@ import Testing
 
 /// The examples in the repository's `examples/`.
 func example(_ name: String) throws -> Data {
-    let root = URL(fileURLWithPath: #filePath)
-        .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
-        .deletingLastPathComponent().deletingLastPathComponent()
     return try Data(contentsOf: root.appending(path: "examples/\(name).satz"))
 }
 

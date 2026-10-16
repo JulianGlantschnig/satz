@@ -71,6 +71,26 @@
         }
       }
     },
+    "First Spread": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erster Druckbogen"
+          }
+        }
+      }
+    },
+    "Hide Layout Grids": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layoutraster ausblenden"
+          }
+        }
+      }
+    },
     "Inspector": {
       "localizations": {
         "de": {
@@ -81,12 +101,32 @@
         }
       }
     },
+    "Last Spread": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzter Druckbogen"
+          }
+        }
+      }
+    },
     "Masters": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Musterseiten"
+          }
+        }
+      }
+    },
+    "Next Spread": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächster Druckbogen"
           }
         }
       }
@@ -141,12 +181,82 @@
         }
       }
     },
+    "Previous Spread": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorheriger Druckbogen"
+          }
+        }
+      }
+    },
+    "Show Layout Grids": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layoutraster einblenden"
+          }
+        }
+      }
+    },
     "This file does not open": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Diese Datei lässt sich nicht öffnen"
+          }
+        }
+      }
+    },
+    "Zoom": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoom"
+          }
+        }
+      }
+    },
+    "Zoom In": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vergrößern"
+          }
+        }
+      }
+    },
+    "Zoom Out": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verkleinern"
+          }
+        }
+      }
+    },
+    "Zoom to 100%": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Originalgröße (100 %)"
+          }
+        }
+      }
+    },
+    "Zoom to Fit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Fenster einpassen"
           }
         }
       }

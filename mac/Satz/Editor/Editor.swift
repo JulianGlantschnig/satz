@@ -13,6 +13,13 @@ final class Editor {
     /// Selected layers, in the order they were chosen.
     var selection: [String] = []
     private(set) var status: Status?
+    /// Layout grids and guides show on the canvas.
+    var showsGrids = false
+    /// The canvas's zoom, 1 at one pt per screen point.
+    var zoom: Double = 1
+
+    /// The window's canvas, for the commands that move its view.
+    @ObservationIgnored weak var canvas: CanvasView?
 
     struct Status: Equatable {
         var text: String

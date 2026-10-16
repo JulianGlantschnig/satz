@@ -288,6 +288,21 @@ impl Core {
     }
 }
 
+#[uniffi::export]
+impl Core {
+    /// CMYK of RGB in the document's print condition on a grid of 33 steps per
+    /// channel as RGBA pixels, see `crate::separation`.
+    pub fn separation(&self) -> Vec<u8> {
+        self.with(|_| crate::separation())
+    }
+
+    /// Screen colors of CMYK in the document's print condition on a grid of 17 steps
+    /// per ink as RGBA pixels, see `crate::lut`.
+    pub fn lut(&self) -> Vec<u8> {
+        self.with(|_| crate::lut())
+    }
+}
+
 /// The plates of a page, see `inks::Inks`.
 #[derive(uniffi::Object)]
 pub struct Inks(inks::Inks);
@@ -414,18 +429,6 @@ pub fn resolve(color: String, scope: String) -> Result<String, EngineError> {
         modes: &s.modes,
     };
     json(&color.resolve(&scope))
-}
-
-/// CMYK of RGB on a grid of 33 steps per channel as RGBA pixels, see `crate::separation`.
-#[uniffi::export]
-pub fn separation() -> Vec<u8> {
-    crate::separation()
-}
-
-/// Screen colors of CMYK on a grid of 17 steps per ink as RGBA pixels, see `crate::lut`.
-#[uniffi::export]
-pub fn lut() -> Vec<u8> {
-    crate::lut()
 }
 
 #[cfg(test)]

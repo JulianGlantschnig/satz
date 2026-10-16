@@ -30,13 +30,16 @@ struct EditorView: View {
             PagesSidebar(editor: editor)
                 .navigationSplitViewColumnWidth(min: 160, ideal: 200, max: 320)
         } detail: {
-            CanvasPlaceholder(editor: editor)
+            Canvas(editor: editor)
         }
         .inspector(isPresented: $showsInspector) {
             InspectorPlaceholder(editor: editor)
                 .inspectorColumnWidth(min: 220, ideal: 260, max: 360)
         }
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                ZoomMenu(editor: editor)
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     showsInspector.toggle()
@@ -65,6 +68,7 @@ struct PagesSidebar: View {
                 ForEach(Array(editor.snapshot.pages.enumerated()), id: \.element.id) { i, page in
                     Label(String(localized: "Page \(i + 1)"), systemImage: "doc")
                         .tag(Optional(page.id))
+                        .accessibilityIdentifier("page-\(i + 1)")
                 }
             }
             if !editor.snapshot.masters.isEmpty {
@@ -72,27 +76,11 @@ struct PagesSidebar: View {
                     ForEach(editor.snapshot.masters) { master in
                         Label(master.name, systemImage: "doc.on.doc")
                             .tag(Optional(master.id))
+                            .accessibilityIdentifier("master-\(master.name)")
                     }
                 }
             }
         }
-    }
-}
-
-struct CanvasPlaceholder: View {
-    let editor: Editor
-
-    var body: some View {
-        VStack(spacing: 8) {
-            if let page = editor.page {
-                Text(verbatim: "\(Int(page.width.rounded())) × \(Int(page.height.rounded())) pt")
-                    .font(.title3.monospacedDigit())
-                Text("\(page.children.count) layers")
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.background.secondary)
     }
 }
 
@@ -128,5 +116,29 @@ struct StatusLine: View {
             .padding(.vertical, 6)
             .background(.bar)
         }
+    }
+}
+
+/// The zoom in percent, with the steps and fits to choose from.
+struct ZoomMenu: View {
+    let editor: Editor
+
+    var body: some View {
+        Menu {
+            Button("Zoom In") { editor.canvas?.zoomIn() }
+            Button("Zoom Out") { editor.canvas?.zoomOut() }
+            Divider()
+            Button("Zoom to Fit") { editor.canvas?.fit() }
+            ForEach([0.5, 1, 2, 4], id: \.self) { z in
+                Button(z.formatted(.percent)) { editor.canvas?.zoom(to: z) }
+            }
+        } label: {
+            Text(editor.zoom.formatted(.percent.precision(.fractionLength(0))))
+                .monospacedDigit()
+                .frame(minWidth: 48)
+        }
+        .menuIndicator(.visible)
+        .fixedSize()
+        .help("Zoom")
     }
 }

@@ -124,6 +124,9 @@ public final class Engine {
         core.package(title: title, date: Self.iso(date), indices: indices.map { UInt32($0) })
     }
 
+    /// Screen colours of CMYK in the document's print condition, for `InkTable`.
+    public func lut() -> Data { core.lut() }
+
     /// Makes `icc` the CMYK profile of the document, or FOGRA51 for nil.
     public func setProfile(_ icc: Data?) throws { try core.setProfile(icc: icc) }
 
