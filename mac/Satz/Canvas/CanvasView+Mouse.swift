@@ -13,6 +13,8 @@ enum Drag {
     case guide(axis: XY, page: String, dx: Double, index: Int, grouped: Bool)
     /// Draws a new layer with `tool`; it is made once the press moves or ends on a page.
     case draw(start: CGPoint, id: String?, dx: Double, moved: Bool, tool: Editor.Tool, snaps: Snaps)
+    /// Selects in the edited text, by characters, words or paragraphs.
+    case text(unit: Int)
 }
 
 /// What a drag snaps to and the layers it measures to.
@@ -99,7 +101,7 @@ extension CanvasView {
     /// The handles of the selection: a box, or the ends of a single selected line.
     func selectionHandles() -> Selection {
         let nodes = editor.selected
-        guard !nodes.isEmpty else { return Selection() }
+        guard !nodes.isEmpty, editor.editing == nil else { return Selection() }
         if nodes.count == 1, let (a, b) = Editor.ends(nodes[0]) {
             let dx = editor.dx(nodes[0].id)
             return Selection(line: (CGPoint(x: a.x + dx, y: a.y), CGPoint(x: b.x + dx, y: b.y)))
@@ -193,7 +195,12 @@ extension CanvasView {
         guard drag == nil else { return }
         guard editor.tool == .move else {
             overlay.hover = nil
-            NSCursor.crosshair.set()
+            (editor.tool == .text ? NSCursor.iBeam : NSCursor.crosshair).set()
+            return
+        }
+        if inEdited(p) != nil {
+            overlay.hover = nil
+            NSCursor.iBeam.set()
             return
         }
         let deep = event.modifierFlags.contains(.command)
@@ -246,6 +253,24 @@ extension CanvasView {
             NSCursor.closedHand.set()
             return
         }
+        if let frame = inEdited(p) {
+            let i = textIndex(frame.id, at: p)
+            let text = editor.editedText
+            switch event.clickCount {
+            case 2:
+                let w = TextEdit.word(at: i, in: text)
+                editor.selectText(w.lowerBound, w.upperBound)
+            case 3...:
+                let r = TextEdit.paragraph(at: i, in: text)
+                editor.selectText(r.lowerBound, r.upperBound)
+            default:
+                editor.selectText(flags.contains(.shift) ? editor.editing?.anchor ?? i : i, i)
+            }
+            drag = .text(unit: min(event.clickCount, 3))
+            wakeCaret()
+            return
+        }
+        editor.stopEditing()
         if event.clickCount == 2 {
             doubleClick(p)
             return
@@ -449,6 +474,18 @@ extension CanvasView {
                 editor.apply(.set(id: id, ["radius": .number(r), "corners": .array([])]))
             }
 
+        case .text(let unit):
+            guard let e = editor.editing else { return }
+            let id = inEdited(p)?.id ?? e.id
+            let i = textIndex(id, at: p)
+            if unit == 1 {
+                editor.selectText(e.anchor, i)
+            } else {
+                let text = editor.editedText
+                let w = unit == 2 ? TextEdit.word(at: i, in: text) : TextEdit.paragraph(at: i, in: text)
+                editor.selectText(min(e.range.lowerBound, w.lowerBound), max(e.range.upperBound, w.upperBound))
+            }
+
         case .draw(let start, let made, let pdx, var moved, let tool, let s):
             moved = moved || hypot(p.x - start.x, p.y - start.y) * view.zoom > Self.dragSlop
             guard moved else { return }
@@ -546,12 +583,16 @@ extension CanvasView {
         case .guide(_, _, _, _, let grouped) where grouped:
             editor.endGroup()
         case .draw(let start, let id?, let dx, let moved, let tool, _):
-            if !moved {
+            if !moved && tool != .text {
                 let (w, h) = tool.size
                 editor.apply(.setFrame(id: id, x: start.x - dx, y: start.y, w: Units.mm(w), h: Units.mm(h)))
             }
             editor.endGroup()
             editor.tool = .move
+            if tool == .text {
+                editor.edit(id)
+                wakeCaret()
+            }
         case .draw(_, nil, _, _, _, _):
             editor.tool = .move
             editor.select([])
@@ -586,6 +627,7 @@ extension CanvasView {
             editor.endGroup()
             return d
         }
+        if kind == .text { editor.apply(.set(id: id, Editor.insets)) }
         editor.select([id])
         return .draw(start: start, id: id, dx: parent.dx, moved: moved, tool: tool, snaps: s)
     }
@@ -596,8 +638,15 @@ extension CanvasView {
         drag = .guide(axis: axis, page: editor.pageID ?? "", dx: 0, index: -1, grouped: false)
     }
 
+    /// A double click edits the selected text at the click, enters a group, or picks.
     func doubleClick(_ p: CGPoint) {
         guard let id = pick(p, .double) else { return }
+        if let n = editor.nodes[id]?.node, n.kind == .text, editor.selection.contains(id) {
+            let i = textIndex(id, at: p)
+            editor.edit(id, anchor: i, focus: i)
+            wakeCaret()
+            return
+        }
         editor.select([id])
     }
 }

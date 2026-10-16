@@ -6,7 +6,7 @@ import SatzCore
 final class CanvasView: NSView {
     let editor: Editor
     private let resources = Resources()
-    private lazy var painter = Painter(resources: resources)
+    private(set) lazy var painter = Painter(resources: resources)
 
     private(set) var view = Viewport(x: 0, y: 0, zoom: 1)
     /// The view each spread was left with, as Figma keeps one per page.
@@ -30,6 +30,10 @@ final class CanvasView: NSView {
         didSet { if drag == nil { edgeTimer?.invalidate(); edgeTimer = nil } }
     }
     var edgeTimer: Timer?
+    /// The text an input method is composing, shown at the caret until it is inserted.
+    var marked: String?
+    var caretOn = true
+    var blink: Timer?
     /// The last drag event, moved again while the view scrolls under it.
     var lastDrag: NSEvent?
     var overlay = Overlay()
@@ -259,6 +263,7 @@ final class CanvasView: NSView {
         if tiles.has(keys) { fallback = nil }
 
         drawChrome(ctx)
+        drawEditedText(ctx)
         drawOverlay(ctx)
     }
 

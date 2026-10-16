@@ -4,6 +4,15 @@ import SatzCore
 /// The keys of the canvas without Command; those with it are in the menus.
 extension CanvasView {
     override func keyDown(with event: NSEvent) {
+        if editor.editing != nil {
+            if event.keyCode == 53 && marked == nil {
+                editor.stopEditing()
+                needsDisplay = true
+                return
+            }
+            inputContext?.handleEvent(event)
+            return
+        }
         let flags = event.modifierFlags.intersection([.shift, .option, .command, .control])
         let key = event.charactersIgnoringModifiers?.lowercased() ?? ""
         switch event.keyCode {
@@ -17,7 +26,14 @@ extension CanvasView {
         case 53:  // escape
             if editor.tool != .move { editor.tool = .move } else { editor.escape() }
         case 36, 76:  // return, enter
-            if flags.contains(.shift) { editor.selectParent() } else { editor.enter() }
+            if flags.contains(.shift) {
+                editor.selectParent()
+            } else if editor.selected.count == 1, let n = editor.selected.first, n.kind == .text {
+                editor.edit(n.id)
+                wakeCaret()
+            } else {
+                editor.enter()
+            }
         case 48:  // tab
             editor.selectNext(backwards: flags.contains(.shift))
         case 123...126 where !flags.contains(.command):  // arrows
@@ -67,15 +83,40 @@ extension CanvasView {
 /// The Edit menu's standard actions reach the canvas through the responder chain, so
 /// that text fields keep their own.
 extension CanvasView: NSMenuItemValidation {
-    @objc func copy(_ sender: Any?) { editor.copy() }
-    @objc func cut(_ sender: Any?) { editor.cut() }
-    @objc func paste(_ sender: Any?) { editor.paste() }
-    @objc override func selectAll(_ sender: Any?) { editor.selectAll() }
-    @objc func delete(_ sender: Any?) { editor.delete() }
+    @objc func copy(_ sender: Any?) {
+        if editor.editing != nil { editor.copyText() } else { editor.copy() }
+    }
+
+    @objc func cut(_ sender: Any?) {
+        if editor.editing != nil {
+            editor.copyText()
+            editor.insert("")
+        } else {
+            editor.cut()
+        }
+    }
+
+    @objc func paste(_ sender: Any?) {
+        if editor.editing != nil {
+            let text = NSPasteboard.general.string(forType: .string) ?? ""
+            editor.insert(text.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n"))
+        } else {
+            editor.paste()
+        }
+    }
+
+    @objc override func selectAll(_ sender: Any?) {
+        if editor.editing != nil { editor.selectAllText() } else { editor.selectAll() }
+    }
+
+    @objc func delete(_ sender: Any?) {
+        if editor.editing != nil { editor.insert("") } else { editor.delete() }
+    }
 
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
         switch item.action {
         case #selector(copy(_:)), #selector(cut(_:)), #selector(delete(_:)):
+            if let e = editor.editing { return !e.isCaret }
             return !editor.selection.isEmpty || (item.action == #selector(delete(_:)) && editor.guide != nil)
         case #selector(paste(_:)):
             return NSPasteboard.general.string(forType: .string) != nil

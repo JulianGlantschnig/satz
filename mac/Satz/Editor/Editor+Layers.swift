@@ -77,6 +77,7 @@ extension Editor {
     /// Shows the page or master `id` with nothing selected.
     func showPage(_ id: String) {
         guard id != pageID else { return }
+        stopEditing()
         selection = []
         guide = nil
         pageID = id
@@ -91,6 +92,7 @@ extension Editor {
     }
 
     func select(_ ids: [String]) {
+        if let e = editing, !ids.contains(e.id) { stopEditing() }
         selection = ids
         if !ids.isEmpty { guide = nil }
         settle()

@@ -24,7 +24,7 @@ final class Editor {
     @ObservationIgnored var pointer: CGPoint?
 
     enum Tool: String, CaseIterable, Identifiable {
-        case move, frame, rect, ellipse, polygon, star, line
+        case move, frame, text, rect, ellipse, polygon, star, line
 
         var id: String { rawValue }
 
@@ -33,6 +33,7 @@ final class Editor {
             switch self {
             case .move: nil
             case .frame: .frame
+            case .text: .text
             case .rect: .rect
             case .ellipse: .ellipse
             case .polygon: .polygon
@@ -46,6 +47,7 @@ final class Editor {
             switch self {
             case .move: "v"
             case .frame: "f"
+            case .text: "t"
             case .rect: "r"
             case .ellipse: "o"
             case .polygon: "y"
@@ -55,12 +57,13 @@ final class Editor {
         }
 
         /// Size in mm of a layer made with a click.
-        var size: (Double, Double) { self == .line ? (30, 0) : (30, 30) }
+        var size: (Double, Double) { self == .line ? (30, 0) : self == .text ? (0, 0) : (30, 30) }
 
         var symbol: String {
             switch self {
             case .move: "cursorarrow"
             case .frame: "number"
+            case .text: "textformat"
             case .rect: "rectangle"
             case .ellipse: "circle"
             case .polygon: "triangle"
@@ -73,6 +76,7 @@ final class Editor {
             switch self {
             case .move: "Move"
             case .frame: "Frame"
+            case .text: "Text"
             case .rect: "Rectangle"
             case .ellipse: "Ellipse"
             case .polygon: "Polygon"
@@ -90,6 +94,8 @@ final class Editor {
     private(set) var status: Status?
     /// What a press on the canvas does.
     var tool: Tool = .move
+    /// The text layer edited in its frame, which is then the selection.
+    var editing: Editing?
     /// Layout grids and guides show on the canvas.
     var showsGrids = false
     /// Rulers show along the canvas.
@@ -113,6 +119,7 @@ final class Editor {
     /// The last copies `duplicate` made and where their originals were.
     @ObservationIgnored var copies: (ids: [String], from: CGPoint)?
     @ObservationIgnored private var groups = 0
+    @ObservationIgnored private(set) var typing = false
     @ObservationIgnored private var groupStart: String?
 
     init(engine: Engine) {
@@ -133,6 +140,7 @@ final class Editor {
     func apply(_ command: Command) -> [String] {
         if command.type == "undo" || command.type == "redo" {
             groups = 0
+            typing = false
         }
         let before = engine.version
         do {
@@ -164,14 +172,32 @@ final class Editor {
         groups += 1
     }
 
-    func endGroup() {
+    func endGroup(register: Bool = true) {
         guard groups > 0 else { return }
         groups -= 1
         if groups == 0 {
             _ = try? engine.apply(.endUndoGroup)
-            if engine.version != groupStart { registerUndo() }
+            if register && engine.version != groupStart { registerUndo() }
             groupStart = nil
         }
+    }
+
+    /// Typing into the edited text is one undo step until the caret moves. Its undo
+    /// registers at the first key, so that Undo works at once; it ends the step first.
+    func beginTyping() {
+        guard !typing else { return }
+        typing = true
+        beginGroup()
+        undoManager?.registerUndo(withTarget: self) { editor in
+            editor.endTyping()
+            editor.step(.undo)
+        }
+    }
+
+    func endTyping() {
+        guard typing else { return }
+        typing = false
+        endGroup(register: false)
     }
 
     /// Runs `body` as one undo step, or as part of the group already open.
@@ -188,7 +214,7 @@ final class Editor {
     }
 
     /// Undoes or redoes one engine step and registers its opposite.
-    private func step(_ command: Command) {
+    func step(_ command: Command) {
         apply(command)
         undoManager?.registerUndo(withTarget: self) { editor in
             editor.step(command == .undo ? .redo : .undo)
@@ -204,6 +230,15 @@ final class Editor {
         }
         nodes = index()
         selection.removeAll { nodes[$0] == nil }
+        if let e = editing {
+            if let n = nodes[e.id]?.node, n.kind == .text, let length = story(of: n)?.utf16Length {
+                editing = Editing(id: e.id, anchor: min(e.anchor, length), focus: min(e.focus, length))
+                follow()
+            } else {
+                editing = nil
+                typing = false
+            }
+        }
         if let g = guide, (snapshot.page(g.page)?.guides).map({ (g.axis == .x ? $0.x : $0.y).count <= g.index }) ?? true {
             guide = nil
         }

@@ -21,6 +21,7 @@ struct Canvas: NSViewRepresentable {
         _ = editor.selection
         _ = editor.hover
         _ = editor.guide
+        _ = editor.editing
         container.showsRulers = editor.showsRulers
         container.canvas.contentChanged()
     }
