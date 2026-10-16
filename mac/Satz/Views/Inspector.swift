@@ -11,10 +11,17 @@ struct Inspector: View {
             if nodes.isEmpty {
                 DocumentSection(editor: editor)
                 PageSection(editor: editor)
+                TextStylesSection(editor: editor)
             } else {
                 SelectionHeader(editor: editor, nodes: nodes)
-                ArrangeSection(editor: editor, nodes: nodes)
-                LayoutSection(editor: editor, nodes: nodes)
+                if editor.editing == nil {
+                    ArrangeSection(editor: editor, nodes: nodes)
+                    LayoutSection(editor: editor, nodes: nodes)
+                }
+                if nodes.allSatisfy({ $0.kind == .text }) {
+                    TextSection(editor: editor, nodes: nodes)
+                    if nodes.count == 1, editor.editing == nil { TextFrameSection(editor: editor, node: nodes[0]) }
+                }
             }
         }
         .formStyle(.grouped)

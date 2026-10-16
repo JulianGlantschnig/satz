@@ -159,6 +159,19 @@ final class Editor {
         }
     }
 
+    /// Adds a TrueType or OpenType font, which sets the text in it again.
+    @discardableResult
+    func addFont(_ data: Data) -> Typeface? {
+        do {
+            let face = try engine.addFont(data)
+            refresh()
+            return face
+        } catch {
+            fail(error.message)
+            return nil
+        }
+    }
+
     func fail(_ text: String) {
         status = Status(text: text, error: true)
     }

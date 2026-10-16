@@ -6,11 +6,12 @@ import SwiftUI
 /// 0.1 with Option) and with a drag on its label; nil shows that the selection differs.
 struct NumberField: View {
     enum Unit {
-        case length, degrees, percent, plain
+        case length, points, degrees, percent, plain
 
         var name: String {
             switch self {
             case .length: "mm"
+            case .points: "pt"
             case .degrees: "°"
             case .percent: "%"
             case .plain: ""
@@ -27,6 +28,8 @@ struct NumberField: View {
     var unit: Unit = .length
     var integer = false
     var range: ClosedRange<Double> = -.infinity ... .infinity
+    /// What 0 shows as, such as Auto.
+    var zero: String?
     let commit: (Double) -> Void
 
     @State private var text = ""
@@ -37,6 +40,7 @@ struct NumberField: View {
 
     private func format(_ v: Double?) -> String {
         guard let v else { return "" }
+        if v == 0, let zero { return zero }
         return v.formatted(.number.precision(.fractionLength(0...(integer ? 0 : 2))).grouping(.never))
     }
 
@@ -84,6 +88,10 @@ struct NumberField: View {
 
     private func submit() {
         let source = text.trimmingCharacters(in: .whitespaces)
+        if let zero, source.lowercased() == zero.lowercased() {
+            if shown != 0 { set(0) }
+            return
+        }
         guard !source.isEmpty, source != format(shown), let v = Expr.evaluate(source, current: shown ?? 0, unit: unit.name) else {
             text = format(shown)
             return
