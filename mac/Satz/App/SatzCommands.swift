@@ -24,6 +24,51 @@ struct SatzCommands: Commands {
             Divider()
         }
 
+        CommandMenu("Object") {
+            let none = editor?.selection.isEmpty ?? true
+            Button("Duplicate") { editor.map { $0.duplicate($0.selection) } }
+                .keyboardShortcut("d", modifiers: .command)
+                .disabled(none)
+            Divider()
+            Button("Group") { editor?.group() }
+                .keyboardShortcut("g", modifiers: .command)
+                .disabled(none)
+            Button("Group as Frame") { editor?.group(frame: true) }
+                .keyboardShortcut("g", modifiers: [.command, .option])
+                .disabled(none)
+            Button("Ungroup") { editor?.ungroup() }
+                .keyboardShortcut("g", modifiers: [.command, .shift])
+                .disabled(none)
+            Button("Use as Mask") { editor?.mask() }
+                .keyboardShortcut("m", modifiers: [.command, .option])
+                .disabled(none)
+            Divider()
+            Button("Bring to Front") { editor?.order(.front) }
+                .keyboardShortcut("]", modifiers: [.command, .shift])
+                .disabled(none)
+            Button("Bring Forward") { editor?.order(.forward) }
+                .keyboardShortcut("]", modifiers: .command)
+                .disabled(none)
+            Button("Send Backward") { editor?.order(.backward) }
+                .keyboardShortcut("[", modifiers: .command)
+                .disabled(none)
+            Button("Send to Back") { editor?.order(.back) }
+                .keyboardShortcut("[", modifiers: [.command, .shift])
+                .disabled(none)
+            Divider()
+            Button("Flip Horizontal") { editor?.flip(vertical: false) }
+                .disabled(none)
+            Button("Flip Vertical") { editor?.flip(vertical: true) }
+                .disabled(none)
+            Divider()
+            Button("Show or Hide") { editor?.toggle("hidden") }
+                .keyboardShortcut("h", modifiers: [.command, .shift])
+                .disabled(none)
+            Button("Lock or Unlock") { editor?.toggle("locked") }
+                .keyboardShortcut("l", modifiers: [.command, .shift])
+                .disabled(none)
+        }
+
         CommandMenu("Page") {
             Button("Add Page") { editor?.addPage() }
                 .keyboardShortcut("p", modifiers: [.command, .shift])

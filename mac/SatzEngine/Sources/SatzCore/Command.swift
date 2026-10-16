@@ -212,3 +212,41 @@ extension Command {
     public static let beginUndoGroup = Command("beginUndoGroup")
     public static let endUndoGroup = Command("endUndoGroup")
 }
+
+extension Command {
+    private static let framed: Set<String> = ["create", "placeImage", "setFrame"]
+    /// Steps per mm that frames round to: positions to 0.1 mm, sizes to 0.01 mm.
+    private static let grid: [String: Double] = ["x": 10, "y": 10, "w": 100, "h": 100]
+
+    /// The command with x and y on a 0.1 mm grid and w and h on 0.01 mm unless they stay
+    /// as in `was`, and its other numbers on 2 decimals, except the factor `by`; see
+    /// `rounded` in `web/src/editor.ts`.
+    public func rounded(was: Node? = nil) -> Command {
+        let mm = 72 / 25.4
+        func cents(_ v: Double) -> Double { (v * 100).rounded() / 100 }
+        var out = self
+        for (k, v) in fields {
+            let per = Self.framed.contains(type) ? Self.grid[k] : nil
+            if per != nil, let was, let n = v.number, n == Self.value(was, k) { continue }
+            switch v {
+            case .number(let n) where k != "by":
+                out.fields[k] = .number(per.map { ((n / mm) * $0).rounded() / $0 * mm } ?? cents(n))
+            case .array(let a) where !a.isEmpty && a.allSatisfy({ $0.number != nil }):
+                out.fields[k] = .array(a.map { .number(cents($0.number!)) })
+            default:
+                break
+            }
+        }
+        return out
+    }
+
+    private static func value(_ n: Node, _ key: String) -> Double? {
+        switch key {
+        case "x": n.x
+        case "y": n.y
+        case "w": n.w
+        case "h": n.h
+        default: nil
+        }
+    }
+}

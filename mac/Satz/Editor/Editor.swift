@@ -9,9 +9,25 @@ final class Editor {
     let engine: Engine
     private(set) var snapshot: Snapshot
     /// The page or master on screen.
-    var pageID: String?
+    var pageID: String? {
+        didSet { if pageID != oldValue { nodes = index() } }
+    }
     /// Selected layers, in the order they were chosen.
     var selection: [String] = []
+    /// The layers of the spread on screen by id, with their parents and pages.
+    private(set) var nodes: [String: Entry] = [:]
+    /// The layer under the pointer in the layers list, outlined on the canvas.
+    var hover: String?
+    /// The guide picked on the canvas: its page, axis and index.
+    var guide: PickedGuide?
+    /// Where the pointer is over the canvas, in the spread's space.
+    @ObservationIgnored var pointer: CGPoint?
+
+    struct PickedGuide: Equatable {
+        var page: String
+        var axis: XY
+        var index: Int
+    }
     private(set) var status: Status?
     /// Layout grids and guides show on the canvas.
     var showsGrids = false
@@ -29,6 +45,10 @@ final class Editor {
     /// The window's undo manager; each undo step of the engine registers in it, so
     /// that the Edit menu, the window's edited mark and autosave follow the engine.
     @ObservationIgnored weak var undoManager: UndoManager?
+    /// The plain text the last copy of layers put on the pasteboard; other text there came from elsewhere.
+    @ObservationIgnored var copiedText: String?
+    /// The last copies `duplicate` made and where their originals were.
+    @ObservationIgnored var copies: (ids: [String], from: CGPoint)?
     @ObservationIgnored private var groups = 0
     @ObservationIgnored private var groupStart: String?
 
@@ -37,6 +57,7 @@ final class Editor {
         // A document that loaded makes a snapshot; one that does not is a bug in the engine.
         snapshot = try! engine.snapshot
         pageID = snapshot.pages.first?.id
+        nodes = index()
     }
 
     var page: Page? { pageID.flatMap { snapshot.page($0) } }
@@ -52,7 +73,8 @@ final class Editor {
         }
         let before = engine.version
         do {
-            let made = try engine.apply(command)
+            let was = command.fields["id"]?.string.flatMap { nodes[$0]?.node }
+            let made = try engine.apply(command.rounded(was: was))
             let notes = engine.notes
             status = notes.isEmpty ? nil : Status(text: notes.joined(separator: ". "), error: false)
             if groups == 0 && command.type != "undo" && command.type != "redo" && engine.version != before {
@@ -61,7 +83,7 @@ final class Editor {
             refresh()
             return made
         } catch {
-            fail(error.localizedDescription)
+            fail(error.message)
             return []
         }
     }
@@ -117,15 +139,19 @@ final class Editor {
         if pageID.flatMap({ snapshot.page($0) }) == nil {
             pageID = snapshot.pages.first?.id
         }
-        let ids = Set(allNodeIDs())
-        selection.removeAll { !ids.contains($0) }
+        nodes = index()
+        selection.removeAll { nodes[$0] == nil }
+        if let g = guide, (snapshot.page(g.page)?.guides).map({ (g.axis == .x ? $0.x : $0.y).count <= g.index }) ?? true {
+            guide = nil
+        }
     }
 
-    private func allNodeIDs() -> [String] {
-        func walk(_ nodes: [Node]) -> [String] {
-            nodes.flatMap { [$0.id] + walk($0.children ?? []) }
-        }
-        return (snapshot.pages + snapshot.masters).flatMap { walk($0.children) }
+    /// The layers of the spread on screen, or of the master on screen.
+    private func index() -> [String: Entry] {
+        var out: [String: Entry] = [:]
+        let pages = master.map { [$0] } ?? spread
+        for p in pages { Select.index(p.children, page: p, into: &out) }
+        return out
     }
 
     // MARK: Pages

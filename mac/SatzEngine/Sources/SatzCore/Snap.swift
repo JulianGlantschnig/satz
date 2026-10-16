@@ -65,11 +65,11 @@ public struct SnapLines: Equatable, Sendable {
     }
 }
 
-public enum Axis: Sendable { case x, y }
+public enum XY: Sendable { case x, y }
 
 /// A guide along x = `at` or y = `at`, from `from` to `to` on the other axis.
 public struct SnapGuide: Equatable, Sendable {
-    public var axis: Axis
+    public var axis: XY
     public var at: Double
     public var from: Double
     public var to: Double
@@ -169,7 +169,7 @@ public enum Snap {
     /// Guides through each of `xs` and `ys` that lies on one of `lines`, spanning the line and `box`.
     public static func guides(_ box: Box, _ lines: SnapLines, xs: [Double], ys: [Double]) -> [SnapGuide] {
         var out: [SnapGuide] = []
-        func along(_ axis: Axis, _ values: [Double], _ list: [SnapLine], _ from: Double, _ to: Double) {
+        func along(_ axis: XY, _ values: [Double], _ list: [SnapLine], _ from: Double, _ to: Double) {
             var seen = Set<Double>()
             for at in values where seen.insert(at).inserted {
                 let on = list.filter { abs($0.at - at) < epsilon }
@@ -262,15 +262,15 @@ public enum Snap {
         var gaps: [(m: Box, n: Box, d: Double)]
     }
 
-    private static func start(_ b: Box, _ axis: Axis) -> Double { axis == .x ? b.x : b.y }
-    private static func size(_ b: Box, _ axis: Axis) -> Double { axis == .x ? b.w : b.h }
-    private static func end(_ b: Box, _ axis: Axis) -> Double { start(b, axis) + size(b, axis) }
+    private static func start(_ b: Box, _ axis: XY) -> Double { axis == .x ? b.x : b.y }
+    private static func size(_ b: Box, _ axis: XY) -> Double { axis == .x ? b.w : b.h }
+    private static func end(_ b: Box, _ axis: XY) -> Double { start(b, axis) + size(b, axis) }
 
     /// On `axis`, the layers of `others` in the row or column of `box` before and after
     /// it, and the gaps between neighbouring others in that row or column that `box`
     /// does not lie in.
-    private static func row(_ box: Box, _ others: [Box], _ axis: Axis) -> Row {
-        let across: Axis = axis == .x ? .y : .x
+    private static func row(_ box: Box, _ others: [Box], _ axis: XY) -> Row {
+        let across: XY = axis == .x ? .y : .x
         let line = others
             .filter { start($0, across) < end(box, across) && end($0, across) > start(box, across) }
             .sorted { start($0, axis) < start($1, axis) }
@@ -289,7 +289,7 @@ public enum Snap {
 
     /// Starts of `box` on `axis` that leave it as far from a neighbour as two others in
     /// its row or column are apart, or midway between its neighbours.
-    public static func spacings(_ box: Box, _ others: [Box], axis: Axis) -> [Double] {
+    public static func spacings(_ box: Box, _ others: [Box], axis: XY) -> [Double] {
         let r = row(box, others, axis)
         var out: [Double] = r.gaps.flatMap { g -> [Double] in
             (r.before.map { [end($0, axis) + g.d] } ?? []) + (r.after.map { [start($0, axis) - g.d - size(box, axis)] } ?? [])
@@ -300,7 +300,7 @@ public enum Snap {
 
     /// The distances on `axis` from `box` to its neighbours that equal the other one or
     /// a gap between others in its row or column, with those gaps.
-    public static func equals(_ box: Box, _ others: [Box], axis: Axis) -> [Measure] {
+    public static func equals(_ box: Box, _ others: [Box], axis: XY) -> [Measure] {
         let r = row(box, others, axis)
         var near: [(m: Box, n: Box, d: Double)] = []
         if let b = r.before { near.append((b, box, start(box, axis) - end(b, axis))) }

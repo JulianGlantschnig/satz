@@ -181,3 +181,11 @@ public func typeface(of data: Data) throws -> Typeface {
 }
 
 public typealias Inks = SatzEngine.Inks
+
+extension Error {
+    /// What went wrong, as the engine words it.
+    public var message: String {
+        if let e = self as? EngineError, case .Failed(let message) = e { return message }
+        return localizedDescription
+    }
+}

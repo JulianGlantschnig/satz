@@ -14,13 +14,13 @@ public enum Handle: Equatable, Hashable, Sendable {
     /// A corner radius, from the top left clockwise.
     case radius(Int)
     /// Between two layers of a row.
-    case gap(Axis, Int)
+    case gap(XY, Int)
 }
 
 /// A gap handle in screen space between two layers of a row along `axis`.
 public struct GapHandle: Equatable, Sendable {
     public var point: CGPoint
-    public var axis: Axis
+    public var axis: XY
 }
 
 public enum Handles {
@@ -101,7 +101,7 @@ public enum Handles {
     }
 
     /// The gap handles in screen space of a row of `boxes` along `axis`.
-    public static func gapHandles(_ view: Viewport, axis: Axis, _ boxes: [Box]) -> [GapHandle] {
+    public static func gapHandles(_ view: Viewport, axis: XY, _ boxes: [Box]) -> [GapHandle] {
         boxes.indices.dropFirst().map { i in
             let (a, b) = (boxes[i - 1], boxes[i])
             let p = axis == .x

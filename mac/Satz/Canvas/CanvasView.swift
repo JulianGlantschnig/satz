@@ -26,6 +26,11 @@ final class CanvasView: NSView {
     private var fallback: Tiles?
     private var settle: Timer?
 
+    var drag: Drag?
+    var overlay = Overlay()
+    /// Space is down: a drag pans.
+    var spaceHeld = false
+
     /// Runs when the zoom changes, for the zoom field.
     var zoomChanged: ((Double) -> Void)?
 
@@ -232,6 +237,7 @@ final class CanvasView: NSView {
         if tiles.has(keys) { fallback = nil }
 
         drawChrome(ctx)
+        drawOverlay(ctx)
     }
 
     private func drawTiles(_ t: Tiles, _ ctx: CGContext) {
