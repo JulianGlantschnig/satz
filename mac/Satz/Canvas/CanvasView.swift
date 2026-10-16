@@ -263,6 +263,7 @@ final class CanvasView: NSView {
         if tiles.has(keys) { fallback = nil }
 
         drawChrome(ctx)
+        drawFound(ctx)
         drawEditedText(ctx)
         drawOverlay(ctx)
     }

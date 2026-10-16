@@ -11,6 +11,16 @@
         }
       }
     },
+    "%lld found": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld gefunden"
+          }
+        }
+      }
+    },
     "%lld layers": {
       "localizations": {
         "de": {
@@ -21,12 +31,52 @@
         }
       }
     },
+    "%lld of %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld von %2$lld"
+          }
+        }
+      }
+    },
+    "+%lld words": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%lld Wörter"
+          }
+        }
+      }
+    },
     "Add Page": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Seite hinzufügen"
+          }
+        }
+      }
+    },
+    "After": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danach"
+          }
+        }
+      }
+    },
+    "Align": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausrichtung"
           }
         }
       }
@@ -91,6 +141,36 @@
         }
       }
     },
+    "Align center": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zentriert"
+          }
+        }
+      }
+    },
+    "Align left": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linksbündig"
+          }
+        }
+      }
+    },
+    "Align right": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechtsbündig"
+          }
+        }
+      }
+    },
     "Angle": {
       "localizations": {
         "de": {
@@ -101,12 +181,132 @@
         }
       }
     },
+    "Any": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beliebig"
+          }
+        }
+      }
+    },
+    "Apostrophe": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apostroph"
+          }
+        }
+      }
+    },
+    "As typed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wie eingegeben"
+          }
+        }
+      }
+    },
+    "Auto": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto"
+          }
+        }
+      }
+    },
+    "Auto Height": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autom. Höhe"
+          }
+        }
+      }
+    },
+    "Auto Width": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autom. Breite"
+          }
+        }
+      }
+    },
+    "Baseline": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grundlinie"
+          }
+        }
+      }
+    },
+    "Baseline grid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grundlinienraster"
+          }
+        }
+      }
+    },
+    "Baseline grid start": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beginn des Grundlinienrasters"
+          }
+        }
+      }
+    },
+    "Baseline shift": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grundlinienversatz"
+          }
+        }
+      }
+    },
+    "Before": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Davor"
+          }
+        }
+      }
+    },
     "Bleed": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Anschnitt"
+          }
+        }
+      }
+    },
+    "Bottom inset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand unten"
           }
         }
       }
@@ -131,12 +331,82 @@
         }
       }
     },
+    "Bullet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufzählungspunkt"
+          }
+        }
+      }
+    },
+    "Bullets": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufzählung"
+          }
+        }
+      }
+    },
+    "Capitals to small caps": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versalien zu Kapitälchen"
+          }
+        }
+      }
+    },
+    "Case": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schreibweise"
+          }
+        }
+      }
+    },
+    "Case-sensitive forms": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versalformen"
+          }
+        }
+      }
+    },
+    "Character": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeichen"
+          }
+        }
+      }
+    },
     "Clip content": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Inhalt beschneiden"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
           }
         }
       }
@@ -151,12 +421,32 @@
         }
       }
     },
+    "Columns": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spalten"
+          }
+        }
+      }
+    },
     "Copy": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Kopieren"
+          }
+        }
+      }
+    },
+    "Copyright": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copyright"
           }
         }
       }
@@ -181,6 +471,36 @@
         }
       }
     },
+    "Decoration": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linien"
+          }
+        }
+      }
+    },
+    "Default": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        }
+      }
+    },
+    "Degree": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grad"
+          }
+        }
+      }
+    },
     "Delete": {
       "localizations": {
         "de": {
@@ -197,6 +517,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Seite löschen"
+          }
+        }
+      }
+    },
+    "Delete text style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absatzformat löschen"
+          }
+        }
+      }
+    },
+    "Discretionary ligatures": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedingte Ligaturen"
           }
         }
       }
@@ -231,6 +571,46 @@
         }
       }
     },
+    "Drop cap characters": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Initial-Zeichen"
+          }
+        }
+      }
+    },
+    "Drop cap lines": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Initial über Zeilen"
+          }
+        }
+      }
+    },
+    "Drop chars": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Initial-Zeichen"
+          }
+        }
+      }
+    },
+    "Drop lines": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Initial-Zeilen"
+          }
+        }
+      }
+    },
     "Duplicate": {
       "localizations": {
         "de": {
@@ -251,12 +631,72 @@
         }
       }
     },
+    "Dutch": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niederländisch"
+          }
+        }
+      }
+    },
     "Ellipse": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ellipse"
+          }
+        }
+      }
+    },
+    "Ellipsis": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auslassungspunkte"
+          }
+        }
+      }
+    },
+    "Em dash": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geviertstrich"
+          }
+        }
+      }
+    },
+    "Emoji & Symbols": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emoji & Symbole"
+          }
+        }
+      }
+    },
+    "En dash": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halbgeviertstrich"
+          }
+        }
+      }
+    },
+    "English": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Englisch"
           }
         }
       }
@@ -281,12 +721,92 @@
         }
       }
     },
+    "Figure spacing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziffernbreite"
+          }
+        }
+      }
+    },
+    "Figures": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziffern"
+          }
+        }
+      }
+    },
+    "Find": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suchen"
+          }
+        }
+      }
+    },
+    "Find Next": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitersuchen"
+          }
+        }
+      }
+    },
+    "Find Previous": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rückwärts suchen"
+          }
+        }
+      }
+    },
+    "Find and Replace…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suchen und Ersetzen …"
+          }
+        }
+      }
+    },
     "First Spread": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Erster Druckbogen"
+          }
+        }
+      }
+    },
+    "First line": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erste Zeile"
+          }
+        }
+      }
+    },
+    "Fixed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fest"
           }
         }
       }
@@ -311,12 +831,62 @@
         }
       }
     },
+    "Font": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schrift"
+          }
+        }
+      }
+    },
+    "Font size": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schriftgröße"
+          }
+        }
+      }
+    },
+    "Fractions": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brüche"
+          }
+        }
+      }
+    },
     "Frame": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Rahmen"
+          }
+        }
+      }
+    },
+    "French": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Französisch"
+          }
+        }
+      }
+    },
+    "German": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deutsch"
           }
         }
       }
@@ -337,6 +907,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Als Rahmen gruppieren"
+          }
+        }
+      }
+    },
+    "Gutter": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steg"
           }
         }
       }
@@ -391,6 +971,56 @@
         }
       }
     },
+    "Hyphenate": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silbentrennung"
+          }
+        }
+      }
+    },
+    "In text style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im Absatzformat"
+          }
+        }
+      }
+    },
+    "In this document": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In diesem Dokument"
+          }
+        }
+      }
+    },
+    "Indents & Spacing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einzüge & Abstände"
+          }
+        }
+      }
+    },
+    "Insert character": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeichen einfügen"
+          }
+        }
+      }
+    },
     "Inspector": {
       "localizations": {
         "de": {
@@ -411,12 +1041,82 @@
         }
       }
     },
+    "Italian": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italienisch"
+          }
+        }
+      }
+    },
+    "Justify": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blocksatz"
+          }
+        }
+      }
+    },
     "Keep aspect ratio": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Seitenverhältnis beibehalten"
+          }
+        }
+      }
+    },
+    "Keep lines": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeilen halten"
+          }
+        }
+      }
+    },
+    "Keep lines together": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeilen nicht trennen"
+          }
+        }
+      }
+    },
+    "Keep with next": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht vom nächsten trennen"
+          }
+        }
+      }
+    },
+    "Kerning": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kerning"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprache"
           }
         }
       }
@@ -451,6 +1151,46 @@
         }
       }
     },
+    "Left": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Links"
+          }
+        }
+      }
+    },
+    "Left guillemet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guillemet links"
+          }
+        }
+      }
+    },
+    "Left inset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand links"
+          }
+        }
+      }
+    },
+    "Left quote": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anführungszeichen links"
+          }
+        }
+      }
+    },
     "Length": {
       "localizations": {
         "de": {
@@ -461,12 +1201,72 @@
         }
       }
     },
+    "Letter spacing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laufweite"
+          }
+        }
+      }
+    },
+    "Ligatures": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligaturen"
+          }
+        }
+      }
+    },
     "Line": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Linie"
+            "value": "Abstand"
+          }
+        }
+      }
+    },
+    "Line height": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeilenabstand"
+          }
+        }
+      }
+    },
+    "Lines": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeilen"
+          }
+        }
+      }
+    },
+    "Lining": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versalziffern"
+          }
+        }
+      }
+    },
+    "List": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liste"
           }
         }
       }
@@ -491,6 +1291,26 @@
         }
       }
     },
+    "Low quote": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anführungszeichen unten"
+          }
+        }
+      }
+    },
+    "Lower case": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kleinbuchstaben"
+          }
+        }
+      }
+    },
     "Master": {
       "localizations": {
         "de": {
@@ -507,6 +1327,56 @@
           "stringUnit": {
             "state": "translated",
             "value": "Musterseiten"
+          }
+        }
+      }
+    },
+    "Match case": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Groß-/Kleinschreibung"
+          }
+        }
+      }
+    },
+    "Max lines": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Höchstens Zeilen"
+          }
+        }
+      }
+    },
+    "Min": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Min"
+          }
+        }
+      }
+    },
+    "Min height": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mindesthöhe"
+          }
+        }
+      }
+    },
+    "Missing: its text is set in the bundled font": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehlt: der Text steht in der mitgelieferten Schrift"
           }
         }
       }
@@ -531,6 +1401,16 @@
         }
       }
     },
+    "Multiplication": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Malzeichen"
+          }
+        }
+      }
+    },
     "Name": {
       "localizations": {
         "de": {
@@ -541,12 +1421,82 @@
         }
       }
     },
+    "New Style from Text": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neues Format aus Text"
+          }
+        }
+      }
+    },
     "Next Spread": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Nächster Druckbogen"
+          }
+        }
+      }
+    },
+    "Next match": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächster Treffer"
+          }
+        }
+      }
+    },
+    "No Style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Format"
+          }
+        }
+      }
+    },
+    "Non-breaking space": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geschütztes Leerzeichen"
+          }
+        }
+      }
+    },
+    "None": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine"
+          }
+        }
+      }
+    },
+    "Normal": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Normal"
+          }
+        }
+      }
+    },
+    "Numbers": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nummerierung"
           }
         }
       }
@@ -571,12 +1521,62 @@
         }
       }
     },
+    "Oldstyle": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mediävalziffern"
+          }
+        }
+      }
+    },
     "On": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ein"
+          }
+        }
+      }
+    },
+    "On this Mac": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf diesem Mac"
+          }
+        }
+      }
+    },
+    "OpenType": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenType"
+          }
+        }
+      }
+    },
+    "Ordinals": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordinalzeichen"
+          }
+        }
+      }
+    },
+    "Override": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Überschrieben"
           }
         }
       }
@@ -611,6 +1611,16 @@
         }
       }
     },
+    "Page Number": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seitenzahl"
+          }
+        }
+      }
+    },
     "Page canvas": {
       "localizations": {
         "de": {
@@ -627,6 +1637,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Seiten"
+          }
+        }
+      }
+    },
+    "Paragraph": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absatz"
+          }
+        }
+      }
+    },
+    "Paragraph spacing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absatzabstand"
           }
         }
       }
@@ -651,12 +1681,42 @@
         }
       }
     },
+    "Position": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Position"
+          }
+        }
+      }
+    },
     "Previous Spread": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Vorheriger Druckbogen"
+          }
+        }
+      }
+    },
+    "Previous match": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorheriger Treffer"
+          }
+        }
+      }
+    },
+    "Proportional": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proportional"
           }
         }
       }
@@ -671,12 +1731,62 @@
         }
       }
     },
+    "Registered": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingetragen"
+          }
+        }
+      }
+    },
     "Rename": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Umbenennen"
+          }
+        }
+      }
+    },
+    "Replace": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ersetzen"
+          }
+        }
+      }
+    },
+    "Replace All": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle ersetzen"
+          }
+        }
+      }
+    },
+    "Replace with": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ersetzen durch"
+          }
+        }
+      }
+    },
+    "Replaced %lld matches": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Treffer ersetzt"
           }
         }
       }
@@ -691,12 +1801,92 @@
         }
       }
     },
+    "Reset to Style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Format zurücksetzen"
+          }
+        }
+      }
+    },
+    "Resizing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Größe"
+          }
+        }
+      }
+    },
+    "Right": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechts"
+          }
+        }
+      }
+    },
+    "Right guillemet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guillemet rechts"
+          }
+        }
+      }
+    },
+    "Right inset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand rechts"
+          }
+        }
+      }
+    },
+    "Right quote": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anführungszeichen rechts"
+          }
+        }
+      }
+    },
     "Rotation": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Drehung"
+          }
+        }
+      }
+    },
+    "Search fonts": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schriften suchen"
+          }
+        }
+      }
+    },
+    "Section": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paragraf"
           }
         }
       }
@@ -717,6 +1907,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "In den Hintergrund"
+          }
+        }
+      }
+    },
+    "Shift": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versatz"
           }
         }
       }
@@ -771,12 +1971,92 @@
         }
       }
     },
+    "Size": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Größe"
+          }
+        }
+      }
+    },
+    "Slashed zero": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Null mit Schrägstrich"
+          }
+        }
+      }
+    },
+    "Small caps": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapitälchen"
+          }
+        }
+      }
+    },
+    "Spanish": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spanisch"
+          }
+        }
+      }
+    },
     "Star": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Stern"
+          }
+        }
+      }
+    },
+    "Start": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "Strikethrough": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durchgestrichen"
+          }
+        }
+      }
+    },
+    "Subscript": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiefgestellt"
+          }
+        }
+      }
+    },
+    "Subscript glyphs": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiefgestellte Glyphen"
           }
         }
       }
@@ -791,12 +2071,102 @@
         }
       }
     },
+    "Superscript": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hochgestellt"
+          }
+        }
+      }
+    },
+    "Superscript glyphs": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hochgestellte Glyphen"
+          }
+        }
+      }
+    },
+    "Tabular": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabellarisch"
+          }
+        }
+      }
+    },
+    "Text": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        }
+      }
+    },
+    "Text Frame": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textrahmen"
+          }
+        }
+      }
+    },
+    "Text Styles": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absatzformate"
+          }
+        }
+      }
+    },
     "Text frame": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Textrahmen"
+          }
+        }
+      }
+    },
+    "Text style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absatzformat"
+          }
+        }
+      }
+    },
+    "Text style %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absatzformat %lld"
+          }
+        }
+      }
+    },
+    "Thin space": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schmales Leerzeichen"
           }
         }
       }
@@ -811,6 +2181,16 @@
         }
       }
     },
+    "This font cannot be used": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Schrift lässt sich nicht verwenden"
+          }
+        }
+      }
+    },
     "Tidy Up": {
       "localizations": {
         "de": {
@@ -821,12 +2201,82 @@
         }
       }
     },
+    "Title case": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titelschreibweise"
+          }
+        }
+      }
+    },
     "Tool": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Werkzeug"
+          }
+        }
+      }
+    },
+    "Top inset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand oben"
+          }
+        }
+      }
+    },
+    "Track": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laufweite"
+          }
+        }
+      }
+    },
+    "Trademark": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marke"
+          }
+        }
+      }
+    },
+    "Trim to cap height": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Versalhöhe beschneiden"
+          }
+        }
+      }
+    },
+    "Type options": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schriftoptionen"
+          }
+        }
+      }
+    },
+    "Underline": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unterstrichen"
           }
         }
       }
@@ -861,6 +2311,26 @@
         }
       }
     },
+    "Update Style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format aktualisieren"
+          }
+        }
+      }
+    },
+    "Upper case": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Großbuchstaben"
+          }
+        }
+      }
+    },
     "Use as Mask": {
       "localizations": {
         "de": {
@@ -871,12 +2341,32 @@
         }
       }
     },
+    "Vertical align": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikale Ausrichtung"
+          }
+        }
+      }
+    },
     "Vertical spacing": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Vertikaler Abstand"
+          }
+        }
+      }
+    },
+    "Whole words": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ganze Wörter"
           }
         }
       }

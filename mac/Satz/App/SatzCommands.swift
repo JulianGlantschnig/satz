@@ -6,6 +6,19 @@ struct SatzCommands: Commands {
     @FocusedValue(\.editor) private var editor
 
     var body: some Commands {
+        CommandGroup(after: .pasteboard) {
+            Divider()
+            Button("Find and Replace…") { editor?.showsFind = true }
+                .keyboardShortcut("f", modifiers: .command)
+                .disabled(editor == nil)
+            Button("Find Next") { editor?.findStep(1) }
+                .keyboardShortcut("g", modifiers: .command)
+                .disabled(editor?.found.isEmpty ?? true)
+            Button("Find Previous") { editor?.findStep(-1) }
+                .keyboardShortcut("g", modifiers: [.command, .shift])
+                .disabled(editor?.found.isEmpty ?? true)
+        }
+
         CommandGroup(after: .toolbar) {
             Divider()
             Button("Zoom In") { editor?.canvas?.zoomIn() }

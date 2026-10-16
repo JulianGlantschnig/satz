@@ -163,6 +163,29 @@ extension Editor {
         }
     }
 
+    /// Shows the match `m`: goes to the page of the frame that holds it and selects it there.
+    func reveal(_ m: Find.Match) {
+        let frame = (try? engine.textFrame(m.story, index: m.range.lowerBound)) ?? m.story
+        if nodes[frame] == nil,
+            let page = (snapshot.pages + snapshot.masters).first(where: { Select.index($0.children, page: $0)[frame] != nil })
+        {
+            showPage(page.id)
+        }
+        edit(frame, anchor: m.range.lowerBound, focus: m.range.upperBound)
+        canvas?.reveal()
+    }
+
+    /// Selects the next or previous match of find after the edited text's selection.
+    func findStep(_ d: Int) {
+        guard !found.isEmpty else { return }
+        let story = editing.flatMap { nodes[$0.id]?.node.story }
+        let range = editing?.range
+        let at = found.firstIndex { $0.story == story && $0.range == range }
+        let i = at.map { $0 + d } ?? (d > 0 ? 0 : found.count - 1)
+        endTyping()
+        reveal(found[(i % found.count + found.count) % found.count])
+    }
+
     func copyText() {
         let board = NSPasteboard.general
         board.clearContents()

@@ -98,6 +98,9 @@ final class Editor {
     var editing: Editing?
     /// The text frame whose out-port was clicked, to thread into the next one clicked.
     var threading: String?
+    /// The find bar shows, and the matches it marks on the canvas.
+    var showsFind = false
+    var found: [Find.Match] = []
     /// Layout grids and guides show on the canvas.
     var showsGrids = false
     /// Rulers show along the canvas.
@@ -172,6 +175,11 @@ final class Editor {
             fail(error.message)
             return nil
         }
+    }
+
+    /// Shows `text` in the status line.
+    func say(_ text: String) {
+        status = Status(text: text, error: false)
     }
 
     func fail(_ text: String) {

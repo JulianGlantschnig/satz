@@ -148,6 +148,37 @@ extension CanvasView: NSTextInputClient {
         needsDisplay = true
     }
 
+    /// Moves the view so that the edited text's selection shows.
+    func reveal() {
+        guard let e = editor.editing, let c = try? editor.engine.caret(e.id, index: e.focus), c.count == 3 else { return }
+        let p = view.toCanvas(CGPoint(x: c[0] + editor.dx(e.id), y: (c[1] + c[2]) / 2))
+        guard !bounds.insetBy(dx: 60, dy: 60).contains(p) else { return }
+        show(Viewport(x: view.x + bounds.midX - p.x, y: view.y + bounds.midY - p.y, zoom: view.zoom))
+    }
+
+    /// The matches of find, fainter than the selection.
+    func drawFound(_ ctx: CGContext) {
+        guard !editor.found.isEmpty else { return }
+        let pages = editor.master.map { [$0] } ?? editor.spread
+        ctx.saveGState()
+        ctx.setAlpha(0.4)
+        ctx.beginTransparencyLayer(auxiliaryInfo: nil)
+        for m in editor.found {
+            for page in pages {
+                guard let data = try? editor.engine.textOverlay(m.story, anchor: m.range.lowerBound, focus: m.range.upperBound, caretWidth: 0, page: page.id),
+                    let ops = try? DisplayList.decode(data), ops.count > 1
+                else { continue }
+                ctx.saveGState()
+                ctx.translateBy(x: view.x + page.x * view.zoom, y: view.y)
+                ctx.scaleBy(x: view.zoom, y: view.zoom)
+                painter.draw(ops, in: ctx)
+                ctx.restoreGState()
+            }
+        }
+        ctx.endTransparencyLayer()
+        ctx.restoreGState()
+    }
+
     /// The caret or selection of the edited text, and the text an input method composes.
     func drawEditedText(_ ctx: CGContext) {
         guard let e = editor.editing else { return }

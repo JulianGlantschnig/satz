@@ -46,7 +46,7 @@ struct NumberField: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.secondary)
                 .frame(minWidth: 14, alignment: .leading)

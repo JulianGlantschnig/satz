@@ -31,6 +31,9 @@ struct EditorView: View {
                 .navigationSplitViewColumnWidth(min: 160, ideal: 200, max: 320)
         } detail: {
             Canvas(editor: editor)
+                .safeAreaInset(edge: .top, spacing: 0) {
+                    if editor.showsFind { FindBar(editor: editor) }
+                }
         }
         .inspector(isPresented: $showsInspector) {
             Inspector(editor: editor)
