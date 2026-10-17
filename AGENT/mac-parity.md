@@ -36,3 +36,5 @@ Status: ok = the Mac app does it, gap = to do, fixed = done in this audit, n/a =
 - fixed 1–7: Option align keys, Object ▸ Boolean with ⌥⌘U/S/I/X, F2 rename (Editor.renaming), Esc ends the
   preflight once nothing is selected, preflight button counts issues, ⌃⌥⌘C fit / ⌃⌥⌘H auto height,
   double click on a text frame's edge or corner fits it, overview arrows and ⌥ arrows. UI test KeysTests.
+- fixed 8–9: palette finds layers, pages, swatches (fill the selection, else "Select a layer first") and text
+  styles; a shortcut given to a command takes it from the command that had it. UI tests in PaletteTests.

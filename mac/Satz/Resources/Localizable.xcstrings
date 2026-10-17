@@ -2391,6 +2391,16 @@
         }
       }
     },
+    "Fill with %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit %@ füllen"
+          }
+        }
+      }
+    },
     "Find": {
       "localizations": {
         "de": {
@@ -3217,6 +3227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ebenen"
+          }
+        }
+      }
+    },
+    "Layers · Page %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebenen · Seite %lld"
           }
         }
       }
@@ -5221,6 +5241,16 @@
         }
       }
     },
+    "Search commands, layers, pages, swatches, styles": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehle, Ebenen, Seiten, Farbfelder, Stile suchen"
+          }
+        }
+      }
+    },
     "Search fonts": {
       "localizations": {
         "de": {
@@ -5251,12 +5281,32 @@
         }
       }
     },
+    "Select a layer first": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle zuerst eine Ebene"
+          }
+        }
+      }
+    },
     "Select a layer inside a group": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ebene in einer Gruppe wählen"
+          }
+        }
+      }
+    },
+    "Select a text first": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wähle zuerst einen Text"
           }
         }
       }
@@ -5781,6 +5831,16 @@
         }
       }
     },
+    "Style %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stil %@"
+          }
+        }
+      }
+    },
     "Subscript": {
       "localizations": {
         "de": {
@@ -5957,6 +6017,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Absatzformat %lld"
+          }
+        }
+      }
+    },
+    "Text styles": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textstile"
           }
         }
       }

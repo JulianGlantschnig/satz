@@ -101,11 +101,18 @@ enum Shortcut {
 
     /// Gives the menu command `item` the key `key` with `modifiers`, or its own back for nil,
     /// now and whenever the menus are made again.
-    static func assign(_ item: NSMenuItem, key: String?, modifiers: NSEvent.ModifierFlags = []) {
+    @MainActor static func assign(_ item: NSMenuItem, key: String?, modifiers: NSEvent.ModifierFlags = []) {
         var all = custom
         let title = item.title
         if let key {
             all[title] = equivalent(key: key, modifiers: modifiers)
+            // The command that had these keys gives them up.
+            for other in MenuCommand.all().compactMap(\.item) where other !== item && other.title != title
+                && other.keyEquivalent.lowercased() == key.lowercased()
+                && other.keyEquivalentModifierMask.intersection([.command, .option, .shift, .control]) == modifiers.intersection([.command, .option, .shift, .control])
+            {
+                all[other.title] = ""
+            }
         } else {
             all[title] = nil
         }

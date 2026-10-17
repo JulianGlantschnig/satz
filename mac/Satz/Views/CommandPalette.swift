@@ -1,4 +1,5 @@
 import AppKit
+import SatzCore
 import SwiftUI
 
 /// What the command palette and the shortcuts list offer besides the menus: the tools and
@@ -79,7 +80,8 @@ struct CommandPalette: View {
             guard let run = k.run else { return nil }
             return Row(id: k.id, title: k.title, place: k.group, shortcut: k.keys, enabled: true) { [editor] in run(editor) }
         }
-        let all = menus.map { m in Row(id: m.id, title: m.title, place: m.path.joined(separator: " ▸ "), shortcut: m.shortcut, enabled: m.enabled, run: m.run) } + canvas
+        let all = menus.map { m in Row(id: m.id, title: m.title, place: m.path.joined(separator: " ▸ "), shortcut: m.shortcut, enabled: m.enabled, run: m.run) }
+            + canvas + documentRows
         let words = query.lowercased().split(separator: " ")
         guard !words.isEmpty else { return all }
         return all.filter { r in
@@ -92,12 +94,58 @@ struct CommandPalette: View {
         }
     }
 
+    /// The layers, pages, swatches and text styles of the document; see `web/src/Palette.tsx`.
+    private var documentRows: [Row] {
+        let s = editor.snapshot
+        let e = editor
+        func flat(_ nodes: [Node]) -> [Node] { nodes.flatMap { [$0] + flat($0.children ?? []) } }
+        let layers = s.pages.enumerated().flatMap { i, p in
+            flat(p.children).map { n in
+                Row(id: "layer-\(n.id)", title: n.name, place: String(localized: "Layers · Page \(i + 1)"), shortcut: "", enabled: true) {
+                    e.showsOverview = false
+                    e.showPage(p.id)
+                    e.select([n.id])
+                }
+            }
+        }
+        let pages = s.pages.enumerated().map { i, p in
+            Row(id: "page-\(p.id)", title: String(localized: "Page \(i + 1)"), place: String(localized: "Pages"), shortcut: "", enabled: true) {
+                e.showsOverview = false
+                e.showPage(p.id)
+            }
+        }
+        let swatches = s.swatches.map { w in
+            Row(id: "swatch-\(w.id)", title: String(localized: "Fill with \(w.name)"), place: String(localized: "Swatches"), shortcut: "", enabled: true) {
+                guard !e.selection.isEmpty, let fill = try? JSON(encoding: [Fill.solid(.swatch(w.id, tint: 1, alpha: 1))]) else {
+                    e.fail(String(localized: "Select a layer first"))
+                    return
+                }
+                e.batch {
+                    for n in e.selected { e.apply(.set(id: n.id, ["fills": fill])) }
+                }
+            }
+        }
+        let styles = s.textStyles.map { t in
+            Row(id: "style-\(t.id)", title: String(localized: "Style \(t.name)"), place: String(localized: "Text styles"), shortcut: "", enabled: true) {
+                let texts = e.selected.filter { $0.kind == .text }
+                guard !texts.isEmpty else {
+                    e.fail(String(localized: "Select a text first"))
+                    return
+                }
+                e.batch {
+                    for n in texts { e.apply(.format(id: n.id, range: nil, ["textStyle": .string(t.id)])) }
+                }
+            }
+        }
+        return layers + pages + swatches + styles
+    }
+
     var body: some View {
         let rows = rows
         VStack(spacing: 0) {
             HStack {
                 Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-                TextField("Search commands", text: $query)
+                TextField("Search commands, layers, pages, swatches, styles", text: $query)
                     .textFieldStyle(.plain)
                     .font(.title3)
                     .focused($focused)

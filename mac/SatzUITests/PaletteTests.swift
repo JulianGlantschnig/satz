@@ -56,4 +56,44 @@ final class PaletteTests: XCTestCase {
         sheet.buttons["Reset Shortcuts"].click()
         sheet.buttons["Done"].click()
     }
+
+    func testTheKeysOfAnotherCommandMoveToTheOneGivenThem() throws {
+        let window = app.windows["Untitled"]
+        app.menuBars.menuBarItems["Help"].menus.menuItems["Keyboard Shortcuts"].click()
+        let sheet = window.sheets.firstMatch
+        XCTAssertTrue(sheet.waitForExistence(timeout: 5))
+        let keys = { (name: String) in sheet.buttons.matching(NSPredicate(format: "identifier ENDSWITH %@", " ▸ " + name)).firstMatch }
+        let search = sheet.textFields["shortcuts-search"]
+        func find(_ text: String) {
+            search.doubleClick()
+            search.typeKey("a", modifierFlags: .command)
+            search.typeText(text)
+        }
+        find("image")
+        XCTAssertEqual(keys("Place Image…").label, "⇧⌘K")
+        find("add page")
+        keys("Add Page").click()
+        sheet.typeKey("k", modifierFlags: [.command, .shift])
+        sleep(1)
+        XCTAssertEqual(keys("Add Page").label, "⇧⌘K")
+        find("image")
+        XCTAssertEqual(keys("Place Image…").label, "—")
+        sheet.buttons["Reset Shortcuts"].click()
+        XCTAssertEqual(keys("Place Image…").label, "⇧⌘K")
+        sheet.buttons["Done"].click()
+    }
+
+    func testThePaletteFindsLayersAndFillsWithASwatch() throws {
+        let window = app.windows["Untitled"]
+        let canvas = window.groups["canvas"]
+        window.radioButtons["Rectangle"].click()
+        canvas.coordinate(withNormalizedOffset: CGVector(dx: 0.4, dy: 0.4))
+            .press(forDuration: 0.1, thenDragTo: canvas.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)))
+        canvas.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
+        app.menuBars.menuBarItems["View"].menus.menuItems["Command Palette…"].click()
+        let search = window.textFields["palette-search"]
+        XCTAssertTrue(search.waitForExistence(timeout: 5))
+        search.typeText("layer rectangle\r")
+        XCTAssertTrue(window.descendants(matching: .any)["quick-fills"].firstMatch.waitForExistence(timeout: 5))
+    }
 }
