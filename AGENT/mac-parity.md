@@ -41,3 +41,14 @@ Status: ok = the Mac app does it, gap = to do, fixed = done in this audit, n/a =
 - fixed 10: setting "Layers panel shows" current page / current spread (a disclosure per page), heading "Layers · Page N". UI test LayersPanelTests.
 - fixed 11–12: quick bar aligns inside a group / auto layout, W/H sizing, font menu and type options above a text; arrange section has flatten and add auto layout. UI test QuickBarTests.
 - fixed 13–16: a selected layer hidden by a mask drags where it is hidden, a hovered port outlines the frame it threads to, integer fields have a stepper, wheel and pinch over the quick bar reach the canvas.
+
+## Second pass (FEATURES.md and specs checked against the code)
+Same capability, Mac way (ok): swatch rename in its editor popover; the search of all characters is the
+system Emoji & Symbols palette; delete pages says so in the status line with ⌘Z.
+17. Page overview: a band dragged over pages or masters selects them.
+18. Fills and strokes reorder by drag.
+19. Text wrap takes separate horizontal and vertical offsets.
+20. Page overview: the masters column is pulled wider; the pages header stays in view.
+- fixed 17–20: overview band selection (Shift/⌘ add), masters column drags wider with its thumbnails, the pages
+  header stays in view; fills and strokes reorder by a drag handle (no automated test yet); text wrap has
+  separate ↔ and ↕ offsets. UI test OverviewTests.testABandPicksThePagesItTouches.

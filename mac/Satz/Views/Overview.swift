@@ -10,6 +10,14 @@ struct Overview: View {
     @State private var height: CGFloat = 180
     @State private var renaming: String?
     @FocusState private var focused: Bool
+    @State private var mastersWidth: CGFloat = 200
+    @State private var widthStart: CGFloat?
+    /// The band being dragged over the pages or masters, and where the thumbnails are.
+    @State private var band: CGRect?
+    @State private var frames: [String: CGRect] = [:]
+    @State private var bandBase: [String] = []
+
+    static let space = "overview"
 
     private var pages: [Page] { editor.snapshot.pages }
     private var ids: [String] { pages.map(\.id) }
@@ -27,19 +35,31 @@ struct Overview: View {
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .background(bandArea(snapshot.masters.map(\.id)))
             }
-            .frame(width: 200)
+            .frame(width: mastersWidth)
             .background(.background.secondary)
+            // Pulled sideways, the masters column grows with its thumbnails.
             Divider()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack {
-                        Text("Pages").font(.headline)
-                        Spacer()
-                        Slider(value: $height, in: 80...400) { Text("Size") }
-                            .frame(width: 140)
-                            .controlSize(.small)
-                    }
+                .overlay(Color.clear.frame(width: 7).contentShape(Rectangle())
+                    .gesture(DragGesture(coordinateSpace: .global).onChanged { g in
+                        if widthStart == nil { widthStart = mastersWidth }
+                        mastersWidth = min(max((widthStart ?? 200) + g.translation.width, 140), 480)
+                    }.onEnded { _ in widthStart = nil })
+                    .onHover { inside in if inside { NSCursor.resizeLeftRight.push() } else { NSCursor.pop() } })
+            VStack(alignment: .leading, spacing: 0) {
+                // The header stays in view while the pages scroll.
+                HStack {
+                    Text("Pages").font(.headline)
+                    Spacer()
+                    Slider(value: $height, in: 80...400) { Text("Size") }
+                        .frame(width: 140)
+                        .controlSize(.small)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                Divider()
+                ScrollView {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: spreadWidth + 24), spacing: 20, alignment: .bottom)], alignment: .leading, spacing: 20) {
                         ForEach(rows, id: \.self) { spread in row(spread) }
                         Button { addPage() } label: {
@@ -50,11 +70,23 @@ struct Overview: View {
                         .buttonStyle(.plain)
                         .help("Add page")
                     }
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(bandArea(ids))
                 }
-                .padding(16)
             }
-            .contentShape(Rectangle())
-            .onTapGesture { editor.overviewSelection = [] }
+        }
+        .coordinateSpace(name: Self.space)
+        .onPreferenceChange(ThumbFrames.self) { frames = $0 }
+        .overlay(alignment: .topLeading) {
+            if let band {
+                Rectangle()
+                    .fill(SwiftUI.Color.accentColor.opacity(0.1))
+                    .overlay(Rectangle().strokeBorder(SwiftUI.Color.accentColor))
+                    .frame(width: band.width, height: band.height)
+                    .offset(x: band.minX, y: band.minY)
+                    .allowsHitTesting(false)
+            }
         }
         .focusable()
         .focused($focused)
@@ -127,6 +159,7 @@ struct Overview: View {
         let n = (ids.firstIndex(of: p.id) ?? 0) + 1
         return Thumb(thumbnails: editor.thumbnails, lists: [(p.id, 0)], sheets: [Sheet(p, x: 0)], height: height)
             .overlay(RoundedRectangle(cornerRadius: 2).strokeBorder(Color.accentColor, lineWidth: picked ? 3 : 0))
+            .background(Self.frame(p.id))
             .contentShape(Rectangle())
             .onTapGesture(count: 2) { open(p.id) }
             .onTapGesture { click(p.id, in: ids) }
@@ -178,8 +211,9 @@ struct Overview: View {
         let sheets = facing ? [Sheet(m, x: -m.width), Sheet(m, x: 0)] : [Sheet(m, x: 0)]
         let masters = editor.snapshot.masters.map(\.id)
         return VStack(alignment: .leading, spacing: 4) {
-            Thumb(thumbnails: editor.thumbnails, lists: [(m.id, m.x)], sheets: sheets, height: max(40, 160 * m.height / (m.width * (facing ? 2 : 1))))
+            Thumb(thumbnails: editor.thumbnails, lists: [(m.id, m.x)], sheets: sheets, height: max(40, (mastersWidth - 40) * m.height / (m.width * (facing ? 2 : 1))))
                 .overlay(RoundedRectangle(cornerRadius: 2).strokeBorder(Color.accentColor, lineWidth: picked ? 3 : 0))
+                .background(Self.frame(m.id))
                 .onTapGesture(count: 2) { open(m.id) }
                 .onTapGesture { click(m.id, in: masters) }
             if renaming == m.id {
@@ -200,6 +234,30 @@ struct Overview: View {
             Button("Delete Master", role: .destructive) { editor.deleteMasters([m.id]) }
         }
         .accessibilityIdentifier("overview-master-\(m.name)")
+    }
+
+    /// Reports where the thumbnail of `id` is, for the band.
+    static func frame(_ id: String) -> some View {
+        GeometryReader { g in SwiftUI.Color.clear.preference(key: ThumbFrames.self, value: [id: g.frame(in: .named(space))]) }
+    }
+
+    /// The empty space around the thumbnails of `all`: a click there picks nothing, a drag
+    /// pulls a band that picks those it touches, Shift or Command adding them.
+    private func bandArea(_ all: [String]) -> some View {
+        SwiftUI.Color.clear
+            .contentShape(Rectangle())
+            .onTapGesture { editor.overviewSelection = [] }
+            .gesture(DragGesture(minimumDistance: 4, coordinateSpace: .named(Self.space))
+                .onChanged { g in
+                    focused = true
+                    let r = CGRect(x: min(g.startLocation.x, g.location.x), y: min(g.startLocation.y, g.location.y),
+                        width: abs(g.location.x - g.startLocation.x), height: abs(g.location.y - g.startLocation.y))
+                    if band == nil { bandBase = NSEvent.modifierFlags.intersection([.shift, .command]).isEmpty ? [] : editor.overviewSelection.filter { all.contains($0) } }
+                    band = r
+                    let hit = all.filter { frames[$0]?.intersects(r) == true }
+                    editor.overviewSelection = bandBase + hit.filter { !bandBase.contains($0) }
+                }
+                .onEnded { _ in band = nil })
     }
 
     /// A click picks `id`; Command adds or drops it, Shift spans to it, among `all`.
@@ -262,5 +320,13 @@ private struct RenameField: View {
             }
             .onSubmit { commit(text) }
             .onChange(of: focused) { _, now in if !now { commit(text) } }
+    }
+}
+
+/// Where the thumbnails of the overview are, by page or master id.
+private struct ThumbFrames: PreferenceKey {
+    static let defaultValue: [String: CGRect] = [:]
+    static func reduce(value: inout [String: CGRect], nextValue: () -> [String: CGRect]) {
+        value.merge(nextValue()) { $1 }
     }
 }

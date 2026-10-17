@@ -1901,6 +1901,16 @@
         }
       }
     },
+    "Drag to reorder": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Umsortieren ziehen"
+          }
+        }
+      }
+    },
     "Drop Shadow": {
       "localizations": {
         "de": {
@@ -2847,6 +2857,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Horizontaler Abstand"
+          }
+        }
+      }
+    },
+    "Horizontal text wrap offset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontaler Umfluss-Abstand"
           }
         }
       }
@@ -6467,6 +6487,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vertikaler Abstand"
+          }
+        }
+      }
+    },
+    "Vertical text wrap offset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikaler Umfluss-Abstand"
           }
         }
       }

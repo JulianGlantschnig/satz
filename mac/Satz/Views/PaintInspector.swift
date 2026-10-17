@@ -119,6 +119,7 @@ private struct LayerSection: View {
 
 /// A list of fills or strokes, topmost first: solid colours, gradients and images.
 struct PaintList: View {
+    static let dragPrefix = "satz-paint:"
     let title: LocalizedStringKey
     /// Nil when the selected layers differ.
     let paints: [Fill]?
@@ -134,10 +135,26 @@ struct PaintList: View {
         Section {
             if let paints {
                 ForEach(paints.indices.reversed(), id: \.self) { i in
-                    PaintRow(paint: paints[i], title: title, mode: mode, scope: scope, editor: editor, ppi: ppi, images: images) { next in
+                    HStack(spacing: 4) {
+                        // A paint dragged by its handle onto another takes its place in the stack.
+                        Image(systemName: "line.3.horizontal")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                            .help("Drag to reorder")
+                            .draggable("\(Self.dragPrefix)\(i)")
+                        PaintRow(paint: paints[i], title: title, mode: mode, scope: scope, editor: editor, ppi: ppi, images: images) { next in
+                            var list = paints
+                            if let next { list[i] = next } else { list.remove(at: i) }
+                            onChange(list)
+                        }
+                    }
+                    .dropDestination(for: String.self) { items, _ in
+                        guard let from = items.first.flatMap({ Int($0.dropFirst(Self.dragPrefix.count)) }), items.first?.hasPrefix(Self.dragPrefix) == true, paints.indices.contains(from), from != i else { return false }
                         var list = paints
-                        if let next { list[i] = next } else { list.remove(at: i) }
+                        let moved = list.remove(at: from)
+                        list.insert(moved, at: i)
                         onChange(list)
+                        return true
                     }
                 }
             } else {
@@ -490,11 +507,17 @@ private struct WrapSection: View {
                     Text("Jump Over").tag(Wrap.jump)
                 }
                 .labelsHidden()
-                NumberField(label: "Offset", help: "Text wrap offset", value: same(nodes) { $0.wrapOffsetX == $0.wrapOffsetY ? $0.wrapOffsetX : -1 }.flatMap { $0 < 0 ? nil : $0 }, range: 0 ... .infinity) {
-                    set(["wrapOffsetX": .number($0), "wrapOffsetY": .number($0)])
-                }
-                .disabled(nodes.allSatisfy { $0.wrap == .none })
             }
+            // Apart beside the layer and above and below it.
+            HStack {
+                NumberField(label: "↔", help: "Horizontal text wrap offset", value: same(nodes) { $0.wrapOffsetX }, range: 0 ... .infinity) {
+                    set(["wrapOffsetX": .number($0)])
+                }
+                NumberField(label: "↕", help: "Vertical text wrap offset", value: same(nodes) { $0.wrapOffsetY }, range: 0 ... .infinity) {
+                    set(["wrapOffsetY": .number($0)])
+                }
+            }
+            .disabled(nodes.allSatisfy { $0.wrap == .none })
         }
     }
 }
