@@ -86,6 +86,8 @@ extension CanvasView {
                 editor.flip(vertical: false)
             } else if flags == .shift && key == "v" {
                 editor.flip(vertical: true)
+            } else if key == "?" {
+                editor.showsShortcuts = true
             } else if flags.isEmpty && key == "." {
                 editor.toggleOverview()
             } else if flags == .shift && key == "a" {

@@ -34,15 +34,21 @@ struct SatzCommands: Commands {
             Button("Find and Replace…") { editor?.showsFind = true }
                 .keyboardShortcut("f", modifiers: .command)
                 .disabled(editor == nil)
+            // ⌘G finds the next match while the find bar shows, else it groups.
+            let finding = editor?.showsFind == true
             Button("Find Next") { editor?.findStep(1) }
-                .keyboardShortcut("g", modifiers: .command)
+                .keyboardShortcut(finding ? KeyboardShortcut("g", modifiers: .command) : nil)
                 .disabled(editor?.found.isEmpty ?? true)
             Button("Find Previous") { editor?.findStep(-1) }
-                .keyboardShortcut("g", modifiers: [.command, .shift])
+                .keyboardShortcut(finding ? KeyboardShortcut("g", modifiers: [.command, .shift]) : nil)
                 .disabled(editor?.found.isEmpty ?? true)
         }
 
         CommandGroup(after: .toolbar) {
+            Divider()
+            Button("Command Palette…") { editor?.showsPalette.toggle() }
+                .keyboardShortcut("k", modifiers: .command)
+                .disabled(editor == nil)
             Divider()
             Button("Zoom In") { editor?.canvas?.zoomIn() }
                 .keyboardShortcut("+", modifiers: .command)
@@ -73,14 +79,15 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("d", modifiers: .command)
                 .disabled(none)
             Divider()
+            let finding = editor?.showsFind == true
             Button("Group") { editor?.group() }
-                .keyboardShortcut("g", modifiers: .command)
+                .keyboardShortcut(finding ? nil : KeyboardShortcut("g", modifiers: .command))
                 .disabled(none)
             Button("Group as Frame") { editor?.group(frame: true) }
                 .keyboardShortcut("g", modifiers: [.command, .option])
                 .disabled(none)
             Button("Ungroup") { editor?.ungroup() }
-                .keyboardShortcut("g", modifiers: [.command, .shift])
+                .keyboardShortcut(finding ? nil : KeyboardShortcut("g", modifiers: [.command, .shift]))
                 .disabled(none)
             Button("Use as Mask") { editor?.mask() }
                 .keyboardShortcut("m", modifiers: [.command, .option])
@@ -152,6 +159,12 @@ struct SatzCommands: Commands {
                 .keyboardShortcut(.home, modifiers: [])
             Button("Last Spread") { editor?.lastSpread() }
                 .keyboardShortcut(.end, modifiers: [])
+        }
+
+        CommandGroup(replacing: .help) {
+            Button("Keyboard Shortcuts") { editor?.showsShortcuts = true }
+                .keyboardShortcut("/", modifiers: .command)
+                .disabled(editor == nil)
         }
     }
 }

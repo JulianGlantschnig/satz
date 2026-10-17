@@ -155,6 +155,10 @@ final class Editor {
     var exporting = false
     @ObservationIgnored let inkPreviewer = InkPreviewer()
     @ObservationIgnored var inkRequest = InkRequest()
+    /// The command palette shows over the canvas.
+    var showsPalette = false
+    /// The list of keyboard shortcuts shows.
+    var showsShortcuts = false
     /// Rulers show along the canvas.
     var showsRulers = true
     /// The canvas's zoom, 1 at one pt per screen point.

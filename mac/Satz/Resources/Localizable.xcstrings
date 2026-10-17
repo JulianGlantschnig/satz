@@ -431,6 +431,16 @@
         }
       }
     },
+    "Add a guide; drag it back or press Delete to remove it": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hilfslinie anlegen; zurückziehen oder Entf entfernt sie"
+          }
+        }
+      }
+    },
     "Add layout grid": {
       "localizations": {
         "de": {
@@ -971,6 +981,26 @@
         }
       }
     },
+    "Calculate, with units": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechnen, auch mit Einheiten"
+          }
+        }
+      }
+    },
+    "Canvas": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeichenfläche"
+          }
+        }
+      }
+    },
     "Cap": {
       "localizations": {
         "de": {
@@ -1051,6 +1081,16 @@
         }
       }
     },
+    "Change the value": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wert ändern"
+          }
+        }
+      }
+    },
     "Character": {
       "localizations": {
         "de": {
@@ -1067,6 +1107,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "CMYK-ICC-Profil wählen"
+          }
+        }
+      }
+    },
+    "Click and press new keys": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klicken und neue Tasten drücken"
+          }
+        }
+      }
+    },
+    "Click the keys of a menu command and press new ones with ⌘ or ⌃; ⌫ gives it its own back, ⎋ cancels.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klick auf die Tasten eines Menübefehls und drück neue mit ⌘ oder ⌃; ⌫ stellt die ursprünglichen wieder her, ⎋ bricht ab."
           }
         }
       }
@@ -1191,6 +1251,16 @@
         }
       }
     },
+    "Command Palette…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehlspalette …"
+          }
+        }
+      }
+    },
     "Constraints": {
       "localizations": {
         "de": {
@@ -1227,6 +1297,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "CMYK kopieren"
+          }
+        }
+      }
+    },
+    "Copy while moving": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim Bewegen kopieren"
           }
         }
       }
@@ -1711,6 +1791,46 @@
         }
       }
     },
+    "Double-click": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doppelklick"
+          }
+        }
+      }
+    },
+    "Double-click a port": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doppelklick auf einen Anschluss"
+          }
+        }
+      }
+    },
+    "Drag from a ruler": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus einem Lineal ziehen"
+          }
+        }
+      }
+    },
+    "Drag the label": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beschriftung ziehen"
+          }
+        }
+      }
+    },
     "Drop Shadow": {
       "localizations": {
         "de": {
@@ -1837,6 +1957,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Punkte bearbeiten"
+          }
+        }
+      }
+    },
+    "Edit a text, the points of a shape or crop an image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text bearbeiten, Punkte einer Form bearbeiten oder Bild zuschneiden"
+          }
+        }
+      }
+    },
+    "Edit the selected text": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ausgewählten Text bearbeiten"
           }
         }
       }
@@ -2131,6 +2271,16 @@
         }
       }
     },
+    "Fields": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Felder"
+          }
+        }
+      }
+    },
     "Figure spacing": {
       "localizations": {
         "de": {
@@ -2287,6 +2437,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vertikal spiegeln"
+          }
+        }
+      }
+    },
+    "Flip horizontally or vertically": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal oder vertikal spiegeln"
           }
         }
       }
@@ -2741,6 +2901,16 @@
         }
       }
     },
+    "Insert placeholder text, lorem50 for 50 words": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blindtext einfügen, lorem50 für 50 Wörter"
+          }
+        }
+      }
+    },
     "Inside": {
       "localizations": {
         "de": {
@@ -2887,6 +3057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kerning"
+          }
+        }
+      }
+    },
+    "Keyboard Shortcuts": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tastaturkurzbefehle"
           }
         }
       }
@@ -3461,6 +3641,26 @@
         }
       }
     },
+    "Move along one axis": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entlang einer Achse bewegen"
+          }
+        }
+      }
+    },
+    "Move without snapping": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne Einrasten bewegen"
+          }
+        }
+      }
+    },
     "Multiplication": {
       "localizations": {
         "de": {
@@ -3601,12 +3801,32 @@
         }
       }
     },
+    "No command matches.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Befehl passt."
+          }
+        }
+      }
+    },
     "No issues. The document is ready for print.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Keine Probleme. Das Dokument ist bereit für den Druck."
+          }
+        }
+      }
+    },
+    "No shortcut matches.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Kurzbefehl passt."
           }
         }
       }
@@ -3657,6 +3877,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Normal"
+          }
+        }
+      }
+    },
+    "Nudge by 0.1 mm, with Shift by 1 mm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Um 0,1 mm verschieben, mit Umschalt um 1 mm"
           }
         }
       }
@@ -3861,6 +4091,16 @@
         }
       }
     },
+    "Override a master layer on this page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Musterebene auf dieser Seite übergehen"
+          }
+        }
+      }
+    },
     "Overrides its master layer": {
       "localizations": {
         "de": {
@@ -4061,6 +4301,16 @@
         }
       }
     },
+    "Pan the view": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ansicht verschieben"
+          }
+        }
+      }
+    },
     "Paragraph": {
       "localizations": {
         "de": {
@@ -4111,6 +4361,16 @@
         }
       }
     },
+    "Path": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfad"
+          }
+        }
+      }
+    },
     "Path Tools": {
       "localizations": {
         "de": {
@@ -4127,6 +4387,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zeichenstift"
+          }
+        }
+      }
+    },
+    "Pick several points": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mehrere Punkte wählen"
           }
         }
       }
@@ -4277,6 +4547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vorgabe"
+          }
+        }
+      }
+    },
+    "Press keys…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tasten drücken …"
           }
         }
       }
@@ -4571,6 +4851,16 @@
         }
       }
     },
+    "Reset Shortcuts": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kurzbefehle zurücksetzen"
+          }
+        }
+      }
+    },
     "Reset to Master": {
       "localizations": {
         "de": {
@@ -4587,6 +4877,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Auf Format zurücksetzen"
+          }
+        }
+      }
+    },
+    "Reset to the default": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Standard zurücksetzen"
+          }
+        }
+      }
+    },
+    "Resize from the centre": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Von der Mitte aus skalieren"
           }
         }
       }
@@ -4781,6 +5091,26 @@
         }
       }
     },
+    "Search": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suchen"
+          }
+        }
+      }
+    },
+    "Search commands": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Befehle suchen"
+          }
+        }
+      }
+    },
     "Search fonts": {
       "localizations": {
         "de": {
@@ -4807,6 +5137,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abschnitt beginnt bei"
+          }
+        }
+      }
+    },
+    "Select a layer inside a group": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebene in einer Gruppe wählen"
+          }
+        }
+      }
+    },
+    "Select the children or the parent": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kinder oder übergeordnete Ebene wählen"
+          }
+        }
+      }
+    },
+    "Select the next or previous layer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächste oder vorige Ebene wählen"
           }
         }
       }
@@ -4981,6 +5341,16 @@
         }
       }
     },
+    "Show or hide layout grids and guides": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layoutraster und Hilfslinien ein- oder ausblenden"
+          }
+        }
+      }
+    },
     "Simulates print, %@": {
       "localizations": {
         "de": {
@@ -5051,6 +5421,16 @@
         }
       }
     },
+    "Smooth or corner point": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glatter Punkt oder Eckpunkt"
+          }
+        }
+      }
+    },
     "Soft Light": {
       "localizations": {
         "de": {
@@ -5077,6 +5457,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verteilt"
+          }
+        }
+      }
+    },
+    "Space drag": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leertaste + Ziehen"
           }
         }
       }
@@ -5181,12 +5571,32 @@
         }
       }
     },
+    "Step by 1, with Shift by 10, with Option by 0.1": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schritt 1, mit Umschalt 10, mit Wahl 0,1"
+          }
+        }
+      }
+    },
     "Stop colour": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Farbe des Stopps"
+          }
+        }
+      }
+    },
+    "Stop editing the text": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textbearbeitung beenden"
           }
         }
       }
@@ -5521,6 +5931,16 @@
         }
       }
     },
+    "Tools": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkzeuge"
+          }
+        }
+      }
+    },
     "Top": {
       "localizations": {
         "de": {
@@ -5667,6 +6087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Entsperren"
+          }
+        }
+      }
+    },
+    "Unthread a text frame": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textrahmen aus der Verkettung lösen"
           }
         }
       }
@@ -5957,6 +6387,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mitte"
+          }
+        }
+      }
+    },
+    "click": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klick"
+          }
+        }
+      }
+    },
+    "drag": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ziehen"
           }
         }
       }

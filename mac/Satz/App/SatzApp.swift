@@ -34,6 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        Shortcut.follow()
         // The UI tests' document.
         if let path = ProcessInfo.processInfo.environment["SATZ_OPEN"] {
             NSDocumentController.shared.openDocument(withContentsOf: URL(fileURLWithPath: path), display: true) { _, _, _ in }

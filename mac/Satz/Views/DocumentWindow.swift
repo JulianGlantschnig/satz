@@ -48,7 +48,17 @@ struct EditorView: View {
                     Overview(editor: editor)
                         .background(.background)
                 }
+                if editor.showsPalette {
+                    VStack {
+                        CommandPalette(editor: editor)
+                            .padding(.top, 40)
+                        Spacer()
+                    }
+                }
             }
+        }
+        .sheet(isPresented: $editor.showsShortcuts) {
+            ShortcutsView(editor: editor)
         }
         .inspector(isPresented: $showsInspector) {
             Inspector(editor: editor)
