@@ -61,7 +61,7 @@ struct ShortcutsView: View {
             .padding(16)
             Divider()
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 320), alignment: .top)], alignment: .leading, spacing: 20) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 320), spacing: 40, alignment: .top)], alignment: .leading, spacing: 24) {
                     ForEach(groups) { g in
                         VStack(alignment: .leading, spacing: 4) {
                             Text(g.id).font(.headline).padding(.bottom, 2)

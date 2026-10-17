@@ -48,7 +48,7 @@ struct Overview: View {
                     }.onEnded { _ in widthStart = nil })
                     .onHover { inside in if inside { NSCursor.resizeLeftRight.push() } else { NSCursor.pop() } })
             VStack(alignment: .leading, spacing: 0) {
-                // The header stays in view while the pages scroll.
+                // The header stays in view while the pages scroll; the column gives way to the sidebar.
                 HStack {
                     Text("Pages").font(.headline)
                     Spacer()
@@ -75,6 +75,7 @@ struct Overview: View {
                     .background(bandArea(ids))
                 }
             }
+            .frame(minWidth: 0, maxWidth: .infinity)
         }
         .coordinateSpace(name: Self.space)
         .onPreferenceChange(ThumbFrames.self) { frames = $0 }

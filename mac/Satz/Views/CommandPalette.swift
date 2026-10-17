@@ -19,7 +19,11 @@ struct CanvasKey: Identifiable {
         let path = String(localized: "Path")
         let text = String(localized: "Text")
         let fields = String(localized: "Fields")
-        return tools + [
+        let keys = Dictionary(uniqueKeysWithValues: CanvasView.alignKeys.map { ($1, $0) })
+        let aligns = Editor.Align.allCases.map { a in
+            CanvasKey(group: String(localized: "Align"), title: String(localized: a.title), keys: keys[a].map { "⌥" + $0.uppercased() } ?? "") { $0.align(a) }
+        }
+        return tools + aligns + [
             CanvasKey(group: canvas, title: String(localized: "Select a layer inside a group"), keys: "⌘ " + String(localized: "click")),
             CanvasKey(group: canvas, title: String(localized: "Override a master layer on this page"), keys: "⇧⌘ " + String(localized: "click")),
             CanvasKey(group: canvas, title: String(localized: "Edit a text, the points of a shape or crop an image"), keys: String(localized: "Double-click")),

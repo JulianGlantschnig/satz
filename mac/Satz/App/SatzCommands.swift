@@ -109,6 +109,12 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("m", modifiers: [.command, .option])
                 .disabled(none)
             Divider()
+            Menu("Align") {
+                ForEach(Editor.Align.allCases) { a in
+                    Button(String(localized: a.title)) { editor?.align(a) }
+                }
+            }
+            .disabled(none)
             Menu("Boolean") {
                 ForEach(BooleanOp.allCases, id: \.self) { op in
                     Button(ArrangeSection.title(op)) { editor?.combine(op) }
