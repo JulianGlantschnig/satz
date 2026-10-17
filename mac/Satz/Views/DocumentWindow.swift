@@ -67,6 +67,13 @@ struct EditorView: View {
             ToolbarItem(placement: .navigation) {
                 ToolPicker(editor: editor)
             }
+            ToolbarItem(placement: .navigation) {
+                Button { editor.placeImages() } label: {
+                    Label("Place Image", systemImage: "photo.badge.plus")
+                }
+                .help("Place Image (⇧⌘K)")
+                .accessibilityIdentifier("place-image")
+            }
             ToolbarItem(placement: .primaryAction) {
                 Toggle(isOn: Binding(get: { editor.showsPreflight }, set: { _ in editor.togglePreflight() })) {
                     Label("Preflight", systemImage: "checkmark.seal")

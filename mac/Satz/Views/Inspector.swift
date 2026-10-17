@@ -25,6 +25,7 @@ struct Inspector: View {
             } else {
                 SelectionHeader(editor: editor, nodes: nodes)
                 if editor.editing == nil {
+                    if let image = editor.selectedImage { ImageSection(editor: editor, node: image) }
                     ArrangeSection(editor: editor, nodes: nodes)
                     LayoutSection(editor: editor, nodes: nodes)
                 }

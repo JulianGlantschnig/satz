@@ -13,7 +13,9 @@ final class Editor {
         didSet { if pageID != oldValue { nodes = index() } }
     }
     /// Selected layers, in the order they were chosen.
-    var selection: [String] = []
+    var selection: [String] = [] {
+        didSet { if let c = cropping, !selection.contains(c) { cropping = nil } }
+    }
     /// The layers of the spread on screen by id, with their parents and pages.
     private(set) var nodes: [String: Entry] = [:]
     /// The layer under the pointer in the layers list, outlined on the canvas.
@@ -97,7 +99,18 @@ final class Editor {
     }
     private(set) var status: Status?
     /// What a press on the canvas does.
-    var tool: Tool = .move
+    var tool: Tool = .move {
+        didSet {
+            if tool != .move {
+                placing = []
+                cropping = nil
+            }
+        }
+    }
+    /// Images to place, the first with the next click on the canvas.
+    var placing: [Placing] = []
+    /// The image whose handles crop it and which a drag moves inside its frame.
+    var cropping: String?
     /// The text layer edited in its frame, which is then the selection.
     var editing: Editing?
     /// The text frame whose out-port was clicked, to thread into the next one clicked.

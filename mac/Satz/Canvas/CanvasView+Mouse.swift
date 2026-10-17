@@ -15,6 +15,8 @@ enum Drag {
     case draw(start: CGPoint, id: String?, dx: Double, moved: Bool, tool: Editor.Tool, snaps: Snaps)
     /// Selects in the edited text, by characters, words or paragraphs.
     case text(unit: Int)
+    /// Moves the image of the cropped frame inside it.
+    case image(start: CGPoint, node: Node, turn: Double)
 }
 
 /// What a drag snaps to and the layers it measures to.
@@ -33,6 +35,8 @@ struct Overlay {
     /// The angle of what is being turned, beside the pointer.
     var turn: Double?
     var pointer: CGPoint?
+    /// Where the image being placed would go, on the spread.
+    var placing: Box?
 }
 
 extension CanvasView {
@@ -198,6 +202,20 @@ extension CanvasView {
             if ink != editor.pointerInk { editor.pointerInk = ink }
         }
         guard drag == nil else { return }
+        if !editor.placing.isEmpty {
+            let (c, guides) = placeAt(p, off: event.modifierFlags.contains(.command))
+            let i = editor.placing[0]
+            overlay.placing = Box(x: c.x - i.w / 2, y: c.y - i.h / 2, w: i.w, h: i.h)
+            overlay.snapped = guides
+            overlay.hover = nil
+            NSCursor.crosshair.set()
+            needsDisplay = true
+            return
+        }
+        if overlay.placing != nil {
+            overlay.placing = nil
+            overlay.snapped = []
+        }
         if let from = editor.threading {
             let to = textUnder(p)
             (to != nil && to != from && !editor.engine.canThread(from: from, to: to!) ? NSCursor.operationNotAllowed : NSCursor.dragLink).set()
@@ -305,6 +323,13 @@ extension CanvasView {
             return
         }
         editor.guide = nil
+        if !editor.placing.isEmpty {
+            let c = placeAt(p, off: flags.contains(.command)).p
+            if let parent = parent(at: c) { editor.place(at: c, parent: parent.id, dx: parent.dx) }
+            overlay.placing = nil
+            overlay.snapped = []
+            return
+        }
         if let from = editor.threading {
             if port(at: q) != nil { return }
             let to = textUnder(p)
@@ -369,7 +394,13 @@ extension CanvasView {
             let frames = editor.selected
             let (turn, own) = turnOf(frames)
             let box = Box.around(frames.map { Self.spun(editor.placed($0), -own) })
-            drag = .resize(start: p, handle: handle, box: box, frames: frames, snaps: snaps(), by: 1, turn: turn, own: own)
+            var s = snaps()
+            // A cropped frame snaps to the edges of its image.
+            if editor.cropping != nil || flags.contains(.command), frames.count == 1, let i = Editor.imageBox(frames[0], in: editor.placed(frames[0])) {
+                s.lines.x += [SnapLine(at: i.x, from: i.y, to: i.maxY), SnapLine(at: i.maxX, from: i.y, to: i.maxY)]
+                s.lines.y += [SnapLine(at: i.y, from: i.x, to: i.maxX), SnapLine(at: i.maxY, from: i.x, to: i.maxX)]
+            }
+            drag = .resize(start: p, handle: handle, box: box, frames: frames, snaps: s, by: 1, turn: turn, own: own)
             editor.beginGroup()
             return
         case .gap?, nil:
@@ -392,6 +423,11 @@ extension CanvasView {
         }
         if flags.contains(.shift) {
             editor.select(sel.contains(id) ? sel.filter { $0 != id } : sel + [id])
+            return
+        }
+        if id == editor.cropping, let node = editor.nodes[id]?.node {
+            drag = .image(start: p, node: node, turn: editor.shown(node).rotation)
+            editor.beginGroup()
             return
         }
         if !sel.contains(id) { editor.select([id]) }
@@ -498,7 +534,7 @@ extension CanvasView {
             let scale = flags.contains(.command) && ratio > 0 ? ratio / by : 1
             for (n, f) in zip(frames, boxes) {
                 if scale != 1 && n.kind == .text { editor.apply(.scaleText(n.id, by: scale)) }
-                editor.apply(.setFrame(id: n.id, x: f.x - editor.dx(n.id), y: f.y, w: f.w, h: f.h, crop: flags.contains(.command)))
+                editor.apply(.setFrame(id: n.id, x: f.x - editor.dx(n.id), y: f.y, w: f.w, h: f.h, crop: flags.contains(.command) || editor.cropping == n.id))
                 if (h == "e" || h == "w"), let t = editor.nodes[n.id]?.node, t.kind == .text, t.overset == true, t.next == nil, t.sizing.vertical == .fixed {
                     var sizing = t.sizing
                     sizing.vertical = .hug
@@ -506,6 +542,10 @@ extension CanvasView {
                 }
             }
             self.drag = .resize(start: start, handle: h, box: b, frames: frames, snaps: s, by: by * scale, turn: turn, own: own)
+
+        case .image(let start, let node, let turn):
+            let d = Handles.spin(CGPoint(x: p.x - start.x, y: p.y - start.y), -turn)
+            editor.moveImage(node, by: d)
 
         case .rotate(let c, let from, let nodes, _, _):
             var by = Self.angle(c, p) - from
@@ -640,7 +680,7 @@ extension CanvasView {
             {
                 editor.select([id])
             }
-        case .resize, .end, .radius, .rotate:
+        case .resize, .end, .radius, .rotate, .image:
             editor.endGroup()
         case .guide(_, _, _, _, let grouped) where grouped:
             editor.endGroup()
@@ -674,6 +714,20 @@ extension CanvasView {
         default:
             break
         }
+    }
+
+    /// The centre of the image being placed at `p`, moved onto what it snaps to unless
+    /// `off`, with the guides through it.
+    func placeAt(_ p: CGPoint, off: Bool) -> (p: CGPoint, guides: [SnapGuide]) {
+        guard let i = editor.placing.first else { return (p, []) }
+        let b = Box(x: p.x - i.w / 2, y: p.y - i.h / 2, w: i.w, h: i.h)
+        guard !off else { return (p, []) }
+        let lines = snaps(ids: []).lines
+        let tolerance = Self.snapSlop / view.zoom
+        let dx = Snap.snap([b.x, b.x + b.w / 2, b.maxX], lines.x, tolerance: tolerance)
+        let dy = Snap.snap([b.y, b.y + b.h / 2, b.maxY], lines.y, tolerance: tolerance)
+        let r = Box(x: b.x + dx, y: b.y + dy, w: b.w, h: b.h)
+        return (CGPoint(x: p.x + dx, y: p.y + dy), Snap.guides(r, lines, xs: [r.x, r.x + r.w / 2, r.maxX], ys: [r.y, r.y + r.h / 2, r.maxY]))
     }
 
     /// `p` moved onto what it snaps to, unless `off`, with the guides through it.
@@ -733,7 +787,15 @@ extension CanvasView {
 
     /// A double click edits the selected text at the click, enters a group, or picks.
     func doubleClick(_ p: CGPoint) {
+        if let c = editor.cropping {
+            if pick(p, .click) != c { editor.cropping = nil }
+            return
+        }
         guard let id = pick(p, .double) else { return }
+        if editor.selection == [id], editor.selectedImage != nil {
+            editor.toggleCrop()
+            return
+        }
         if let n = editor.nodes[id]?.node, n.kind == .text, editor.selection.contains(id) {
             let i = textIndex(id, at: p)
             editor.edit(id, anchor: i, focus: i)

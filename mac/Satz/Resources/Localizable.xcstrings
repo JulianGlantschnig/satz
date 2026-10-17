@@ -171,6 +171,16 @@
         }
       }
     },
+    "%lld ppi": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ppi"
+          }
+        }
+      }
+    },
     "%lld warnings": {
       "localizations": {
         "en": {
@@ -421,6 +431,16 @@
         }
       }
     },
+    "Added the font %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schrift %@ hinzugefügt"
+          }
+        }
+      }
+    },
     "After": {
       "localizations": {
         "de": {
@@ -537,6 +557,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Alle"
+          }
+        }
+      }
+    },
+    "An RGB image, converted to CMYK on export": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein RGB-Bild, beim Export in CMYK umgewandelt"
           }
         }
       }
@@ -821,6 +851,16 @@
         }
       }
     },
+    "Brightness": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Helligkeit"
+          }
+        }
+      }
+    },
     "Bring Forward": {
       "localizations": {
         "de": {
@@ -1071,6 +1111,16 @@
         }
       }
     },
+    "Contrast": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrast"
+          }
+        }
+      }
+    },
     "Copy": {
       "localizations": {
         "de": {
@@ -1131,6 +1181,16 @@
         }
       }
     },
+    "Could not place %@: %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ lässt sich nicht platzieren: %2$@."
+          }
+        }
+      }
+    },
     "Could not print: %@": {
       "localizations": {
         "de": {
@@ -1141,12 +1201,32 @@
         }
       }
     },
+    "Could not read %@.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ lässt sich nicht lesen."
+          }
+        }
+      }
+    },
     "Could not show the inks: %@": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Farbauszüge konnten nicht angezeigt werden: %@"
+          }
+        }
+      }
+    },
+    "Could not use %@. Drop a .satz document, a PNG or JPEG image or a font.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ lässt sich nicht verwenden. Zieh ein .satz-Dokument, ein PNG- oder JPEG-Bild oder eine Schrift hierher."
           }
         }
       }
@@ -1181,12 +1261,42 @@
         }
       }
     },
+    "Crop": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuschneiden"
+          }
+        }
+      }
+    },
+    "Crop Image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild zuschneiden"
+          }
+        }
+      }
+    },
     "Crop marks": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Schnittmarken"
+          }
+        }
+      }
+    },
+    "Crop: the handles crop the frame, a drag moves the image (double-click)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuschneiden: Die Griffe beschneiden den Rahmen, Ziehen verschiebt das Bild (Doppelklick)"
           }
         }
       }
@@ -1441,6 +1551,16 @@
         }
       }
     },
+    "Done Cropping": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuschneiden beenden"
+          }
+        }
+      }
+    },
     "Dotted": {
       "localizations": {
         "de": {
@@ -1537,6 +1657,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Niederländisch"
+          }
+        }
+      }
+    },
+    "Each image follows the pointer until a click places it.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jedes Bild folgt dem Zeiger, bis ein Klick es platziert."
           }
         }
       }
@@ -1881,6 +2011,16 @@
         }
       }
     },
+    "Fill Frame": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rahmen füllen"
+          }
+        }
+      }
+    },
     "Find": {
       "localizations": {
         "de": {
@@ -1937,6 +2077,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Erste Zeile"
+          }
+        }
+      }
+    },
+    "Fit Image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild einpassen"
+          }
+        }
+      }
+    },
+    "Fit in Frame": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Rahmen einpassen"
           }
         }
       }
@@ -2017,6 +2177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rahmen"
+          }
+        }
+      }
+    },
+    "Frame to Image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rahmen an Bild anpassen"
           }
         }
       }
@@ -3671,6 +3841,46 @@
         }
       }
     },
+    "Pasted image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eingesetztes Bild"
+          }
+        }
+      }
+    },
+    "Place Image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild platzieren"
+          }
+        }
+      }
+    },
+    "Place Image (⇧⌘K)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild platzieren (⇧⌘K)"
+          }
+        }
+      }
+    },
+    "Place Image…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild platzieren …"
+          }
+        }
+      }
+    },
     "Point at a colour": {
       "localizations": {
         "de": {
@@ -3871,6 +4081,16 @@
         }
       }
     },
+    "RGB → CMYK": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RGB → CMYK"
+          }
+        }
+      }
+    },
     "Radial": {
       "localizations": {
         "de": {
@@ -4027,6 +4247,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld Treffer ersetzt"
+          }
+        }
+      }
+    },
+    "Reset Adjustments": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anpassungen zurücksetzen"
           }
         }
       }

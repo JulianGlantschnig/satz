@@ -47,6 +47,40 @@ extension CanvasView {
             ctx.setLineWidth(1)
         }
 
+        // Around the frame being cropped all dims, and its whole image shows dashed.
+        if let id = editor.cropping, let n = editor.nodes[id]?.node {
+            let frame = editor.shown(n)
+            if let image = Editor.imageBox(n, in: frame) {
+                turned(ctx, frame) {
+                    let path = CGMutablePath()
+                    path.addRect(CGRect(x: -1e5, y: -1e5, width: 2e5, height: 2e5))
+                    path.addRect(self.screen(frame).insetBy(dx: -0.5, dy: -0.5))
+                    ctx.addPath(path)
+                    ctx.setFillColor(CGColor(gray: 0, alpha: 0.35))
+                    ctx.fillPath(using: .evenOdd)
+                    ctx.setLineDash(phase: 0, lengths: [4, 3])
+                    ctx.stroke(self.screen(image))
+                    ctx.setLineDash(phase: 0, lengths: [])
+                }
+            }
+        }
+        // The image being placed, under the pointer.
+        if let b = overlay.placing, let i = editor.placing.first {
+            let r = screen(b)
+            if let image = i.image {
+                ctx.saveGState()
+                ctx.setAlpha(0.6)
+                ctx.translateBy(x: r.minX, y: r.maxY)
+                ctx.scaleBy(x: 1, y: -1)
+                ctx.draw(image, in: CGRect(origin: .zero, size: r.size))
+                ctx.restoreGState()
+            }
+            ctx.stroke(r)
+            if editor.placing.count > 1 {
+                _ = drawLabel(ctx, "+\(editor.placing.count - 1)", at: CGPoint(x: r.maxX, y: r.minY - 12), fill: accent)
+            }
+        }
+
         if case .marquee(let start, let end, _) = drag {
             let r = Handles.rect(view.toCanvas(start), view.toCanvas(end)).rect
             ctx.setFillColor(NSColor.controlAccentColor.withAlphaComponent(0.08).cgColor)

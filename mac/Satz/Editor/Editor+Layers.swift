@@ -124,8 +124,13 @@ extension Editor {
     }
 
     /// Pastes the copied layers above the selection, centred under the pointer when it
-    /// is away from where they were; text from elsewhere becomes a text layer.
+    /// is away from where they were; text from elsewhere becomes a text layer, and an
+    /// image an image frame.
     func paste() {
+        if let image = Self.pastedImage() {
+            placeNow(image.data, name: image.name, at: pointer.flatMap { p in sheets.contains { $0.bleedBox.contains(p) } ? p : nil })
+            return
+        }
         let text = NSPasteboard.general.string(forType: .string)
         if let text, text != copiedText {
             pasteText(text)

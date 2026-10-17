@@ -24,7 +24,11 @@ extension CanvasView {
         case 51, 117:  // delete, forward delete
             editor.delete()
         case 53:  // escape
-            if editor.threading != nil {
+            if editor.cropping != nil {
+                editor.cropping = nil
+            } else if !editor.placing.isEmpty {
+                editor.placing = []
+            } else if editor.threading != nil {
                 editor.threading = nil
             } else if editor.tool != .move {
                 editor.tool = .move
@@ -32,7 +36,9 @@ extension CanvasView {
                 editor.escape()
             }
         case 36, 76:  // return, enter
-            if flags.contains(.shift) {
+            if editor.cropping != nil {
+                editor.cropping = nil
+            } else if flags.contains(.shift) {
                 editor.selectParent()
             } else if editor.selected.count == 1, let n = editor.selected.first, n.kind == .text {
                 editor.edit(n.id)
@@ -127,7 +133,7 @@ extension CanvasView: NSMenuItemValidation {
             if let e = editor.editing { return !e.isCaret }
             return !editor.selection.isEmpty || (item.action == #selector(delete(_:)) && editor.guide != nil)
         case #selector(paste(_:)):
-            return NSPasteboard.general.string(forType: .string) != nil
+            return NSPasteboard.general.string(forType: .string) != nil || (editor.editing == nil && Editor.hasImage())
         default:
             return true
         }

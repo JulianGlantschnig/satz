@@ -12,6 +12,10 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("n", modifiers: [.command, .option])
         }
         CommandGroup(after: .importExport) {
+            Button("Place Image…") { editor?.placeImages() }
+                .keyboardShortcut("k", modifiers: [.command, .shift])
+                .disabled(editor == nil)
+            Divider()
             Button("Export…") { editor?.openExport() }
                 .keyboardShortcut("e", modifiers: [.command, .shift])
                 .disabled(editor == nil)
@@ -81,6 +85,16 @@ struct SatzCommands: Commands {
             Button("Use as Mask") { editor?.mask() }
                 .keyboardShortcut("m", modifiers: [.command, .option])
                 .disabled(none)
+            Divider()
+            let image = editor?.selectedImage == nil
+            Button(editor?.cropping == nil ? "Crop Image" : "Done Cropping") { editor?.toggleCrop() }
+                .disabled(image)
+            Menu("Fit Image") {
+                ForEach(ImageSection.fits, id: \.0) { f in
+                    Button(f.1) { editor?.fitImage(f.0) }
+                }
+            }
+            .disabled(image)
             Divider()
             Button("Bring to Front") { editor?.order(.front) }
                 .keyboardShortcut("]", modifiers: [.command, .shift])

@@ -54,6 +54,7 @@ final class CanvasView: NSView {
         setAccessibilityRole(.group)
         setAccessibilityIdentifier("canvas")
         setAccessibilityLabel(String(localized: "Page canvas"))
+        registerForDraggedTypes([.fileURL, .png, .tiff])
     }
 
     @available(*, unavailable)
