@@ -491,6 +491,16 @@
         }
       }
     },
+    "Adjust Image": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild anpassen"
+          }
+        }
+      }
+    },
     "After": {
       "localizations": {
         "de": {
@@ -2327,6 +2337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rahmen füllen"
+          }
+        }
+      }
+    },
+    "Fill colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flächenfarbe"
           }
         }
       }
@@ -4621,6 +4641,16 @@
         }
       }
     },
+    "Quick edit bar above the selection": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schnellleiste über der Auswahl"
+          }
+        }
+      }
+    },
     "RGB colour": {
       "localizations": {
         "de": {
@@ -5641,6 +5671,16 @@
         }
       }
     },
+    "Stroke colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konturfarbe"
+          }
+        }
+      }
+    },
     "Stroke weight": {
       "localizations": {
         "de": {
@@ -6247,6 +6287,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stärke je Seite"
+          }
+        }
+      }
+    },
+    "White": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiß"
           }
         }
       }

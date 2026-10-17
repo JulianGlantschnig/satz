@@ -27,6 +27,11 @@ struct Canvas: NSViewRepresentable {
         _ = editor.showsPreflight
         _ = editor.inks
         _ = editor.previewed
+        _ = editor.tool
+        _ = editor.vector
+        _ = editor.pen?.anchors.count
+        _ = editor.placing.count
+        _ = editor.cropping
         container.showsRulers = editor.showsRulers
         // The overview covers the canvas, which then takes no clicks.
         container.isHidden = editor.showsOverview

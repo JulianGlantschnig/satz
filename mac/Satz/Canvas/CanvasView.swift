@@ -23,7 +23,11 @@ final class CanvasView: NSView {
     private var settle: Timer?
 
     var drag: Drag? {
-        didSet { if drag == nil { edgeTimer?.invalidate(); edgeTimer = nil } }
+        didSet {
+            if drag == nil { edgeTimer?.invalidate(); edgeTimer = nil }
+            // The quick edit bar hides while a drag lasts.
+            if (drag == nil) != (oldValue == nil) { viewChanged?() }
+        }
     }
     var edgeTimer: Timer?
     /// The text an input method is composing, shown at the caret until it is inserted.

@@ -1,5 +1,6 @@
 import AppKit
 import SatzCore
+import SwiftUI
 
 /// A ruler along the top or left of the canvas in the unit of the settings, with the selection's extent
 /// shaded and the guides marked; a drag out of it makes a guide.
@@ -115,6 +116,8 @@ final class CanvasContainer: NSView {
     let top = RulerView(horizontal: true)
     let left = RulerView(horizontal: false)
     private let corner = NSView()
+    /// The quick edit bar above the selection.
+    let quick: NSHostingView<QuickBar>
 
     var showsRulers = true {
         didSet {
@@ -128,15 +131,21 @@ final class CanvasContainer: NSView {
 
     init(canvas: CanvasView) {
         self.canvas = canvas
+        quick = NSHostingView(rootView: QuickBar(editor: canvas.editor))
         super.init(frame: .zero)
+        quick.sizingOptions = [.intrinsicContentSize]
+        quick.isHidden = true
         top.canvas = canvas
         left.canvas = canvas
         corner.wantsLayer = true
         corner.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        for v in [canvas, top, left, corner] { addSubview(v) }
+        for v in [canvas, top, left, corner, quick] { addSubview(v) }
         canvas.viewChanged = { [weak self] in
             self?.top.needsDisplay = true
             self?.left.needsDisplay = true
+            self?.placeQuick()
+            // Once SwiftUI has sized the bar for the new selection.
+            DispatchQueue.main.async { self?.placeQuick() }
         }
         // The length unit of the settings.
         NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
@@ -156,5 +165,30 @@ final class CanvasContainer: NSView {
         left.frame = CGRect(x: 0, y: t, width: t, height: bounds.height - t)
         corner.frame = CGRect(x: 0, y: 0, width: t, height: t)
         canvas.frame = CGRect(x: t, y: t, width: bounds.width - t, height: bounds.height - t)
+    }
+
+    /// Shows the quick edit bar above the selection, or below it near the top, while
+    /// nothing else is going on.
+    func placeQuick() {
+        let e = canvas.editor
+        let on = UserDefaults.standard.object(forKey: QuickBar.key) as? Bool ?? true
+        let nodes = e.selected
+        guard on, !nodes.isEmpty, canvas.drag == nil, e.tool == .move, e.editing == nil, e.vector == nil, e.pen == nil,
+            e.threading == nil, e.placing.isEmpty, !e.showsOverview
+        else {
+            quick.isHidden = true
+            return
+        }
+        let b = Box.around(nodes.map { Handles.upright(e.shown($0)) })
+        let v = canvas.view
+        let (tl, br) = (v.toCanvas(CGPoint(x: b.x, y: b.y)), v.toCanvas(CGPoint(x: b.maxX, y: b.maxY)))
+        let size = quick.fittingSize
+        let gap: CGFloat = 14
+        var y = tl.y - size.height - gap
+        if y < 8 { y = br.y + gap + 16 }
+        let x = min(max((tl.x + br.x) / 2 - size.width / 2, 8), canvas.bounds.width - size.width - 8)
+        let inside = y + size.height > 0 && y < canvas.bounds.height
+        quick.isHidden = !inside
+        quick.frame = CGRect(x: canvas.frame.minX + x, y: canvas.frame.minY + min(y, canvas.bounds.height - size.height - 8), width: size.width, height: size.height)
     }
 }

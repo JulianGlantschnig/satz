@@ -71,7 +71,7 @@ private struct SelectionHeader: View {
     }
 }
 
-private struct ArrangeSection: View {
+struct ArrangeSection: View {
     let editor: Editor
     let nodes: [Node]
 
