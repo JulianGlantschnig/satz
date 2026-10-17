@@ -180,6 +180,8 @@ final class Editor {
     /// The window's undo manager; each undo step of the engine registers in it, so
     /// that the Edit menu, the window's edited mark and autosave follow the engine.
     @ObservationIgnored weak var undoManager: UndoManager?
+    /// Runs after each change of the document, for its saved copy.
+    @ObservationIgnored var changed: (() -> Void)?
     /// The style that Paste Style gives.
     var copiedStyle: [String: JSON]?
     /// The sidebar and the inspector show; ⇧W hides both.
@@ -334,6 +336,7 @@ final class Editor {
             pageID = snapshot.pages[min(at, snapshot.pages.count - 1)].id
         }
         nodes = index()
+        changed?()
         selection.removeAll { nodes[$0] == nil }
         if let e = editing {
             if let n = nodes[e.id]?.node, n.kind == .text, let length = story(of: n)?.utf16Length {

@@ -37,6 +37,19 @@ final class SatzDocument: ReferenceFileDocument {
         source = .file(data)
     }
 
+    /// The bytes of the document as last saved on the main actor, for saves that AppKit
+    /// runs on another thread while the main thread may wait for them.
+    private final class Saved: @unchecked Sendable {
+        private let lock = NSLock()
+        private var data: Data?
+
+        var value: Data? { lock.withLock { data } }
+        func store(_ d: Data) { lock.withLock { data = d } }
+    }
+
+    private nonisolated let saved = Saved()
+    @MainActor private var pending: Task<Void, Never>?
+
     /// The document's editor, or why its file does not open.
     @MainActor var editor: Result<Editor, Error> {
         if let made { return made }
@@ -49,16 +62,49 @@ final class SatzDocument: ReferenceFileDocument {
             }
         }
         made = result
+        if case .success(let e) = result {
+            saved.store(e.engine.save())
+            // Kept fresh a moment after each change, so that a save off the main thread finds it.
+            e.changed = { [weak self] in
+                guard let self else { return }
+                pending?.cancel()
+                pending = Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(400))
+                    guard !Task.isCancelled else { return }
+                    _ = try? self.save()
+                }
+            }
+        }
         return result
     }
 
-    nonisolated func snapshot(contentType: UTType) throws -> Data {
-        try MainActor.assumeIsolated {
-            switch editor {
-            case .success(let e): e.engine.save()
-            case .failure(let error): throw error
-            }
+    /// Saves the document's bytes now, on the main actor.
+    @MainActor private func save() throws -> Data {
+        switch editor {
+        case .success(let e):
+            let data = e.engine.save()
+            saved.store(data)
+            return data
+        case .failure(let error):
+            throw error
         }
+    }
+
+    /// AppKit asks on the main thread or, for autosaves, on another; the engine only works
+    /// on the main thread. Off it, the main thread saves when it can, and if it is waiting for
+    /// this save the bytes of the last change serve.
+    nonisolated func snapshot(contentType: UTType) throws -> Data {
+        if Thread.isMainThread {
+            return try MainActor.assumeIsolated { try save() }
+        }
+        let done = DispatchSemaphore(value: 0)
+        DispatchQueue.main.async {
+            MainActor.assumeIsolated { _ = try? self.save() }
+            done.signal()
+        }
+        _ = done.wait(timeout: .now() + 2)
+        guard let data = saved.value else { throw CocoaError(.fileWriteUnknown) }
+        return data
     }
 
     nonisolated func fileWrapper(snapshot: Data, configuration: WriteConfiguration) throws -> FileWrapper {
