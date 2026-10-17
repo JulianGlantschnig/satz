@@ -77,6 +77,7 @@ extension Editor {
     /// Shows the page or master `id` with nothing selected.
     func showPage(_ id: String) {
         guard id != pageID else { return }
+        finishPen(closed: false)
         stopEditing()
         selection = []
         guide = nil

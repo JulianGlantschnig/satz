@@ -15,6 +15,28 @@ extension CanvasView {
         }
         let flags = event.modifierFlags.intersection([.shift, .option, .command, .control])
         let key = event.charactersIgnoringModifiers?.lowercased() ?? ""
+        if editor.pen != nil, [53, 36, 76].contains(event.keyCode) {
+            editor.finishPen(closed: false)
+            needsDisplay = true
+            return
+        }
+        if var v = editor.vector {
+            if [53, 36, 76].contains(event.keyCode) {
+                editor.vector = nil
+                needsDisplay = true
+                return
+            }
+            if [51, 117].contains(event.keyCode), !v.at.isEmpty {
+                editor.deletePicked()
+                needsDisplay = true
+                return
+            }
+            if flags.isEmpty, let mode = PathEdit.Mode.allCases.first(where: { $0.key == key }) {
+                v.mode = mode
+                editor.vector = v
+                return
+            }
+        }
         switch event.keyCode {
         case 49 where flags.isEmpty:  // space
             if !spaceHeld {
@@ -43,6 +65,8 @@ extension CanvasView {
             } else if editor.selected.count == 1, let n = editor.selected.first, n.kind == .text {
                 editor.edit(n.id)
                 wakeCaret()
+            } else if editor.selected.count == 1, let n = editor.selected.first, n.kind == .shape, n.ppi == nil {
+                editor.editPath(n.id)
             } else {
                 editor.enter()
             }

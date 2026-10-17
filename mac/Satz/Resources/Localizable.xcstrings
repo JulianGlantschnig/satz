@@ -411,6 +411,16 @@
         }
       }
     },
+    "Add Points": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte hinzufügen"
+          }
+        }
+      }
+    },
     "Add Stop": {
       "localizations": {
         "de": {
@@ -1231,6 +1241,26 @@
         }
       }
     },
+    "Corner Point": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eckpunkt"
+          }
+        }
+      }
+    },
+    "Corner Point (⌘-click a point)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eckpunkt (⌘-Klick auf einen Punkt)"
+          }
+        }
+      }
+    },
     "Corner radius": {
       "localizations": {
         "de": {
@@ -1501,6 +1531,16 @@
         }
       }
     },
+    "Delete Points": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte löschen"
+          }
+        }
+      }
+    },
     "Delete mode": {
       "localizations": {
         "de": {
@@ -1641,6 +1681,16 @@
         }
       }
     },
+    "Done (Return)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fertig (Return)"
+          }
+        }
+      }
+    },
     "Done Cropping": {
       "localizations": {
         "de": {
@@ -1777,6 +1827,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bearbeiten"
+          }
+        }
+      }
+    },
+    "Edit Points": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte bearbeiten"
           }
         }
       }
@@ -2097,6 +2157,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fläche"
+          }
+        }
+      }
+    },
+    "Fill Areas": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flächen füllen"
           }
         }
       }
@@ -3381,6 +3451,16 @@
         }
       }
     },
+    "Move Points": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte bewegen"
+          }
+        }
+      }
+    },
     "Multiplication": {
       "localizations": {
         "de": {
@@ -4031,6 +4111,26 @@
         }
       }
     },
+    "Path Tools": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pfadwerkzeuge"
+          }
+        }
+      }
+    },
+    "Pen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeichenstift"
+          }
+        }
+      }
+    },
     "Place Image": {
       "localizations": {
         "de": {
@@ -4511,6 +4611,16 @@
         }
       }
     },
+    "Return finishes · a click on the first point closes the path": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return beendet · ein Klick auf den ersten Punkt schließt den Pfad"
+          }
+        }
+      }
+    },
     "Right": {
       "localizations": {
         "de": {
@@ -4791,6 +4901,16 @@
         }
       }
     },
+    "Shapes": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formen"
+          }
+        }
+      }
+    },
     "Shift": {
       "localizations": {
         "de": {
@@ -4907,6 +5027,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kapitälchen"
+          }
+        }
+      }
+    },
+    "Smooth Point": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glatter Punkt"
+          }
+        }
+      }
+    },
+    "Smooth Point (⌘-click a point)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glatter Punkt (⌘-Klick auf einen Punkt)"
           }
         }
       }

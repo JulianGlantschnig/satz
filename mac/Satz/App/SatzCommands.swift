@@ -86,6 +86,9 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("m", modifiers: [.command, .option])
                 .disabled(none)
             Divider()
+            Button("Edit Points") { editor.map { e in e.selected.first.map { e.editPath($0.id) } } }
+                .disabled(!(editor?.selected.count == 1 && editor?.selected.first?.kind == .shape && editor?.vector == nil))
+            Divider()
             Button("Add Auto Layout") { editor?.addAutoLayout() }
                 .disabled(none)
             Button("Remove Auto Layout") { editor?.removeAutoLayout() }

@@ -19,6 +19,12 @@ enum Drag {
     case image(start: CGPoint, node: Node, turn: Double)
     /// Drags the centre of a layer onto another's to swap their places.
     case swap(id: String, at: CGPoint)
+    /// Pulls the handles of the pen's last anchor out of it.
+    case pen(start: CGPoint)
+    /// Moves points of the edited path, or with `part` one handle, from where they were in `cs`.
+    case knot(start: CGPoint, cs: [Vector.Contour], at: [Vector.At], part: Vector.Part)
+    /// Picks the points of the edited path inside, besides those of `base`.
+    case knotMarquee(start: CGPoint, end: CGPoint, base: [Vector.At])
 }
 
 /// What a drag snaps to and the layers it measures to.
@@ -110,7 +116,7 @@ extension CanvasView {
     /// The handles of the selection: a box, or the ends of a single selected line.
     func selectionHandles() -> Selection {
         let nodes = editor.selected
-        guard !nodes.isEmpty, editor.editing == nil else { return Selection() }
+        guard !nodes.isEmpty, editor.editing == nil, editor.vector == nil, editor.pen == nil else { return Selection() }
         if nodes.count == 1, let (a, b) = Editor.ends(nodes[0]) {
             let dx = editor.dx(nodes[0].id)
             return Selection(line: (CGPoint(x: a.x + dx, y: a.y), CGPoint(x: b.x + dx, y: b.y)))
@@ -231,6 +237,13 @@ extension CanvasView {
         guard editor.tool == .move else {
             overlay.hover = nil
             (editor.tool == .text ? NSCursor.iBeam : NSCursor.crosshair).set()
+            if editor.pen != nil { needsDisplay = true }
+            return
+        }
+        if let v = editor.vector {
+            overlay.hover = nil
+            (v.mode == .add || v.mode == .fill ? NSCursor.crosshair : knot(at: p) != nil ? NSCursor.pointingHand : NSCursor.arrow).set()
+            needsDisplay = true
             return
         }
         if port(at: q) != nil {
@@ -366,6 +379,21 @@ extension CanvasView {
             }
             return
         }
+        if editor.tool == .pen {
+            drag = .pen(start: p)
+            guard let pen = editor.pen else {
+                if let parent = parent(at: p) { editor.startPen(at: p, parent: parent.id, dx: parent.dx) } else { drag = nil }
+                return
+            }
+            if closes(p) {
+                drag = nil
+                editor.finishPen(closed: true)
+                return
+            }
+            // Anchors are in the space of the path's page.
+            editor.setPen(pen.anchors + [Vector.Anchor(x: p.x - editor.dx(pen.id), y: p.y)])
+            return
+        }
         if editor.tool != .move {
             let s = snaps()
             let at = snapPoint(p, s, off: flags.contains(.command)).p
@@ -374,6 +402,7 @@ extension CanvasView {
             drag = d
             return
         }
+        if editor.vector != nil, editPoints(at: p, flags: flags) { return }
         if let centre = swapCentre(at: q) {
             drag = .swap(id: centre, at: p)
             return
@@ -577,6 +606,25 @@ extension CanvasView {
         case .swap(let id, _):
             self.drag = .swap(id: id, at: p)
 
+        case .pen(let start):
+            guard let pen = editor.pen, hypot(p.x - start.x, p.y - start.y) * view.zoom > Self.dragSlop, var last = pen.anchors.last else { return }
+            (last.hx, last.hy) = (p.x - start.x, p.y - start.y)
+            editor.setPen(pen.anchors.dropLast() + [last])
+
+        case .knot(let start, let cs, let at, let part):
+            editor.setKnots(Vector.shift(cs, at, part, p.x - start.x, p.y - start.y))
+
+        case .knotMarquee(let start, _, let base):
+            self.drag = .knotMarquee(start: start, end: p, base: base)
+            guard var v = editor.vector else { return }
+            let m = Handles.rect(start, p)
+            let dx = editor.dx(v.id)
+            let inside = editor.knots().enumerated().flatMap { c, contour in
+                contour.knots.indices.filter { m.contains(CGPoint(x: contour.knots[$0].x + dx, y: contour.knots[$0].y)) }.map { Vector.At(c, $0) }
+            }
+            v.at = base.filter { !inside.contains($0) } + inside
+            editor.vector = v
+
         case .image(let start, let node, let turn):
             let d = Handles.spin(CGPoint(x: p.x - start.x, y: p.y - start.y), -turn)
             editor.moveImage(node, by: d)
@@ -720,7 +768,7 @@ extension CanvasView {
             {
                 editor.select([id])
             }
-        case .resize, .end, .radius, .rotate, .image:
+        case .resize, .end, .radius, .rotate, .image, .knot:
             editor.endGroup()
         case .swap(let id, let at):
             if let to = editor.swappable().first(where: { $0.id != id && Handles.upright(editor.shown($0)).contains(at) }) {
@@ -758,6 +806,86 @@ extension CanvasView {
         default:
             break
         }
+    }
+
+    /// Whether a click at `p` with the pen closes its path on the first anchor.
+    func closes(_ p: CGPoint) -> Bool {
+        guard let pen = editor.pen, pen.anchors.count > 1, let first = pen.anchors.first else { return false }
+        return hypot(first.x + editor.dx(pen.id) - p.x, first.y - p.y) * view.zoom <= Handles.size
+    }
+
+    /// The point of the edited path at `p` on the spread.
+    func knot(at p: CGPoint) -> Vector.At? {
+        guard let v = editor.vector else { return nil }
+        let q = CGPoint(x: p.x - editor.dx(v.id), y: p.y)
+        for (c, contour) in editor.knots().enumerated() {
+            if let i = contour.knots.firstIndex(where: { hypot($0.x - q.x, $0.y - q.y) * view.zoom <= Self.hitSlop }) { return Vector.At(c, i) }
+        }
+        return nil
+    }
+
+    /// What a press at `p` does to the points of the edited path; false when it leaves the
+    /// path, which then ends its edit.
+    func editPoints(at p: CGPoint, flags: NSEvent.ModifierFlags) -> Bool {
+        guard var v = editor.vector else { return false }
+        let cs = editor.knots()
+        let q = CGPoint(x: p.x - editor.dx(v.id), y: p.y)
+        let r = Self.hitSlop / view.zoom
+        func on(_ x: Double, _ y: Double, _ k: Vector.Knot) -> Bool { hypot(x - q.x, y - q.y) <= r && (x != k.x || y != k.y) }
+        var under: (at: Vector.At, part: Vector.Part)?
+        for at in v.at where under == nil {
+            guard at.c < cs.count, at.i < cs[at.c].knots.count else { continue }
+            let k = cs[at.c].knots[at.i]
+            under = on(k.ix, k.iy, k) ? (at, .in) : on(k.ox, k.oy, k) ? (at, .out) : nil
+        }
+        if under == nil, let k = knot(at: p) { under = (k, .point) }
+        let segment = Vector.nearest(cs, q)
+        if flags.contains(.command), let u = under, u.part == .point {
+            editor.setKnots(Vector.smooth(cs, u.at, !cs[u.at.c].knots[u.at.i].curved), at: [u.at])
+            return true
+        }
+        switch v.mode {
+        case .fill:
+            editor.apply(.fillArea(v.id, x: q.x, y: q.y))
+            return true
+        case .delete:
+            if let u = under, u.part == .point { editor.setKnots(Vector.remove(cs, [u.at]), at: []) }
+            return true
+        case .add where under == nil && segment.d <= r:
+            let at = Vector.At(segment.at.c, segment.at.i + 1)
+            let next = Vector.split(cs, segment.at, segment.t)
+            editor.beginGroup()
+            editor.setKnots(next, at: [at])
+            drag = .knot(start: p, cs: next, at: [at], part: .point)
+            return true
+        default:
+            break
+        }
+        if let (one, part) = under {
+            let picked = v.at.contains(one)
+            let shift = flags.contains(.shift)
+            let at = part != .point || (picked && !shift) ? v.at : !shift ? [one] : picked ? v.at.filter { $0 != one } : v.at + [one]
+            v.at = at
+            editor.vector = v
+            editor.beginGroup()
+            drag = .knot(start: p, cs: cs, at: part == .point ? at : [one], part: part)
+            return true
+        }
+        if segment.d <= r {
+            v.at = []
+            editor.vector = v
+            return true
+        }
+        let other = pick(p, .click)
+        if other == nil || other == v.id {
+            let base = flags.contains(.shift) ? v.at : []
+            v.at = base
+            editor.vector = v
+            drag = .knotMarquee(start: p, end: p, base: base)
+            return true
+        }
+        editor.vector = nil
+        return false
     }
 
     /// The layer whose swap centre is at `q` in canvas points.
@@ -839,11 +967,16 @@ extension CanvasView {
 
     /// A double click edits the selected text at the click, enters a group, or picks.
     func doubleClick(_ p: CGPoint) {
+        if editor.vector != nil || editor.pen != nil { return }
         if let c = editor.cropping {
             if pick(p, .click) != c { editor.cropping = nil }
             return
         }
         guard let id = pick(p, .double) else { return }
+        if editor.selection == [id], let n = editor.nodes[id]?.node, n.kind == .shape, Editor.ends(n) == nil, n.ppi == nil {
+            editor.editPath(id)
+            return
+        }
         if editor.selection == [id], editor.selectedImage != nil {
             editor.toggleCrop()
             return

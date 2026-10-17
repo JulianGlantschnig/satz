@@ -14,7 +14,10 @@ final class Editor {
     }
     /// Selected layers, in the order they were chosen.
     var selection: [String] = [] {
-        didSet { if let c = cropping, !selection.contains(c) { cropping = nil } }
+        didSet {
+            if let c = cropping, !selection.contains(c) { cropping = nil }
+            if let v = vector, !selection.contains(v.id) { vector = nil }
+        }
     }
     /// The layers of the spread on screen by id, with their parents and pages.
     private(set) var nodes: [String: Entry] = [:]
@@ -26,7 +29,7 @@ final class Editor {
     @ObservationIgnored var pointer: CGPoint?
 
     enum Tool: String, CaseIterable, Identifiable {
-        case move, frame, text, rect, ellipse, polygon, star, line, eyedropper
+        case move, frame, text, rect, ellipse, polygon, star, line, pen, eyedropper
 
         var id: String { rawValue }
 
@@ -41,7 +44,7 @@ final class Editor {
             case .polygon: .polygon
             case .star: .star
             case .line: .line
-            case .eyedropper: nil
+            case .pen, .eyedropper: nil
             }
         }
 
@@ -56,6 +59,7 @@ final class Editor {
             case .polygon: "y"
             case .star: "s"
             case .line: "l"
+            case .pen: "p"
             case .eyedropper: "i"
             }
         }
@@ -73,6 +77,7 @@ final class Editor {
             case .polygon: "triangle"
             case .star: "star"
             case .line: "line.diagonal"
+            case .pen: "pencil.tip"
             case .eyedropper: "eyedropper"
             }
         }
@@ -87,6 +92,7 @@ final class Editor {
             case .polygon: "Polygon"
             case .star: "Star"
             case .line: "Line"
+            case .pen: "Pen"
             case .eyedropper: "Eyedropper"
             }
         }
@@ -104,13 +110,22 @@ final class Editor {
             if tool != .move {
                 placing = []
                 cropping = nil
+                vector = nil
             }
+            if tool != .pen { finishPen(closed: false) }
+            if [.rect, .ellipse, .line, .polygon, .star].contains(tool) { lastShape = tool }
         }
     }
+    /// The shape tool used last, which the toolbar shows.
+    var lastShape: Tool = .rect
     /// Images to place, the first with the next click on the canvas.
     var placing: [Placing] = []
     /// The image whose handles crop it and which a drag moves inside its frame.
     var cropping: String?
+    /// The path being drawn with the pen, inside an open undo group.
+    var pen: Pen?
+    /// The path whose points are edited, how a click edits them and the points picked.
+    var vector: PathEdit?
     /// The text layer edited in its frame, which is then the selection.
     var editing: Editing?
     /// The text frame whose out-port was clicked, to thread into the next one clicked.
@@ -184,6 +199,7 @@ final class Editor {
     @discardableResult
     func apply(_ command: Command) -> [String] {
         if command.type == "undo" || command.type == "redo" {
+            finishPen(closed: false)
             groups = 0
             typing = false
         }
@@ -234,6 +250,10 @@ final class Editor {
 
     func fail(_ text: String) {
         status = Status(text: text, error: true)
+    }
+
+    func clearStatus() {
+        status = nil
     }
 
     /// Opens an undo group that lasts until `endGroup`; groups opened inside it join it.

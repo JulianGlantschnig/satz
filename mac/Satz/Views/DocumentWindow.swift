@@ -65,7 +65,11 @@ struct EditorView: View {
                 .help("Page Overview")
             }
             ToolbarItem(placement: .navigation) {
-                ToolPicker(editor: editor)
+                if editor.vector != nil {
+                    PathTools(editor: editor)
+                } else {
+                    ToolPicker(editor: editor)
+                }
             }
             ToolbarItem(placement: .navigation) {
                 Button { editor.placeImages() } label: {
@@ -147,15 +151,71 @@ struct ZoomMenu: View {
 struct ToolPicker: View {
     @Bindable var editor: Editor
 
+    static let shapes: [Editor.Tool] = [.rect, .ellipse, .line, .polygon, .star]
+
     var body: some View {
-        Picker("Tool", selection: $editor.tool) {
-            ForEach(Editor.Tool.allCases) { tool in
-                Label(String(localized: tool.title), systemImage: tool.symbol)
-                    .help("\(String(localized: tool.title)) (\(tool.key.uppercased()))")
-                    .tag(tool)
+        // One segment for the shapes, the last one used, as in Figma; a menu picks another.
+        let shape = Self.shapes.contains(editor.tool) ? editor.tool : editor.lastShape
+        let tools: [Editor.Tool] = [.move, .frame, shape, .pen, .text, .eyedropper]
+        HStack(spacing: 2) {
+            Picker("Tool", selection: $editor.tool) {
+                ForEach(tools) { tool in
+                    Label(String(localized: tool.title), systemImage: tool.symbol)
+                        .help("\(String(localized: tool.title)) (\(tool.key.uppercased()))")
+                        .tag(tool)
+                }
             }
+            .pickerStyle(.segmented)
+            .labelStyle(.iconOnly)
+            Menu {
+                ForEach(Self.shapes) { tool in
+                    Button {
+                        editor.tool = tool
+                    } label: {
+                        Label("\(String(localized: tool.title)) (\(tool.key.uppercased()))", systemImage: tool.symbol)
+                    }
+                }
+            } label: {
+                Image(systemName: "chevron.down")
+            }
+            .menuIndicator(.hidden)
+            .menuStyle(.borderlessButton)
+            .fixedSize()
+            .help("Shapes")
+            .accessibilityIdentifier("shapes")
         }
-        .pickerStyle(.segmented)
+    }
+}
+
+/// The tools of the path edit mode in place of the others: what a click on the path
+/// does, smooth and corner points, and Done.
+struct PathTools: View {
+    let editor: Editor
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Picker("Path Tools", selection: Binding(get: { editor.vector?.mode ?? .move }, set: { m in editor.vector?.mode = m })) {
+                ForEach(PathEdit.Mode.allCases, id: \.self) { mode in
+                    Label(String(localized: mode.title), systemImage: mode.symbol)
+                        .help("\(String(localized: mode.title)) (\(mode.key.uppercased()))")
+                        .tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelStyle(.iconOnly)
+            .accessibilityIdentifier("path-tools")
+            let none = editor.vector?.at.isEmpty ?? true
+            Button { editor.smoothPicked(true) } label: { Label("Smooth Point", systemImage: "point.topleft.down.to.point.bottomright.curvepath") }
+                .help("Smooth Point (⌘-click a point)")
+                .disabled(none)
+            Button { editor.smoothPicked(false) } label: { Label("Corner Point", systemImage: "chevron.up") }
+                .help("Corner Point (⌘-click a point)")
+                .disabled(none)
+            Button("Done") { editor.vector = nil }
+                .buttonStyle(.borderedProminent)
+                .help("Done (Return)")
+                .accessibilityIdentifier("path-done")
+        }
         .labelStyle(.iconOnly)
     }
 }

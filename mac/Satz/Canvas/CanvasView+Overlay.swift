@@ -28,7 +28,7 @@ extension CanvasView {
         }
 
         let selected = editor.selected
-        for n in selected where !n.hidden {
+        for n in selected where !n.hidden && editor.vector?.id != n.id {
             if let (a, b) = Editor.ends(n) {
                 let dx = editor.dx(n.id)
                 line(ctx, CGPoint(x: a.x + dx, y: a.y), CGPoint(x: b.x + dx, y: b.y))
@@ -81,6 +81,15 @@ extension CanvasView {
             }
         }
 
+        drawPen(ctx)
+        drawPoints(ctx)
+
+        if case .knotMarquee(let start, let end, _) = drag {
+            let r = Handles.rect(view.toCanvas(start), view.toCanvas(end)).rect
+            ctx.setFillColor(NSColor.controlAccentColor.withAlphaComponent(0.08).cgColor)
+            ctx.fill(r)
+            ctx.stroke(r.insetBy(dx: 0.5, dy: 0.5))
+        }
         if case .marquee(let start, let end, _) = drag {
             let r = Handles.rect(view.toCanvas(start), view.toCanvas(end)).rect
             ctx.setFillColor(NSColor.controlAccentColor.withAlphaComponent(0.08).cgColor)
@@ -179,6 +188,57 @@ extension CanvasView {
         if let turn = overlay.turn, let p = overlay.pointer {
             let degrees = Int(((turn.truncatingRemainder(dividingBy: 360)) + 360).truncatingRemainder(dividingBy: 360).rounded())
             _ = drawLabel(ctx, "\(degrees)°", at: CGPoint(x: p.x + 28, y: p.y + 20), fill: accent)
+        }
+    }
+
+    /// The anchors of the pen path, the handles of its last one and the line on to the pointer.
+    private func drawPen(_ ctx: CGContext) {
+        guard let pen = editor.pen, let last = pen.anchors.last else { return }
+        let dx = editor.dx(pen.id)
+        func at(_ x: Double, _ y: Double) -> CGPoint { view.toCanvas(CGPoint(x: x + dx, y: y)) }
+        if drag == nil, let q = overlay.pointer {
+            ctx.strokeLineSegments(between: [at(last.x, last.y), q])
+        }
+        if last.hx != 0 || last.hy != 0 {
+            ctx.strokeLineSegments(between: [at(last.x - last.hx, last.y - last.hy), at(last.x + last.hx, last.y + last.hy)])
+        }
+        for a in pen.anchors { square(ctx, at(a.x, a.y), 7) }
+    }
+
+    /// The edited path, its points, and the handles of those picked.
+    private func drawPoints(_ ctx: CGContext) {
+        guard let v = editor.vector else { return }
+        let dx = editor.dx(v.id)
+        let cs = editor.knots().map { c in
+            Vector.Contour(knots: c.knots.map { k in
+                k.mapped { x, y in
+                    let q = self.view.toCanvas(CGPoint(x: x + dx, y: y))
+                    return (q.x, q.y)
+                }
+            }, closed: c.closed)
+        }
+        ctx.addPath(Painter.path(Vector.path(cs).map(Float.init)))
+        ctx.strokePath()
+        let hover = drag == nil ? overlay.pointer.flatMap { knot(at: view.toSpread($0)) } : nil
+        for (c, contour) in cs.enumerated() {
+            for (i, k) in contour.knots.enumerated() {
+                let at = Vector.At(c, i)
+                let picked = v.at.contains(at)
+                if picked {
+                    for (x, y) in [(k.ix, k.iy), (k.ox, k.oy)] where x != k.x || y != k.y {
+                        ctx.setStrokeColor(accent)
+                        ctx.strokeLineSegments(between: [k.point, CGPoint(x: x, y: y)])
+                        ctx.setFillColor(.white)
+                        ctx.fillEllipse(in: CGRect(x: x - 3, y: y - 3, width: 6, height: 6))
+                        ctx.strokeEllipse(in: CGRect(x: x - 3, y: y - 3, width: 6, height: 6))
+                    }
+                }
+                square(ctx, k.point, hover == at ? 9 : 7)
+                if picked || hover == at {
+                    ctx.setFillColor(accent)
+                    ctx.fill(CGRect(x: (k.x - 3.5).rounded(.down) + 0.5, y: (k.y - 3.5).rounded(.down) + 0.5, width: 7, height: 7))
+                }
+            }
         }
     }
 
