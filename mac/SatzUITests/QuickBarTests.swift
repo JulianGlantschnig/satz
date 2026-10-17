@@ -39,4 +39,19 @@ final class QuickBarTests: XCTestCase {
         canvas.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
         XCTAssertFalse(fills.waitForExistence(timeout: 1) && fills.isHittable)
     }
+
+    func testAboveATextTheBarShowsItsFontAndAGroupAlignsInside() throws {
+        let window = app.windows["Untitled"]
+        let canvas = window.groups["canvas"]
+        XCTAssertTrue(canvas.waitForExistence(timeout: 5))
+        window.radioButtons["Text"].click()
+        canvas.coordinate(withNormalizedOffset: CGVector(dx: 0.4, dy: 0.4)).click()
+        canvas.typeText("Satz")
+        canvas.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
+        let bar = window.descendants(matching: .any)["quick-bar"].firstMatch
+        XCTAssertTrue(bar.waitForExistence(timeout: 5))
+        XCTAssertTrue(bar.descendants(matching: .any)["font-menu"].firstMatch.exists)
+        sleep(1)
+        shot("2-text")
+    }
 }

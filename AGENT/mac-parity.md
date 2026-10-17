@@ -39,3 +39,4 @@ Status: ok = the Mac app does it, gap = to do, fixed = done in this audit, n/a =
 - fixed 8–9: palette finds layers, pages, swatches (fill the selection, else "Select a layer first") and text
   styles; a shortcut given to a command takes it from the command that had it. UI tests in PaletteTests.
 - fixed 10: setting "Layers panel shows" current page / current spread (a disclosure per page), heading "Layers · Page N". UI test LayersPanelTests.
+- fixed 11–12: quick bar aligns inside a group / auto layout, W/H sizing, font menu and type options above a text; arrange section has flatten and add auto layout. UI test QuickBarTests.

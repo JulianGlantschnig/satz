@@ -33,6 +33,17 @@ struct QuickBar: View {
                 }
                 Divider().frame(height: 16)
             }
+            // The layers inside a group or an auto layout frame align to each other.
+            if let one, one.kind == .group || (one.kind == .frame && one.direction != .none),
+                let kids = one.children?.filter({ !$0.hidden && !$0.absolute }), kids.count > 1
+            {
+                ForEach(Editor.Align.allCases.prefix(6)) { a in
+                    Button { editor.align(a, layers: kids) } label: { Image(systemName: a.symbol) }
+                        .help(Text(a.title))
+                }
+                Divider().frame(height: 16)
+            }
+            if let one { sizing(one) }
             if let one, one.kind == .text { text(one) }
             if !nodes.contains(where: { $0.kind == .group || $0.ppi != nil || $0.isOpen }) {
                 paintMenu(.fills, nodes)
@@ -61,10 +72,42 @@ struct QuickBar: View {
         .accessibilityIdentifier("quick-bar")
     }
 
+    /// Hug, fill or fixed width and height of a layer in or of an auto layout.
+    @ViewBuilder
+    private func sizing(_ n: Node) -> some View {
+        let flows = editor.flow(of: n) != nil
+        let hugs = (n.kind == .frame && n.direction != .none) || (n.kind == .text && flows)
+        if flows || hugs {
+            let sizes = Size.allCases.filter { $0 == .fixed || ($0 == .hug ? hugs : flows) }
+            ForEach([("W", \Sizing.horizontal), ("H", \Sizing.vertical)], id: \.0) { label, axis in
+                Menu {
+                    ForEach(sizes, id: \.self) { size in
+                        Button(ResizingSection.name(size)) {
+                            var to = n.sizing
+                            to[keyPath: axis] = size
+                            if let json = try? JSON(encoding: to) { editor.apply(.set(id: n.id, ["sizing": json])) }
+                        }
+                    }
+                } label: {
+                    Text(verbatim: "\(label) \(ResizingSection.name(n.sizing[keyPath: axis]))").font(.caption)
+                }
+                .menuIndicator(.hidden)
+                .fixedSize()
+                .help(label == "W" ? "Width sizing" : "Height sizing")
+            }
+            Divider().frame(height: 16)
+        }
+    }
+
     @ViewBuilder
     private func text(_ n: Node) -> some View {
         let spans = n.story.flatMap { editor.snapshot.stories[$0]?.spans.map(\.attrs) } ?? []
         let format = { (props: [String: JSON]) in editor.apply(.format(id: n.id, range: nil, props)) }
+        let font: Typeface?? = shared(spans) { $0.font }
+        FontMenu(editor: editor, value: font ?? nil, mixed: font == nil && !spans.isEmpty) { face in
+            format(["font": (try? JSON(encoding: face)) ?? .null])
+        }
+        .frame(width: 150)
         NumberField(label: "", help: "Font size", value: shared(spans) { $0.size }, unit: .points, range: 0.1 ... 5000) { format(["size": .number($0)]) }
             .frame(width: 70)
         Picker("Align", selection: Binding(get: { shared(spans) { $0.textAlign } ?? .left }, set: { format(["textAlign": .string($0.rawValue)]) })) {
@@ -76,6 +119,7 @@ struct QuickBar: View {
         .pickerStyle(.segmented)
         .labelsHidden()
         .fixedSize()
+        TypeOptions(spans: spans) { format($0) }
     }
 
     /// A menu of the colours of the document for the fills or strokes of `nodes`.

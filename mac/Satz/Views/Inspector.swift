@@ -87,6 +87,12 @@ struct ArrangeSection: View {
                     .help("Flip Horizontal")
                 Button { editor.flip(vertical: true) } label: { Image(systemName: "arrow.up.and.down.righttriangle.up.righttriangle.down") }
                     .help("Flip Vertical")
+                Divider().frame(height: 16)
+                Button { editor.flatten() } label: { Image(systemName: "scribble.variable") }
+                    .help("Flatten (⌘E)")
+                    .disabled(!nodes.contains { $0.kind == .text || $0.kind == .shape })
+                Button { editor.addAutoLayout() } label: { Image(systemName: "square.grid.3x1.below.line.grid.1x2") }
+                    .help("Add Auto Layout (⇧A)")
             }
             if let row = editor.row {
                 NumberField(

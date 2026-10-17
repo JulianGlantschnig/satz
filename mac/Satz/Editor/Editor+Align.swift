@@ -39,8 +39,8 @@ extension Editor {
 
     /// Aligns the selection to its bounds, or a single layer to its parent frame or page;
     /// distributes three layers or more and tidies two or more.
-    func align(_ how: Align) {
-        let nodes = selected.filter { !$0.locked }
+    func align(_ how: Align, layers: [Node]? = nil) {
+        let nodes = (layers ?? selected).filter { !$0.locked }
         guard let first = nodes.first, let home = self.nodes[first.id]?.page ?? page else { return }
         let to: Box
         if nodes.count > 1 {
