@@ -67,7 +67,11 @@ final class CanvasView: NSView {
 
     /// Reads the editor's document again; the tiles stay until new ones replace them.
     func contentChanged() {
-        let next = editor.scenes.scene(editor.snapshot, lists: editor.lists, sheets: editor.sheets, pasteboard: true)
+        let preflight = editor.showsPreflight
+        let inks = editor.inks
+        let on = preflight ? SIMD4<Float>((0..<4).map { inks.shows($0) ? 1 : 0 }) : SIMD4(repeating: 1)
+        let next = editor.scenes.scene(editor.snapshot, lists: editor.lists, sheets: editor.sheets, pasteboard: !preflight, on: on)
+        editor.previewInks()
         let changed = scene?.key != next.key
         scene = next
         if editor.spreadKey != shownSpread {
@@ -226,6 +230,7 @@ final class CanvasView: NSView {
         ctx.restoreGState()
         if tiles.has(keys) { fallback = nil }
 
+        drawInks(ctx)
         drawChrome(ctx)
         drawFound(ctx)
         drawEditedText(ctx)
@@ -262,7 +267,7 @@ final class CanvasView: NSView {
         ctx.scaleBy(x: z, y: z)
         ctx.setLineWidth(1 / z)
 
-        if editor.showsGrids {
+        if editor.showsGrids && !editor.showsPreflight {
             for s in sheets {
                 let spans = s.gridSpans()
                 for span in spans.x {
@@ -304,6 +309,43 @@ final class CanvasView: NSView {
             ])
         }
         ctx.restoreGState()
+    }
+
+    /// The preflight's marks over each page of the spread, or its plates when a spot colour is off.
+    private func drawInks(_ ctx: CGContext) {
+        guard editor.showsPreflight, let p = editor.previewed else { return }
+        ctx.saveGState()
+        ctx.translateBy(x: view.x, y: view.y)
+        ctx.scaleBy(x: view.zoom, y: view.zoom)
+        ctx.interpolationQuality = .none
+        for sheet in editor.sheets {
+            guard let s = p.sheets.first(where: { $0.page == sheet.id }) else { continue }
+            let r = inkRect(s, sheet: sheet, ppi: p.ppi)
+            ctx.saveGState()
+            ctx.clip(to: sheet.bleedBox)
+            // Images draw upright in y-up space.
+            ctx.translateBy(x: r.minX, y: r.maxY)
+            ctx.scaleBy(x: 1, y: -1)
+            ctx.draw(s.image, in: CGRect(origin: .zero, size: r.size))
+            ctx.restoreGState()
+        }
+        ctx.restoreGState()
+    }
+
+    /// Where the preflight's pixels of a page lie on the spread: over its bleed.
+    private func inkRect(_ s: InkPreview.Sheet, sheet: Sheet, ppi: Double) -> CGRect {
+        CGRect(x: sheet.x - sheet.bleed, y: -sheet.bleed, width: Double(s.width) * 72 / ppi, height: Double(s.height) * 72 / ppi)
+    }
+
+    /// The ink coverage in percent of the preflight at `p` on the spread.
+    func inkCoverage(at p: CGPoint) -> Int? {
+        guard let preview = editor.previewed else { return nil }
+        for sheet in editor.sheets {
+            guard let s = preview.sheets.first(where: { $0.page == sheet.id }) else { continue }
+            let r = inkRect(s, sheet: sheet, ppi: preview.ppi)
+            if r.contains(p) { return s.coverage(at: CGPoint(x: p.x - r.minX, y: p.y - r.minY), ppi: preview.ppi) }
+        }
+        return nil
     }
 
     private func drawSpan(_ r: CGRect, line: Bool, _ ctx: CGContext) {

@@ -20,11 +20,13 @@ nonisolated struct CanvasScene: Sendable {
     /// The screen colours of CMYK on a grid of `lut.size` steps per ink, when the
     /// document blends in CMYK.
     var lut: InkTable?
+    /// Which of C, M, Y and K a CMYK page shows, 1 or 0.
+    var on = SIMD4<Float>(repeating: 1)
 
     /// Changes whenever what the scene draws does.
     var key: [String] {
         lists.map { "\($0.id)@\($0.x)#\($0.version)" } + sheets.map { "\($0.x),\($0.width),\($0.height),\($0.bleed)" }
-            + ["\(pasteboard)", "\(lut?.id ?? 0)"]
+            + ["\(pasteboard)", "\(lut?.id ?? 0)", "\(on)"]
     }
 
     /// Draws the scene's part `rect` of the spread into `ctx`, whose user space is the spread's.
@@ -35,7 +37,7 @@ nonisolated struct CanvasScene: Sendable {
             guard let cmy = plate(rect: rect, scale: scale, w: w, h: h, painter: painter, k: false),
                 let k = plate(rect: rect, scale: scale, w: w, h: h, painter: painter, k: true)
             else { return nil }
-            return lut.combine(cmy: cmy, k: k)
+            return lut.combine(cmy: cmy, k: k, on: on)
         }
         guard let ctx = Raster.context(rect: rect, scale: scale, width: w, height: h) else { return nil }
         paint(ctx, painter: painter) { $0.ops }

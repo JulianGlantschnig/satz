@@ -62,6 +62,12 @@ struct EditorView: View {
                 ToolPicker(editor: editor)
             }
             ToolbarItem(placement: .primaryAction) {
+                Toggle(isOn: Binding(get: { editor.showsPreflight }, set: { _ in editor.togglePreflight() })) {
+                    Label("Preflight", systemImage: "checkmark.seal")
+                }
+                .help("Preflight and Export (⇧⌘E)")
+            }
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     showsInspector.toggle()
                 } label: {
@@ -73,6 +79,7 @@ struct EditorView: View {
             StatusLine(status: editor.status)
         }
         .focusedSceneValue(\.editor, editor)
+        .onChange(of: editor.showsPreflight) { _, open in if open { showsInspector = true } }
         .onAppear { editor.undoManager = undoManager }
         .onChange(of: undoManager) { _, new in editor.undoManager = new }
         .frame(minWidth: 800, minHeight: 500)

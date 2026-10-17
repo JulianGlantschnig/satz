@@ -6,6 +6,20 @@ struct SatzCommands: Commands {
     @FocusedValue(\.editor) private var editor
 
     var body: some Commands {
+        CommandGroup(after: .importExport) {
+            Button("Export…") { editor?.openExport() }
+                .keyboardShortcut("e", modifiers: [.command, .shift])
+                .disabled(editor == nil)
+            Button(editor?.showsPreflight == true ? "Close Preflight" : "Preflight") { editor?.togglePreflight() }
+                .keyboardShortcut("e", modifiers: [.command, .option])
+                .disabled(editor == nil)
+        }
+        CommandGroup(replacing: .printItem) {
+            Button("Print…") { editor?.printDocument() }
+                .keyboardShortcut("p", modifiers: .command)
+                .disabled(editor == nil || editor?.exporting == true)
+        }
+
         CommandGroup(after: .pasteboard) {
             Divider()
             Button("Find and Replace…") { editor?.showsFind = true }

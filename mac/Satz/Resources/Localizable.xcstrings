@@ -11,12 +11,82 @@
         }
       }
     },
+    "%@ from the trim": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ vom Endformat"
+          }
+        }
+      }
+    },
     "%@ mode": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Modus %@"
+          }
+        }
+      }
+    },
+    "%lld %%": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld %%"
+          }
+        }
+      }
+    },
+    "%lld %% ink": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld %% Farbauftrag"
+          }
+        }
+      }
+    },
+    "%lld errors": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld error"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld errors"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Fehler"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Fehler"
+                }
+              }
+            }
           }
         }
       }
@@ -47,6 +117,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld von %2$lld"
+          }
+        }
+      }
+    },
+    "%lld warnings": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld warning"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld warnings"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Warnung"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Warnungen"
+                }
+              }
+            }
           }
         }
       }
@@ -341,6 +451,16 @@
         }
       }
     },
+    "All": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle"
+          }
+        }
+      }
+    },
     "Angle": {
       "localizations": {
         "de": {
@@ -551,6 +671,16 @@
         }
       }
     },
+    "Black": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schwarz"
+          }
+        }
+      }
+    },
     "Bleed": {
       "localizations": {
         "de": {
@@ -751,6 +881,16 @@
         }
       }
     },
+    "Close Preflight": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preflight schließen"
+          }
+        }
+      }
+    },
     "Colour": {
       "localizations": {
         "de": {
@@ -787,6 +927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Farbmodus"
+          }
+        }
+      }
+    },
+    "Colour outside the gamut": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbe außerhalb des Farbumfangs"
           }
         }
       }
@@ -861,6 +1011,36 @@
         }
       }
     },
+    "Could not export the %@: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ konnte nicht exportiert werden: %2$@"
+          }
+        }
+      }
+    },
+    "Could not print: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drucken nicht möglich: %@"
+          }
+        }
+      }
+    },
+    "Could not show the inks: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbauszüge konnten nicht angezeigt werden: %@"
+          }
+        }
+      }
+    },
     "Create Master from Page": {
       "localizations": {
         "de": {
@@ -881,6 +1061,16 @@
         }
       }
     },
+    "Crop marks": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schnittmarken"
+          }
+        }
+      }
+    },
     "Custom": {
       "localizations": {
         "de": {
@@ -897,6 +1087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ausschneiden"
+          }
+        }
+      }
+    },
+    "Cyan": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyan"
           }
         }
       }
@@ -1211,6 +1411,16 @@
         }
       }
     },
+    "Each page is saved as its own file, numbered after this name.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jede Seite wird als eigene Datei gesichert, nummeriert nach diesem Namen."
+          }
+        }
+      }
+    },
     "Edit": {
       "localizations": {
         "de": {
@@ -1327,6 +1537,146 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ausschluss"
+          }
+        }
+      }
+    },
+    "Export": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportieren"
+          }
+        }
+      }
+    },
+    "Export %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ exportieren"
+          }
+        }
+      }
+    },
+    "Export with %lld errors": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Export with %lld error"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Export with %lld errors"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Mit %lld Fehler exportieren"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Mit %lld Fehlern exportieren"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Exported %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ exportiert"
+          }
+        }
+      }
+    },
+    "Exported %lld pages": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Exported %lld page"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Exported %lld pages"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Seite exportiert"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Seiten exportiert"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Exporting %@…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ wird exportiert …"
+          }
+        }
+      }
+    },
+    "Exporting…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportiert …"
+          }
+        }
+      }
+    },
+    "Export…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportieren …"
           }
         }
       }
@@ -1661,6 +2011,16 @@
         }
       }
     },
+    "Highest": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Höchster"
+          }
+        }
+      }
+    },
     "Horizontal spacing": {
       "localizations": {
         "de": {
@@ -1701,6 +2061,36 @@
         }
       }
     },
+    "Image at %lld ppi": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bild mit %lld ppi"
+          }
+        }
+      }
+    },
+    "Image resolution": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bildauflösung"
+          }
+        }
+      }
+    },
+    "Images": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilder"
+          }
+        }
+      }
+    },
     "In text style": {
       "localizations": {
         "de": {
@@ -1721,12 +2111,42 @@
         }
       }
     },
+    "Include %@ bleed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Beschnittzugabe einschließen"
+          }
+        }
+      }
+    },
     "Indents & Spacing": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Einzüge & Abstände"
+          }
+        }
+      }
+    },
+    "Ink coverage": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbauftrag"
+          }
+        }
+      }
+    },
+    "Ink limit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbauftragsgrenze"
           }
         }
       }
@@ -1801,12 +2221,32 @@
         }
       }
     },
+    "Issues": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Probleme"
+          }
+        }
+      }
+    },
     "Italian": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Italienisch"
+          }
+        }
+      }
+    },
+    "JPEG quality": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "JPEG-Qualität"
           }
         }
       }
@@ -1837,6 +2277,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Blocksatz"
+          }
+        }
+      }
+    },
+    "Keep": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beibehalten"
           }
         }
       }
@@ -2061,6 +2511,16 @@
         }
       }
     },
+    "Limit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grenze"
+          }
+        }
+      }
+    },
     "Line": {
       "localizations": {
         "de": {
@@ -2151,6 +2611,16 @@
         }
       }
     },
+    "Lossless": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verlustfrei"
+          }
+        }
+      }
+    },
     "Low quote": {
       "localizations": {
         "de": {
@@ -2181,12 +2651,42 @@
         }
       }
     },
+    "Magenta": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magenta"
+          }
+        }
+      }
+    },
     "Margin": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Rand"
+          }
+        }
+      }
+    },
+    "Mark above limit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Über der Grenze markieren"
+          }
+        }
+      }
+    },
+    "Mark colours outside the gamut": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farben außerhalb des Farbumfangs markieren"
           }
         }
       }
@@ -2257,6 +2757,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mindesthöhe"
+          }
+        }
+      }
+    },
+    "Missing font %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fehlende Schrift %@"
           }
         }
       }
@@ -2471,6 +2981,16 @@
         }
       }
     },
+    "No issues. The document is ready for print.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Probleme. Das Dokument ist bereit für den Druck."
+          }
+        }
+      }
+    },
     "No swatches or colour variables yet.": {
       "localizations": {
         "de": {
@@ -2611,6 +3131,16 @@
         }
       }
     },
+    "Only page 1": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur Seite 1"
+          }
+        }
+      }
+    },
     "Opacity": {
       "localizations": {
         "de": {
@@ -2711,6 +3241,96 @@
         }
       }
     },
+    "Overset text · %lld words left": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Overset text · %lld word left"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Overset text · %lld words left"
+                }
+              }
+            }
+          }
+        },
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Übersatz · %lld Wort übrig"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Übersatz · %lld Wörter übrig"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "PDF, screen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF, Bildschirm"
+          }
+        }
+      }
+    },
+    "PDF/X-1a, print": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF/X-1a, Druck"
+          }
+        }
+      }
+    },
+    "PDF/X-1a, print, CMYK documents only": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF/X-1a, Druck, nur CMYK-Dokumente"
+          }
+        }
+      }
+    },
+    "PDF/X-4, print": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF/X-4, Druck"
+          }
+        }
+      }
+    },
+    "Package": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paket"
+          }
+        }
+      }
+    },
     "Page": {
       "localizations": {
         "de": {
@@ -2781,6 +3401,16 @@
         }
       }
     },
+    "Pages 1–%lld, e.g. 1-3, 5": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seiten 1–%lld, z. B. 1-3, 5"
+          }
+        }
+      }
+    },
     "Paragraph": {
       "localizations": {
         "de": {
@@ -2817,6 +3447,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "CMYK einsetzen"
+          }
+        }
+      }
+    },
+    "Point at a colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf eine Farbe zeigen"
           }
         }
       }
@@ -2881,6 +3521,46 @@
         }
       }
     },
+    "Preflight": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preflight"
+          }
+        }
+      }
+    },
+    "Preflight and Export (⇧⌘E)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preflight und Export (⇧⌘E)"
+          }
+        }
+      }
+    },
+    "Preparing to print…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Druck wird vorbereitet …"
+          }
+        }
+      }
+    },
+    "Preset": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorgabe"
+          }
+        }
+      }
+    },
     "Previous Spread": {
       "localizations": {
         "de": {
@@ -2901,6 +3581,16 @@
         }
       }
     },
+    "Print…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drucken …"
+          }
+        }
+      }
+    },
     "Profile": {
       "localizations": {
         "de": {
@@ -2911,12 +3601,32 @@
         }
       }
     },
+    "Proof": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proof"
+          }
+        }
+      }
+    },
     "Proportional": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Proportional"
+          }
+        }
+      }
+    },
+    "RGB colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RGB-Farbe"
           }
         }
       }
@@ -3131,6 +3841,16 @@
         }
       }
     },
+    "Resolution": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auflösung"
+          }
+        }
+      }
+    },
     "Right": {
       "localizations": {
         "de": {
@@ -3301,6 +4021,16 @@
         }
       }
     },
+    "Separations": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Farbauszüge"
+          }
+        }
+      }
+    },
     "Shading": {
       "localizations": {
         "de": {
@@ -3371,6 +4101,16 @@
         }
       }
     },
+    "Short of the bleed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reicht nicht bis zur Beschnittzugabe"
+          }
+        }
+      }
+    },
     "Show": {
       "localizations": {
         "de": {
@@ -3417,6 +4157,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ein- oder ausblenden"
+          }
+        }
+      }
+    },
+    "Simulates print, %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simuliert den Druck, %@"
           }
         }
       }
@@ -3811,6 +4561,16 @@
         }
       }
     },
+    "The PDF does not open": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das PDF lässt sich nicht öffnen"
+          }
+        }
+      }
+    },
     "Thin space": {
       "localizations": {
         "de": {
@@ -3947,6 +4707,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Schriftoptionen"
+          }
+        }
+      }
+    },
+    "Under pointer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unter dem Zeiger"
           }
         }
       }
@@ -4131,6 +4901,16 @@
         }
       }
     },
+    "Yellow": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gelb"
+          }
+        }
+      }
+    },
     "Zigzag": {
       "localizations": {
         "de": {
@@ -4197,6 +4977,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Auf Auswahl zoomen"
+          }
+        }
+      }
+    },
+    "max %lld %%": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "max. %lld %%"
           }
         }
       }

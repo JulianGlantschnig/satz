@@ -6,8 +6,16 @@ struct Inspector: View {
     let editor: Editor
 
     var body: some View {
+        if editor.showsPreflight {
+            Preflight(editor: editor)
+        } else {
+            properties
+        }
+    }
+
+    private var properties: some View {
         let nodes = editor.selected
-        Form {
+        return Form {
             if nodes.isEmpty || editor.showsOverview {
                 DocumentSection(editor: editor)
                 PageSection(editor: editor)

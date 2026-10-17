@@ -32,7 +32,10 @@ final class SceneSource {
     func stopListening(_ id: UUID) { listeners[id] = nil }
 
     /// The scene of the display lists `lists` at their x on the spread over `sheets`.
-    func scene(_ snapshot: Snapshot, lists: [(id: String, x: Double)], sheets: [Sheet], pasteboard: Bool) -> CanvasScene {
+    func scene(
+        _ snapshot: Snapshot, lists: [(id: String, x: Double)], sheets: [Sheet], pasteboard: Bool,
+        on: SIMD4<Float> = SIMD4(repeating: 1)
+    ) -> CanvasScene {
         let cmyk = snapshot.colorMode == .cmyk
         if !cmyk {
             inkTable = nil
@@ -62,6 +65,6 @@ final class SceneSource {
         }
         let live = Set((snapshot.pages + snapshot.masters).map(\.id))
         decoded = decoded.filter { live.contains($0.key) }
-        return CanvasScene(lists: out, sheets: sheets, pasteboard: pasteboard, lut: inkTable)
+        return CanvasScene(lists: out, sheets: sheets, pasteboard: pasteboard, lut: inkTable, on: on)
     }
 }

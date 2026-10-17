@@ -113,6 +113,20 @@ final class Editor {
     var found: [Find.Match] = []
     /// Layout grids and guides show on the canvas.
     var showsGrids = false
+    /// The preflight is open: the pages show as they print, with what `inks` marks over them.
+    var showsPreflight = false
+    /// The plates the preflight shows and what it marks over them.
+    var inks = InkPreview.Options() {
+        didSet { if inks != oldValue { previewInks() } }
+    }
+    /// The inks of the pages on screen while the preflight is open.
+    var previewed: InkPreview?
+    /// The ink coverage in percent under the pointer while the preflight is open.
+    var pointerInk: Int?
+    /// An export or a print runs in the background.
+    var exporting = false
+    @ObservationIgnored let inkPreviewer = InkPreviewer()
+    @ObservationIgnored var inkRequest = InkRequest()
     /// Rulers show along the canvas.
     var showsRulers = true
     /// The canvas's zoom, 1 at one pt per screen point.

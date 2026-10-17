@@ -40,6 +40,10 @@ builds a universal binary), so after the first run Xcode keeps it up to date.
 - CMYK documents show as they print: the canvas draws the inverted C, M and Y plate
   and the K plate (`Engine.plate`) and turns them into screen colours through the
   profile's table (`InkTable`), as the web app's `INKS` shader does.
+- Exports (`SatzCore.Export`) and the preflight's inks (`InkPreviewer`) run off the
+  main actor on `Engine.copy()`: the saved bytes and the added fonts. The previewer
+  keeps each page's inks until `Engine.printed` changes, and the canvas draws its
+  marks over the pages; print goes through PDFKit from a screen PDF.
 - `PainterTests` compare the canvas with the engine's PNG of every example page.
 - UI tests run the app in English (`-AppleLanguages (en)`); their screenshots are in
   the test result (`xcrun xcresulttool export attachments`).

@@ -183,6 +183,7 @@ extension CanvasView {
         overlay.pointer = nil
         overlay.hover = nil
         editor.pointer = nil
+        if editor.pointerInk != nil { editor.pointerInk = nil }
         needsDisplay = true
     }
 
@@ -192,6 +193,10 @@ extension CanvasView {
         let p = view.toSpread(q)
         overlay.pointer = q
         editor.pointer = p
+        if editor.showsPreflight {
+            let ink = inkCoverage(at: p)
+            if ink != editor.pointerInk { editor.pointerInk = ink }
+        }
         guard drag == nil else { return }
         if let from = editor.threading {
             let to = textUnder(p)
