@@ -40,3 +40,4 @@ Status: ok = the Mac app does it, gap = to do, fixed = done in this audit, n/a =
   styles; a shortcut given to a command takes it from the command that had it. UI tests in PaletteTests.
 - fixed 10: setting "Layers panel shows" current page / current spread (a disclosure per page), heading "Layers · Page N". UI test LayersPanelTests.
 - fixed 11–12: quick bar aligns inside a group / auto layout, W/H sizing, font menu and type options above a text; arrange section has flatten and add auto layout. UI test QuickBarTests.
+- fixed 13–16: a selected layer hidden by a mask drags where it is hidden, a hovered port outlines the frame it threads to, integer fields have a stepper, wheel and pinch over the quick bar reach the canvas.

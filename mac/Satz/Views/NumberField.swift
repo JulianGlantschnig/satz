@@ -75,6 +75,12 @@ struct NumberField: View {
             if !unit.name.isEmpty {
                 Text(unit.name).font(.caption).foregroundStyle(.tertiary)
             }
+            if integer {
+                // Whole numbers step with minus and plus too.
+                Stepper(label, value: Binding(get: { shown ?? 0 }, set: { set($0) }), in: range)
+                    .labelsHidden()
+                    .controlSize(.mini)
+            }
         }
         .padding(.horizontal, 6)
         .padding(.vertical, 3)

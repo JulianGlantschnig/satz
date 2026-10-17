@@ -117,7 +117,7 @@ final class CanvasContainer: NSView {
     let left = RulerView(horizontal: false)
     private let corner = NSView()
     /// The quick edit bar above the selection.
-    let quick: NSHostingView<QuickBar>
+    let quick: QuickHost
 
     var showsRulers = true {
         didSet {
@@ -131,7 +131,8 @@ final class CanvasContainer: NSView {
 
     init(canvas: CanvasView) {
         self.canvas = canvas
-        quick = NSHostingView(rootView: QuickBar(editor: canvas.editor))
+        quick = QuickHost(rootView: QuickBar(editor: canvas.editor))
+        quick.canvas = canvas
         super.init(frame: .zero)
         quick.sizingOptions = [.intrinsicContentSize]
         quick.isHidden = true
@@ -191,4 +192,12 @@ final class CanvasContainer: NSView {
         quick.isHidden = !inside
         quick.frame = CGRect(x: canvas.frame.minX + x, y: canvas.frame.minY + min(y, canvas.bounds.height - size.height - 8), width: size.width, height: size.height)
     }
+}
+
+/// The quick edit bar, whose wheel and pinch go on to the canvas under it.
+final class QuickHost: NSHostingView<QuickBar> {
+    weak var canvas: CanvasView?
+
+    override func scrollWheel(with event: NSEvent) { canvas?.scrollWheel(with: event) }
+    override func magnify(with event: NSEvent) { canvas?.magnify(with: event) }
 }

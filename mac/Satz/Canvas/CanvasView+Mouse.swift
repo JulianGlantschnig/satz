@@ -246,7 +246,13 @@ extension CanvasView {
             needsDisplay = true
             return
         }
-        if port(at: q) != nil {
+        if let hit = port(at: q) {
+            // The frame the port threads from or to shows.
+            let link = hit.side == .in ? hit.node.prev : hit.node.next
+            if overlay.hover != link {
+                overlay.hover = link
+                needsDisplay = true
+            }
             NSCursor.pointingHand.set()
             return
         }
@@ -462,7 +468,9 @@ extension CanvasView {
             return
         }
         let sel = editor.selection
-        guard let id = pick(p, flags.contains(.command) ? .deep : .click) else {
+        let hitID = pick(p, flags.contains(.command) ? .deep : .click)
+        // A selected layer that a mask hides at `p` is still dragged there.
+        guard let id = (hitID == nil || !sel.contains(hitID!) ? masked(at: p) : nil) ?? hitID else {
             let base = flags.contains(.shift) ? sel : []
             drag = .marquee(start: p, end: p, base: base)
             editor.select(base)
@@ -815,6 +823,16 @@ extension CanvasView {
         default:
             break
         }
+    }
+
+    /// A selected layer at `p` that a mask above it hides there; see `maskedAt` in `web/src/Canvas.tsx`.
+    func masked(at p: CGPoint) -> String? {
+        editor.selected.first { n in
+            guard let entry = editor.nodes[n.id] else { return false }
+            let siblings = entry.parent?.children ?? entry.page?.children ?? []
+            guard let i = siblings.firstIndex(where: { $0.id == n.id }) else { return false }
+            return siblings[(i + 1)...].contains { $0.mask && !$0.hidden } && Handles.upright(editor.shown(n)).contains(p)
+        }?.id
     }
 
     /// Whether a click at `p` with the pen closes its path on the first anchor.

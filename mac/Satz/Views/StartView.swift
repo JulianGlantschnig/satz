@@ -85,7 +85,6 @@ struct StartView: View {
                 HStack(spacing: 4) {
                     NumberField(label: "Pages", value: Double(pages), unit: .plain, integer: true, range: 1...999) { pages = Int($0) }
                         .frame(width: 100)
-                    Stepper("Pages", value: $pages, in: 1...999).labelsHidden()
                 }
                 Toggle("Facing pages", isOn: Binding(get: { pages > 1 && facing }, set: { facing = $0 }))
                     .disabled(pages < 2)
