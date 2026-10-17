@@ -33,4 +33,22 @@ final class DesignShots: XCTestCase {
 
     func testLight() throws { try shots("light") }
     func testDark() throws { try shots("dark") }
+
+    func start(_ appearance: String) throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-ApplePersistenceIgnoreState", "YES", "-AppleLanguages", "(en)", "-appearance", appearance]
+        app.launchEnvironment["SATZ_RESET_SETTINGS"] = "1"
+        app.launch()
+        defer { app.terminate() }
+        let start = app.windows["New Document"]
+        XCTAssertTrue(start.waitForExistence(timeout: 30))
+        sleep(3)
+        let a = XCTAttachment(screenshot: start.screenshot())
+        a.name = "\(appearance)-5-start"
+        a.lifetime = .keepAlways
+        add(a)
+    }
+
+    func testStartLight() throws { try start("light") }
+    func testStartDark() throws { try start("dark") }
 }

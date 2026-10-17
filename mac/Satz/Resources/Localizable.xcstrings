@@ -4911,6 +4911,16 @@
         }
       }
     },
+    "Recent": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuletzt geöffnet"
+          }
+        }
+      }
+    },
     "Rectangle": {
       "localizations": {
         "de": {

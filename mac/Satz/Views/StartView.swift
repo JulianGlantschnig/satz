@@ -1,3 +1,4 @@
+import ImageIO
 import SatzCore
 import SwiftUI
 
@@ -16,6 +17,7 @@ struct StartView: View {
     @AppStorage("startWidth") private var customWidth = Units.mm(148)
     @AppStorage("startHeight") private var customHeight = Units.mm(210)
     @State private var failure: String?
+    @State private var recents: [URL] = []
 
     static let custom = "Custom"
     private var names: [String] { PageFormat.all.map(\.name) + [Self.custom] }
@@ -41,7 +43,7 @@ struct StartView: View {
             Divider()
             examples
         }
-        .frame(width: 720, height: 460)
+        .frame(width: 780, height: 500)
         .alert("Could not open the example", isPresented: Binding(get: { failure != nil }, set: { if !$0 { failure = nil } })) {
         } message: {
             Text(failure ?? "")
@@ -50,7 +52,8 @@ struct StartView: View {
 
     private var main: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("New Document").font(.title2.weight(.semibold))
+            Text("New Document")
+                .font(.system(size: 28, weight: .semibold, design: .serif))
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 4), spacing: 10) {
                 ForEach(names, id: \.self) { name in tile(name) }
             }
@@ -123,15 +126,15 @@ struct StartView: View {
                             .frame(width: 34, height: 44)
                             .overlay(Image(systemName: "plus").font(.caption))
                     } else {
+                        // Paper is white in either appearance.
                         Rectangle()
-                            .fill(.background)
-                            .overlay(Rectangle().strokeBorder(.secondary.opacity(0.6), lineWidth: 1))
+                            .fill(.white)
                             .frame(width: min(w * k, 64), height: min(h * k, 64))
-                            .shadow(color: .black.opacity(0.12), radius: 1, y: 1)
+                            .shadow(color: .black.opacity(0.25), radius: 1.5, y: 0.5)
                     }
                 }
                 .frame(width: 66, height: 66)
-                Text(label).fontWeight(.medium)
+                Text(label).font(.system(size: 15, weight: .medium, design: .serif))
                 Text("\(dimension(w)) × \(dimension(h))")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
@@ -139,7 +142,7 @@ struct StartView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 8)
-            .background(RoundedRectangle(cornerRadius: 8).fill(chosen ? SwiftUI.Color.accentColor.opacity(0.18) : .clear))
+            .background(RoundedRectangle(cornerRadius: 8).fill(chosen ? AnyShapeStyle(SwiftUI.Color.accentColor.opacity(0.18)) : AnyShapeStyle(.quaternary.opacity(0.35))))
             .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(chosen ? SwiftUI.Color.accentColor : .secondary.opacity(0.25), lineWidth: chosen ? 2 : 1))
             .contentShape(Rectangle())
         }
@@ -159,34 +162,54 @@ struct StartView: View {
         (pt / lengthUnit.pt).formatted(.number.precision(.fractionLength(0...1)))
     }
 
+    /// The documents opened last, then the examples.
     private var examples: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Examples").font(.headline).padding(.bottom, 4)
-            ForEach(Example.all) { e in
-                Button {
-                    open(e)
-                } label: {
-                    HStack(alignment: .top, spacing: 8) {
-                        Image(systemName: "doc.richtext").font(.title3).foregroundStyle(.secondary)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(e.title).fontWeight(.medium)
-                            Text(e.text).font(.caption).foregroundStyle(.secondary)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 6) {
+                if !recents.isEmpty {
+                    Text("Recent").font(.system(size: Theme.small, weight: .semibold)).foregroundStyle(.secondary)
+                    ForEach(recents, id: \.self) { url in
+                        Button {
+                            NSDocumentController.shared.openDocument(withContentsOf: url, display: true) { _, _, _ in }
+                        } label: {
+                            RecentRow(url: url)
                         }
-                        Spacer(minLength: 0)
+                        .buttonStyle(.plain)
+                        .help(url.path)
+                        .accessibilityIdentifier("recent-\(url.lastPathComponent)")
                     }
-                    .padding(8)
-                    .background(RoundedRectangle(cornerRadius: 8).fill(.quaternary.opacity(0.5)))
-                    .contentShape(Rectangle())
+                    Divider().padding(.vertical, 8)
                 }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("example-\(e.id)")
+                Text("Examples").font(.system(size: Theme.small, weight: .semibold)).foregroundStyle(.secondary)
+                ForEach(Example.all) { e in
+                    Button {
+                        open(e)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(e.title).font(.system(size: 13, weight: .medium, design: .serif))
+                            Text(e.text).font(.system(size: Theme.small)).foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 8)
+                        .background(RoundedRectangle(cornerRadius: 6).fill(.quaternary.opacity(0.5)))
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("example-\(e.id)")
+                }
             }
-            Spacer()
+            .padding(20)
         }
-        .padding(20)
-        .frame(width: 230)
+        .frame(width: 250)
         .frame(maxHeight: .infinity)
         .background(.background.secondary)
+        .onAppear(perform: readRecents)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in readRecents() }
+    }
+
+    private func readRecents() {
+        recents = Array(NSDocumentController.shared.recentDocumentURLs.prefix(4))
     }
 
     private func create() {
@@ -224,5 +247,58 @@ struct Example: Identifiable {
         if id == "sample" { return Engine.sample().save() }
         guard let url = Bundle.main.url(forResource: id, withExtension: "satz") else { throw CocoaError(.fileNoSuchFile) }
         return try Data(contentsOf: url)
+    }
+}
+
+/// A document opened lately: a picture of its first page, its name and when it changed.
+private struct RecentRow: View {
+    let url: URL
+    @State private var picture: CGImage?
+
+    /// Pictures already made, by file and its date.
+    @MainActor static var made: [String: CGImage] = [:]
+
+    var body: some View {
+        let date = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
+        HStack(spacing: 10) {
+            Group {
+                if let picture {
+                    Image(decorative: picture, scale: 2).resizable().aspectRatio(contentMode: .fit)
+                } else {
+                    Rectangle().fill(.white)
+                }
+            }
+            .frame(width: 30, height: 40)
+            .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(url.deletingPathExtension().lastPathComponent).font(.system(size: 13, weight: .medium)).lineLimit(1)
+                if let date {
+                    Text(date, format: .relative(presentation: .named)).font(.system(size: Theme.small)).foregroundStyle(.secondary)
+                }
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .task(id: url) {
+            let key = "\(url.path)|\(date?.timeIntervalSince1970 ?? 0)"
+            if let made = Self.made[key] {
+                picture = made
+                return
+            }
+            let url = url
+            // Each picture is made from the file on a thread of its own.
+            let image = await Task.detached(priority: .utility) { () -> CGImage? in
+                guard let data = try? Data(contentsOf: url),
+                    let png = try? Export.files(DocumentCopy(bytes: data), format: .png, indices: [0], title: "", ppi: 20).first,
+                    let source = CGImageSourceCreateWithData(png as CFData, nil)
+                else { return nil }
+                return CGImageSourceCreateImageAtIndex(source, 0, nil)
+            }.value
+            if let image {
+                Self.made[key] = image
+                picture = image
+            }
+        }
     }
 }

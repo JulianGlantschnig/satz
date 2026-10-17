@@ -10,6 +10,11 @@ public struct DocumentCopy: Sendable {
     public var bytes: Data
     public var fonts: [Data]
 
+    public init(bytes: Data, fonts: [Data] = []) {
+        self.bytes = bytes
+        self.fonts = fonts
+    }
+
     /// The document in an engine of the calling thread, which must use it only there.
     nonisolated func core() throws -> Core {
         // Fonts go first, so that the text is set in them as it loads.
