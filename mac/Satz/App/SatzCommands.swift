@@ -1,8 +1,12 @@
+import SatzCore
 import SwiftUI
 
 /// The menu bar. Undo and redo come from the window's undo manager, which the
 /// editor feeds; see `Editor.registerUndo`.
 struct SatzCommands: Commands {
+    /// The keys of the booleans with ⌥⌘, as in the web app.
+    static let booleanKeys: [BooleanOp: String] = [.union: "u", .subtract: "s", .intersect: "i", .exclude: "x"]
+
     @FocusedValue(\.editor) private var editor
     @Environment(\.openWindow) private var openWindow
 
@@ -105,12 +109,21 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("m", modifiers: [.command, .option])
                 .disabled(none)
             Divider()
+            Menu("Boolean") {
+                ForEach(BooleanOp.allCases, id: \.self) { op in
+                    Button(ArrangeSection.title(op)) { editor?.combine(op) }
+                        .keyboardShortcut(KeyEquivalent(Character(Self.booleanKeys[op]!)), modifiers: [.command, .option])
+                }
+            }
+            .disabled(!(editor?.combinable ?? false))
             Button("Flatten") { editor?.flatten() }
                 .keyboardShortcut("e", modifiers: .command)
                 .disabled(!(editor?.selected.contains { $0.kind == .text || $0.kind == .shape } ?? false))
             Button("Fit Frame to Text") { editor?.fitText() }
+                .keyboardShortcut("c", modifiers: [.command, .option, .control])
                 .disabled(!(editor?.hasText ?? false))
             Button("Auto Height") { editor?.fitText(height: true) }
+                .keyboardShortcut("h", modifiers: [.command, .option, .control])
                 .disabled(!(editor?.hasText ?? false))
             Button("Edit Points") { editor.map { e in e.selected.first.map { e.editPath($0.id) } } }
                 .disabled(!(editor?.selected.count == 1 && editor?.selected.first?.kind == .shape && editor?.vector == nil))

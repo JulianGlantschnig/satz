@@ -52,5 +52,14 @@ extension Editor {
         }
     }
 
+    /// Gives the selected text frames the resize mode `mode`.
+    func resizeText(_ mode: Sizing.Resizing) {
+        batch {
+            for n in selected where n.kind == .text {
+                if let json = try? JSON(encoding: n.sizing.text(mode)) { apply(.set(id: n.id, ["sizing": json])) }
+            }
+        }
+    }
+
     var hasText: Bool { selected.contains { $0.kind == .text } }
 }

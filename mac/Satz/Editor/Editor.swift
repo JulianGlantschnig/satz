@@ -155,6 +155,8 @@ final class Editor {
     var exporting = false
     @ObservationIgnored let inkPreviewer = InkPreviewer()
     @ObservationIgnored var inkRequest = InkRequest()
+    /// The layer whose name is being edited in the layers list.
+    var renaming: String?
     /// The command palette shows over the canvas.
     var showsPalette = false
     /// The list of keyboard shortcuts shows.

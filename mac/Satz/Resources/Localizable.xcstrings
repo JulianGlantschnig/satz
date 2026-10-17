@@ -911,6 +911,16 @@
         }
       }
     },
+    "Boolean": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boolesche Operation"
+          }
+        }
+      }
+    },
     "Bottom": {
       "localizations": {
         "de": {

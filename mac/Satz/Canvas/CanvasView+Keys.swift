@@ -46,7 +46,9 @@ extension CanvasView {
         case 51, 117:  // delete, forward delete
             editor.delete()
         case 53:  // escape
-            if editor.cropping != nil {
+            if editor.showsPreflight && editor.selection.isEmpty {
+                editor.togglePreflight()
+            } else if editor.cropping != nil {
                 editor.cropping = nil
             } else if !editor.placing.isEmpty {
                 editor.placing = []
@@ -69,6 +71,11 @@ extension CanvasView {
                 editor.editPath(n.id)
             } else {
                 editor.enter()
+            }
+        case 120 where flags.isEmpty:  // F2
+            if let id = editor.selection.first {
+                editor.showsPanels = true
+                editor.renaming = id
             }
         case 48:  // tab
             editor.selectNext(backwards: flags.contains(.shift))
@@ -94,6 +101,8 @@ extension CanvasView {
                 editor.addAutoLayout()
             } else if flags == [.shift, .option] && key == "a" {
                 editor.removeAutoLayout()
+            } else if let how = Self.alignKeys[flags == .option ? key : flags == [.option, .shift] ? "⇧" + key : flags == [.control, .option, .shift] ? "⌃⇧" + key : ""] {
+                editor.align(how)
             } else if flags == .shift && key == "w" {
                 editor.showsPanels.toggle()
             } else if flags == .shift && key == "g" {
@@ -170,4 +179,10 @@ extension CanvasView: NSMenuItemValidation {
             return true
         }
     }
+
+    /// The alignments by their keys with Option, as in Figma; see `ALIGNS` in `web/src/align.tsx`.
+    static let alignKeys: [String: Editor.Align] = [
+        "a": .left, "h": .center, "d": .right, "w": .top, "v": .middle, "s": .bottom,
+        "⇧h": .distributeX, "⇧v": .distributeY, "⌃⇧t": .tidy,
+    ]
 }

@@ -90,10 +90,28 @@ struct EditorView: View {
                 .accessibilityIdentifier("place-image")
             }
             ToolbarItem(placement: .primaryAction) {
+                let issues = editor.snapshot.preflight
+                let errors = issues.filter(\.isError).count
                 Toggle(isOn: Binding(get: { editor.showsPreflight }, set: { _ in editor.togglePreflight() })) {
-                    Label("Preflight", systemImage: "checkmark.seal")
+                    Label {
+                        Text("Preflight")
+                    } icon: {
+                        Image(systemName: "checkmark.seal")
+                            .overlay(alignment: .topTrailing) {
+                                // The number of issues, red with errors among them.
+                                if !issues.isEmpty {
+                                    Text(verbatim: "\(issues.count)")
+                                        .font(.system(size: 8, weight: .bold))
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 3)
+                                        .background(Capsule().fill(errors > 0 ? SwiftUI.Color.red : .orange))
+                                        .offset(x: 7, y: -5)
+                                }
+                            }
+                    }
                 }
                 .help("Preflight and Export (⇧⌘E)")
+                .accessibilityValue(Text(verbatim: "\(issues.count)"))
             }
             ToolbarItem(placement: .primaryAction) {
                 Button {

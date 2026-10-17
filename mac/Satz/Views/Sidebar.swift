@@ -5,7 +5,6 @@ import UniformTypeIdentifiers
 /// The left panel: the pages and masters, and the layers of the spread on screen, topmost first.
 struct Sidebar: View {
     @Bindable var editor: Editor
-    @State private var renaming: String?
 
     enum Item: Hashable {
         case page(String)
@@ -69,7 +68,7 @@ struct Sidebar: View {
             }
             Section("Layers") {
                 OutlineGroup(layers, children: \.children) { layer in
-                    LayerRow(editor: editor, node: layer.node, renaming: $renaming)
+                    LayerRow(editor: editor, node: layer.node, renaming: $editor.renaming)
                         .tag(Item.layer(layer.id))
                 }
             }
@@ -77,7 +76,7 @@ struct Sidebar: View {
         .contextMenu(forSelectionType: Item.self) { items in
             let ids = items.compactMap { if case .layer(let id) = $0 { id } else { nil } }
             if !ids.isEmpty {
-                Button("Rename") { renaming = ids.first }
+                Button("Rename") { editor.renaming = ids.first }
                 Button("Show or Hide") {
                     editor.select(ids)
                     editor.toggle("hidden")

@@ -69,7 +69,27 @@ struct Overview: View {
             editor.showsOverview = false
             return .handled
         }
+        .onKeyPress(keys: [.upArrow, .downArrow, .leftArrow, .rightArrow]) { press in
+            step(press.key == .upArrow || press.key == .leftArrow ? -1 : 1, move: press.modifiers.contains(.option))
+            return .handled
+        }
         .accessibilityIdentifier("overview")
+    }
+
+    /// Picks the page `by` places on from the last one picked, or with `move` moves the
+    /// current page that far and keeps it picked; see `web/src/Overview.tsx`.
+    private func step(_ by: Int, move: Bool) {
+        if move {
+            guard let id = editor.pageID, let i = ids.firstIndex(of: id) else { return }
+            let to = min(max(i + by, 0), ids.count - 1)
+            guard to != i else { return }
+            editor.movePages([id], to: to)
+            editor.overviewSelection = [id]
+            return
+        }
+        let at = editor.overviewSelection.last.flatMap { ids.firstIndex(of: $0) } ?? editor.pageID.flatMap { ids.firstIndex(of: $0) } ?? 0
+        let to = min(max(at + by, 0), ids.count - 1)
+        if ids.indices.contains(to) { editor.overviewSelection = [ids[to]] }
     }
 
     /// The spreads, or each page alone without facing pages.

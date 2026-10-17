@@ -331,6 +331,15 @@ extension CanvasView {
                 editor.threading = nil
                 return
             }
+            // A double click on an edge or corner of a text frame fits it to its text.
+            if editor.selection.count == 1, let n = editor.selected.first, n.kind == .text, case .resize(let h)? = handle(at: q) {
+                if h.count == 2 {
+                    editor.fitText()
+                } else {
+                    editor.resizeText(h == "n" || h == "s" ? .autoHeight : .autoWidth)
+                }
+                return
+            }
             doubleClick(p)
             return
         }
