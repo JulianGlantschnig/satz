@@ -29,6 +29,7 @@ final class PaletteTests: XCTestCase {
         shot("1-palette")
         search.typeText("\r")
         XCTAssertFalse(search.waitForExistence(timeout: 1))
+        window.showSidebar("Pages")
         XCTAssertTrue(window.outlines.descendants(matching: .any)["page-2"].waitForExistence(timeout: 5))
     }
 
@@ -50,6 +51,7 @@ final class PaletteTests: XCTestCase {
         // The new shortcut adds a page.
         window.groups["canvas"].click()
         window.typeKey("j", modifierFlags: [.command, .control])
+        window.showSidebar("Pages")
         XCTAssertTrue(window.outlines.descendants(matching: .any)["page-2"].waitForExistence(timeout: 5))
         app.menuBars.menuBarItems["Help"].menus.menuItems["Keyboard Shortcuts"].click()
         XCTAssertTrue(sheet.waitForExistence(timeout: 5))

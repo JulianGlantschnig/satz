@@ -17,3 +17,11 @@ extension XCUIApplication {
         return app
     }
 }
+
+extension XCUIElement {
+    /// Shows the "Pages" or "Layers" tab of the window's sidebar.
+    func showSidebar(_ tab: String) {
+        let button = radioButtons[tab].firstMatch
+        if button.waitForExistence(timeout: 5), !button.isSelected { button.click() }
+    }
+}

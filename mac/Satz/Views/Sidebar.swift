@@ -2,15 +2,10 @@ import SatzCore
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// The left panel: the pages and masters, and the layers of the page on screen or of its
-/// spread under a heading per page, topmost first.
+/// The left panel in two tabs: the pages and masters as small pictures, or the layers of the
+/// page on screen or of its spread under a heading per page, topmost first.
 struct Sidebar: View {
     @Bindable var editor: Editor
-
-    enum Item: Hashable {
-        case page(String)
-        case layer(String)
-    }
 
     /// A layer in the list, its children topmost first.
     struct Layer: Identifiable {
@@ -48,50 +43,92 @@ struct Sidebar: View {
         return first == last ? String(localized: "Layers · Page \(first)") : String(localized: "Layers · Pages \(first)–\(last)")
     }
 
-    private var selection: Binding<Set<Item>> {
+    /// The tab the sidebar shows.
+    enum Tab: String { case pages, layers }
+    @AppStorage("sidebarTab") private var tab = Tab.layers
+
+    private var layerSelection: Binding<Set<String>> {
         Binding {
-            var s = Set(editor.selection.map(Item.layer))
-            if editor.selection.isEmpty, let id = editor.pageID { s.insert(.page(id)) }
-            return s
-        } set: { new in
-            let ids = new.compactMap { if case .layer(let id) = $0 { id } else { nil } }
-            let page = new.compactMap { if case .page(let id) = $0 { id } else { nil } }.first
-            if ids.isEmpty, let page {
-                editor.showPage(page)
-                editor.select([])
-            } else {
-                // Keep the order the layers were chosen in.
-                let kept = editor.selection.filter { ids.contains($0) }
-                editor.select(kept + ids.filter { !kept.contains($0) })
-            }
+            Set(editor.selection)
+        } set: { ids in
+            // Keep the order the layers were chosen in.
+            let kept = editor.selection.filter { ids.contains($0) }
+            editor.select(kept + ids.filter { !kept.contains($0) })
+        }
+    }
+
+    private var pageSelection: Binding<String?> {
+        Binding { editor.pageID } set: { id in
+            guard let id else { return }
+            editor.showPage(id)
+            editor.select([])
         }
     }
 
     private func rows(_ page: Page) -> some View {
         OutlineGroup(layers(of: page), children: \.children) { layer in
             LayerRow(editor: editor, node: layer.node, renaming: $editor.renaming)
-                .tag(Item.layer(layer.id))
+                .tag(layer.id)
         }
     }
 
     var body: some View {
-        List(selection: selection) {
-            Section("Pages") {
-                ForEach(Array(editor.snapshot.pages.enumerated()), id: \.element.id) { i, page in
-                    Label(String(localized: "Page \(i + 1)"), systemImage: "doc")
-                        .tag(Item.page(page.id))
-                        .accessibilityIdentifier("page-\(i + 1)")
+        VStack(spacing: 0) {
+            Picker("Sidebar", selection: $tab) {
+                Text("Pages").tag(Tab.pages).accessibilityIdentifier("tab-pages")
+                Text("Layers").tag(Tab.layers).accessibilityIdentifier("tab-layers")
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .controlSize(.small)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .accessibilityIdentifier("sidebar-tabs")
+            switch tab {
+            case .pages: pagesList
+            case .layers: layersList
+            }
+        }
+    }
+
+    /// The pages as small pictures, numbered with their master, and the masters under them.
+    private var pagesList: some View {
+        let s = editor.snapshot
+        return List(selection: pageSelection) {
+            Section {
+                ForEach(Array(s.pages.enumerated()), id: \.element.id) { i, page in
+                    PageRow(editor: editor, page: page, number: i + 1)
+                        .tag(page.id)
+                        .contextMenu {
+                            Button("Insert Page") { if let id = editor.apply(.addPage(after: page.id)).first { editor.showPage(id) } }
+                            Button("Duplicate Page") { if let id = editor.apply(.duplicatePage(page.id)).first { editor.showPage(id) } }
+                            Divider()
+                            Button("Delete Page", role: .destructive) { editor.deletePages([page.id]) }
+                                .disabled(s.pages.count < 2)
+                        }
+                }
+                .onMove { from, to in
+                    guard let i = from.first else { return }
+                    let moving = s.pages[i].id
+                    editor.movePages([moving], to: to > i ? to - 1 : to)
                 }
             }
-            if !editor.snapshot.masters.isEmpty {
+            if !s.masters.isEmpty {
                 Section("Masters") {
-                    ForEach(editor.snapshot.masters) { master in
-                        Label(master.name, systemImage: "doc.on.doc")
-                            .tag(Item.page(master.id))
+                    ForEach(s.masters) { master in
+                        PageRow(editor: editor, page: master, number: nil)
+                            .tag(master.id)
                             .accessibilityIdentifier("master-\(master.name)")
                     }
                 }
             }
+        }
+        .listStyle(.sidebar)
+    }
+
+    private var layersList: some View {
+        List(selection: layerSelection) {
             Section {
                 if listed.count > 1 {
                     ForEach(listed) { page in
@@ -108,9 +145,11 @@ struct Sidebar: View {
                 Text(heading).accessibilityIdentifier("layers-heading")
             }
         }
-        .contextMenu(forSelectionType: Item.self) { items in
-            let ids = items.compactMap { if case .layer(let id) = $0 { id } else { nil } }
+        .listStyle(.sidebar)
+        .environment(\.defaultMinListRowHeight, 24)
+        .contextMenu(forSelectionType: String.self) { ids in
             if !ids.isEmpty {
+                let ids = Array(ids)
                 Button("Rename") { editor.renaming = ids.first }
                 Button("Show or Hide") {
                     editor.select(ids)
@@ -132,6 +171,37 @@ struct Sidebar: View {
             }
         }
         .onDeleteCommand { editor.delete() }
+    }
+}
+
+/// A page or master in the pages tab: its picture, number and master.
+private struct PageRow: View {
+    let editor: Editor
+    let page: Page
+    /// Nil for a master.
+    let number: Int?
+
+    var body: some View {
+        let master = editor.snapshot.masters.first { $0.id == page.master }
+        HStack(alignment: .center, spacing: 10) {
+            Text(verbatim: number.map(String.init) ?? editor.prefix(page.name))
+                .font(.system(size: Theme.small, weight: .medium).monospacedDigit())
+                .foregroundStyle(.secondary)
+                .frame(width: 18, alignment: .trailing)
+            Thumb(thumbnails: editor.thumbnails, lists: [(page.id, 0)], sheets: [Sheet(page, x: 0)], height: number == nil ? 40 : 56)
+            VStack(alignment: .leading, spacing: 2) {
+                if number == nil {
+                    Text(page.name).font(.system(size: Theme.small, weight: .medium)).lineLimit(1)
+                } else if let master {
+                    Text(master.name).font(.system(size: Theme.small)).foregroundStyle(.secondary).lineLimit(1)
+                }
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.vertical, 3)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(number.map { String(localized: "Page \($0)") } ?? page.name)
+        .accessibilityIdentifier(number.map { "page-\($0)" } ?? "master-\(page.name)")
     }
 }
 

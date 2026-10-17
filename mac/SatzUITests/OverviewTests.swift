@@ -32,6 +32,7 @@ final class OverviewTests: XCTestCase {
         page.doubleClick()
         sleep(1)
         XCTAssertFalse(window.descendants(matching: .any)["overview"].exists)
+        window.showSidebar("Pages")
         XCTAssertTrue(window.outlines.cells.containing(.any, identifier: "page-2").firstMatch.isSelected
             || window.outlines.cells.containing(.any, identifier: "page-3").firstMatch.isSelected)
         shot("2-opened")

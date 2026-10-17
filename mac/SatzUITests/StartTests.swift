@@ -31,6 +31,7 @@ final class StartTests: XCTestCase {
         start.buttons["create"].click()
         let window = app.windows["Untitled"]
         XCTAssertTrue(window.waitForExistence(timeout: 30))
+        window.showSidebar("Pages")
         XCTAssertTrue(window.outlines.descendants(matching: .any)["page-3"].waitForExistence(timeout: 5))
         XCTAssertFalse(start.exists)
         // The pages are A4 landscape.
@@ -47,6 +48,7 @@ final class StartTests: XCTestCase {
         start.buttons["example-booklet"].click()
         let window = app.windows["Untitled"]
         XCTAssertTrue(window.waitForExistence(timeout: 30))
+        window.showSidebar("Pages")
         XCTAssertTrue(window.outlines.descendants(matching: .any)["page-8"].waitForExistence(timeout: 5))
         XCTAssertFalse(start.exists)
     }

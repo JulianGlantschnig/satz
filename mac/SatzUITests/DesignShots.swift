@@ -21,13 +21,14 @@ final class DesignShots: XCTestCase {
             a.lifetime = .keepAlways
             add(a)
         }
-        print("FRAME", window.frame)
         shot("1-document")
         let canvas = window.groups["canvas"]
         canvas.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
         shot("2-selection")
         app.menuBars.menuBarItems["File"].menus.menuItems["Preflight"].click()
         shot("3-preflight")
+        window.showSidebar("Pages")
+        shot("4-pages")
     }
 
     func testLight() throws { try shots("light") }

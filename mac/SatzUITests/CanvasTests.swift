@@ -43,6 +43,7 @@ final class CanvasTests: XCTestCase {
         menu("Next Spread")
         sleep(2)
         shot("2-spread")
+        window.showSidebar("Pages")
         XCTAssertTrue(window.outlines.cells.containing(.any, identifier: "page-2").firstMatch.isSelected)
         let zoom = window.toolbars.menuButtons.firstMatch.title
         menu("Zoom In")
@@ -54,6 +55,7 @@ final class CanvasTests: XCTestCase {
         menu("Zoom to Fit")
         sleep(2)
         shot("4-grids")
+        window.showSidebar("Pages")
         window.outlines.descendants(matching: .any)["master-Body"].firstMatch.click()
         sleep(2)
         shot("5-master")
