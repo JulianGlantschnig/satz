@@ -38,3 +38,4 @@ Status: ok = the Mac app does it, gap = to do, fixed = done in this audit, n/a =
   double click on a text frame's edge or corner fits it, overview arrows and ⌥ arrows. UI test KeysTests.
 - fixed 8–9: palette finds layers, pages, swatches (fill the selection, else "Select a layer first") and text
   styles; a shortcut given to a command takes it from the command that had it. UI tests in PaletteTests.
+- fixed 10: setting "Layers panel shows" current page / current spread (a disclosure per page), heading "Layers · Page N". UI test LayersPanelTests.

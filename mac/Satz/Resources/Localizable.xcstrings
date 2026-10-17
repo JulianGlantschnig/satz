@@ -1531,6 +1531,26 @@
         }
       }
     },
+    "Current page": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktuelle Seite"
+          }
+        }
+      }
+    },
+    "Current spread": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktuelle Doppelseite"
+          }
+        }
+      }
+    },
     "Custom": {
       "localizations": {
         "de": {
@@ -3231,12 +3251,42 @@
         }
       }
     },
+    "Layers panel shows": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebenen-Liste zeigt"
+          }
+        }
+      }
+    },
+    "Layers · %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebenen · %@"
+          }
+        }
+      }
+    },
     "Layers · Page %lld": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Ebenen · Seite %lld"
+          }
+        }
+      }
+    },
+    "Layers · Pages %lld–%lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebenen · Seiten %1$lld–%2$lld"
           }
         }
       }

@@ -2,7 +2,8 @@ import SatzCore
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// The left panel: the pages and masters, and the layers of the spread on screen, topmost first.
+/// The left panel: the pages and masters, and the layers of the page on screen or of its
+/// spread under a heading per page, topmost first.
 struct Sidebar: View {
     @Bindable var editor: Editor
 
@@ -18,15 +19,33 @@ struct Sidebar: View {
         var id: String { node.id }
     }
 
-    private var layers: [Layer] {
-        /// Auto layout frames list their children in flow order, others topmost first.
+    @AppStorage(LayersShown.key) private var shown = LayersShown.page
+
+    /// The layers of `page`, topmost first; auto layout frames list their children in flow order.
+    private func layers(of page: Page) -> [Layer] {
         func wrap(_ nodes: [Node], flow: Bool = false) -> [Layer] {
             (flow ? nodes : nodes.reversed()).map { n in
                 Layer(node: n, children: n.children.map { wrap($0, flow: n.kind == .frame && n.direction != .none) })
             }
         }
-        let pages = editor.master.map { [$0] } ?? editor.spread
-        return pages.reversed().flatMap { wrap($0.children) }
+        return wrap(page.children)
+    }
+
+    /// The pages whose layers are listed: the master on screen, the current page, or its spread.
+    private var listed: [Page] {
+        if let m = editor.master { return [m] }
+        if shown == .spread { return editor.spread }
+        return editor.page.map { [$0] } ?? []
+    }
+
+    private func number(_ p: Page) -> Int { (editor.snapshot.pages.firstIndex { $0.id == p.id } ?? 0) + 1 }
+
+    /// "Layers · Page 2", "Layers · Pages 2–3" or the master's name; see `web/src/Layers.tsx`.
+    private var heading: String {
+        if let m = editor.master { return String(localized: "Layers · \(m.name)") }
+        let n = listed.map(number)
+        guard let first = n.first, let last = n.last else { return String(localized: "Layers") }
+        return first == last ? String(localized: "Layers · Page \(first)") : String(localized: "Layers · Pages \(first)–\(last)")
     }
 
     private var selection: Binding<Set<Item>> {
@@ -48,6 +67,13 @@ struct Sidebar: View {
         }
     }
 
+    private func rows(_ page: Page) -> some View {
+        OutlineGroup(layers(of: page), children: \.children) { layer in
+            LayerRow(editor: editor, node: layer.node, renaming: $editor.renaming)
+                .tag(Item.layer(layer.id))
+        }
+    }
+
     var body: some View {
         List(selection: selection) {
             Section("Pages") {
@@ -66,11 +92,20 @@ struct Sidebar: View {
                     }
                 }
             }
-            Section("Layers") {
-                OutlineGroup(layers, children: \.children) { layer in
-                    LayerRow(editor: editor, node: layer.node, renaming: $editor.renaming)
-                        .tag(Item.layer(layer.id))
+            Section {
+                if listed.count > 1 {
+                    ForEach(listed) { page in
+                        DisclosureGroup {
+                            rows(page)
+                        } label: {
+                            Text("Page \(number(page))").fontWeight(.medium)
+                        }
+                    }
+                } else if let page = listed.first {
+                    rows(page)
                 }
+            } header: {
+                Text(heading).accessibilityIdentifier("layers-heading")
             }
         }
         .contextMenu(forSelectionType: Item.self) { items in
@@ -202,5 +237,20 @@ struct LayerRow: View {
         editor.apply(.move(ids, parent: parent, index: at - before + (flows ? 0 : 1)))
         editor.select(ids)
         return true
+    }
+}
+
+/// What the layers panel lists, as the settings choose.
+enum LayersShown: String, CaseIterable, Identifiable {
+    case page, spread
+
+    static let key = "layers"
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .page: String(localized: "Current page")
+        case .spread: String(localized: "Current spread")
+        }
     }
 }

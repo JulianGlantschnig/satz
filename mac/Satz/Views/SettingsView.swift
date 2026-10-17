@@ -36,6 +36,7 @@ struct SettingsView: View {
     @AppStorage(Appearance.key) private var appearance = Appearance.system
     @AppStorage(Units.key) private var unit = LengthUnit.mm
     @AppStorage(QuickBar.key) private var quickEdit = true
+    @AppStorage(LayersShown.key) private var layers = LayersShown.page
 
     var body: some View {
         Form {
@@ -46,6 +47,10 @@ struct SettingsView: View {
                 ForEach(LengthUnit.allCases) { Text("\($0.title) (\($0.rawValue))").tag($0) }
             }
             .accessibilityIdentifier("unit")
+            Picker("Layers panel shows", selection: $layers) {
+                ForEach(LayersShown.allCases) { Text($0.title).tag($0) }
+            }
+            .accessibilityIdentifier("layers-shown")
             Toggle("Quick edit bar above the selection", isOn: $quickEdit)
         }
         .formStyle(.grouped)
