@@ -30,6 +30,16 @@ struct SatzCommands: Commands {
         }
 
         CommandGroup(after: .pasteboard) {
+            Button("Deselect All") { editor?.select([]) }
+                .keyboardShortcut("a", modifiers: [.command, .shift])
+                .disabled(editor?.selection.isEmpty ?? true)
+            Divider()
+            Button("Copy Style") { editor?.copyStyle() }
+                .keyboardShortcut("c", modifiers: [.command, .option])
+                .disabled(editor?.selection.isEmpty ?? true)
+            Button("Paste Style") { editor?.pasteStyle() }
+                .keyboardShortcut("v", modifiers: [.command, .option])
+                .disabled(editor?.selection.isEmpty ?? true || editor?.copiedStyle == nil)
             Divider()
             Button("Find and Replace…") { editor?.showsFind = true }
                 .keyboardShortcut("f", modifiers: .command)
@@ -62,6 +72,8 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("2", modifiers: .command)
                 .disabled(editor?.selection.isEmpty ?? true)
             Divider()
+            Button(editor?.showsPanels == false ? "Show Panels" : "Hide Panels") { editor?.showsPanels.toggle() }
+                .disabled(editor == nil)
             Button(editor?.showsRulers == true ? "Hide Rulers" : "Show Rulers") {
                 editor?.showsRulers.toggle()
             }
@@ -93,6 +105,13 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("m", modifiers: [.command, .option])
                 .disabled(none)
             Divider()
+            Button("Flatten") { editor?.flatten() }
+                .keyboardShortcut("e", modifiers: .command)
+                .disabled(!(editor?.selected.contains { $0.kind == .text || $0.kind == .shape } ?? false))
+            Button("Fit Frame to Text") { editor?.fitText() }
+                .disabled(!(editor?.hasText ?? false))
+            Button("Auto Height") { editor?.fitText(height: true) }
+                .disabled(!(editor?.hasText ?? false))
             Button("Edit Points") { editor.map { e in e.selected.first.map { e.editPath($0.id) } } }
                 .disabled(!(editor?.selected.count == 1 && editor?.selected.first?.kind == .shape && editor?.vector == nil))
             Divider()

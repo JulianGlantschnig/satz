@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Builds Satz for release (universal, ad-hoc signed, without a Developer ID) and packs
+# it with a link to Applications into a DMG:
+#
+#   mac/make-dmg    -> target/dmg/Satz-<version>.dmg
+#
+# macOS does not know the signer, so the first launch needs a right-click on Satz and
+# Open, or System Settings > Privacy & Security > Open Anyway.
+set -euo pipefail
+cd "$(dirname "$0")"
+
+command -v xcodegen >/dev/null && xcodegen -q
+build=../target/release-app
+out=../target/dmg
+rm -rf "$build"
+xcodebuild -project Satz.xcodeproj -scheme Satz -configuration Release -derivedDataPath "$build" \
+  ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO build -quiet
+
+app="$build/Build/Products/Release/Satz.app"
+codesign --verify --deep --strict "$app"
+version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$app/Contents/Info.plist")
+
+stage=$(mktemp -d)
+trap 'rm -rf "$stage"' EXIT
+cp -R "$app" "$stage/"
+ln -s /Applications "$stage/Applications"
+mkdir -p "$out"
+dmg="$out/Satz-$version.dmg"
+rm -f "$dmg"
+hdiutil create -volname "Satz $version" -srcfolder "$stage" -fs HFS+ -format UDZO -quiet "$dmg"
+echo "$dmg"

@@ -1291,6 +1291,16 @@
         }
       }
     },
+    "Copied the style of %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stil von %@ kopiert"
+          }
+        }
+      }
+    },
     "Copy": {
       "localizations": {
         "de": {
@@ -1307,6 +1317,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "CMYK kopieren"
+          }
+        }
+      }
+    },
+    "Copy Style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stil kopieren"
           }
         }
       }
@@ -1687,6 +1707,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Seite %lld gelöscht"
+          }
+        }
+      }
+    },
+    "Deselect All": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswahl aufheben"
           }
         }
       }
@@ -2411,6 +2441,16 @@
         }
       }
     },
+    "Fit Frame to Text": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rahmen an Text anpassen"
+          }
+        }
+      }
+    },
     "Fit Image": {
       "localizations": {
         "de": {
@@ -2437,6 +2477,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fest"
+          }
+        }
+      }
+    },
+    "Flatten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Konturen umwandeln"
           }
         }
       }
@@ -2687,6 +2737,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Layoutraster und Hilfslinien ausblenden"
+          }
+        }
+      }
+    },
+    "Hide Panels": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seitenleisten ausblenden"
           }
         }
       }
@@ -4371,6 +4431,16 @@
         }
       }
     },
+    "Paste Style": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stil einsetzen"
+          }
+        }
+      }
+    },
     "Pasted image": {
       "localizations": {
         "de": {
@@ -5347,6 +5417,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Layoutraster und Hilfslinien einblenden"
+          }
+        }
+      }
+    },
+    "Show Panels": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seitenleisten einblenden"
           }
         }
       }

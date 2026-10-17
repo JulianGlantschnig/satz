@@ -178,6 +178,10 @@ final class Editor {
     /// The window's undo manager; each undo step of the engine registers in it, so
     /// that the Edit menu, the window's edited mark and autosave follow the engine.
     @ObservationIgnored weak var undoManager: UndoManager?
+    /// The style that Paste Style gives.
+    var copiedStyle: [String: JSON]?
+    /// The sidebar and the inspector show; ⇧W hides both.
+    var showsPanels = true
     /// The plain text the last copy of layers put on the pasteboard; other text there came from elsewhere.
     @ObservationIgnored var copiedText: String?
     /// The last copies `duplicate` made and where their originals were.

@@ -12,6 +12,8 @@ extension XCUIApplication {
         // Not through `open(_:)`, which may start a second Satz.
         if let url { app.launchEnvironment["SATZ_OPEN"] = url.path }
         app.launch()
+        // The menus take clicks once the app shows its first window.
+        if url == nil { _ = app.windows["New Document"].waitForExistence(timeout: 30) }
         return app
     }
 }

@@ -30,9 +30,10 @@ struct EditorView: View {
     @Bindable var editor: Editor
     @Environment(\.undoManager) private var undoManager
     @State private var showsInspector = true
+    @State private var columns = NavigationSplitViewVisibility.all
 
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columns) {
             Sidebar(editor: editor)
                 .navigationSplitViewColumnWidth(min: 160, ideal: 200, max: 320)
         } detail: {
@@ -107,6 +108,10 @@ struct EditorView: View {
         }
         .focusedSceneValue(\.editor, editor)
         .onChange(of: editor.showsPreflight) { _, open in if open { showsInspector = true } }
+        .onChange(of: editor.showsPanels) { _, on in
+            columns = on ? .all : .detailOnly
+            showsInspector = on
+        }
         .onAppear { editor.undoManager = undoManager }
         .onChange(of: undoManager) { _, new in editor.undoManager = new }
         .frame(minWidth: 800, minHeight: 500)

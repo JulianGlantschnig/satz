@@ -94,6 +94,8 @@ extension CanvasView {
                 editor.addAutoLayout()
             } else if flags == [.shift, .option] && key == "a" {
                 editor.removeAutoLayout()
+            } else if flags == .shift && key == "w" {
+                editor.showsPanels.toggle()
             } else if flags == .shift && key == "g" {
                 editor.showsGrids.toggle()
             } else if flags == .shift && (key == "1" || event.keyCode == 18) {

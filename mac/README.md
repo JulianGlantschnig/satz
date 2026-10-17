@@ -17,6 +17,11 @@ open Satz.xcodeproj
 The scheme's `Engine` target runs `build-engine` before every build (`release`
 builds a universal binary), so after the first run Xcode keeps it up to date.
 
+`mac/make-dmg` builds a universal Release app, signed ad hoc (there is no Developer
+ID), into `target/dmg/Satz-<version>.dmg`. macOS does not know the signer, so the
+first launch needs a right-click on Satz and Open. It rebuilds the engine for
+release, so do not run a Debug build at the same time.
+
 ## Layout
 
 - `SatzEngine/` – Swift package: `SatzEngine` (generated bindings), `SatzCore`
