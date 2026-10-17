@@ -4,8 +4,14 @@ import SwiftUI
 /// A document's window, or why its file does not open.
 struct DocumentWindow: View {
     let document: SatzDocument
+    @Environment(\.dismissWindow) private var dismissWindow
 
     var body: some View {
+        content.onAppear { dismissWindow(id: StartView.id) }
+    }
+
+    @ViewBuilder
+    private var content: some View {
         switch document.editor {
         case .success(let editor):
             EditorView(editor: editor)

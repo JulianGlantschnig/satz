@@ -25,6 +25,11 @@ final class SatzDocument: ReferenceFileDocument {
         source = .blank
     }
 
+    /// A new document from the bytes of a `.satz` file, such as an example's.
+    nonisolated init(data: Data) {
+        source = .file(data)
+    }
+
     nonisolated init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents else {
             throw CocoaError(.fileReadCorruptFile)

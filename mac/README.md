@@ -46,4 +46,8 @@ builds a universal binary), so after the first run Xcode keeps it up to date.
   marks over the pages; print goes through PDFKit from a screen PDF.
 - `PainterTests` compare the canvas with the engine's PNG of every example page.
 - UI tests run the app in English (`-AppleLanguages (en)`); their screenshots are in
-  the test result (`xcrun xcresulttool export attachments`).
+  the test result (`xcrun xcresulttool export attachments`). `SATZ_RESET_SETTINGS`
+  clears the settings at launch and `SATZ_OPEN` opens a document, because
+  `XCUIApplication.open(_:)` may start a second Satz.
+- The app starts with the start window instead of the open panel; it closes when a
+  document window appears. Lengths show in the unit of the settings (`Units.unit`).

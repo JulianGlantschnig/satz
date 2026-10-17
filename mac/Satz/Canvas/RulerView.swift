@@ -1,7 +1,7 @@
 import AppKit
 import SatzCore
 
-/// A ruler along the top or left of the canvas in mm, with the selection's extent
+/// A ruler along the top or left of the canvas in the unit of the settings, with the selection's extent
 /// shaded and the guides marked; a drag out of it makes a guide.
 final class RulerView: NSView {
     static let thickness: CGFloat = 20
@@ -28,7 +28,7 @@ final class RulerView: NSView {
         let left = canvas.editor.sheets.map(\.x).min() ?? 0
         let offset = horizontal ? canvas.frame.minX - frame.minX : canvas.frame.minY - frame.minY
         let origin = (horizontal ? view.x + left * view.zoom : view.y) + offset
-        let scale = view.zoom * Units.ptPerMM
+        let scale = view.zoom * Units.unit.pt
         let length = horizontal ? bounds.width : bounds.height
         let t = Self.thickness
 
@@ -137,6 +137,10 @@ final class CanvasContainer: NSView {
         canvas.viewChanged = { [weak self] in
             self?.top.needsDisplay = true
             self?.left.needsDisplay = true
+        }
+        // The length unit of the settings.
+        NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.canvas.viewChanged?() }
         }
     }
 

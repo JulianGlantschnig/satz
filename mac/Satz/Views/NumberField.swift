@@ -1,7 +1,7 @@
 import SatzCore
 import SwiftUI
 
-/// A number in a unit, for lengths in mm while the engine counts pt. It takes
+/// A number in a unit, for lengths in the unit of the settings while the engine counts pt. It takes
 /// expressions such as `10mm + 1cm` or `*2`, steps with the arrow keys (10 with Shift,
 /// 0.1 with Option) and with a drag on its label; nil shows that the selection differs.
 struct NumberField: View {
@@ -10,7 +10,7 @@ struct NumberField: View {
 
         var name: String {
             switch self {
-            case .length: "mm"
+            case .length: Units.unit.rawValue
             case .points: "pt"
             case .degrees: "°"
             case .percent: "%"
@@ -19,7 +19,7 @@ struct NumberField: View {
         }
 
         /// The engine's value per shown value.
-        var scale: Double { self == .length ? Units.ptPerMM : 1 }
+        var scale: Double { self == .length ? Units.unit.pt : 1 }
     }
 
     let label: String
@@ -32,6 +32,7 @@ struct NumberField: View {
     var zero: String?
     let commit: (Double) -> Void
 
+    @AppStorage(Units.key) private var lengthUnit = LengthUnit.mm
     @State private var text = ""
     @State private var scrubbing: Double?
     @FocusState private var focused: Bool
@@ -81,6 +82,7 @@ struct NumberField: View {
         .help(help ?? LocalizedStringKey(label))
         .onAppear { text = format(shown) }
         .onChange(of: value) { if !focused { text = format(shown) } }
+        .onChange(of: lengthUnit) { text = format(shown) }
         .onChange(of: focused) { _, now in if !now { submit() } }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("field-\(label)")

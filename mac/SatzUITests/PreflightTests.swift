@@ -6,11 +6,10 @@ final class PreflightTests: XCTestCase {
 
     override func setUp() {
         continueAfterFailure = false
-        app = .satz()
         let booklet = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
             .appending(path: "examples/booklet.satz")
-        app.open(booklet)
+        app = .satz(opening: booklet)
         XCTAssertTrue(app.windows["booklet.satz"].waitForExistence(timeout: 30))
     }
 

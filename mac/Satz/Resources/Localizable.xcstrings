@@ -11,6 +11,16 @@
         }
       }
     },
+    "%@ does not open: %@. Create a new document instead.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ lässt sich nicht öffnen: %2$@. Lege stattdessen ein neues Dokument an."
+          }
+        }
+      }
+    },
     "%@ from the trim": {
       "localizations": {
         "de": {
@@ -117,6 +127,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld von %2$lld"
+          }
+        }
+      }
+    },
+    "%lld pages": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Seite"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Seiten"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld page"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld pages"
+                }
+              }
+            }
           }
         }
       }
@@ -257,6 +307,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ein Dokument behält mindestens 1 Seite"
+          }
+        }
+      }
+    },
+    "A2, 1 page, CMYK with a spot colour": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A2, 1 Seite, CMYK mit einer Sonderfarbe"
+          }
+        }
+      }
+    },
+    "A5, 1 page with shapes and text": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A5, 1 Seite mit Formen und Text"
+          }
+        }
+      }
+    },
+    "A5, 8 pages, master pages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A5, 8 Seiten, Musterseiten"
           }
         }
       }
@@ -487,6 +567,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apostroph"
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erscheinungsbild"
           }
         }
       }
@@ -831,6 +921,16 @@
         }
       }
     },
+    "Centimetres": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zentimeter"
+          }
+        }
+      }
+    },
     "Character": {
       "localizations": {
         "de": {
@@ -1021,6 +1121,16 @@
         }
       }
     },
+    "Could not open the example": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Beispiel lässt sich nicht öffnen"
+          }
+        }
+      }
+    },
     "Could not print: %@": {
       "localizations": {
         "de": {
@@ -1037,6 +1147,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Farbauszüge konnten nicht angezeigt werden: %@"
+          }
+        }
+      }
+    },
+    "Create": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erstellen"
           }
         }
       }
@@ -1097,6 +1217,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cyan"
+          }
+        }
+      }
+    },
+    "Dark": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dunkel"
           }
         }
       }
@@ -1517,6 +1647,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Englisch"
+          }
+        }
+      }
+    },
+    "Examples": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beispiele"
           }
         }
       }
@@ -1951,12 +2091,32 @@
         }
       }
     },
+    "H": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "H"
+          }
+        }
+      }
+    },
     "Hard Light": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Hartes Licht"
+          }
+        }
+      }
+    },
+    "Height": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Höhe"
           }
         }
       }
@@ -2107,6 +2267,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "In diesem Dokument"
+          }
+        }
+      }
+    },
+    "Inches": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoll"
           }
         }
       }
@@ -2501,6 +2671,16 @@
         }
       }
     },
+    "Light": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hell"
+          }
+        }
+      }
+    },
     "Lighten": {
       "localizations": {
         "de": {
@@ -2741,6 +2921,16 @@
         }
       }
     },
+    "Millimetres": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Millimeter"
+          }
+        }
+      }
+    },
     "Min": {
       "localizations": {
         "de": {
@@ -2891,6 +3081,16 @@
         }
       }
     },
+    "New Document": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neues Dokument"
+          }
+        }
+      }
+    },
     "New Master": {
       "localizations": {
         "de": {
@@ -2917,6 +3117,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Neues Format aus Text"
+          }
+        }
+      }
+    },
+    "New from Format…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu nach Format …"
           }
         }
       }
@@ -3147,6 +3357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deckkraft"
+          }
+        }
+      }
+    },
+    "Open File…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datei öffnen …"
           }
         }
       }
@@ -3507,6 +3727,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Position"
+          }
+        }
+      }
+    },
+    "Poster": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plakat"
           }
         }
       }
@@ -3931,6 +4161,16 @@
         }
       }
     },
+    "Sample": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muster"
+          }
+        }
+      }
+    },
     "Saturation": {
       "localizations": {
         "de": {
@@ -3947,6 +4187,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sättigung und Helligkeit"
+          }
+        }
+      }
+    },
+    "Satz booklet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satz-Heft"
           }
         }
       }
@@ -4461,6 +4711,16 @@
         }
       }
     },
+    "System": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        }
+      }
+    },
     "Tabular": {
       "localizations": {
         "de": {
@@ -4751,6 +5011,16 @@
         }
       }
     },
+    "Unit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maßeinheit"
+          }
+        }
+      }
+    },
     "Unlock": {
       "localizations": {
         "de": {
@@ -4851,6 +5121,16 @@
         }
       }
     },
+    "W": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "B"
+          }
+        }
+      }
+    },
     "Wavy": {
       "localizations": {
         "de": {
@@ -4887,6 +5167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ganze Wörter"
+          }
+        }
+      }
+    },
+    "Width": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Breite"
           }
         }
       }
@@ -4977,6 +5267,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Auf Auswahl zoomen"
+          }
+        }
+      }
+    },
+    "length.points": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punkte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Points"
           }
         }
       }

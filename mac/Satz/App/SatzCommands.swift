@@ -4,8 +4,13 @@ import SwiftUI
 /// editor feeds; see `Editor.registerUndo`.
 struct SatzCommands: Commands {
     @FocusedValue(\.editor) private var editor
+    @Environment(\.openWindow) private var openWindow
 
     var body: some Commands {
+        CommandGroup(after: .newItem) {
+            Button("New from Format…") { openWindow(id: StartView.id) }
+                .keyboardShortcut("n", modifiers: [.command, .option])
+        }
         CommandGroup(after: .importExport) {
             Button("Export…") { editor?.openExport() }
                 .keyboardShortcut("e", modifiers: [.command, .shift])

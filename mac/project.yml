@@ -47,6 +47,11 @@ targets:
     platform: macOS
     sources:
       - path: Satz
+      # The examples of the start window.
+      - path: ../examples/booklet.satz
+        buildPhase: resources
+      - path: ../examples/poster.satz
+        buildPhase: resources
     dependencies:
       - target: Engine
       - package: SatzEngine
