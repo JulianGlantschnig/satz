@@ -351,12 +351,42 @@
         }
       }
     },
+    "Absolute position": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absolute Position"
+          }
+        }
+      }
+    },
     "Add": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Hinzufügen"
+          }
+        }
+      }
+    },
+    "Add Auto Layout": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-Layout hinzufügen"
+          }
+        }
+      }
+    },
+    "Add Auto Layout (⇧A)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-Layout hinzufügen (⇧A)"
           }
         }
       }
@@ -457,6 +487,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ausrichtung"
+          }
+        }
+      }
+    },
+    "Align %@ %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ %2$@ ausrichten"
           }
         }
       }
@@ -721,6 +761,16 @@
         }
       }
     },
+    "Auto Layout": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-Layout"
+          }
+        }
+      }
+    },
     "Auto Width": {
       "localizations": {
         "de": {
@@ -851,6 +901,16 @@
         }
       }
     },
+    "Bottom padding": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innenabstand unten"
+          }
+        }
+      }
+    },
     "Brightness": {
       "localizations": {
         "de": {
@@ -967,6 +1027,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zentimeter"
+          }
+        }
+      }
+    },
+    "Centre": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitte"
           }
         }
       }
@@ -1107,6 +1177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Spalten"
+          }
+        }
+      }
+    },
+    "Constraints": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixierung"
           }
         }
       }
@@ -1497,6 +1577,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Differenz"
+          }
+        }
+      }
+    },
+    "Direction": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Richtung"
           }
         }
       }
@@ -2201,6 +2291,16 @@
         }
       }
     },
+    "Gap": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand"
+          }
+        }
+      }
+    },
     "German": {
       "localizations": {
         "de": {
@@ -2291,6 +2391,16 @@
         }
       }
     },
+    "Height sizing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Höhe"
+          }
+        }
+      }
+    },
     "Hex": {
       "localizations": {
         "de": {
@@ -2351,6 +2461,26 @@
         }
       }
     },
+    "Horizontal": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal"
+          }
+        }
+      }
+    },
+    "Horizontal constraint": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontale Fixierung"
+          }
+        }
+      }
+    },
     "Horizontal spacing": {
       "localizations": {
         "de": {
@@ -2367,6 +2497,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Farbton"
+          }
+        }
+      }
+    },
+    "Hug": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anpassen"
           }
         }
       }
@@ -2781,6 +2921,16 @@
         }
       }
     },
+    "Left & Right": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Links & rechts"
+          }
+        }
+      }
+    },
     "Left guillemet": {
       "localizations": {
         "de": {
@@ -2797,6 +2947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abstand links"
+          }
+        }
+      }
+    },
+    "Left padding": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innenabstand links"
           }
         }
       }
@@ -3721,6 +3881,26 @@
         }
       }
     },
+    "Padding": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innenabstand"
+          }
+        }
+      }
+    },
+    "Padding per side": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innenabstand je Seite"
+          }
+        }
+      }
+    },
     "Page": {
       "localizations": {
         "de": {
@@ -4171,6 +4351,26 @@
         }
       }
     },
+    "Remove Auto Layout": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-Layout entfernen"
+          }
+        }
+      }
+    },
+    "Remove Auto Layout (⌥⇧A)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-Layout entfernen (⌥⇧A)"
+          }
+        }
+      }
+    },
     "Remove grid": {
       "localizations": {
         "de": {
@@ -4341,6 +4541,16 @@
         }
       }
     },
+    "Right padding": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innenabstand rechts"
+          }
+        }
+      }
+    },
     "Right quote": {
       "localizations": {
         "de": {
@@ -4437,6 +4647,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Als Farbfeld sichern"
+          }
+        }
+      }
+    },
+    "Scale": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skalieren"
           }
         }
       }
@@ -4707,6 +4927,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vollton"
+          }
+        }
+      }
+    },
+    "Space Between": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verteilt"
+          }
+        }
+      }
+    },
+    "Spacing": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstand"
+          }
+        }
+      }
+    },
+    "Spacing mode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstandsart"
           }
         }
       }
@@ -5141,12 +5391,32 @@
         }
       }
     },
+    "Top & Bottom": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oben & unten"
+          }
+        }
+      }
+    },
     "Top inset": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Abstand oben"
+          }
+        }
+      }
+    },
+    "Top padding": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Innenabstand oben"
           }
         }
       }
@@ -5331,12 +5601,32 @@
         }
       }
     },
+    "Vertical": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikal"
+          }
+        }
+      }
+    },
     "Vertical align": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Vertikale Ausrichtung"
+          }
+        }
+      }
+    },
+    "Vertical constraint": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertikale Fixierung"
           }
         }
       }
@@ -5402,6 +5692,16 @@
       }
     },
     "Width": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Breite"
+          }
+        }
+      }
+    },
+    "Width sizing": {
       "localizations": {
         "de": {
           "stringUnit": {
@@ -5501,6 +5801,36 @@
         }
       }
     },
+    "bottom": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "unten"
+          }
+        }
+      }
+    },
+    "centre": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitte"
+          }
+        }
+      }
+    },
+    "left": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "links"
+          }
+        }
+      }
+    },
     "length.points": {
       "localizations": {
         "de": {
@@ -5523,6 +5853,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "max. %lld %%"
+          }
+        }
+      }
+    },
+    "right": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "rechts"
+          }
+        }
+      }
+    },
+    "sizing.fill": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füllen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fill"
+          }
+        }
+      }
+    },
+    "top": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "oben"
+          }
+        }
+      }
+    },
+    "↔": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↔"
+          }
+        }
+      }
+    },
+    "↕": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "↕"
           }
         }
       }

@@ -17,6 +17,8 @@ enum Drag {
     case text(unit: Int)
     /// Moves the image of the cropped frame inside it.
     case image(start: CGPoint, node: Node, turn: Double)
+    /// Drags the centre of a layer onto another's to swap their places.
+    case swap(id: String, at: CGPoint)
 }
 
 /// What a drag snaps to and the layers it measures to.
@@ -37,6 +39,9 @@ struct Overlay {
     var pointer: CGPoint?
     /// Where the image being placed would go, on the spread.
     var placing: Box?
+    /// The auto layout frame that the layers being moved drop into, at `index`, and the
+    /// line on the spread that shows where.
+    var flowDrop: (frame: String, index: Int, line: (CGPoint, CGPoint))?
 }
 
 extension CanvasView {
@@ -243,7 +248,7 @@ extension CanvasView {
             overlay.hover = hover
             needsDisplay = true
         }
-        cursor(for: handle(at: q), guide: guide(at: p)).set()
+        (swapCentre(at: q) != nil ? NSCursor.openHand : cursor(for: handle(at: q), guide: guide(at: p))).set()
     }
 
     func cursor(for handle: Handle?, guide: (axis: XY, page: String, dx: Double, index: Int)?) -> NSCursor {
@@ -369,6 +374,10 @@ extension CanvasView {
             drag = d
             return
         }
+        if let centre = swapCentre(at: q) {
+            drag = .swap(id: centre, at: p)
+            return
+        }
         let h = handle(at: q)
         switch h {
         case .end(let i)?:
@@ -489,6 +498,28 @@ extension CanvasView {
                 box = Box.around(frames.map(editor.covered))
                 snapsNow = snaps()
             }
+            // Into an auto layout frame, among its children; out of one, onto the page.
+            let ids = frames.map(\.id)
+            let loose = frames.allSatisfy { !$0.absolute }
+            if loose, let flow = editor.flowFrame(at: p, outside: ids) {
+                let fdx = editor.dx(flow.id)
+                let i = Editor.insertion(flow, ids, CGPoint(x: p.x - fdx, y: p.y))
+                overlay.flowDrop = (flow.id, i.index, (CGPoint(x: i.line.0.x + fdx, y: i.line.0.y), CGPoint(x: i.line.1.x + fdx, y: i.line.1.y)))
+                overlay.snapped = []
+                overlay.measures = []
+                self.drag = .move(start: start, frames: frames, active: active, box: box, snaps: snapsNow)
+                return
+            }
+            overlay.flowDrop = nil
+            var start = start
+            if loose, frames.contains(where: { editor.flow(of: $0) != nil }), let page = editor.page(at: p) ?? editor.page {
+                editor.apply(.move(ids, parent: page.id, index: page.children.count))
+                frames = editor.selected
+                start = p
+                box = Box.around(frames.map(editor.covered))
+                snapsNow = snaps()
+                (dx, dy) = (0, 0)
+            }
             guard let b = box, let s = snapsNow else { return }
             let lock: XY? = flags.contains(.shift) ? (abs(dx) > abs(dy) ? .y : .x) : nil
             if lock == .y { dy = 0 }
@@ -542,6 +573,9 @@ extension CanvasView {
                 }
             }
             self.drag = .resize(start: start, handle: h, box: b, frames: frames, snaps: s, by: by * scale, turn: turn, own: own)
+
+        case .swap(let id, _):
+            self.drag = .swap(id: id, at: p)
 
         case .image(let start, let node, let turn):
             let d = Handles.spin(CGPoint(x: p.x - start.x, y: p.y - start.y), -turn)
@@ -656,11 +690,17 @@ extension CanvasView {
             overlay.measures = []
             overlay.size = nil
             overlay.turn = nil
+            overlay.flowDrop = nil
             needsDisplay = true
             track(event)
         }
         guard let drag else { return }
         switch drag {
+        case .move(_, let frames, true, _, _) where overlay.flowDrop != nil:
+            let drop = overlay.flowDrop!
+            overlay.flowDrop = nil
+            editor.apply(.move(frames.map(\.id), parent: drop.frame, index: drop.index))
+            editor.endGroup()
         case .move(_, let frames, let active, _, _) where active:
             // A layer dragged across the spine goes to the page its centre is on.
             var moves: [String: [String]] = [:]
@@ -682,6 +722,10 @@ extension CanvasView {
             }
         case .resize, .end, .radius, .rotate, .image:
             editor.endGroup()
+        case .swap(let id, let at):
+            if let to = editor.swappable().first(where: { $0.id != id && Handles.upright(editor.shown($0)).contains(at) }) {
+                editor.swap(id, to.id)
+            }
         case .guide(_, _, _, _, let grouped) where grouped:
             editor.endGroup()
         case .draw(let start, let id?, let dx, let moved, _, _) where editor.threading != nil:
@@ -714,6 +758,14 @@ extension CanvasView {
         default:
             break
         }
+    }
+
+    /// The layer whose swap centre is at `q` in canvas points.
+    func swapCentre(at q: CGPoint) -> String? {
+        editor.swappable().first { n in
+            let c = view.toCanvas(Handles.upright(editor.shown(n)).center)
+            return hypot(c.x - q.x, c.y - q.y) <= Handles.size
+        }?.id
     }
 
     /// The centre of the image being placed at `p`, moved onto what it snaps to unless

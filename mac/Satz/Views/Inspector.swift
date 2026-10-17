@@ -28,6 +28,8 @@ struct Inspector: View {
                     if let image = editor.selectedImage { ImageSection(editor: editor, node: image) }
                     ArrangeSection(editor: editor, nodes: nodes)
                     LayoutSection(editor: editor, nodes: nodes)
+                    if nodes.count == 1, ResizingSection.applies(editor, nodes[0]) { ResizingSection(editor: editor, node: nodes[0]) }
+                    if nodes.count == 1, nodes[0].kind == .frame { AutoLayoutSection(editor: editor, node: nodes[0]) }
                 }
                 if nodes.allSatisfy({ $0.kind == .text }) {
                     TextSection(editor: editor, nodes: nodes)

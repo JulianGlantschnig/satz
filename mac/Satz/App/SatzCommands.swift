@@ -86,6 +86,11 @@ struct SatzCommands: Commands {
                 .keyboardShortcut("m", modifiers: [.command, .option])
                 .disabled(none)
             Divider()
+            Button("Add Auto Layout") { editor?.addAutoLayout() }
+                .disabled(none)
+            Button("Remove Auto Layout") { editor?.removeAutoLayout() }
+                .disabled(!(editor?.selected.contains { $0.kind == .frame && $0.direction != .none } ?? false))
+            Divider()
             let image = editor?.selectedImage == nil
             Button(editor?.cropping == nil ? "Crop Image" : "Done Cropping") { editor?.toggleCrop() }
                 .disabled(image)

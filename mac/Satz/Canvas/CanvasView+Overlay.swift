@@ -132,6 +132,23 @@ extension CanvasView {
             }
         }
 
+        // Where moved layers drop into an auto layout frame.
+        if let drop = overlay.flowDrop {
+            ctx.setLineWidth(2)
+            line(ctx, drop.line.0, drop.line.1)
+            ctx.setLineWidth(1)
+        }
+        // The centres that swap places when one is dragged onto another.
+        let moving: (id: String, at: CGPoint)? = if case .swap(let id, let at) = drag { (id, at) } else { nil }
+        for n in editor.swappable() {
+            let c = view.toCanvas(moving?.id == n.id ? moving!.at : Handles.upright(editor.shown(n)).center)
+            let r = CGRect(x: c.x - 4.5, y: c.y - 4.5, width: 9, height: 9)
+            ctx.setFillColor(.white)
+            ctx.fillEllipse(in: r)
+            ctx.setStrokeColor(accent)
+            ctx.strokeEllipse(in: r)
+        }
+
         // Snap guides and distances.
         let magenta = CGColor(srgbRed: 1, green: 0.2, blue: 0.55, alpha: 1)
         ctx.setStrokeColor(magenta)
