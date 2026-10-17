@@ -12,7 +12,7 @@ struct AutoLayoutSection: View {
 
     var body: some View {
         if node.direction == .none {
-            Section {
+            PanelSection {
                 Button {
                     editor.addAutoLayout()
                 } label: {
@@ -33,7 +33,7 @@ struct AutoLayoutSection: View {
         let between = node.alignMain == .spaceBetween
         let padding = [node.paddingTop, node.paddingRight, node.paddingBottom, node.paddingLeft]
         let each = eachSide || !padding.allSatisfy { $0 == padding[0] }
-        return Section {
+        return PanelSection {
             Picker("Direction", selection: Binding(get: { node.direction }, set: { set(["direction": .string($0.rawValue)]) })) {
                 Label("Horizontal", systemImage: "arrow.right").tag(Direction.horizontal)
                 Label("Vertical", systemImage: "arrow.down").tag(Direction.vertical)
@@ -167,7 +167,7 @@ struct ResizingSection: View {
         let flows = editor.flow(of: node) != nil
         let hugs = (node.kind == .frame && node.direction != .none) || (node.kind == .text && flows)
         let sizes = Size.allCases.filter { $0 == .fixed || ($0 == .hug ? hugs : flows) }
-        Section {
+        PanelSection {
             if hugs || flows {
                 HStack {
                     sizing("W", help: "Width sizing", \.horizontal, sizes)

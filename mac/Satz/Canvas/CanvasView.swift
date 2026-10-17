@@ -213,9 +213,18 @@ final class CanvasView: NSView {
 
     override func draw(_ dirtyRect: NSRect) {
         guard let ctx = NSGraphicsContext.current?.cgContext else { return }
-        ctx.setFillColor(NSColor.underPageBackgroundColor.cgColor)
+        ctx.setFillColor(Theme.pasteboard.cgColor)
         ctx.fill(dirtyRect)
         guard let scene else { return }
+        // A soft shadow lifts the paper off the pasteboard.
+        ctx.saveGState()
+        ctx.setShadow(offset: CGSize(width: 0, height: 1), blur: 8, color: CGColor(gray: 0, alpha: 0.22))
+        ctx.setFillColor(.white)
+        for s in editor.sheets {
+            let o = view.toCanvas(s.trim.origin)
+            ctx.fill(CGRect(x: o.x, y: o.y, width: s.trim.width * view.zoom, height: s.trim.height * view.zoom))
+        }
+        ctx.restoreGState()
         if tiles == nil {
             tiles = Tiles(zoom: view.zoom, scale: backingScale, sceneKey: scene.key)
         }

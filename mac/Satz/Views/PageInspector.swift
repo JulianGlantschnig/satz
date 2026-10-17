@@ -8,7 +8,7 @@ struct DocumentSection: View {
 
     var body: some View {
         let s = editor.snapshot
-        Section("Document") {
+        PanelSection("Document") {
             HStack {
                 NumberField(label: "Pages", value: Double(s.pages.count), unit: .plain, integer: true, range: 1...9999) { setCount(Int($0)) }
                 NumberField(label: "Raster", help: "Raster resolution for transparency in print PDFs", value: s.rasterPpi, unit: .plain, integer: true, range: 72...1200) {
@@ -84,7 +84,7 @@ struct PageSection: View {
         let isPage = sheets.allSatisfy { p in s.pages.contains { $0.id == p.id } }
         if let first = sheets.first {
             let numbers = sheets.compactMap { p in s.pages.firstIndex { $0.id == p.id }.map { $0 + 1 } }
-            Section(isPage ? (numbers.count > 1 ? String(localized: "Pages \(numbers.map(String.init).joined(separator: ", "))") : String(localized: "Page \(numbers.first ?? 1)")) : String(localized: "Master")) {
+            PanelSection(isPage ? (numbers.count > 1 ? String(localized: "Pages \(numbers.map(String.init).joined(separator: ", "))") : String(localized: "Page \(numbers.first ?? 1)")) : String(localized: "Master")) {
                 let w = same(sheets) { $0.width }
                 let h = same(sheets) { $0.height }
                 HStack {
@@ -135,7 +135,7 @@ struct PageSection: View {
                     Toggle("Start section", isOn: Binding(
                         get: { first.section != nil },
                         set: { on in
-                            if let cmd = try? Command.setSection(first.id, on ? Section(start: n, style: .arabic, prefix: "") : nil) { editor.apply(cmd) }
+                            if let cmd = try? Command.setSection(first.id, on ? SatzCore.Section(start: n, style: .arabic, prefix: "") : nil) { editor.apply(cmd) }
                         }))
                     if let section = first.section {
                         HStack {
@@ -197,7 +197,7 @@ struct GridSection: View {
 
     var body: some View {
         let grids = same(sheets) { $0.grids }
-        Section {
+        PanelSection {
             if let grids {
                 ForEach(grids.indices, id: \.self) { i in
                     let g = grids[i]

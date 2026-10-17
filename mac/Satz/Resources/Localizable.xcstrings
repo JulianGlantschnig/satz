@@ -1791,6 +1791,16 @@
         }
       }
     },
+    "Dismiss": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schließen"
+          }
+        }
+      }
+    },
     "Distribute Horizontally": {
       "localizations": {
         "de": {
@@ -4427,6 +4437,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Seite %lld"
+          }
+        }
+      }
+    },
+    "Page %lld of %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seite %1$lld von %2$lld"
           }
         }
       }

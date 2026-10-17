@@ -57,6 +57,9 @@ struct EditorView: View {
                     }
                 }
             }
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                StatusLine(editor: editor)
+            }
         }
         .sheet(isPresented: $editor.showsShortcuts) {
             ShortcutsView(editor: editor)
@@ -121,9 +124,6 @@ struct EditorView: View {
                 }
             }
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            StatusLine(status: editor.status)
-        }
         .focusedSceneValue(\.editor, editor)
         .onChange(of: editor.showsPreflight) { _, open in if open { showsInspector = true } }
         .onChange(of: editor.showsPanels) { _, on in
@@ -136,22 +136,58 @@ struct EditorView: View {
     }
 }
 
+/// A slim bar under the canvas: messages on the left, which fade after a few seconds
+/// unless they are errors, and where the document stands on the right.
 struct StatusLine: View {
-    let status: Editor.Status?
+    let editor: Editor
+    @State private var shown: Editor.Status?
 
     var body: some View {
-        if let status {
-            HStack {
-                Image(systemName: status.error ? "exclamationmark.circle.fill" : "info.circle")
-                    .foregroundStyle(status.error ? .red : .secondary)
+        let s = editor.snapshot
+        let number = s.pages.firstIndex { $0.id == editor.pageID }.map { $0 + 1 }
+        HStack(spacing: 6) {
+            if let status = shown {
+                Image(systemName: status.error ? "exclamationmark.triangle.fill" : "checkmark.circle")
+                    .foregroundStyle(status.error ? SwiftUI.Color.red : .secondary)
                 Text(status.text)
                     .lineLimit(1)
-                Spacer()
+                    .foregroundStyle(status.error ? .primary : .secondary)
+                    .textSelection(.enabled)
+                if status.error {
+                    Button { editor.clearStatus() } label: { Image(systemName: "xmark") }
+                        .buttonStyle(.borderless)
+                        .help("Dismiss")
+                }
             }
-            .font(.callout)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(.bar)
+            Spacer(minLength: 12)
+            Group {
+                if !editor.selection.isEmpty {
+                    Text(editor.selection.count == 1 ? (editor.selected.first?.name ?? "") : String(localized: "\(editor.selection.count) layers"))
+                        .lineLimit(1)
+                    Text(verbatim: "·")
+                }
+                if let m = editor.master {
+                    Text(m.name)
+                } else if let number {
+                    Text("Page \(number) of \(s.pages.count)")
+                }
+            }
+            .foregroundStyle(.secondary)
+        }
+        .font(.system(size: Theme.small))
+        .monospacedDigit()
+        .padding(.horizontal, 10)
+        .frame(height: 22)
+        .background(.bar)
+        .overlay(alignment: .top) { Divider() }
+        .accessibilityIdentifier("status")
+        .task(id: editor.status) {
+            withAnimation(.easeOut(duration: 0.15)) { shown = editor.status }
+            // Messages fade after a few seconds; errors stay until dismissed.
+            guard let status = editor.status, !status.error else { return }
+            try? await Task.sleep(for: .seconds(4))
+            guard !Task.isCancelled, editor.status == status else { return }
+            withAnimation(.easeOut(duration: 0.6)) { shown = nil }
         }
     }
 }

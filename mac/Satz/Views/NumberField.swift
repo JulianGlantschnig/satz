@@ -48,7 +48,7 @@ struct NumberField: View {
     var body: some View {
         HStack(spacing: 4) {
             Text(LocalizedStringKey(label))
-                .font(.caption.weight(.medium))
+                .font(.system(size: 10, weight: .medium))
                 .foregroundStyle(.secondary)
                 .frame(minWidth: 14, alignment: .leading)
                 .contentShape(Rectangle())
@@ -59,7 +59,7 @@ struct NumberField: View {
             TextField(label, text: $text, prompt: Text(value == nil ? String(localized: "Mixed") : ""))
                 .textFieldStyle(.plain)
                 .labelsHidden()
-                .monospacedDigit()
+                .font(.system(size: Theme.small).monospacedDigit())
                 .focused($focused)
                 .onSubmit(submit)
                 .onKeyPress(keys: [.upArrow, .downArrow]) { press in
@@ -73,7 +73,7 @@ struct NumberField: View {
                     focused = false
                 }
             if !unit.name.isEmpty {
-                Text(unit.name).font(.caption).foregroundStyle(.tertiary)
+                Text(unit.name).font(.system(size: 10)).foregroundStyle(.tertiary)
             }
             if integer {
                 // Whole numbers step with minus and plus too.
@@ -83,7 +83,7 @@ struct NumberField: View {
             }
         }
         .padding(.horizontal, 6)
-        .padding(.vertical, 3)
+        .frame(minHeight: Theme.rowHeight)
         .background(RoundedRectangle(cornerRadius: 5).fill(.quaternary.opacity(0.6)))
         .help(help ?? LocalizedStringKey(label))
         .onAppear { text = format(shown) }

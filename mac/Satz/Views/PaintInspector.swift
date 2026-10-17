@@ -48,7 +48,7 @@ private struct ShapeSection: View {
     let set: ([String: JSON]) -> Void
 
     var body: some View {
-        Section("Shape") {
+        PanelSection("Shape") {
             Grid(horizontalSpacing: 8, verticalSpacing: 6) {
                 if node.shape == .polygon || node.shape == .star {
                     GridRow {
@@ -90,7 +90,7 @@ private struct LayerSection: View {
 
     var body: some View {
         let one = nodes.count == 1 ? nodes[0] : nil
-        Section("Layer") {
+        PanelSection("Layer") {
             if let one, one.kind == .frame {
                 ModePickers(editor: editor, id: one.id, own: one.modes, inherited: editor.nodes[one.id]?.parent?.activeModes ?? editor.nodes[one.id]?.page?.modes ?? [:])
             }
@@ -132,14 +132,15 @@ struct PaintList: View {
     let onChange: ([Fill]) -> Void
 
     var body: some View {
-        Section {
+        PanelSection {
             if let paints {
                 ForEach(paints.indices.reversed(), id: \.self) { i in
-                    HStack(spacing: 4) {
+                    HStack(alignment: .top, spacing: 4) {
                         // A paint dragged by its handle onto another takes its place in the stack.
                         Image(systemName: "line.3.horizontal")
                             .font(.caption)
                             .foregroundStyle(.tertiary)
+                            .frame(height: Theme.rowHeight)
                             .help("Drag to reorder")
                             .draggable("\(Self.dragPrefix)\(i)")
                         PaintRow(paint: paints[i], title: title, mode: mode, scope: scope, editor: editor, ppi: ppi, images: images) { next in
@@ -342,7 +343,7 @@ private struct StrokeSection: View {
             set(["strokes": (try? JSON(encoding: $0)) ?? .null])
         }
         if !(strokes ?? []).isEmpty {
-            Section {
+            PanelSection {
                 HStack {
                     NumberField(label: "Weight", help: "Stroke weight", value: same(nodes) { $0.strokeWeight }, unit: .points, range: 0...1000) { set(["strokeWeight": .number($0)]) }
                     if nodes.allSatisfy({ $0.kind != .text }) {
@@ -422,7 +423,7 @@ struct EffectList: View {
     }
 
     var body: some View {
-        Section {
+        PanelSection {
             if let effects {
                 ForEach(effects.indices, id: \.self) { i in
                     let e = effects[i]
@@ -499,7 +500,7 @@ private struct WrapSection: View {
     let set: ([String: JSON]) -> Void
 
     var body: some View {
-        Section("Text Wrap") {
+        PanelSection("Text Wrap") {
             HStack {
                 Picker("Text wrap", selection: Binding(get: { same(nodes) { $0.wrap } ?? .none }, set: { set(["wrap": .string($0.rawValue)]) })) {
                     Text("No Text Wrap").tag(Wrap.none)

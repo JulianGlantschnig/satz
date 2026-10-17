@@ -65,7 +65,7 @@ struct TextSection: View {
 
     var body: some View {
         let spans = spans
-        Section("Text") {
+        PanelSection("Text") {
             HStack {
                 StyleMenu(editor: editor, spans: spans, format: format)
                 CharacterMenu(editor: editor, node: nodes.first)
@@ -426,7 +426,7 @@ struct TextFrameSection: View {
     private func number(_ key: String) -> (Double) -> Void { { set([key: .number($0)]) } }
 
     var body: some View {
-        Section("Text Frame") {
+        PanelSection("Text Frame") {
             Picker("Resizing", selection: Binding(
                 get: { node.sizing.resizing },
                 set: { mode in if let s = try? JSON(encoding: node.sizing.text(mode)) { set(["sizing": s]) } })
@@ -516,7 +516,7 @@ struct TextStylesSection: View {
     var body: some View {
         let styles = editor.snapshot.textStyles
         if !styles.isEmpty {
-            Section("Text Styles") {
+            PanelSection("Text Styles") {
                 ForEach(styles) { s in
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {

@@ -50,7 +50,7 @@ final class QuickBarTests: XCTestCase {
         canvas.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
         let bar = window.descendants(matching: .any)["quick-bar"].firstMatch
         XCTAssertTrue(bar.waitForExistence(timeout: 5))
-        XCTAssertTrue(bar.descendants(matching: .any)["font-menu"].firstMatch.exists)
+        XCTAssertTrue(bar.descendants(matching: .any)["quick-font"].firstMatch.exists)
         sleep(1)
         shot("2-text")
     }

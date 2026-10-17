@@ -108,6 +108,7 @@ struct QuickBar: View {
             format(["font": (try? JSON(encoding: face)) ?? .null])
         }
         .frame(width: 150)
+        .accessibilityIdentifier("quick-font")
         NumberField(label: "", help: "Font size", value: shared(spans) { $0.size }, unit: .points, range: 0.1 ... 5000) { format(["size": .number($0)]) }
             .frame(width: 70)
         Picker("Align", selection: Binding(get: { shared(spans) { $0.textAlign } ?? .left }, set: { format(["textAlign": .string($0.rawValue)]) })) {

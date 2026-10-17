@@ -15,8 +15,8 @@ struct Preflight: View {
         let s = editor.snapshot
         let issues = s.preflight.sorted { $0.isError && !$1.isError }
         let errors = issues.filter(\.isError).count
-        Form {
-            Section {
+        Panel {
+            PanelSection {
                 if issues.isEmpty {
                     Label("No issues. The document is ready for print.", systemImage: "checkmark.circle.fill")
                         .foregroundStyle(.green)
@@ -40,7 +40,6 @@ struct Preflight: View {
             }
             ExportSection(editor: editor, errors: errors)
         }
-        .formStyle(.grouped)
         .accessibilityIdentifier("preflight")
     }
 }
@@ -99,13 +98,13 @@ private struct InksSections: View {
     var body: some View {
         let s = editor.snapshot
         let p = editor.previewed
-        Section("Proof") {
+        PanelSection("Proof") {
             Text("Simulates print, \(s.profile ?? "FOGRA51")")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Toggle("Mark colours outside the gamut", isOn: $editor.inks.gamut)
         }
-        Section("Separations") {
+        PanelSection("Separations") {
             let plates: [(String, SwiftUI.Color)] = [
                 (String(localized: "Cyan"), .cyan), (String(localized: "Magenta"), .pink),
                 (String(localized: "Yellow"), .yellow), (String(localized: "Black"), .primary),
@@ -116,7 +115,7 @@ private struct InksSections: View {
                 row(bit: bit, name: rows[bit].0, color: rows[bit].1)
             }
         }
-        Section("Ink coverage") {
+        PanelSection("Ink coverage") {
             NumberField(label: "Limit", help: "Ink limit", value: s.inkLimit, unit: .percent, integer: true, range: 200...400) {
                 editor.apply(.setDocument(["inkLimit": .number($0)]))
             }
@@ -163,7 +162,7 @@ private struct ExportSection: View {
     var body: some View {
         let s = editor.snapshot
         let chosen = Export.pages(range, count: s.pages.count)
-        Section("Export") {
+        PanelSection("Export") {
             Picker("Format", selection: $format) {
                 ForEach(Export.Format.allCases) { f in Text(Editor.name(of: f)).tag(f) }
             }

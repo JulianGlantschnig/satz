@@ -17,7 +17,7 @@ struct ImageSection: View {
         let fill = node.fills.first { $0.type == .image }
         let adjust = fill?.adjust ?? [0, 0, 0]
         let fit = Editor.fit(of: node.fills)
-        Section {
+        PanelSection {
             HStack {
                 Toggle(isOn: Binding(get: { editor.cropping == node.id }, set: { _ in editor.toggleCrop() })) {
                     Label("Crop", systemImage: "crop")

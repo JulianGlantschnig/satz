@@ -15,7 +15,7 @@ struct Inspector: View {
 
     private var properties: some View {
         let nodes = editor.selected
-        return Form {
+        return Panel {
             if nodes.isEmpty || editor.showsOverview {
                 DocumentSection(editor: editor)
                 PageSection(editor: editor)
@@ -40,7 +40,6 @@ struct Inspector: View {
                 }
             }
         }
-        .formStyle(.grouped)
         .accessibilityIdentifier("inspector")
     }
 }
@@ -56,10 +55,10 @@ private struct SelectionHeader: View {
     let nodes: [Node]
 
     var body: some View {
-        Section {
+        PanelSection {
             HStack {
                 Text(nodes.count == 1 ? (nodes[0].kind == .text ? String(localized: "Text frame") : nodes[0].name) : String(localized: "\(nodes.count) layers"))
-                    .font(.headline)
+                    .font(.system(size: 13, weight: .semibold))
                     .lineLimit(1)
                 Spacer()
                 if nodes.count == 1, nodes[0].overrideOf != nil {
@@ -76,7 +75,7 @@ struct ArrangeSection: View {
     let nodes: [Node]
 
     var body: some View {
-        Section {
+        PanelSection {
             HStack(spacing: 2) {
                 ForEach(Editor.Align.allCases.prefix(6)) { a in icon(a) }
             }
@@ -184,7 +183,7 @@ private struct LayoutSection: View {
     var body: some View {
         let one = nodes.count == 1 ? nodes[0] : nil
         let line = one.flatMap(Editor.ends)
-        Section {
+        PanelSection {
             Grid(horizontalSpacing: 8, verticalSpacing: 6) {
                 GridRow {
                     NumberField(label: "X", value: nodes.count > 1 ? same(nodes) { $0.x } : one?.x, commit: frame("x"))

@@ -16,7 +16,7 @@ struct SwatchesSection: View {
 
     var body: some View {
         let snapshot = editor.snapshot
-        Section {
+        PanelSection {
             ForEach(snapshot.swatches) { s in
                 HStack {
                     Button { editing = s.id } label: {
@@ -131,7 +131,7 @@ struct VariablesSection: View {
 
     var body: some View {
         let snapshot = editor.snapshot
-        Section {
+        PanelSection {
             ForEach(snapshot.variables) { v in
                 let kind = VariableKind(v)
                 HStack {
