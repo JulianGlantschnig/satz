@@ -30,12 +30,12 @@ struct PaintSections: View {
             PaintList(
                 title: "Fill", paints: fills, mode: mode, scope: scope, editor: editor,
                 added: .solid(ColorMath.neutral(nodes.allSatisfy { $0.kind == .text } ? "black" : "gray", mode)),
-                ppi: one?.ppi, images: editor.snapshot.images
+                ppi: one?.ppi, images: editor.snapshot.images,
+                footer: mode == .cmyk && !(fills ?? []).isEmpty ? AnyView(
+                    Toggle("Overprint fill", isOn: Binding(get: { same(nodes) { $0.overprintFill } ?? false }, set: { set(["overprintFill": .bool($0)]) }))
+                        .toggleStyle(.panel)
+                ) : nil
             ) { set(["fills": encode($0)]) }
-            if mode == .cmyk, !(fills ?? []).isEmpty {
-                Toggle("Overprint fill", isOn: Binding(get: { same(nodes) { $0.overprintFill } ?? false }, set: { set(["overprintFill": .bool($0)]) }))
-                    .toggleStyle(.panel)
-            }
             StrokeSection(editor: editor, nodes: nodes, mode: mode, scope: scope, set: set)
         }
         EffectList(effects: same(nodes) { $0.effects }, mode: mode, scope: scope) { set(["effects": encode($0)]) }
@@ -130,6 +130,8 @@ struct PaintList: View {
     let added: Fill
     var ppi: Double?
     var images: [String: String] = [:]
+    /// Under the paints, such as their overprint.
+    var footer: AnyView?
     let onChange: ([Fill]) -> Void
 
     var body: some View {
@@ -162,6 +164,7 @@ struct PaintList: View {
             } else {
                 Text("Mixed · + replaces all").foregroundStyle(.secondary)
             }
+            footer
         } header: {
             HStack {
                 Text(title)
