@@ -32,9 +32,9 @@ final class QuickBarTests: XCTestCase {
         // Above the rectangle.
         XCTAssertLessThan(fills.frame.maxY, canvas.frame.minY + canvas.frame.height * 0.5)
         fills.click()
-        app.menuItems["Black"].click()
+        app.menuItems["None"].click()
         sleep(1)
-        shot("1-black")
+        shot("1-none")
         // Nothing selected, no bar.
         canvas.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
         XCTAssertFalse(fills.waitForExistence(timeout: 1) && fills.isHittable)

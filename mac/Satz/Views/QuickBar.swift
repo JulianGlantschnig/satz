@@ -130,11 +130,7 @@ struct QuickBar: View {
         let top = (paint == .fills ? nodes.first?.fills : nodes.first?.strokes)?.last { $0.visible }
         let mixed = nodes.contains { n in (paint == .fills ? n.fills : n.strokes) != (paint == .fills ? nodes[0].fills : nodes[0].strokes) }
         let title = paint == .fills ? String(localized: "Fill colour") : String(localized: "Stroke colour")
-        let colors: [(String, SatzCore.Color?)] = [
-            (String(localized: "None"), nil),
-            (String(localized: "Black"), ColorMath.neutral("black", s.colorMode)),
-            (String(localized: "White"), ColorMath.neutral("white", s.colorMode)),
-        ] + s.swatches.map { ($0.name, SatzCore.Color.swatch($0.id, tint: 1, alpha: 1)) }
+        let colors: [(String, SatzCore.Color?)] = [(String(localized: "None"), nil)] + s.swatches.map { ($0.name, SatzCore.Color.swatch($0.id, tint: 1, alpha: 1)) }
         return Menu {
             ForEach(colors.indices, id: \.self) { i in
                 let (name, color) = colors[i]
