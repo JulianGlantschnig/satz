@@ -48,6 +48,8 @@ pub(crate) struct Lists {
     seen: Option<Rc<Snapshot>>,
     fresh: HashSet<String>,
     versions: u32,
+    /// The canvas leaves out the nonprinting layers.
+    hide_nonprinting: bool,
 }
 
 #[wasm_bindgen]
@@ -115,8 +117,15 @@ impl Engine {
     /// The display list of the page `id` as its inverted C, M and Y plate, or its K
     /// plate; the view is invalid after the next call into the engine.
     pub fn plate(&mut self, page: &str, k: bool) -> Uint32Array {
-        self.list = encode(&self.doc.plate(page, k));
+        let shown = !self.lists.hide_nonprinting;
+        self.list = encode(&self.doc.plate(page, k, shown));
         unsafe { Uint32Array::view(&self.list) }
+    }
+
+    /// Shows or hides the nonprinting layers in the display lists of the canvas.
+    #[wasm_bindgen(js_name = showNonprinting)]
+    pub fn show_nonprinting(&mut self, shown: bool) {
+        self.lists.show_nonprinting(shown);
     }
 
     /// The image to decode for the image `id` of display lists and [k, m, o] that
@@ -307,6 +316,14 @@ impl Engine {
 }
 
 impl Lists {
+    /// Shows or hides the nonprinting layers on the canvas.
+    pub(crate) fn show_nonprinting(&mut self, shown: bool) {
+        if self.hide_nonprinting == shown {
+            self.hide_nonprinting = !shown;
+            self.fresh.clear();
+        }
+    }
+
     pub(crate) fn drawn(&mut self, doc: &Doc, page: &str) -> &(u32, Vec<u32>) {
         let snap = doc.snapshot();
         if !self.seen.as_ref().is_some_and(|s| Rc::ptr_eq(s, &snap)) {
@@ -321,7 +338,7 @@ impl Lists {
             self.seen = Some(snap);
         }
         if self.fresh.insert(page.to_string()) {
-            let list = encode(&doc.render(page));
+            let list = encode(&doc.render_shown(page, !self.hide_nonprinting));
             let entry = self.lists.entry(page.to_string()).or_default();
             if entry.1 != list {
                 self.versions += 1;

@@ -402,6 +402,10 @@ pub struct Props {
     pub name: Option<String>,
     pub hidden: Option<bool>,
     pub locked: Option<bool>,
+    pub nonprinting: Option<bool>,
+    /// The settings of the raster that a raster group was made from, for the app to edit
+    /// it again; the engine keeps it as it is.
+    pub raster: Option<String>,
     pub keep_ratio: Option<bool>,
     pub rotation: Option<f64>,
     pub clip: Option<bool>,
@@ -4926,7 +4930,7 @@ mod tests {
         set_frame(&mut d, &id, [20.0, 100.0, 288.0, 72.0]);
         assert_eq!(problems(&d), [(id.clone(), Problem::LowPpi { ppi: 150.0 })]);
         cmyk(&mut d);
-        let proofed = d.plate(&p, false).iter().any(
+        let proofed = d.plate(&p, false, true).iter().any(
             |o| matches!(o, Op::Image { image, .. } if *image == image::id(&hash).unwrap() | image::CMY),
         );
         assert!(proofed);

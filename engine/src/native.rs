@@ -186,7 +186,12 @@ impl Core {
 
     /// The display list of the page as its inverted C, M and Y plate, or its K plate.
     pub fn plate(&self, page: String, k: bool) -> Vec<u8> {
-        self.with(|s| words(&encode(&s.doc.plate(&page, k))))
+        self.with(|s| words(&encode(&s.doc.plate(&page, k, !s.lists.hide_nonprinting))))
+    }
+
+    /// Shows or hides the nonprinting layers in the display lists of the canvas.
+    pub fn show_nonprinting(&self, shown: bool) {
+        self.with(|s| s.lists.show_nonprinting(shown))
     }
 
     /// [x, top, bottom] in pt of a caret before the UTF-16 `index` of the text `id`.

@@ -150,6 +150,11 @@ pub struct Node {
     pub hidden: bool,
     /// Not hit on the canvas, with its children.
     pub locked: bool,
+    /// Drawn on the canvas but not exported or preflighted, with its children.
+    pub nonprinting: bool,
+    /// The settings of the raster this group was made from.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub raster: Option<String>,
     /// Its width and height change together.
     pub keep_ratio: bool,
     /// Degrees counterclockwise around the centre, with its children.
@@ -262,7 +267,7 @@ pub(super) fn visit(
     snap: &Snapshot,
     out: &mut Vec<Issue>,
 ) {
-    if n.hidden {
+    if n.hidden || n.nonprinting {
         return;
     }
     let mut problems = Vec::new();
@@ -452,8 +457,28 @@ pub(super) fn draw_all(nodes: &[Node], ops: &mut Vec<Op>, pal: &Palette) {
     }
 }
 
+thread_local! {
+    /// Whether what is drawn now prints, which leaves out the nonprinting layers.
+    static PRINTING: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+}
+
+/// Sets `PRINTING` until it goes, then gives it back its value.
+struct Printing(bool);
+
+impl Printing {
+    fn set(on: bool) -> Printing {
+        Printing(PRINTING.replace(on))
+    }
+}
+
+impl Drop for Printing {
+    fn drop(&mut self) {
+        PRINTING.set(self.0);
+    }
+}
+
 pub(super) fn draw(n: &Node, ops: &mut Vec<Op>, pal: &Palette) {
-    if n.hidden {
+    if n.hidden || n.nonprinting && PRINTING.get() {
         return;
     }
     let frame = [n.x, n.y, n.w, n.h].map(|v| v as f32);
@@ -770,6 +795,13 @@ impl Doc {
 
     /// The display list of the page `id` for the canvas, empty when there is none.
     pub fn render(&self, id: &str) -> Vec<Op> {
+        self.render_shown(id, true)
+    }
+
+    /// The display list of the page `id` for the canvas, with its nonprinting layers or
+    /// without them.
+    pub fn render_shown(&self, id: &str, nonprinting: bool) -> Vec<Op> {
+        let _printing = Printing::set(!nonprinting);
         let snap = self.snapshot();
         let sheets = || snap.pages.iter().chain(&snap.masters);
         let Some(p) = sheets().find(|p| p.id == id) else {
@@ -782,8 +814,8 @@ impl Doc {
 
     /// The display list of the page `id` as one plate of its print, C, M and Y or K
     /// in all three, inverted to RGB so that the canvas blends its inks on paper.
-    pub fn plate(&self, id: &str, k: bool) -> Vec<Op> {
-        let mut ops = recolor(&self.render(id), &|c, ink, _| {
+    pub fn plate(&self, id: &str, k: bool, nonprinting: bool) -> Vec<Op> {
+        let mut ops = recolor(&self.render_shown(id, nonprinting), &|c, ink, _| {
             let [cyan, m, y, black] = ink.cmyk(c);
             let [r, g, b] = if k { [black; 3] } else { [cyan, m, y] };
             [1.0 - r, 1.0 - g, 1.0 - b, c[3]]
@@ -901,6 +933,7 @@ impl Doc {
     /// The display list of the page `p` as it prints: with the layers of the other
     /// page of its spread, so that one across the spine prints on both.
     pub(super) fn print(&self, snap: &Snapshot, p: &Page) -> Vec<Op> {
+        let _printing = Printing::set(true);
         let mut ops = vec![page_op(p)];
         let spread = snap.spreads.iter().find(|s| s.contains(&p.id));
         for q in spread.into_iter().flatten() {
@@ -1254,6 +1287,8 @@ impl Doc {
             override_of: v[OVERRIDE_OF].as_str().map(String::from),
             hidden: v["hidden"] == true,
             locked: v["locked"] == true,
+            nonprinting: v["nonprinting"] == true,
+            raster: v["raster"].as_str().map(String::from),
             keep_ratio: v["keepRatio"] == true,
             rotation: v["rotation"].as_f64().unwrap_or(0.0),
             wrap: serde_json::from_value(v["wrap"].clone()).unwrap_or_default(),
@@ -2044,11 +2079,48 @@ mod tests {
         };
         assert_eq!(solid(d.render(&p)).unwrap(), [1.0, 0.0, 0.0, 1.0]);
         let [c, m, y, k] = color::to_cmyk([1.0, 0.0, 0.0]);
-        let [r, g, b, a] = solid(d.plate(&p, false)).unwrap();
+        let [r, g, b, a] = solid(d.plate(&p, false, true)).unwrap();
         assert!((r - (1.0 - c)).abs() < 1e-4 && (g - (1.0 - m)).abs() < 1e-4);
         assert!((b - (1.0 - y)).abs() < 1e-4 && a == 1.0);
-        let [r, g, b, _] = solid(d.plate(&p, true)).unwrap();
+        let [r, g, b, _] = solid(d.plate(&p, true, true)).unwrap();
         assert!((r - (1.0 - k)).abs() < 1e-4 && r == g && g == b);
+    }
+
+    #[test]
+    fn a_nonprinting_layer_is_drawn_on_the_canvas_but_not_printed_or_preflighted() {
+        let (mut d, p) = empty();
+        let a = create(&mut d, &p, NewKind::Rect, [0.0, 50.0, 20.0, 20.0]);
+        let b = create(&mut d, &p, NewKind::Rect, [0.0, 50.0, 10.0, 10.0]);
+        let g = d
+            .apply(Command::Group {
+                ids: vec![b.clone()],
+                frame: false,
+            })
+            .unwrap()
+            .remove(0);
+        cmyk(&mut d);
+        set(&mut d, &b, rgb_fill());
+        let printed = d.printed(&p).unwrap();
+        assert!(problems(&d).iter().any(|i| i.0 == b));
+        let raster = r#"{"type":"lines"}"#.to_string();
+        set(
+            &mut d,
+            &g,
+            Props {
+                nonprinting: Some(true),
+                raster: Some(raster.clone()),
+                ..Props::default()
+            },
+        );
+        let n = &page(&d).children[1];
+        assert!(n.nonprinting && n.raster == Some(raster));
+        assert_eq!(items(&page_ops(&d)).len(), 2);
+        assert_eq!(items(&d.render_shown(&p, false)).len(), 1);
+        assert_ne!(d.printed(&p).unwrap(), printed);
+        assert!(!problems(&d).iter().any(|i| i.0 == b));
+        assert_eq!(hits(&d, 5.0, 55.0, 0.0)[0], g);
+        set(&mut d, &a, rgb_fill());
+        assert_eq!(items(&d.render_shown(&p, false)).len(), 1);
     }
 
     #[test]

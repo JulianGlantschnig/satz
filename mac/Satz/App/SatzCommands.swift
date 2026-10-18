@@ -86,6 +86,11 @@ struct SatzCommands: Commands {
                 editor?.showsGrids.toggle()
             }
             .keyboardShortcut(";", modifiers: .command)
+            Button(editor?.showsNonprinting == false ? "Show Nonprinting Layers" : "Hide Nonprinting Layers") {
+                editor?.showsNonprinting.toggle()
+            }
+            .keyboardShortcut(";", modifiers: [.command, .option])
+            .disabled(editor == nil)
             Divider()
         }
 

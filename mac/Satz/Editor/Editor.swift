@@ -141,8 +141,14 @@ final class Editor {
     var found: [Find.Match] = []
     /// Layout grids and guides show on the canvas.
     var showsGrids = false
+    /// Nonprinting layers, such as a raster for the screen, show on the canvas.
+    var showsNonprinting = true {
+        didSet { engine.showNonprinting(shown: showsNonprinting && !showsPreflight) }
+    }
     /// The preflight is open: the pages show as they print, with what `inks` marks over them.
-    var showsPreflight = false
+    var showsPreflight = false {
+        didSet { engine.showNonprinting(shown: showsNonprinting && !showsPreflight) }
+    }
     /// The plates the preflight shows and what it marks over them.
     var inks = InkPreview.Options() {
         didSet { if inks != oldValue { previewInks() } }

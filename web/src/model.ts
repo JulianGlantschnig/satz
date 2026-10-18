@@ -77,7 +77,7 @@ export type Layout = {
 }
 
 export type Wrap = 'none' | 'around' | 'jump'
-export type Props = Partial<Style> & Partial<Layout> & Partial<TextFrame> & { name?: string; hidden?: boolean; locked?: boolean; keepRatio?: boolean; rotation?: number; wrap?: Wrap; wrapOffsetX?: number; wrapOffsetY?: number; clip?: boolean; radius?: number; corners?: number[]; start?: number; sweep?: number; inner?: number; count?: number; ratio?: number }
+export type Props = Partial<Style> & Partial<Layout> & Partial<TextFrame> & { name?: string; hidden?: boolean; locked?: boolean; nonprinting?: boolean; raster?: string; keepRatio?: boolean; rotation?: number; wrap?: Wrap; wrapOffsetX?: number; wrapOffsetY?: number; clip?: boolean; radius?: number; corners?: number[]; start?: number; sweep?: number; inner?: number; count?: number; ratio?: number }
 
 export type NewKind = 'rect' | 'ellipse' | 'polygon' | 'star' | 'line' | 'path' | 'text' | 'frame'
 
@@ -158,6 +158,10 @@ export type Node = {
   hidden: boolean
   /** Not hit on the canvas, with its children. */
   locked: boolean
+  /** Drawn on the canvas but not exported or preflighted, with its children. */
+  nonprinting: boolean
+  /** The settings of the raster this group was made from, kept for the Mac app. */
+  raster?: string
   /** Its width and height change together. */
   keepRatio: boolean
   /** Degrees counterclockwise around the centre, with the children. */

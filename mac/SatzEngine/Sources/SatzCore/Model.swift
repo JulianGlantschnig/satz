@@ -129,6 +129,10 @@ public struct Node: Decodable, Hashable, Sendable, Identifiable {
     public var ppi: Double?
     public var hidden: Bool
     public var locked: Bool
+    /// Drawn on the canvas but not exported or preflighted, with the children.
+    public var nonprinting: Bool
+    /// The settings of the raster this group was made from, as JSON.
+    public var raster: String?
     public var keepRatio: Bool
     /// Degrees counterclockwise around the centre, with the children.
     public var rotation: Double
@@ -210,7 +214,7 @@ public struct Node: Decodable, Hashable, Sendable, Identifiable {
     public var minHeight: Double?
 
     enum CodingKeys: String, CodingKey {
-        case id, name, x, y, w, h, modes, activeModes, bindings, overrideOf, ppi, hidden, locked
+        case id, name, x, y, w, h, modes, activeModes, bindings, overrideOf, ppi, hidden, locked, nonprinting, raster
         case keepRatio, rotation, wrap, wrapOffsetX, wrapOffsetY, bounds
         case fills, strokes, strokeWeight, strokeAlign, strokeSides, join, cap, lineStyle
         case arrowStart, arrowEnd, opacity, blend, effects, mask, overprintFill, overprintStroke
@@ -240,6 +244,8 @@ public struct Node: Decodable, Hashable, Sendable, Identifiable {
         ppi = try o(.ppi)
         hidden = try o(.hidden) ?? false
         locked = try o(.locked) ?? false
+        nonprinting = try o(.nonprinting) ?? false
+        raster = try o(.raster)
         keepRatio = try o(.keepRatio) ?? false
         rotation = try o(.rotation) ?? 0
         wrap = try o(.wrap) ?? .none
