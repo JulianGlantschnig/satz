@@ -92,10 +92,10 @@ import Testing
         var s = RasterGrid.Spec()
         s.kind = .hex
         s.headerFont = Typeface(name: "Inter", family: "Inter", style: "Regular", hash: "h")
-        s.prints = false
+        s.name = "Karte"
         #expect(RasterGrid.Spec.from(json: s.json) == s)
         let old = try #require(RasterGrid.Spec.from(json: #"{"kind":"polar","polarRays":12}"#))
-        #expect(old.kind == .polar && old.polarRays == 12 && old.prints && old.hexSize == 8)
+        #expect(old.kind == .polar && old.polarRays == 12 && old.name.isEmpty && old.hexSize == 8)
         for kind in RasterGrid.Kind.allCases {
             var k = RasterGrid.Spec()
             k.kind = kind

@@ -25,7 +25,6 @@ struct Canvas: NSViewRepresentable {
         _ = editor.threading
         _ = editor.found
         _ = editor.showsPreflight
-        _ = editor.showsNonprinting
         _ = editor.inks
         _ = editor.previewed
         _ = editor.tool

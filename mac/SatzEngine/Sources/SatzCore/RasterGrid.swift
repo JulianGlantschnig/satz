@@ -18,6 +18,8 @@ public enum RasterGrid {
 
     /// The settings of a raster. Lengths are in mm, colours `#RRGGBB`.
     public struct Spec: Codable, Equatable, Sendable {
+        /// The template it came from, or the user's name for it.
+        public var name = ""
         public var kind = Kind.lines
         public var marginTop = 10.0, marginRight = 10.0, marginBottom = 10.0, marginLeft = 10.0
         // Lines and the type's own spacings.
@@ -55,8 +57,6 @@ public enum RasterGrid {
         public var headerSize = 11.0
         public var headerDate = false
         public var headerFont: Typeface?
-        /// Exported and printed, or only shown on the canvas.
-        public var prints = true
 
         public init() {}
 
@@ -67,6 +67,7 @@ public enum RasterGrid {
             func get<T: Decodable>(_ key: CodingKeys, _ path: WritableKeyPath<Spec, T>) {
                 if let v = try? c.decodeIfPresent(T.self, forKey: key) { s[keyPath: path] = v }
             }
+            get(.name, \.name)
             get(.kind, \.kind)
             get(.marginTop, \.marginTop); get(.marginRight, \.marginRight); get(.marginBottom, \.marginBottom); get(.marginLeft, \.marginLeft)
             get(.hSpacing, \.hSpacing); get(.vSpacing, \.vSpacing); get(.dotSpacing, \.dotSpacing); get(.dotSize, \.dotSize)
@@ -79,7 +80,7 @@ public enum RasterGrid {
             get(.rotation, \.rotation); get(.rotationTarget, \.rotationTarget); get(.curve, \.curve)
             get(.curveAmplitude, \.curveAmplitude); get(.curveFrequency, \.curveFrequency); get(.punch, \.punch)
             get(.header, \.header); get(.headerText, \.headerText); get(.headerPosition, \.headerPosition); get(.headerSize, \.headerSize)
-            get(.headerDate, \.headerDate); get(.headerFont, \.headerFont); get(.prints, \.prints)
+            get(.headerDate, \.headerDate); get(.headerFont, \.headerFont)
             self = s
         }
 
@@ -444,6 +445,52 @@ public enum RasterGrid {
     }
 
     private static let move = 0.0, line = 1.0, cubic = 4.0, close = 5.0
+
+    /// Where layers snap to the main raster in its area `width` × `height` mm: its upright
+    /// lines and its dots, in mm from the area's top left.
+    public static func snapLines(_ spec: Spec, width: Double, height: Double, mirrored: Bool = false) -> (x: [Double], y: [Double]) {
+        var s = spec
+        s.secondary = false
+        s.punch = .none
+        s.header = false
+        var xs = Set<Double>(), ys = Set<Double>()
+        let inside = { (v: Double, most: Double) in v >= -1e-6 && v <= most + 1e-6 }
+        for stroke in build(s, width: width, height: height, mirrored: mirrored).strokes where stroke.clipped {
+            let p = stroke.path
+            var i = 0
+            var at: (Double, Double)?
+            var points = 0
+            while i < p.count {
+                switch p[i] {
+                case move:
+                    at = (p[i + 1], p[i + 2])
+                    points = 1
+                    i += 3
+                case line:
+                    // Only the two points of a straight line; a curve has many.
+                    if let a = at, points == 1, i + 3 >= p.count || p[i + 3] == move {
+                        let b = (p[i + 1], p[i + 2])
+                        if abs(a.0 - b.0) < 1e-9, inside(a.0, width) { xs.insert((a.0 * 1000).rounded() / 1000) }
+                        if abs(a.1 - b.1) < 1e-9, inside(a.1, height) { ys.insert((a.1 * 1000).rounded() / 1000) }
+                    }
+                    points += 1
+                    i += 3
+                case cubic:
+                    if stroke.filled, let a = at, points == 1 {
+                        // A dot: its centre, r left of its first point.
+                        let r = abs(p[i + 5] - a.0) + abs(p[i + 6] - a.1) > 0 ? abs(a.0 - p[i + 5]) : 0
+                        let c = (a.0 - r, a.1)
+                        if inside(c.0, width) { xs.insert((c.0 * 1000).rounded() / 1000) }
+                        if inside(c.1, height) { ys.insert((c.1 * 1000).rounded() / 1000) }
+                    }
+                    points += 1
+                    i += 7
+                default: i += 1
+                }
+            }
+        }
+        return (xs.sorted(), ys.sorted())
+    }
 
     private static func path(_ shape: Op.Shape) -> [Double] {
         switch shape {

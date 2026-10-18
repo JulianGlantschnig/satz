@@ -4159,6 +4159,7 @@ mod tests {
                     gutter: 0.0,
                     margin: 0.0,
                     size: 0.0,
+                    raster: None,
                 }],
             },
             set(

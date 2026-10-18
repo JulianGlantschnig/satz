@@ -207,6 +207,25 @@ struct GridSection: View {
                         change(&list[i])
                         setGrids(list)
                     }
+                    if g.kind == .raster {
+                        HStack {
+                            Image(systemName: "squareshape.split.3x3").foregroundStyle(.secondary)
+                            Text(verbatim: [String(localized: "Raster"), g.spec?.name ?? ""].filter { !$0.isEmpty }.joined(separator: " · "))
+                                .lineLimit(1)
+                            Spacer()
+                            Button { editor.showsRaster = true } label: { Image(systemName: "pencil") }
+                                .buttonStyle(.borderless)
+                                .help("Edit Raster")
+                                .accessibilityIdentifier("edit-raster")
+                            Button {
+                                var list = grids
+                                list.remove(at: i)
+                                setGrids(list)
+                            } label: { Image(systemName: "minus") }
+                                .buttonStyle(.borderless)
+                                .help("Remove grid")
+                        }
+                    } else {
                     HStack {
                         Picker("Grid type", selection: Binding(get: { g.kind }, set: { k in set { $0.kind = k } })) {
                             Text("Columns").tag(SatzCore.Grid.Kind.columns)
@@ -235,6 +254,7 @@ struct GridSection: View {
                                 NumberField(label: "Margin", value: g.margin, range: 0 ... .infinity) { v in set { $0.margin = v } }
                             }
                         }
+                    }
                     }
                 }
                 if !all.isEmpty, all.contains(where: { $0.grids != sheets.first?.grids }) {

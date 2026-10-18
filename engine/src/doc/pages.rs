@@ -26,6 +26,9 @@ pub struct Grid {
     pub gutter: f64,
     pub margin: f64,
     pub size: f64,
+    /// The settings of a raster, which the app draws, for the kind `Raster`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub raster: Option<String>,
 }
 
 /// Page numbers from a page on: `start` on it, counted in `style` after `prefix`.
@@ -87,6 +90,7 @@ pub enum GridKind {
     Columns,
     Rows,
     Grid,
+    Raster,
 }
 
 /// The indices of the pages of each spread among `n` pages, as `Snapshot::spreads`.
@@ -476,6 +480,9 @@ impl Doc {
             if g.kind == GridKind::Grid && g.size == 0.0 {
                 return Err("a grid needs a cell size".into());
             }
+            if (g.kind == GridKind::Raster) != g.raster.is_some() {
+                return Err("a raster grid, and only it, needs its settings".into());
+            }
         }
         self.meta(page).insert(GRIDS, loro(grids)?).map_err(err)?;
         Ok(vec![])
@@ -838,6 +845,7 @@ mod tests {
             gutter: 10.0,
             margin: 20.0,
             size: 0.0,
+            raster: None,
         }];
         d.apply(Command::SetGrids {
             id: p.clone(),
@@ -851,6 +859,41 @@ mod tests {
         d.apply(Command::Undo).unwrap();
         d.apply(Command::Undo).unwrap();
         assert!(d.snapshot().pages[0].grids.is_empty());
+    }
+
+    #[test]
+    fn a_raster_grid_keeps_its_settings_and_only_it_has_them() {
+        let (mut d, p) = empty();
+        let raster = Grid {
+            kind: GridKind::Raster,
+            count: 1,
+            gutter: 0.0,
+            margin: 0.0,
+            size: 0.0,
+            raster: Some(r#"{"kind":"dots"}"#.into()),
+        };
+        d.apply(Command::SetGrids {
+            id: p.clone(),
+            grids: vec![raster.clone()],
+        })
+        .unwrap();
+        assert_eq!(d.snapshot().pages[0].grids, vec![raster.clone()]);
+        for grid in [
+            Grid {
+                raster: None,
+                ..raster.clone()
+            },
+            Grid {
+                kind: GridKind::Columns,
+                ..raster.clone()
+            },
+        ] {
+            let e = d.apply(Command::SetGrids {
+                id: p.clone(),
+                grids: vec![grid],
+            });
+            assert!(e.is_err());
+        }
     }
 
     #[test]

@@ -91,11 +91,6 @@ struct SatzCommands: Commands {
             }
             .keyboardShortcut("r", modifiers: [.command, .option])
             .disabled(editor?.page == nil)
-            Button(editor?.showsNonprinting == false ? "Show Nonprinting Layers" : "Hide Nonprinting Layers") {
-                editor?.showsNonprinting.toggle()
-            }
-            .keyboardShortcut(";", modifiers: [.command, .option])
-            .disabled(editor == nil)
             Divider()
         }
 

@@ -122,6 +122,12 @@ public enum Snap {
             let spans = s.gridSpans()
             for at in spans.x.flatMap({ [$0.from, $0.to] }) { out.x.append(SnapLine(at: at, from: 0, to: s.height)) }
             for at in spans.y.flatMap({ [$0.from, $0.to] }) { out.y.append(SnapLine(at: at, from: s.x, to: s.x + s.width)) }
+            if let r = s.raster, let area = s.rasterArea {
+                let mm = 72 / 25.4
+                let lines = RasterGrid.snapLines(r, width: area.width / mm, height: area.height / mm, mirrored: s.mirrored)
+                for at in lines.x { out.x.append(SnapLine(at: area.minX + at * mm, from: area.minY, to: area.maxY)) }
+                for at in lines.y { out.y.append(SnapLine(at: area.minY + at * mm, from: area.minX, to: area.maxX)) }
+            }
         }
         for t in nodes {
             let n = t.box

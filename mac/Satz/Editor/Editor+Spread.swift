@@ -17,9 +17,11 @@ extension Editor {
     /// and right page of the master on screen, which holds the layers of both.
     var sheets: [Sheet] {
         if let m = master, snapshot.facingPages {
-            return [Sheet(m, x: -m.width), Sheet(m, x: 0)]
+            var left = Sheet(m, x: -m.width)
+            left.mirrored = true
+            return [left, Sheet(m, x: 0)]
         }
-        return spread.map { Sheet($0) }
+        return spread.map { p in Sheet(p, master: p.master.flatMap { snapshot.page($0) }) }
     }
 
     /// The display lists the canvas draws, by page id, at their x on the spread.

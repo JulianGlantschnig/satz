@@ -595,7 +595,7 @@ function DocumentSection({ editor }: { editor: Editor }) {
   )
 }
 
-const GRIDS: Record<Grid['kind'], string> = { columns: 'Columns', rows: 'Rows', grid: 'Grid' }
+const GRIDS: Record<Grid['kind'], string> = { columns: 'Columns', rows: 'Rows', grid: 'Grid', raster: 'Raster' }
 
 /** The layout grids of `sheets`, and a button that gives them to `all` when they differ. */
 function GridSection({ editor, sheets, all }: { editor: Editor; sheets: Page[]; all: Page[] }) {

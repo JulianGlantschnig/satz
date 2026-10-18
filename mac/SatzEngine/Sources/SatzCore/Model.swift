@@ -358,19 +358,29 @@ public struct Section: Codable, Hashable, Sendable {
 
 /// `count` columns or rows between margins and gutters, or square cells of `size`, in pt.
 public struct Grid: Codable, Hashable, Sendable {
-    public enum Kind: String, Codable, Sendable, CaseIterable { case columns, rows, grid }
+    public enum Kind: String, Codable, Sendable, CaseIterable { case columns, rows, grid, raster }
     public var kind: Kind
     public var count: Int
     public var gutter: Double
     public var margin: Double
     public var size: Double
-    public init(kind: Kind, count: Int, gutter: Double, margin: Double, size: Double) {
+    /// The settings of a raster, as JSON, for the kind `raster`.
+    public var raster: String?
+    public init(kind: Kind, count: Int, gutter: Double, margin: Double, size: Double, raster: String? = nil) {
         self.kind = kind
         self.count = count
         self.gutter = gutter
         self.margin = margin
         self.size = size
+        self.raster = raster
     }
+
+    /// A layout grid of the raster `spec`.
+    public static func raster(_ spec: RasterGrid.Spec) -> Grid {
+        Grid(kind: .raster, count: 1, gutter: 0, margin: 0, size: 0, raster: spec.json)
+    }
+
+    public var spec: RasterGrid.Spec? { raster.flatMap(RasterGrid.Spec.from(json:)) }
 }
 
 /// A page or a master: `name` is a master's, `master` the one a page draws under its

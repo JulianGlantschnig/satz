@@ -117,6 +117,7 @@ struct RasterWindow: View {
         .onAppear {
             if let current = editor.currentRaster {
                 spec = current
+                if !current.name.isEmpty { chosen = current.name }
             } else if let margin = editor.page?.grids.first?.margin, margin > 0 {
                 // The margin of the page's layout grid.
                 let mm = margin / Units.ptPerMM
@@ -127,6 +128,7 @@ struct RasterWindow: View {
             TextField("Name", text: Binding(get: { naming ?? "" }, set: { naming = $0 }))
             Button("Save") {
                 if let name = naming?.trimmingCharacters(in: .whitespaces), !name.isEmpty {
+                    spec.name = name
                     RasterTemplates.save(name, spec)
                     own = RasterTemplates.own
                     chosen = name
@@ -189,10 +191,16 @@ struct RasterWindow: View {
 
     private func load(_ t: RasterTemplates.Template) {
         var s = t.spec
-        // A template keeps what is chosen for print and the header font of the document.
-        s.prints = spec.prints
+        s.name = t.name
         spec = s
         chosen = t.name
+    }
+
+    /// The spec with the name of its template, or Raster.
+    private var named: RasterGrid.Spec {
+        var s = spec
+        if s.name.isEmpty { s.name = chosen ?? String(localized: "Raster") }
+        return s
     }
 
     private var footer: some View {
@@ -204,21 +212,25 @@ struct RasterWindow: View {
             }
             .fixedSize()
             .accessibilityIdentifier("raster-target")
-            Toggle("Print", isOn: $spec.prints)
-                .help("Off: the raster shows on the canvas but is not exported or printed")
-                .accessibilityIdentifier("raster-prints")
-            Spacer()
             Button("Remove Raster") {
                 editor.removeRaster(from: target)
             }
-            .disabled(editor.sheets(target).allSatisfy { s in !s.children.contains { $0.raster != nil } })
+            .disabled(!editor.hasRaster(target))
+            Spacer()
             Button("Cancel") { editor.showsRaster = false }
                 .keyboardShortcut(.cancelAction)
-            Button("Apply") {
-                editor.applyRaster(spec, to: target)
+            Button("Place as Layer") {
+                editor.applyRaster(named, to: target)
+                editor.showsRaster = false
+            }
+            .help("Puts the raster on the page as a locked layer, which prints")
+            .accessibilityIdentifier("raster-layer")
+            Button("Add to Layout Grids") {
+                editor.addRasterGrid(named, to: target)
                 editor.showsRaster = false
             }
             .keyboardShortcut(.defaultAction)
+            .help("Shows the raster with the layout grids, ⇧G; it does not print")
             .accessibilityIdentifier("raster-apply")
         }
         .padding(.horizontal, 16)
@@ -491,66 +503,8 @@ private struct RasterPreview: View {
     }
 
     private func draw(_ page: Page, in ctx: CGContext) {
-        let pt = Units.ptPerMM
-        let mirrored = page.side == .left
-        let (left, right) = mirrored ? (spec.marginRight, spec.marginLeft) : (spec.marginLeft, spec.marginRight)
-        let w = page.width / pt - left - right, h = page.height / pt - spec.marginTop - spec.marginBottom
-        guard w > 0, h > 0 else { return }
-        let d = RasterGrid.build(spec, width: w, height: h, mirrored: mirrored)
-        ctx.saveGState()
-        ctx.translateBy(x: left * pt, y: spec.marginTop * pt)
-        ctx.scaleBy(x: pt, y: pt)
-        let area = CGRect(x: 0, y: 0, width: w, height: h)
-        for s in d.strokes {
-            ctx.saveGState()
-            if s.clipped { ctx.clip(to: area) }
-            let path = CGMutablePath()
-            var i = 0
-            let p = s.path
-            while i < p.count {
-                switch p[i] {
-                case 0: path.move(to: CGPoint(x: p[i + 1], y: p[i + 2])); i += 3
-                case 1: path.addLine(to: CGPoint(x: p[i + 1], y: p[i + 2])); i += 3
-                case 4:
-                    path.addCurve(to: CGPoint(x: p[i + 5], y: p[i + 6]), control1: CGPoint(x: p[i + 1], y: p[i + 2]), control2: CGPoint(x: p[i + 3], y: p[i + 4]))
-                    i += 7
-                default: path.closeSubpath(); i += 1
-                }
-            }
-            let rgb = ColorMath.parseHex(s.color) ?? 0
-            let color = CGColor(srgbRed: CGFloat(rgb >> 16 & 0xff) / 255, green: CGFloat(rgb >> 8 & 0xff) / 255, blue: CGFloat(rgb & 0xff) / 255, alpha: 1)
-            ctx.addPath(path)
-            if s.filled {
-                ctx.setFillColor(color)
-                ctx.fillPath()
-            } else {
-                ctx.setStrokeColor(color)
-                ctx.setLineWidth(s.weight)
-                switch s.style {
-                case .dashed: ctx.setLineDash(phase: 0, lengths: [max(1, s.weight * 4), max(0.8, s.weight * 3)])
-                case .dotted: ctx.setLineDash(phase: 0, lengths: [max(0.1, s.weight * 0.6), max(0.6, s.weight * 2)])
-                case .solid: break
-                }
-                ctx.strokePath()
-            }
-            ctx.restoreGState()
-        }
-        for l in d.labels {
-            let font = NSFont(name: spec.headerFont?.name ?? "", size: l.size / pt) ?? .systemFont(ofSize: l.size / pt)
-            let text = NSAttributedString(string: l.text, attributes: [.font: font, .foregroundColor: NSColor(white: 0.1, alpha: 1)])
-            let line = CTLineCreateWithAttributedString(text)
-            let width = CTLineGetTypographicBounds(line, nil, nil, nil)
-            let x = switch l.anchor {
-            case .start: l.x
-            case .middle: l.x - width / 2
-            case .end: l.x - width
-            }
-            ctx.saveGState()
-            ctx.textMatrix = CGAffineTransform(scaleX: 1, y: -1)
-            ctx.textPosition = CGPoint(x: x, y: l.y)
-            CTLineDraw(line, ctx)
-            ctx.restoreGState()
-        }
-        ctx.restoreGState()
+        var sheet = Sheet(page, x: 0)
+        sheet.raster = spec
+        if let area = sheet.rasterArea { RasterPainter.draw(spec, in: area, mirrored: sheet.mirrored, ctx) }
     }
 }

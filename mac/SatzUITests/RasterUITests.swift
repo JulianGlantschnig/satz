@@ -1,7 +1,7 @@
 import XCTest
 
-/// View ▸ Raster…: a template, a header and punch holes on the page, then the raster as a
-/// locked layer under the page.
+/// View ▸ Raster…: a template with a header and punch holes among the layout grids, then
+/// as a locked layer under the page.
 final class RasterUITests: XCTestCase {
     var app: XCUIApplication!
 
@@ -39,18 +39,23 @@ final class RasterUITests: XCTestCase {
         shot("1-raster-window", sheet)
         sheet.buttons["raster-apply"].click()
         XCTAssertFalse(sheet.waitForExistence(timeout: 2))
+        // Among the layout grids, which show now.
+        let edit = window.buttons["edit-raster"]
+        XCTAssertTrue(edit.waitForExistence(timeout: 5))
+        sleep(1)
+        shot("2-layout-grid", window)
+        // It opens again with its settings, and goes on the page as a layer.
+        edit.click()
+        XCTAssertTrue(sheet.waitForExistence(timeout: 5))
+        sheet.scrollViews.firstMatch.scroll(byDeltaX: 0, deltaY: -2000)
+        XCTAssertEqual(sheet.textFields["raster-header-text"].value as? String, "Physik")
+        sheet.buttons["raster-layer"].click()
+        XCTAssertFalse(sheet.waitForExistence(timeout: 2))
         window.showSidebar("Layers")
-        // A group's row joins the identifiers of its parts.
         let outline = window.outlines.firstMatch
         XCTAssertTrue(outline.waitForExistence(timeout: 5))
         sleep(1)
+        // A group's row joins the identifiers of its parts.
         XCTAssertTrue(outline.debugDescription.contains("identifier: 'layer-Raster"))
-        sleep(1)
-        shot("2-page", window)
-        // It opens again with the raster of the page.
-        app.menuBars.menuBarItems["View"].menus.menuItems["Raster…"].click()
-        XCTAssertTrue(sheet.waitForExistence(timeout: 5))
-        XCTAssertEqual(sheet.textFields["raster-header-text"].value as? String, "Physik")
-        sheet.buttons["Cancel"].click()
     }
 }

@@ -16,6 +16,7 @@ export function gridSpans(s: Sheet) {
   const x: [number, number, number?][] = []
   const y: [number, number, number?][] = []
   for (const g of s.grids ?? []) {
+    if (g.kind === 'raster') continue
     if (g.kind === 'grid') {
       for (let at = g.size; at < s.width - EPSILON; at += g.size) x.push([s.x + at, s.x + at])
       for (let at = g.size; at < s.height - EPSILON; at += g.size) y.push([at, at])

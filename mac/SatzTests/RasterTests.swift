@@ -24,7 +24,7 @@ struct RasterTests {
         let children = try #require(e.page?.children)
         #expect(children.count == 2 && children[1].id == rect)
         let raster = children[0]
-        #expect(raster.kind == .group && raster.locked && !raster.nonprinting && raster.name == "Raster")
+        #expect(raster.kind == .group && raster.locked && raster.name == "Raster")
         #expect(raster.raster.flatMap(RasterGrid.Spec.from(json:)) == spec)
         #expect(e.currentRaster == spec)
         // The clipping area with the raster, the holes and the header.
@@ -34,10 +34,10 @@ struct RasterTests {
         #expect(raster.children?.contains { $0.kind == .shape && $0.path != nil } == true)
 
         // Another raster takes its place, one undo step each.
-        spec.prints = false
+        spec.kind = .dots
         e.applyRaster(spec, to: .page)
         let now = try #require(e.page?.children)
-        #expect(now.count == 2 && now[0].nonprinting && now[0].id != raster.id)
+        #expect(now.count == 2 && now[0].id != raster.id)
         e.apply(.undo)
         #expect(e.page?.children.first?.id == raster.id)
         e.removeRaster(from: .page)
@@ -76,6 +76,40 @@ struct RasterTests {
         #expect(rasters.count == 2)
         #expect(rasters.contains { $0.x < 0 } && rasters.contains { $0.x >= 0 })
         #expect(e.currentRaster != nil)
+    }
+
+    @Test func aRasterAmongTheLayoutGridsShowsWithThemAndTheMasterLendsItsOwn() throws {
+        let e = spread()
+        let master = try #require(e.apply(.addMaster(like: nil)).first)
+        for p in e.snapshot.pages { e.apply(.useMaster(page: p.id, master: master)) }
+        var spec = RasterGrid.Spec()
+        spec.name = "Karo"
+        spec.kind = .squares
+        spec.hSpacing = 5
+        spec.vSpacing = 5
+        e.showsGrids = false
+        e.addRasterGrid(spec, to: .master)
+        #expect(e.showsGrids)
+        #expect(e.snapshot.page(master)?.grids.compactMap(\.spec) == [spec])
+        #expect(e.currentRaster == spec)
+        // Pages show the master's raster, a left page mirrored, and snap to its lines.
+        let sheets = e.sheets
+        #expect(sheets.allSatisfy { $0.raster == spec })
+        let lines = Snap.targets(sheets, [], grids: true)
+        let area = try #require(sheets.last?.rasterArea)
+        #expect(lines.x.contains { abs($0.at - (area.minX + Units.mm(5))) < 0.01 })
+        // A page's own raster wins; a new one takes its place.
+        let page = try #require(e.pageID)
+        e.addRasterGrid(spec, to: .page)
+        var dots = spec
+        dots.kind = .dots
+        e.addRasterGrid(dots, to: .page)
+        #expect(e.page?.grids.filter { $0.kind == .raster }.count == 1)
+        #expect(e.currentRaster?.kind == .dots)
+        #expect(e.hasRaster(.page))
+        e.removeRaster(from: .page)
+        #expect(e.snapshot.page(page)?.grids.isEmpty == true)
+        #expect(e.currentRaster == spec)
     }
 
     @Test func templatesAreSavedRenamedAndDeleted() {

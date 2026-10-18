@@ -10,8 +10,15 @@ public struct Sheet: Equatable, Sendable {
     public var bleed: Double
     public var grids: [Grid]
     public var guides: Guides
+    /// The raster among the layout grids, the page's own or its master's.
+    public var raster: RasterGrid.Spec?
+    /// A left page, whose raster mirrors its holes and header to the spine on the right.
+    public var mirrored: Bool
 
-    public init(id: String, x: Double, width: Double, height: Double, bleed: Double, grids: [Grid] = [], guides: Guides = Guides()) {
+    public init(
+        id: String, x: Double, width: Double, height: Double, bleed: Double, grids: [Grid] = [], guides: Guides = Guides(),
+        raster: RasterGrid.Spec? = nil, mirrored: Bool = false
+    ) {
         self.id = id
         self.x = x
         self.width = width
@@ -19,10 +26,24 @@ public struct Sheet: Equatable, Sendable {
         self.bleed = bleed
         self.grids = grids
         self.guides = guides
+        self.raster = raster ?? grids.lazy.compactMap(\.spec).first
+        self.mirrored = mirrored
     }
 
-    public init(_ page: Page, x: Double? = nil) {
-        self.init(id: page.id, x: x ?? page.x, width: page.width, height: page.height, bleed: page.bleed, grids: page.grids, guides: page.guides)
+    public init(_ page: Page, x: Double? = nil, master: Page? = nil) {
+        let raster = page.grids.lazy.compactMap(\.spec).first ?? master?.grids.lazy.compactMap(\.spec).first
+        self.init(
+            id: page.id, x: x ?? page.x, width: page.width, height: page.height, bleed: page.bleed, grids: page.grids,
+            guides: page.guides, raster: raster, mirrored: page.side == .left)
+    }
+
+    /// The area of the raster on the spread, between the margins of its spec.
+    public var rasterArea: CGRect? {
+        guard let r = raster else { return nil }
+        let mm = 72 / 25.4
+        let (left, right) = mirrored ? (r.marginRight, r.marginLeft) : (r.marginLeft, r.marginRight)
+        let area = CGRect(x: x + left * mm, y: r.marginTop * mm, width: width - (left + right) * mm, height: height - (r.marginTop + r.marginBottom) * mm)
+        return area.width > 0 && area.height > 0 ? area : nil
     }
 
     public var trim: CGRect { CGRect(x: x, y: 0, width: width, height: height) }
@@ -34,7 +55,7 @@ public struct Sheet: Equatable, Sendable {
         var xs: [GridSpan] = []
         var ys: [GridSpan] = []
         let epsilon = 1e-6
-        for g in grids {
+        for g in grids where g.kind != .raster {
             if g.kind == .grid {
                 guard g.size > 0 else { continue }
                 var at = g.size

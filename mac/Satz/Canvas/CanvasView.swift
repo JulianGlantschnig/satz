@@ -283,6 +283,9 @@ final class CanvasView: NSView {
 
         if editor.showsGrids && !editor.showsPreflight {
             for s in sheets {
+                if let r = s.raster, let area = s.rasterArea { RasterPainter.draw(r, in: area, mirrored: s.mirrored, ctx) }
+            }
+            for s in sheets {
                 let spans = s.gridSpans()
                 for span in spans.x {
                     let r = CGRect(x: span.from, y: span.margin, width: span.to - span.from, height: s.height - 2 * span.margin)

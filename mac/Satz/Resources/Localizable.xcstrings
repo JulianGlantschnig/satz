@@ -491,6 +491,16 @@
         }
       }
     },
+    "Add to Layout Grids": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zum Layoutraster hinzufügen"
+          }
+        }
+      }
+    },
     "Add variable": {
       "localizations": {
         "de": {
@@ -2307,6 +2317,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Punkte bearbeiten"
+          }
+        }
+      }
+    },
+    "Edit Raster": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raster bearbeiten"
           }
         }
       }
@@ -5261,6 +5281,16 @@
         }
       }
     },
+    "Place as Layer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als Ebene auf die Seite"
+          }
+        }
+      }
+    },
     "Point at a colour": {
       "localizations": {
         "de": {
@@ -5491,6 +5521,16 @@
         }
       }
     },
+    "Puts the raster on the page as a locked layer, which prints": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setzt das Raster als gesperrte Ebene auf die Seite, die mitgedruckt wird"
+          }
+        }
+      }
+    },
     "Quick edit bar above the selection": {
       "localizations": {
         "de": {
@@ -5557,6 +5597,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rastertyp"
+          }
+        }
+      }
+    },
+    "Raster added to the layout grids of %lld pages": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raster zum Layoutraster von %lld Seiten hinzugefügt"
           }
         }
       }
@@ -6507,6 +6557,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Layoutraster und Hilfslinien ein- oder ausblenden"
+          }
+        }
+      }
+    },
+    "Shows the raster with the layout grids, ⇧G; it does not print": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt das Raster mit den Layoutrastern (⇧G); es wird nicht gedruckt"
           }
         }
       }

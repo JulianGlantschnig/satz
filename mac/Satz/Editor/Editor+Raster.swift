@@ -1,8 +1,9 @@
 import Foundation
 import SatzCore
 
-/// Rasters on pages: a locked group "Raster" under everything else of a page, made from
-/// `RasterGrid.Spec`, which it keeps to be edited again.
+/// Rasters on pages: among the layout grids, which show on the canvas with ⇧G, or as a
+/// locked group "Raster" under everything else of a page to print, made from
+/// `RasterGrid.Spec`, which both keep to be edited again.
 extension Editor {
     enum RasterTarget: String, CaseIterable, Identifiable {
         case page, pages, master
@@ -22,11 +23,32 @@ extension Editor {
         snapshot.page(id)?.children.first { $0.raster != nil }
     }
 
-    /// The raster of the current page, its master's when the page has none.
+    /// The raster of the current page among its layout grids or as a layer, its master's
+    /// when the page has none.
     var currentRaster: RasterGrid.Spec? {
         guard let page else { return nil }
-        let node = raster(on: page.id) ?? page.master.flatMap { raster(on: $0) }
-        return node?.raster.flatMap(RasterGrid.Spec.from(json:))
+        func of(_ p: Page) -> RasterGrid.Spec? {
+            p.grids.lazy.compactMap(\.spec).first ?? raster(on: p.id)?.raster.flatMap(RasterGrid.Spec.from(json:))
+        }
+        return of(page) ?? page.master.flatMap { snapshot.page($0) }.flatMap(of)
+    }
+
+    /// Puts `spec` among the layout grids of the sheets of `target`, in place of the raster
+    /// there, and shows the layout grids.
+    func addRasterGrid(_ spec: RasterGrid.Spec, to target: RasterTarget) {
+        let sheets = sheets(target)
+        guard !sheets.isEmpty else {
+            fail(String(localized: "This page has no master page"))
+            return
+        }
+        batch {
+            for s in sheets {
+                let grids = s.grids.filter { $0.kind != .raster } + [.raster(spec)]
+                if let cmd = try? Command.setGrids(s.id, grids) { apply(cmd) }
+            }
+        }
+        showsGrids = true
+        say(String(localized: "Raster added to the layout grids of \(sheets.count) pages"))
     }
 
     /// The pages or master that `target` reaches from the current page.
@@ -63,11 +85,21 @@ extension Editor {
         say(String(localized: "Raster applied to \(sheets.count) pages"))
     }
 
-    /// Removes the rasters of the sheets of `target`.
+    /// Whether a sheet of `target` has a raster, among its layout grids or as a layer.
+    func hasRaster(_ target: RasterTarget) -> Bool {
+        sheets(target).contains { s in s.grids.contains { $0.kind == .raster } || s.children.contains { $0.raster != nil } }
+    }
+
+    /// Removes the rasters of the sheets of `target`, layout grids and layers.
     func removeRaster(from target: RasterTarget) {
-        let ids = sheets(target).flatMap { s in s.children.filter { $0.raster != nil }.map(\.id) }
-        guard !ids.isEmpty else { return }
-        apply(.delete(ids))
+        let sheets = sheets(target)
+        batch {
+            for s in sheets where s.grids.contains(where: { $0.kind == .raster }) {
+                if let cmd = try? Command.setGrids(s.id, s.grids.filter { $0.kind != .raster }) { apply(cmd) }
+            }
+            let ids = sheets.flatMap { s in s.children.filter { $0.raster != nil }.map(\.id) }
+            if !ids.isEmpty { apply(.delete(ids)) }
+        }
     }
 
     private func placeRaster(_ spec: RasterGrid.Spec, on sheet: Page, x: Double, mirrored: Bool, replace: Bool = true) {
@@ -138,8 +170,7 @@ extension Editor {
         }
         guard let group = apply(.group([area] + outside, frame: false)).first else { return }
         apply(.set(id: group, [
-            "name": .string(String(localized: "Raster")), "locked": .bool(true),
-            "nonprinting": .bool(!spec.prints), "raster": .string(spec.json),
+            "name": .string(String(localized: "Raster")), "locked": .bool(true), "raster": .string(spec.json),
         ]))
         apply(.order([group], to: .back))
     }

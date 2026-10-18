@@ -231,7 +231,8 @@ export type Page = {
 export type Section = { start: number; style: 'arabic' | 'upperRoman' | 'lowerRoman'; prefix: string }
 
 /** `count` columns or rows between margins and gutters, or square cells of `size`, in pt. */
-export type Grid = { kind: 'columns' | 'rows' | 'grid'; count: number; gutter: number; margin: number; size: number }
+/** A `raster` grid holds the settings of a raster that the Mac app draws. */
+export type Grid = { kind: 'columns' | 'rows' | 'grid' | 'raster'; count: number; gutter: number; margin: number; size: number; raster?: string }
 
 /** A spot color's `color` is its CMYK alternate. */
 export type Swatch = { id: string; name: string; color: Color; spot: boolean }
