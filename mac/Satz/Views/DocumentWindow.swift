@@ -64,6 +64,9 @@ struct EditorView: View {
         .sheet(isPresented: $editor.showsShortcuts) {
             ShortcutsView(editor: editor)
         }
+        .sheet(isPresented: $editor.showsRaster) {
+            RasterWindow(editor: editor)
+        }
         .inspector(isPresented: $showsInspector) {
             Inspector(editor: editor)
                 .inspectorColumnWidth(min: 220, ideal: 260, max: 360)

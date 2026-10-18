@@ -86,6 +86,11 @@ struct SatzCommands: Commands {
                 editor?.showsGrids.toggle()
             }
             .keyboardShortcut(";", modifiers: .command)
+            Button("Raster…") {
+                editor?.showsRaster = true
+            }
+            .keyboardShortcut("r", modifiers: [.command, .option])
+            .disabled(editor?.page == nil)
             Button(editor?.showsNonprinting == false ? "Show Nonprinting Layers" : "Hide Nonprinting Layers") {
                 editor?.showsNonprinting.toggle()
             }

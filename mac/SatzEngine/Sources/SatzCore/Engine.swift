@@ -72,6 +72,9 @@ public final class Engine {
     /// The display list of the page as its inverted C, M and Y plate, or its K plate.
     public func plate(page: String, k: Bool) -> Data { core.plate(page: page, k: k) }
 
+    /// Shows or hides the nonprinting layers in the display lists of the canvas.
+    public func showNonprinting(shown: Bool) { core.showNonprinting(shown: shown) }
+
     /// [x, top, bottom] in pt of a caret before the UTF-16 `index` of the text `id`.
     public func caret(_ id: String, index: Int) throws -> [Double] {
         try core.caret(id: id, index: UInt32(index))
