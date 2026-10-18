@@ -40,9 +40,11 @@ final class RasterUITests: XCTestCase {
         sheet.buttons["raster-apply"].click()
         XCTAssertFalse(sheet.waitForExistence(timeout: 2))
         window.showSidebar("Layers")
+        // A group's row joins the identifiers of its parts.
+        let outline = window.outlines.firstMatch
+        XCTAssertTrue(outline.waitForExistence(timeout: 5))
         sleep(1)
-        shot("2-page", window)
-        XCTAssertTrue(window.outlines.descendants(matching: .any)["layer-Raster"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(outline.debugDescription.contains("identifier: 'layer-Raster"))
         sleep(1)
         shot("2-page", window)
         // It opens again with the raster of the page.
