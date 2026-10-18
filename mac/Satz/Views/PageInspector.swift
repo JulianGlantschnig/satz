@@ -210,9 +210,11 @@ struct GridSection: View {
                     if g.kind == .raster {
                         HStack {
                             Image(systemName: "squareshape.split.3x3").foregroundStyle(.secondary)
-                            Text(verbatim: [String(localized: "Raster"), g.spec?.name ?? ""].filter { !$0.isEmpty }.joined(separator: " · "))
-                                .lineLimit(1)
-                            Spacer()
+                            RasterNameField(name: g.spec?.name ?? "") { name in
+                                guard var spec = g.spec, spec.name != name else { return }
+                                spec.name = name
+                                set { $0.raster = spec.json }
+                            }
                             Button { editor.showsRaster = true } label: { Image(systemName: "pencil") }
                                 .buttonStyle(.borderless)
                                 .help("Edit Raster")
@@ -283,5 +285,25 @@ struct GridSection: View {
                     .help("Add layout grid")
             }
         }
+    }
+}
+
+/// The name of a raster among the layout grids, set on Return or when the field loses focus.
+private struct RasterNameField: View {
+    let name: String
+    let commit: (String) -> Void
+    @State private var text = ""
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        TextField("Raster", text: $text)
+            .textFieldStyle(.plain)
+            .focused($focused)
+            .help("Name of the raster")
+            .accessibilityIdentifier("raster-name")
+            .onAppear { text = name }
+            .onChange(of: name) { _, now in text = now }
+            .onSubmit { commit(text.trimmingCharacters(in: .whitespaces)) }
+            .onChange(of: focused) { _, now in if !now { commit(text.trimmingCharacters(in: .whitespaces)) } }
     }
 }

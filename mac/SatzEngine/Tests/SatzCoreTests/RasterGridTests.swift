@@ -33,7 +33,7 @@ import Testing
         let ys = starts(heavy.path).map { $0[1] }
         #expect(ys.contains(0) && ys.contains(50) && !ys.contains(10))
         #expect(starts(thin.path).contains { $0[1] == 10 })
-        #expect(d.strokes.allSatisfy { $0.clipped && !$0.filled && $0.color == "#1A1A1A" })
+        #expect(d.strokes.allSatisfy { $0.clipped && !$0.filled && $0.color == "#FF4848" })
     }
 
     @Test func millimetrePaperHasThreeWeightsAndDotsAreFilled() {

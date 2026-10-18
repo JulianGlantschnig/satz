@@ -33,7 +33,8 @@ public enum RasterGrid {
         public var ruledClass = 2, ruledScale = 1.0
         public var logDecadesX = 3, logDecadesY = 3
         public var thickness = 0.25
-        public var color = "#1A1A1A"
+        /// The red of the layout grids.
+        public var color = "#FF4848"
         public var axisColors = false
         public var colorH = "#CC3333", colorV = "#1A1A1A"
         public var style = Style.solid

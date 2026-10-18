@@ -27,19 +27,19 @@ enum RasterTemplates {
                 s.kind = .mm; margins(&s, 0, 0, 0, 0); s.thickness = 0.2
             },
             t("Bullet Journal") { s in
-                s.kind = .dots; margins(&s, 10, 10, 10, 10); s.dotSpacing = 5; s.dotSize = 0.6; s.color = "#888888"
+                s.kind = .dots; margins(&s, 10, 10, 10, 10); s.dotSpacing = 5; s.dotSize = 0.6
             },
             t("Isometric") { s in
-                s.kind = .iso; margins(&s, 10, 10, 10, 20); s.isoSpacing = 5; s.color = "#3A3A3A"; s.thickness = 0.15; s.punch = .four
+                s.kind = .iso; margins(&s, 10, 10, 10, 20); s.isoSpacing = 5; s.thickness = 0.15; s.punch = .four
             },
             t("Music Staves") { s in
                 s.kind = .music; margins(&s, 12, 12, 12, 12); s.musicLineGap = 2.5; s.musicSystemGap = 14; s.thickness = 0.3
             },
             t("Exercise Book Class 2") { s in
-                s.kind = .ruled; margins(&s, 15, 12, 15, 25); s.ruledClass = 2; s.color = "#3366CC"; s.thickness = 0.35; s.punch = .four
+                s.kind = .ruled; margins(&s, 15, 12, 15, 25); s.ruledClass = 2; s.thickness = 0.35; s.punch = .four
             },
             t("Sketch Paper (5 mm)") { s in
-                s.kind = .lines; margins(&s, 8, 8, 8, 8); s.hSpacing = 5; s.vSpacing = 5; s.color = "#BFBFBF"; s.thickness = 0.15
+                s.kind = .lines; margins(&s, 8, 8, 8, 8); s.hSpacing = 5; s.vSpacing = 5; s.thickness = 0.15
             },
             t("Squares 5 mm") { s in
                 s.kind = .squares; margins(&s, 10, 10, 10, 25); s.hSpacing = 5; s.vSpacing = 5; s.emphasize = 5; s.thickness = 0.2; s.punch = .four
@@ -48,13 +48,13 @@ enum RasterTemplates {
                 s.kind = .log; margins(&s, 15, 15, 15, 15); s.logDecadesX = 3; s.logDecadesY = 3; s.thickness = 0.2
             },
             t("Hex Map") { s in
-                s.kind = .hex; margins(&s, 10, 10, 10, 10); s.hexSize = 10; s.color = "#666666"; s.thickness = 0.3
+                s.kind = .hex; margins(&s, 10, 10, 10, 10); s.hexSize = 10; s.thickness = 0.3
             },
             t("Polar Coordinates") { s in
                 s.kind = .polar; margins(&s, 10, 10, 10, 10); s.polarStep = 10; s.polarRays = 36; s.thickness = 0.2
             },
             t("Lined Paper with Punch Holes") { s in
-                s.kind = .lines; margins(&s, 12, 12, 12, 25); s.hSpacing = 8; s.vSpacing = 8; s.color = "#3366CC"; s.punch = .four
+                s.kind = .lines; margins(&s, 12, 12, 12, 25); s.hSpacing = 8; s.vSpacing = 8; s.punch = .four
             },
             t("Engineering (Axis Colours)") { s in
                 s.kind = .mm; margins(&s, 10, 10, 10, 10); s.thickness = 0.18; s.axisColors = true; s.colorH = "#CC3333"; s.colorV = "#1A1A1A"
@@ -150,7 +150,11 @@ struct RasterWindow: View {
 
     private var templates: some View {
         HStack(spacing: 10) {
-            Text("Raster").font(.headline)
+            TextField("Name", text: $spec.name, prompt: Text(chosen ?? String(localized: "Raster")))
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 240)
+                .help("Name of the raster")
+                .accessibilityIdentifier("raster-window-name")
             Spacer()
             Menu {
                 Section("Templates") {
@@ -340,9 +344,16 @@ private struct RasterSettings: View {
                 }
             }
             PanelSection("Rotation & Curvature") {
-                HStack {
-                    Slider(value: $spec.rotation, in: -90...90, step: 1) { Text("Rotation") }
-                    Text(verbatim: "\(Int(spec.rotation))°").monospacedDigit().frame(width: 34, alignment: .trailing)
+                HStack(spacing: 8) {
+                    Text("Rotation")
+                    // No `step`: on macOS it draws a tick mark per degree under the track.
+                    Slider(value: Binding(get: { spec.rotation }, set: { spec.rotation = $0.rounded() }), in: -90...90)
+                        .labelsHidden()
+                        .controlSize(.small)
+                    NumberField(label: "∠", help: "Rotation", value: spec.rotation, unit: .degrees, range: -90...90) {
+                        spec.rotation = $0
+                    }
+                    .frame(width: 64)
                 }
                 Picker("Apply to", selection: $spec.rotationTarget) {
                     Text("Everything").tag(RasterGrid.Target.all)

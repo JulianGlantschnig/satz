@@ -44,9 +44,16 @@ final class RasterUITests: XCTestCase {
         XCTAssertTrue(edit.waitForExistence(timeout: 5))
         sleep(1)
         shot("2-layout-grid", window)
+        // It takes the template's name, which the inspector renames.
+        let name = window.textFields["raster-name"]
+        XCTAssertEqual(name.value as? String, "Lined Paper with Punch Holes")
+        name.doubleClick()
+        name.typeKey("a", modifierFlags: .command)
+        name.typeText("Physik\r")
         // It opens again with its settings, and goes on the page as a layer.
         edit.click()
         XCTAssertTrue(sheet.waitForExistence(timeout: 5))
+        XCTAssertEqual(sheet.textFields["raster-window-name"].value as? String, "Physik")
         sheet.scrollViews.firstMatch.scroll(byDeltaX: 0, deltaY: -2000)
         XCTAssertEqual(sheet.textFields["raster-header-text"].value as? String, "Physik")
         sheet.buttons["raster-layer"].click()
