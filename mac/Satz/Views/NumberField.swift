@@ -50,6 +50,8 @@ struct NumberField: View {
             Text(LocalizedStringKey(label))
                 .font(.system(size: 10, weight: .medium))
                 .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .fixedSize()
                 .frame(minWidth: 14, alignment: .leading)
                 .contentShape(Rectangle())
                 .gesture(scrub)
@@ -60,6 +62,7 @@ struct NumberField: View {
                 .textFieldStyle(.plain)
                 .labelsHidden()
                 .font(.system(size: Theme.small).monospacedDigit())
+                .frame(minWidth: 24)
                 .focused($focused)
                 .onSubmit(submit)
                 .onKeyPress(keys: [.upArrow, .downArrow]) { press in
@@ -73,7 +76,7 @@ struct NumberField: View {
                     focused = false
                 }
             if !unit.name.isEmpty {
-                Text(unit.name).font(.system(size: 10)).foregroundStyle(.tertiary)
+                Text(unit.name).font(.system(size: 10)).foregroundStyle(.tertiary).fixedSize()
             }
             if integer {
                 // Whole numbers step with minus and plus too.
