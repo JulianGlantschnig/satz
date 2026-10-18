@@ -137,6 +137,7 @@ struct PageSection: View {
                         set: { on in
                             if let cmd = try? Command.setSection(first.id, on ? SatzCore.Section(start: n, style: .arabic, prefix: "") : nil) { editor.apply(cmd) }
                         }))
+                        .toggleStyle(.panel)
                     if let section = first.section {
                         HStack {
                             NumberField(label: "Start", help: "Section starts at", value: Double(section.start), unit: .plain, integer: true, range: 1...99999) { v in

@@ -111,6 +111,7 @@ struct TextSection: View {
             ) { format(["shading": $0.map { (try? JSON(encoding: $0)) ?? .null } ?? .null]) }
             HStack {
                 Toggle("Hyphenate", isOn: Binding(get: { shared(spans) { $0.hyphenate } ?? false }, set: { format(["hyphenate": .bool($0)]) }))
+                    .toggleStyle(.panel)
                 Spacer()
                 Picker("Language", selection: Binding(
                     get: { shared(spans) { $0.lang } ?? .en },
@@ -467,6 +468,7 @@ struct TextFrameSection: View {
             }
             .pickerStyle(.segmented)
             Toggle("Trim to cap height", isOn: Binding(get: { node.trim ?? false }, set: { set(["trim": .bool($0)]) }))
+                .toggleStyle(.panel)
             if (node.columns ?? 1) > 1 {
                 let rule = node.columnRule.flatMap { $0.weight > 0 ? $0 : nil }
                 HStack {
@@ -502,6 +504,7 @@ struct ColorCheck: View {
             Toggle(label, isOn: Binding(
                 get: { (color ?? nil) != nil },
                 set: { set($0 ? ColorMath.neutral("gray", editor.snapshot.colorMode) : nil) }))
+                .toggleStyle(.panel)
             if let c = color ?? nil {
                 ColorWell(label: label, color: c, mode: editor.snapshot.colorMode, scope: Scope(editor.snapshot, modes: modes), editor: editor) { set($0) }
             }

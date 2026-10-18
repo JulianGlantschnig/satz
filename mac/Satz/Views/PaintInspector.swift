@@ -34,6 +34,7 @@ struct PaintSections: View {
             ) { set(["fills": encode($0)]) }
             if mode == .cmyk, !(fills ?? []).isEmpty {
                 Toggle("Overprint fill", isOn: Binding(get: { same(nodes) { $0.overprintFill } ?? false }, set: { set(["overprintFill": .bool($0)]) }))
+                    .toggleStyle(.panel)
             }
             StrokeSection(editor: editor, nodes: nodes, mode: mode, scope: scope, set: set)
         }
@@ -368,12 +369,15 @@ private struct StrokeSection: View {
                           [(.miter, "Miter join", "arrowtriangle.up"), (.round, "Round join", "circle"), (.bevel, "Bevel join", "pentagon")])
                 if open {
                     Toggle("Arrow at start", isOn: Binding(get: { same(nodes) { $0.arrowStart } ?? false }, set: { set(["arrowStart": .bool($0)]) }))
+                        .toggleStyle(.panel)
                     Toggle("Arrow at end", isOn: Binding(get: { same(nodes) { $0.arrowEnd } ?? false }, set: { set(["arrowEnd": .bool($0)]) }))
+                        .toggleStyle(.panel)
                 }
                 if sided {
                     Toggle("Weight per side", isOn: Binding(
                         get: { same(nodes) { !($0.strokeSides ?? []).isEmpty } ?? false },
                         set: { on in set(["strokeSides": .array(on ? Array(repeating: .number(one?.strokeWeight ?? 1), count: 4) : [])]) }))
+                        .toggleStyle(.panel)
                     if let one, let sides = one.strokeSides, sides.count == 4 {
                         Grid {
                             GridRow {
@@ -389,6 +393,7 @@ private struct StrokeSection: View {
                 }
                 if mode == .cmyk {
                     Toggle("Overprint stroke", isOn: Binding(get: { same(nodes) { $0.overprintStroke } ?? false }, set: { set(["overprintStroke": .bool($0)]) }))
+                        .toggleStyle(.panel)
                 }
             }
         }

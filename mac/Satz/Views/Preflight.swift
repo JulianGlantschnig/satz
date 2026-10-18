@@ -103,6 +103,7 @@ private struct InksSections: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Toggle("Mark colours outside the gamut", isOn: $editor.inks.gamut)
+                .toggleStyle(.panel)
         }
         PanelSection("Separations") {
             let plates: [(String, SwiftUI.Color)] = [
@@ -120,6 +121,7 @@ private struct InksSections: View {
                 editor.apply(.setDocument(["inkLimit": .number($0)]))
             }
             Toggle("Mark above limit", isOn: $editor.inks.over)
+                .toggleStyle(.panel)
             LabeledContent("Highest") {
                 let highest = p?.highest ?? 0
                 Text(p == nil ? "–" : "\(Int(highest.rounded())) %")
@@ -148,7 +150,7 @@ private struct InksSections: View {
                     .monospacedDigit()
             }
         }
-        .toggleStyle(.checkbox)
+        .toggleStyle(.panel)
         .accessibilityIdentifier("plate-\(name)")
     }
 }
@@ -176,8 +178,10 @@ private struct ExportSection: View {
                 }
                 let screen = s.preset == .screen
                 Toggle("Crop marks", isOn: Binding(get: { s.cropMarks && !screen }, set: { editor.apply(.setDocument(["cropMarks": .bool($0)])) }))
+                    .toggleStyle(.panel)
                     .disabled(screen)
                 Toggle("Include \(Units.format(s.pages.first?.bleed ?? 0)) bleed", isOn: Binding(get: { s.includeBleed && !screen }, set: { editor.apply(.setDocument(["includeBleed": .bool($0)])) }))
+                    .toggleStyle(.panel)
                     .disabled(screen)
                 Picker("Images", selection: Binding(get: { s.imagePpi }, set: { editor.apply(.setDocument(["imagePpi": .number($0)])) })) {
                     ForEach(Array(Set([0, 72, 150, 300, s.imagePpi])).sorted(), id: \.self) { v in

@@ -81,3 +81,39 @@ extension PanelSection where Header == EmptyView {
         self.header = nil
     }
 }
+
+/// A checkbox the size of the panel's text: a small rounded square, the accent colour when on.
+struct PanelCheckbox: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Button {
+            configuration.isOn.toggle()
+        } label: {
+            HStack(spacing: 6) {
+                RoundedRectangle(cornerRadius: 3.5)
+                    .fill(configuration.isOn ? AnyShapeStyle(.tint) : AnyShapeStyle(.quaternary.opacity(0.6)))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 3.5)
+                            .strokeBorder(configuration.isOn ? AnyShapeStyle(.clear) : AnyShapeStyle(.separator))
+                    }
+                    .overlay {
+                        if configuration.isOn {
+                            Image(systemName: "checkmark").font(.system(size: 8, weight: .bold)).foregroundStyle(.white)
+                        }
+                    }
+                    .frame(width: 13, height: 13)
+                configuration.label
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityRepresentation {
+            Toggle(isOn: configuration.$isOn) { configuration.label }
+                .toggleStyle(.checkbox)
+        }
+    }
+}
+
+extension ToggleStyle where Self == PanelCheckbox {
+    static var panel: PanelCheckbox { PanelCheckbox() }
+}

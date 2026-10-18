@@ -176,6 +176,7 @@ struct ResizingSection: View {
             }
             if let parent, parent.kind == .frame, parent.direction != .none {
                 Toggle("Absolute position", isOn: Binding(get: { node.absolute }, set: { set(["absolute": .bool($0)]) }))
+                    .toggleStyle(.panel)
                     .accessibilityIdentifier("absolute")
             }
             if let parent, parent.kind == .frame, !flows {

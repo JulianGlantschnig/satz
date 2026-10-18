@@ -231,9 +231,11 @@ private struct LayoutSection: View {
                 Toggle("Keep aspect ratio", isOn: Binding(
                     get: { same(nodes) { $0.keepRatio } ?? false },
                     set: { set(["keepRatio": .bool($0)]) }))
+                    .toggleStyle(.panel)
             }
             if let one, one.kind == .frame {
                 Toggle("Clip content", isOn: Binding(get: { one.clip ?? false }, set: { set(["clip": .bool($0)]) }))
+                    .toggleStyle(.panel)
             }
         } header: {
             Text("Layout")
