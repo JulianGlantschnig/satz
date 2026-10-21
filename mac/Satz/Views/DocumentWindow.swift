@@ -4,10 +4,29 @@ import SwiftUI
 /// A document's window, or why its file does not open.
 struct DocumentWindow: View {
     let document: SatzDocument
+    let url: URL?
     @Environment(\.dismissWindow) private var dismissWindow
 
     var body: some View {
-        content.onAppear { dismissWindow(id: StartView.id) }
+        content
+            .onAppear {
+                dismissWindow(id: StartView.id)
+                dismissWindow(id: HomeView.id)
+                if let url { HomeLibrary.shared.opened(url) } else { suggestSatzFolder() }
+            }
+            .onChange(of: url) { _, now in
+                if let now { HomeLibrary.shared.opened(now) }
+            }
+    }
+
+    /// The save panel of a new document starts in the Satz folder, so that it shows at home.
+    private func suggestSatzFolder() {
+        let folder = HomeLibrary.shared.folder
+        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        UserDefaults.standard.set(folder.path, forKey: "NSNavLastRootDirectory")
+        if let bookmark = try? folder.bookmarkData() {
+            UserDefaults.standard.set(bookmark, forKey: "NSOSPLastRootDirectory")
+        }
     }
 
     @ViewBuilder

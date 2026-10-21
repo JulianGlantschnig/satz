@@ -37,6 +37,20 @@ struct SettingsView: View {
     @AppStorage(Units.key) private var unit = LengthUnit.mm
     @AppStorage(QuickBar.key) private var quickEdit = true
     @AppStorage(LayersShown.key) private var layers = LayersShown.page
+    @AppStorage(HomeLibrary.folderKey) private var folderPath = ""
+
+    private var folder: URL { folderPath.isEmpty ? HomeLibrary.shared.folder : URL(fileURLWithPath: folderPath) }
+
+    /// The folder whose documents the home window shows, and where new ones are saved.
+    private func chooseFolder() {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.canCreateDirectories = true
+        panel.directoryURL = folder
+        panel.prompt = String(localized: "Choose")
+        if panel.runModal() == .OK, let url = panel.url { HomeLibrary.shared.folder = url }
+    }
 
     var body: some View {
         Form {
@@ -52,6 +66,16 @@ struct SettingsView: View {
             }
             .accessibilityIdentifier("layers-shown")
             Toggle("Quick edit bar above the selection", isOn: $quickEdit)
+            LabeledContent("Satz folder") {
+                HStack {
+                    Text(folder.path(percentEncoded: false).abbreviatingWithTilde)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .help(folder.path(percentEncoded: false))
+                    Button("Choose…", action: chooseFolder)
+                }
+            }
+            .accessibilityIdentifier("satz-folder")
         }
         .formStyle(.grouped)
         .frame(width: 420)

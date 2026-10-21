@@ -9,6 +9,7 @@ final class DesignShots: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments += ["-ApplePersistenceIgnoreState", "YES", "-AppleLanguages", "(en)", "-appearance", appearance]
         app.launchEnvironment["SATZ_RESET_SETTINGS"] = "1"
+        app.launchEnvironment["SATZ_HOME"] = FileManager.default.temporaryDirectory.appending(path: "satz-home-\(UUID().uuidString)").path
         app.launchEnvironment["SATZ_OPEN"] = booklet.path
         app.launch()
         defer { app.terminate() }
@@ -38,10 +39,12 @@ final class DesignShots: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments += ["-ApplePersistenceIgnoreState", "YES", "-AppleLanguages", "(en)", "-appearance", appearance]
         app.launchEnvironment["SATZ_RESET_SETTINGS"] = "1"
+        app.launchEnvironment["SATZ_HOME"] = FileManager.default.temporaryDirectory.appending(path: "satz-home-\(UUID().uuidString)").path
         app.launch()
         defer { app.terminate() }
-        let start = app.windows["New Document"]
-        XCTAssertTrue(start.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.windows["home"].waitForExistence(timeout: 30))
+        let start = app.openStart()
+        XCTAssertTrue(start.exists)
         sleep(3)
         let a = XCTAttachment(screenshot: start.screenshot())
         a.name = "\(appearance)-5-start"
@@ -59,6 +62,7 @@ final class DesignShots: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments += ["-ApplePersistenceIgnoreState", "YES", "-AppleLanguages", "(en)", "-appearance", appearance]
         app.launchEnvironment["SATZ_RESET_SETTINGS"] = "1"
+        app.launchEnvironment["SATZ_HOME"] = FileManager.default.temporaryDirectory.appending(path: "satz-home-\(UUID().uuidString)").path
         app.launchEnvironment["SATZ_OPEN"] = booklet.path
         app.launch()
         defer { app.terminate() }

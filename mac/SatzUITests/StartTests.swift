@@ -19,8 +19,8 @@ final class StartTests: XCTestCase {
     }
 
     func testAFormatMakesADocumentOfItsPages() throws {
-        let start = app.windows["New Document"]
-        XCTAssertTrue(start.waitForExistence(timeout: 30))
+        let start = app.openStart()
+        XCTAssertTrue(start.exists)
         XCTAssertFalse(app.windows["Open"].exists)
         start.buttons["format-A4"].click()
         start.radioButtons["Landscape"].click()
@@ -43,8 +43,8 @@ final class StartTests: XCTestCase {
     }
 
     func testAnExampleOpensAsANewDocument() throws {
-        let start = app.windows["New Document"]
-        XCTAssertTrue(start.waitForExistence(timeout: 30))
+        let start = app.openStart()
+        XCTAssertTrue(start.exists)
         start.buttons["example-booklet"].click()
         let window = app.windows["Untitled"]
         XCTAssertTrue(window.waitForExistence(timeout: 30))
@@ -54,8 +54,8 @@ final class StartTests: XCTestCase {
     }
 
     func testTheUnitOfTheSettingsShowsInTheFormats() throws {
-        let start = app.windows["New Document"]
-        XCTAssertTrue(start.waitForExistence(timeout: 30))
+        let start = app.openStart()
+        XCTAssertTrue(start.exists)
         let a4 = start.buttons["format-A4"]
         XCTAssertEqual(a4.label, "A4, 210 × 297")
         app.menuBars.menuBarItems["Satz"].menus.menuItems["Settings…"].click()

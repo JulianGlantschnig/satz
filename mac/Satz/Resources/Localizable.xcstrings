@@ -491,6 +491,16 @@
         }
       }
     },
+    "Add to Favourites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu Favoriten hinzufügen"
+          }
+        }
+      }
+    },
     "Add to Layout Grids": {
       "localizations": {
         "de": {
@@ -667,6 +677,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Alle Seiten"
+          }
+        }
+      }
+    },
+    "All Projects": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle Projekte"
           }
         }
       }
@@ -1261,12 +1281,32 @@
         }
       }
     },
+    "Choose": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen"
+          }
+        }
+      }
+    },
     "Choose a CMYK ICC profile": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "CMYK-ICC-Profil wählen"
+          }
+        }
+      }
+    },
+    "Choose…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen …"
           }
         }
       }
@@ -1367,6 +1407,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Preflight schließen"
+          }
+        }
+      }
+    },
+    "Collections": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sammlungen"
           }
         }
       }
@@ -1891,12 +1941,32 @@
         }
       }
     },
+    "Delete Collection": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sammlung löschen"
+          }
+        }
+      }
+    },
     "Delete Master": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Musterseite löschen"
+          }
+        }
+      }
+    },
+    "Delete Now": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sofort löschen"
           }
         }
       }
@@ -1967,6 +2037,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld Seiten gelöscht"
+          }
+        }
+      }
+    },
+    "Deleted in %lld days": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Wird in %lld Tag gelöscht"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Wird in %lld Tagen gelöscht"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Deleted in %lld day"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Deleted in %lld days"
+                }
+              }
+            }
           }
         }
       }
@@ -2071,6 +2181,36 @@
         }
       }
     },
+    "Documents are deleted 30 days after they were moved here.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokumente werden 30 Tage nach dem Verschieben hierher gelöscht."
+          }
+        }
+      }
+    },
+    "Documents moved to the trash wait here for 30 days.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokumente im Papierkorb warten hier 30 Tage."
+          }
+        }
+      }
+    },
+    "Documents you save in %@ show here.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dokumente, die du in %@ sicherst, erscheinen hier."
+          }
+        }
+      }
+    },
     "Done": {
       "localizations": {
         "de": {
@@ -2157,6 +2297,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doppelklick auf einen Anschluss"
+          }
+        }
+      }
+    },
+    "Drag documents onto the collection in the sidebar.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zieh Dokumente auf die Sammlung in der Seitenleiste."
           }
         }
       }
@@ -2351,6 +2501,26 @@
         }
       }
     },
+    "Edited": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bearbeitet"
+          }
+        }
+      }
+    },
+    "Edited %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bearbeitet %@"
+          }
+        }
+      }
+    },
     "Editing master %@": {
       "localizations": {
         "de": {
@@ -2427,6 +2597,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jede n-te Linie betonen"
+          }
+        }
+      }
+    },
+    "Empty Trash": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Papierkorb leeren"
           }
         }
       }
@@ -2687,6 +2867,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doppelseiten"
+          }
+        }
+      }
+    },
+    "Favourite": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorit"
+          }
+        }
+      }
+    },
+    "Favourites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriten"
           }
         }
       }
@@ -3251,6 +3451,16 @@
         }
       }
     },
+    "Home": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        }
+      }
+    },
     "Horizontal": {
       "localizations": {
         "de": {
@@ -3687,6 +3897,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sprache"
+          }
+        }
+      }
+    },
+    "Last Edited": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuletzt bearbeitet"
+          }
+        }
+      }
+    },
+    "Last Opened": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zuletzt geöffnet"
           }
         }
       }
@@ -4441,6 +4671,16 @@
         }
       }
     },
+    "Move to Trash": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In den Papierkorb"
+          }
+        }
+      }
+    },
     "Move without snapping": {
       "localizations": {
         "de": {
@@ -4511,12 +4751,42 @@
         }
       }
     },
+    "New Collection": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Sammlung"
+          }
+        }
+      }
+    },
+    "New Collection…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Sammlung …"
+          }
+        }
+      }
+    },
     "New Document": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Neues Dokument"
+          }
+        }
+      }
+    },
+    "New Document…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neues Dokument …"
           }
         }
       }
@@ -4557,6 +4827,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Neu nach Format …"
+          }
+        }
+      }
+    },
+    "New…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neu …"
           }
         }
       }
@@ -4627,6 +4907,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kein Befehl passt."
+          }
+        }
+      }
+    },
+    "No documents yet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch keine Dokumente"
+          }
+        }
+      }
+    },
+    "No favourites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Favoriten"
           }
         }
       }
@@ -4841,6 +5141,16 @@
         }
       }
     },
+    "Open": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnen"
+          }
+        }
+      }
+    },
     "Open File…": {
       "localizations": {
         "de": {
@@ -4851,12 +5161,32 @@
         }
       }
     },
+    "Open a file from anywhere": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eine Datei von irgendwo öffnen"
+          }
+        }
+      }
+    },
     "OpenType": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "OpenType"
+          }
+        }
+      }
+    },
+    "Open…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffnen …"
           }
         }
       }
@@ -5261,6 +5591,16 @@
         }
       }
     },
+    "Pictures": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilder"
+          }
+        }
+      }
+    },
     "Place Image": {
       "localizations": {
         "de": {
@@ -5531,6 +5871,16 @@
         }
       }
     },
+    "Put Back": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zurücklegen"
+          }
+        }
+      }
+    },
     "Puts the raster on the page as a locked layer, which prints": {
       "localizations": {
         "de": {
@@ -5757,6 +6107,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Raster entfernen"
+          }
+        }
+      }
+    },
+    "Remove from Favourites": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus Favoriten entfernen"
           }
         }
       }
@@ -6151,6 +6511,16 @@
         }
       }
     },
+    "Satz folder": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satz-Ordner"
+          }
+        }
+      }
+    },
     "Save": {
       "localizations": {
         "de": {
@@ -6541,12 +6911,32 @@
         }
       }
     },
+    "Show as pictures or as a list": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als Bilder oder als Liste zeigen"
+          }
+        }
+      }
+    },
     "Show header": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Kopfzeile anzeigen"
+          }
+        }
+      }
+    },
+    "Show in Finder": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Im Finder zeigen"
           }
         }
       }
@@ -6701,6 +7091,16 @@
         }
       }
     },
+    "Sort by": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sortieren nach"
+          }
+        }
+      }
+    },
     "Space Between": {
       "localizations": {
         "de": {
@@ -6851,12 +7251,32 @@
         }
       }
     },
+    "Star a document from its context menu, or drag it onto Favourites.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markiere ein Dokument über sein Kontextmenü mit einem Stern oder zieh es auf Favoriten."
+          }
+        }
+      }
+    },
     "Start": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Start"
+          }
+        }
+      }
+    },
+    "Start a document from a format or an example": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Dokument aus einem Format oder einem Beispiel beginnen"
           }
         }
       }
@@ -7221,6 +7641,16 @@
         }
       }
     },
+    "The file could not be changed": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Datei konnte nicht geändert werden"
+          }
+        }
+      }
+    },
     "The margins leave no room for the raster": {
       "localizations": {
         "de": {
@@ -7231,12 +7661,32 @@
         }
       }
     },
+    "The trash is empty": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Papierkorb ist leer"
+          }
+        }
+      }
+    },
     "Thin space": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
             "value": "Schmales Leerzeichen"
+          }
+        }
+      }
+    },
+    "This collection is empty": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese Sammlung ist leer"
           }
         }
       }
@@ -7417,6 +7867,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Marke"
+          }
+        }
+      }
+    },
+    "Trash": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Papierkorb"
           }
         }
       }
@@ -7651,6 +8111,16 @@
         }
       }
     },
+    "View": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darstellung"
+          }
+        }
+      }
+    },
     "W": {
       "localizations": {
         "de": {
@@ -7697,6 +8167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stärke je Seite"
+          }
+        }
+      }
+    },
+    "Where": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ort"
           }
         }
       }
@@ -7857,6 +8337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Klick"
+          }
+        }
+      }
+    },
+    "copy": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopie"
           }
         }
       }

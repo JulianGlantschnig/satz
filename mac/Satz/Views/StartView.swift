@@ -1,4 +1,3 @@
-import ImageIO
 import SatzCore
 import SwiftUI
 
@@ -253,23 +252,11 @@ struct Example: Identifiable {
 /// A document opened lately: a picture of its first page, its name and when it changed.
 private struct RecentRow: View {
     let url: URL
-    @State private var picture: CGImage?
-
-    /// Pictures already made, by file and its date.
-    @MainActor static var made: [String: CGImage] = [:]
 
     var body: some View {
         let date = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
         HStack(spacing: 10) {
-            Group {
-                if let picture {
-                    Image(decorative: picture, scale: 2).resizable().aspectRatio(contentMode: .fit)
-                } else {
-                    Rectangle().fill(.white)
-                }
-            }
-            .frame(width: 30, height: 40)
-            .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5)
+            PagePicture(url: url).frame(width: 30, height: 40)
             VStack(alignment: .leading, spacing: 2) {
                 Text(url.deletingPathExtension().lastPathComponent).font(.system(size: 13, weight: .medium)).lineLimit(1)
                 if let date {
@@ -280,25 +267,5 @@ private struct RecentRow: View {
         }
         .padding(.vertical, 4)
         .contentShape(Rectangle())
-        .task(id: url) {
-            let key = "\(url.path)|\(date?.timeIntervalSince1970 ?? 0)"
-            if let made = Self.made[key] {
-                picture = made
-                return
-            }
-            let url = url
-            // Each picture is made from the file on a thread of its own.
-            let image = await Task.detached(priority: .utility) { () -> CGImage? in
-                guard let data = try? Data(contentsOf: url),
-                    let png = try? Export.files(DocumentCopy(bytes: data), format: .png, indices: [0], title: "", ppi: 20).first,
-                    let source = CGImageSourceCreateWithData(png as CFData, nil)
-                else { return nil }
-                return CGImageSourceCreateImageAtIndex(source, 0, nil)
-            }.value
-            if let image {
-                Self.made[key] = image
-                picture = image
-            }
-        }
     }
 }
