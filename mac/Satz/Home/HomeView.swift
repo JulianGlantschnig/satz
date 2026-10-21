@@ -110,6 +110,9 @@ struct HomeView: View {
                     .help("New Collection")
                     .accessibilityIdentifier("home-new-collection")
                 }
+                // The plus sits inside the rows' selection, where their content ends.
+                .padding(.trailing, 17)
+                .accessibilityElement(children: .contain)
             }
         }
         .listStyle(.sidebar)

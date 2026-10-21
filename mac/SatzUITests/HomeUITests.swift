@@ -115,6 +115,13 @@ final class HomeUITests: XCTestCase {
         defer { app.terminate() }
         let window = app.windows["home"]
         XCTAssertTrue(window.waitForExistence(timeout: 30))
+        // The header reads as one element; its plus is at its end.
+        window.descendants(matching: .any)["home-new-collection"].firstMatch
+            .coordinate(withNormalizedOffset: CGVector(dx: 0.96, dy: 0.5)).click()
+        let rename = window.textFields["rename"]
+        XCTAssertTrue(rename.waitForExistence(timeout: 5))
+        rename.typeKey("a", modifierFlags: .command)
+        rename.typeText("Kunden\r")
         go(window, "home-all", "All Projects")
         sleep(3)
         shot("\(appearance)-6-home", window)

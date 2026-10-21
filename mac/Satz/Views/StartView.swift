@@ -11,7 +11,8 @@ struct StartView: View {
     @AppStorage(Units.key) private var lengthUnit = LengthUnit.mm
     @AppStorage("startFormat") private var format = "A5"
     @AppStorage("startLandscape") private var landscape = false
-    @AppStorage("startPages") private var pages = 8
+    /// A new document starts with one page each time.
+    @State private var pages = 1
     @AppStorage("startFacing") private var facing = true
     @AppStorage("startWidth") private var customWidth = Units.mm(148)
     @AppStorage("startHeight") private var customHeight = Units.mm(210)

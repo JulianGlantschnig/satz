@@ -25,12 +25,17 @@ final class StartTests: XCTestCase {
         start.buttons["format-A4"].click()
         start.radioButtons["Landscape"].click()
         let pages = start.descendants(matching: .any)["field-Pages"].textFields.firstMatch
+        // A new document starts with one page.
+        XCTAssertEqual(pages.value as? String, "1")
         pages.doubleClick()
         pages.typeText("3\r")
         shot(start, "start")
         start.buttons["create"].click()
         let window = app.windows["Untitled"]
         XCTAssertTrue(window.waitForExistence(timeout: 30))
+        // It fills the screen.
+        sleep(1)
+        XCTAssertGreaterThan(window.frame.width, 1200)
         window.showSidebar("Pages")
         XCTAssertTrue(window.outlines.descendants(matching: .any)["page-3"].waitForExistence(timeout: 5))
         XCTAssertFalse(start.exists)

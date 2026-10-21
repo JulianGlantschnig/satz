@@ -9,6 +9,7 @@ struct DocumentWindow: View {
 
     var body: some View {
         content
+            .background(ScreenFiller())
             .onAppear {
                 dismissWindow(id: StartView.id)
                 dismissWindow(id: HomeView.id)
@@ -329,4 +330,25 @@ struct MasterBanner: View {
         .padding(.vertical, 6)
         .background(Color.purple.opacity(0.18))
     }
+}
+
+/// Makes the window of a document fill its screen when it opens, as far as the Dock and
+/// the menu bar leave room.
+private struct ScreenFiller: NSViewRepresentable {
+    final class Filler: NSView {
+        private var filled = false
+
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            guard !filled, let window, let screen = window.screen ?? NSScreen.main else { return }
+            filled = true
+            // After SwiftUI has placed the window, which it does once it is shown.
+            DispatchQueue.main.async {
+                window.setFrame(screen.visibleFrame, display: true)
+            }
+        }
+    }
+
+    func makeNSView(context: Context) -> Filler { Filler() }
+    func updateNSView(_ nsView: Filler, context: Context) {}
 }
